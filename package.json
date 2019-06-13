@@ -7,12 +7,16 @@
     "@types/node": "12.0.8",
     "@types/react": "16.8.19",
     "@types/react-dom": "16.8.4",
+    "bungie-api-ts": "^2.0.0",
+    "cross-env": "^5.2.0",
+    "idb-keyval": "^3.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "typescript": "3.5.1"
   },
   "scripts": {
+    "start:https": "cross-env HTTPS=true npm start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -32,5 +36,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
