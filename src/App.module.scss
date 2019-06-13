@@ -1,0 +1,25 @@
+.App {
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #333;
+}
+
+.charactersContainer {
+  display: flex;
+  align-items: center;
+  min-height: 60vh;
+  padding-top: 1em;
+  box-sizing: border-box;
+}
+
+.characters {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.loadingStatus {
+  color: white;
+}

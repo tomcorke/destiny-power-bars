@@ -1,0 +1,78 @@
+.characterDisplay {
+  padding: 1em;
+  min-width: 300px;
+  box-sizing: border-box;
+  margin: 5px 10px;
+}
+
+.header {
+  margin-bottom: 1em;
+  position: relative;
+  font-weight: 600;
+  letter-spacing: 0.22ch;
+
+  .emblemBackground {
+    display: block;
+    max-width: 90vh;
+    width: 100%;
+    height: auto;
+  }
+
+  .name {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    max-height: 80px;
+    display: flex;
+    align-items: center;
+    left: 90px;
+    font-size: 30px;
+    color: white;
+  }
+
+  .power {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    max-height: 80px;
+    display: flex;
+    align-items: center;
+    right: 20px;
+    font-size: 40px;
+    color: cyan;
+  }
+}
+
+.powerBars {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.barContainer {
+  width: 100%;
+  height: 30px;
+  background-color: rgba(255,255,255,0.5);
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-sizing: border-box;
+  margin: 5px 0;
+
+  .barLine {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: yellow;
+  }
+
+  .filledBar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2px 5px;
+    background-color: rgba(30,30,30,0.95);
+    color: white;
+    box-sizing: border-box;
+  }
+}

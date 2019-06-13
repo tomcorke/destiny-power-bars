@@ -1,9 +1,10 @@
-import { getMembershipDataById, BungieMembershipType } from 'bungie-api-ts/user'
+import { getMembershipDataById } from 'bungie-api-ts/user'
 import { bungieAuthedFetch } from './bungie-api';
 
-export const BUNGIE_API_KEY = 'f7f184669f044a89b560fc5f71ed5d60'
+const isDev = process.env.NODE_ENV === 'development'
+export const BUNGIE_API_KEY = isDev ? 'f7f184669f044a89b560fc5f71ed5d60' : 'd94be1e34632448fafdaf77c7afbb501'
 const BUNGIE_OAUTH_AUTHORIZE_URL = 'https://www.bungie.net/en/OAuth/Authorize'
-const BUNGIE_OAUTH_CLIENT_ID = '26087'
+const BUNGIE_OAUTH_CLIENT_ID = isDev ? '26087' : '27213'
 const BUNGIE_OAUTH_TOKEN_URL = 'https://www.bungie.net/platform/app/oauth/token/'
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'bungieAccessToken'
@@ -85,7 +86,10 @@ export const auth = async () => {
   if (authCode && !hasValidAuth()) {
     console.log('Fetching access token with auth code')
     await fetchAuthToken(authCode)
-    // window.location.search = ''
+  }
+
+  if (authCode) {
+    window.location.search = ''
   }
 
   if (!hasValidAuth()) {
