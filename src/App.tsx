@@ -1,75 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+
+import { getProfile, searchDestinyPlayer, DestinyItemComponent, DestinyItemInstanceComponent, DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2'
+
+import { auth, hasValidAuth } from './bungie-auth';
+import { getManifest, bungieAuthedFetch } from './bungie-api';
+
 import './App.css';
 
-import { get, set, del } from 'idb-keyval'
-import { API_KEY, ACCESS_TOKEN_STORAGE_KEY } from './bungie-auth';
-import { getProfile, searchDestinyPlayer, HttpClientConfig, DestinyComponentType, getDestinyManifest, DestinyManifest, DestinyInventoryItemDefinition, DestinyItemComponent } from 'bungie-api-ts/destiny2'
-import { isObject } from 'util';
-
-const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY) || ''
-
-const bungieGet = async (config: HttpClientConfig) => {
-  //const url = `https://www.bungie.net/Platform${path}`
-  const headers = { 'x-api-key': API_KEY, Authorization: accessToken && `Bearer ${accessToken}` }
-  console.log(config)
-  const url = `${config.url}${
-    config.params
-      ? '?' + Object.entries(config.params).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
-      : ''
-    }`
-  const response = await fetch(url, { headers })
-  return response.json()
+type JoinedItemDefinition = DestinyItemComponent & {
+  instanceData?: DestinyItemInstanceComponent
+  itemDefinition?: DestinyInventoryItemDefinition
+}
+interface CharacterData {
+  id: string
+  className: string
+  items: JoinedItemDefinition[]
 }
 
-const MANIFEST_VERSION_KEY = 'MANIFEST_VERSION'
-const MANIFEST_IDB_KEY = 'MANIFEST_DATA'
-interface ManifestData {
-  DestinyInventoryItemDefinition: { [key: string]: DestinyInventoryItemDefinition | undefined }
-}
-const manifestPropertyWhitelist = ['DestinyInventoryItemDefinition']
-const getCachedManifestData = async () => {
-  const localStorageManifestVersion = localStorage.getItem(MANIFEST_VERSION_KEY)
-  console.log('Loading manifest data from IDB')
-  const manifestData = await get(MANIFEST_IDB_KEY)
-  console.log('Finished loading manifest data from IDB')
-  return manifestData as ManifestData
-}
-const getRemoteManifestData = async (manifest: DestinyManifest) => {
-  const version = manifest.version
-  console.log('Fetching fresh manifest data')
-  const manifestDataResponse = await fetch(`https://www.bungie.net${manifest.jsonWorldContentPaths.en}`)
-  const manifestData = await manifestDataResponse.json()
-  console.log('Pruning manifest data')
-  Object.keys(manifestData).forEach(key => {
-    if (!manifestPropertyWhitelist.includes(key)) delete manifestData[key]
-  })
-  console.log('Storing manifest data in IDB')
-  await set(MANIFEST_IDB_KEY, manifestData)
-  localStorage.setItem(MANIFEST_VERSION_KEY, version)
-  return manifestData
-}
-const getManifest = async (): Promise<ManifestData> => {
-  const manifest = await getDestinyManifest(bungieGet)
-  const localStorageManifestVersion = localStorage.getItem(MANIFEST_VERSION_KEY)
-  if (manifest.Response.version === localStorageManifestVersion && !window.location.search.includes('updateManifest')) {
-    try {
-      return await getCachedManifestData()
-    } catch (e) {
-      console.error(e)
+const App = () => {
+
+  const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth())
+  useEffect(() => {
+    const doAuth = async () => {
+      const authResult = await auth()
+      if (authResult) setIsAuthed(true)
     }
-  }
-  return getRemoteManifestData(manifest.Response)
-}
+    if (!isAuthed) doAuth()
+  })
 
-class App extends React.Component {
+  const [isFetchingManifest, setIsFetchingManifest] = useState<boolean>(false)
+  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<boolean>(false)
+  const [characterData, setCharacterData] = useState<CharacterData[]>([])
+  useEffect(() => {
+    const getCharacterData = async () => {
 
-  componentWillMount() {
-    (async () => {
+      if (!isAuthed) return
+
+      setIsFetchingManifest(true)
       const manifestPromise = getManifest()
-      const profileResults = await searchDestinyPlayer(bungieGet, { membershipType: 4, displayName: 'Shot%232975' })
+      manifestPromise.finally(() => setIsFetchingManifest(false))
+
+      setIsFetchingCharacterData(true)
+      const profileResults = await searchDestinyPlayer(bungieAuthedFetch, { membershipType: 4, displayName: 'Shot%232975' })
       const membershipId = profileResults.Response[0].membershipId
-      const profile = await getProfile(bungieGet, {
+      const profile = await getProfile(bungieAuthedFetch, {
         membershipType: 4,
         destinyMembershipId: membershipId,
         components: [
@@ -81,12 +55,14 @@ class App extends React.Component {
           307, // DestinyComponentType.ItemCommonData
         ]
       })
+      setIsFetchingCharacterData(false)
 
       const characters = profile.Response.characters.data
       const equipments = profile.Response.characterEquipment.data
       const inventories = profile.Response.characterInventories.data
       const profileInventories = profile.Response.profileInventory.data
       const itemInstances = profile.Response.itemComponents.instances.data
+
       const manifest = await manifestPromise
 
       const CLASS_TYPE_ALL = 3
@@ -101,7 +77,7 @@ class App extends React.Component {
 
           const mapAndFilterItems = (items: DestinyItemComponent[]) => items
             .map(item => {
-              const instanceData = item.itemInstanceId && itemInstances[item.itemInstanceId]
+              const instanceData = item.itemInstanceId ? itemInstances[item.itemInstanceId] : undefined
               const itemDefinition = manifest.DestinyInventoryItemDefinition[item.itemHash]
               return {
                 ...item,
@@ -130,18 +106,25 @@ class App extends React.Component {
 
         const characterIds = Object.keys(characters)
         console.log({ characters, equipments, inventories })
-        console.log(characterIds.map(id => getCharacterData(id)))
+        const characterData = characterIds.map(id => getCharacterData(id))
+        setCharacterData(characterData)
       }
 
-    })();
-  }
+    }
+    getCharacterData()
 
-  render() {
-    return (
-      <div className="App">
-      </div>
-    );
-  }
+  }, [isAuthed])
+
+  return (
+    <div>
+      <div>{isAuthed ? 'Authed' : 'Not authed'}</div>
+      <div>{isFetchingManifest && 'Fetching manifest...'}</div>
+      <div>{isFetchingCharacterData && 'Fetching character data...'}</div>
+      <div>{characterData && characterData.length > 0 ? `Has character data (${characterData.length})` : 'No character data' }</div>
+
+    </div>
+  )
+
 }
 
 export default App;
