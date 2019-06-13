@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "506662f30b734aebc1fcbd32a3ebdc83",
+    "revision": "a1b99b38995aa9e0624a3b9f79c83089",
     "url": "/destiny-power-bars/index.html"
   },
   {
-    "revision": "78df19ebd1a5f7549b10",
+    "revision": "f1258d59d95f98ac73f4",
     "url": "/destiny-power-bars/static/css/main.b8a9de58.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/destiny-power-bars/static/js/2.361ec872.chunk.js"
   },
   {
-    "revision": "78df19ebd1a5f7549b10",
-    "url": "/destiny-power-bars/static/js/main.dd169d28.chunk.js"
+    "revision": "f1258d59d95f98ac73f4",
+    "url": "/destiny-power-bars/static/js/main.ecca1c1f.chunk.js"
   },
   {
     "revision": "43444d8756ced8d33826",
