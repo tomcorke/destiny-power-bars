@@ -1,3 +1,6 @@
+import { getMembershipDataById, BungieMembershipType } from 'bungie-api-ts/user'
+import { bungieAuthedFetch } from './bungie-api';
+
 export const BUNGIE_API_KEY = 'f7f184669f044a89b560fc5f71ed5d60'
 const BUNGIE_OAUTH_AUTHORIZE_URL = 'https://www.bungie.net/en/OAuth/Authorize'
 const BUNGIE_OAUTH_CLIENT_ID = '26087'
@@ -5,32 +8,44 @@ const BUNGIE_OAUTH_TOKEN_URL = 'https://www.bungie.net/platform/app/oauth/token/
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'bungieAccessToken'
 export const ACCESS_TOKEN_EXPIRY_STORAGE_KEY = 'bungieAccessTokenExpiryTime'
+export const BUNGIE_MEMBERSHIP_ID_STORAGE_KEY = 'bungieMembershipId'
+export const DESTINY_MEMBERSHIP_ID_STORAGE_KEY = 'destinyMembershipId'
 
-const clearTokenStorage = () => {
+const clearStorage = () => {
   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
   localStorage.removeItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY);
+  localStorage.removeItem(BUNGIE_MEMBERSHIP_ID_STORAGE_KEY);
+  localStorage.removeItem(DESTINY_MEMBERSHIP_ID_STORAGE_KEY);
 }
 
 const getAuthUrl = () => `${BUNGIE_OAUTH_AUTHORIZE_URL}?response_type=code&client_id=${BUNGIE_OAUTH_CLIENT_ID}`
 
 const redirectToAuth = () => {
   console.log('Redirect to auth')
-  clearTokenStorage()
+  clearStorage()
   window.location.replace(getAuthUrl())
 }
 
 const handleTokenResponse = async (tokenResponse: Response, redirect: boolean = false) => {
   console.log('handleTokenResponse')
-  clearTokenStorage()
+  clearStorage()
   if (tokenResponse.status === 200) {
     const data = await tokenResponse.json()
     console.log(data)
     const accessToken = data.access_token as string
     const tokenDuration = data.expires_in as number
     const expiryTime = Date.now() + (tokenDuration * 1000)
+    const bungieMembershipId = data.membership_id as string
+
     localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken)
     localStorage.setItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY, expiryTime.toString())
-    return { accessToken, expiryTime }
+    localStorage.setItem(BUNGIE_MEMBERSHIP_ID_STORAGE_KEY, bungieMembershipId)
+
+    const destinyMemberships = await getMembershipDataById(bungieAuthedFetch, { membershipId: bungieMembershipId, membershipType: 254 })
+    const destinyMembershipId = destinyMemberships.Response.destinyMemberships[0].membershipId
+    localStorage.setItem(DESTINY_MEMBERSHIP_ID_STORAGE_KEY, destinyMembershipId)
+
+    return { accessToken, membershipId: destinyMembershipId }
   } else {
     //return redirectToAuth()
   }
@@ -38,7 +53,7 @@ const handleTokenResponse = async (tokenResponse: Response, redirect: boolean = 
 
 const fetchAuthToken = async (authCode: string) => {
   console.log('fetchAuthToken', authCode)
-  clearTokenStorage()
+  clearStorage()
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     method: 'POST',
     cache: 'no-cache',
@@ -56,7 +71,9 @@ const fetchAuthToken = async (authCode: string) => {
 export const hasValidAuth = () => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
   const accessTokenExpiryTime = parseInt(localStorage.getItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY) || '-1', 10)
-  if (!accessToken || Date.now() >= accessTokenExpiryTime) return false
+  const bungieMembershipId = localStorage.getItem(BUNGIE_MEMBERSHIP_ID_STORAGE_KEY)
+  const destinyMembershipId = localStorage.getItem(DESTINY_MEMBERSHIP_ID_STORAGE_KEY)
+  if (!accessToken || Date.now() >= accessTokenExpiryTime || !bungieMembershipId || !destinyMembershipId) return false
   return true
 }
 
@@ -68,15 +85,17 @@ export const auth = async () => {
   if (authCode && !hasValidAuth()) {
     console.log('Fetching access token with auth code')
     await fetchAuthToken(authCode)
-    window.location.search = ''
+    // window.location.search = ''
   }
 
   if (!hasValidAuth()) {
     console.log('Redirecting to fresh authentication for missing or expired access token')
-    clearTokenStorage()
+    clearStorage()
     return redirectToAuth()
   }
 
-  let accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
-  return { accessToken }
+  const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY) as string
+  const membershipId = localStorage.getItem(DESTINY_MEMBERSHIP_ID_STORAGE_KEY) as string
+
+  return { accessToken, membershipId }
 }

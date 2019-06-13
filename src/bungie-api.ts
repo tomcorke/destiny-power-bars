@@ -1,7 +1,7 @@
-import { get, set, del } from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 
 import { BUNGIE_API_KEY, ACCESS_TOKEN_STORAGE_KEY } from './bungie-auth';
-import { getProfile, searchDestinyPlayer, HttpClientConfig, DestinyComponentType, getDestinyManifest, DestinyManifest, DestinyInventoryItemDefinition, DestinyItemComponent } from 'bungie-api-ts/destiny2'
+import { HttpClientConfig, getDestinyManifest, DestinyManifest, DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2'
 
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
   //const url = `https://www.bungie.net/Platform${path}`
