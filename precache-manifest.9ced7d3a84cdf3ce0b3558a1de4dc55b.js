@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f9de1957bd94f3493846a54b2915be3f",
+    "revision": "c325a9dfc0ecff37ad1b59f2c8848886",
     "url": "/destiny-power-bars/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/destiny-power-bars/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "886296e6d0b1ebe7e967",
+    "revision": "e4fb6661d83bfc49f396",
     "url": "/destiny-power-bars/static/css/main.a9873197.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/destiny-power-bars/static/js/2.f7e366fd.chunk.js"
   },
   {
-    "revision": "886296e6d0b1ebe7e967",
-    "url": "/destiny-power-bars/static/js/main.0f12ca4c.chunk.js"
+    "revision": "e4fb6661d83bfc49f396",
+    "url": "/destiny-power-bars/static/js/main.7b01282c.chunk.js"
   },
   {
     "revision": "43444d8756ced8d33826",
