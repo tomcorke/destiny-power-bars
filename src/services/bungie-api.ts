@@ -1,11 +1,11 @@
 import { get, set } from 'idb-keyval'
 
-import { BUNGIE_API_KEY, ACCESS_TOKEN_STORAGE_KEY } from './bungie-auth';
+import { BUNGIE_API_KEY, getAccessToken } from './bungie-auth';
 import { HttpClientConfig, getDestinyManifest, DestinyManifest, DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2'
 
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
   try {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
+    const accessToken = getAccessToken()
     const headers: { [key: string]: string } = { 'x-api-key': BUNGIE_API_KEY }
     if (accessToken) headers.Authorization = `Bearer ${accessToken}`
     console.log(config)

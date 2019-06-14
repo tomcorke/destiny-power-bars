@@ -1,8 +1,8 @@
 import { PowerBySlot, JoinedItemDefinition, CharacterData } from "../types";
 import { ITEM_SLOT_BUCKET_HASHES } from "../constants";
-import { getProfile, DestinyItemComponent } from "bungie-api-ts/destiny2";
+import { getProfile, DestinyItemComponent, searchDestinyPlayer } from "bungie-api-ts/destiny2";
 import { getManifest, bungieAuthedFetch } from "./bungie-api";
-import { DESTINY_MEMBERSHIP_ID_STORAGE_KEY } from "./bungie-auth";
+import { getSelectedDestinyMembership } from "./bungie-auth";
 
 export const getOverallPower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot)
@@ -33,10 +33,13 @@ export const getCharacterData = async (
     manifestPromise.finally(() => setIsFetchingManifest(false))
 
     setIsFetchingCharacterData(true)
-    const destinyMembershipId = localStorage.getItem(DESTINY_MEMBERSHIP_ID_STORAGE_KEY) as string
+
+    const destinyMembership = getSelectedDestinyMembership()
+    if (!destinyMembership) return
+
     const profile = await getProfile(bungieAuthedFetch, {
-      membershipType: 4,
-      destinyMembershipId,
+      membershipType: destinyMembership.membershipType,
+      destinyMembershipId: destinyMembership.membershipId,
       components: [
         200, // DestinyComponentType.Characters,
         205, // DestinyComponentType.CharacterEquipment,

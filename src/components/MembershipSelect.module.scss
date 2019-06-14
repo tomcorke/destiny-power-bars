@@ -1,0 +1,65 @@
+.membershipSelect {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: 1em;
+}
+
+.membership {
+  box-sizing: border-box;
+  margin: 5px;
+  padding: 2px 10px 2px 5px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  &.platform_blizzard {
+    background-color: #448bd4;
+    color: white;
+
+    &:before {
+      display: inline-block;
+      content: '';
+      width: 30px;
+      height: 30px;
+      background-image: url('../images/blizzard-icon.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      margin-right: 5px;
+    }
+  }
+
+  &.platform_psn {
+    background-color: #00419c;
+    color: white;
+
+    &:before {
+      display: inline-block;
+      content: '';
+      width: 30px;
+      height: 30px;
+      background-image: url('../images/psn-icon.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      margin-right: 5px;
+    }
+  }
+
+  &.platform_xbox {
+    background-color: #00ad00;
+    color: white;
+
+    &:before {
+      display: inline-block;
+      content: '';
+      width: 30px;
+      height: 30px;
+      background-image: url('../images/xbox-icon.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      margin-right: 5px;
+    }
+  }
+}
