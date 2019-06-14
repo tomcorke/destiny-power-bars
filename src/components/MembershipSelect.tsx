@@ -15,8 +15,6 @@ const MembershipSelect = ({ onMembershipSelect }: MembershipSelectProps) => {
 
   if (!destinyMemberships) return null
 
-  if (destinyMemberships.length === 1) return null
-
   if (destinyMemberships.length === 0) {
     return <div>No destiny memberships!</div>
   }
