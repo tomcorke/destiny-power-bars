@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/destiny-power-bars/static/css/main.36f8d3d3.chunk.css",
-    "main.js": "/destiny-power-bars/static/js/main.ae779f95.chunk.js",
-    "main.js.map": "/destiny-power-bars/static/js/main.ae779f95.chunk.js.map",
+    "main.css": "/destiny-power-bars/static/css/main.a9873197.chunk.css",
+    "main.js": "/destiny-power-bars/static/js/main.600468eb.chunk.js",
+    "main.js.map": "/destiny-power-bars/static/js/main.600468eb.chunk.js.map",
     "runtime~main.js": "/destiny-power-bars/static/js/runtime~main.5c018d2b.js",
     "runtime~main.js.map": "/destiny-power-bars/static/js/runtime~main.5c018d2b.js.map",
     "static/css/2.764ccc25.chunk.css": "/destiny-power-bars/static/css/2.764ccc25.chunk.css",
-    "static/js/2.ec65f63f.chunk.js": "/destiny-power-bars/static/js/2.ec65f63f.chunk.js",
-    "static/js/2.ec65f63f.chunk.js.map": "/destiny-power-bars/static/js/2.ec65f63f.chunk.js.map",
+    "static/js/2.f7e366fd.chunk.js": "/destiny-power-bars/static/js/2.f7e366fd.chunk.js",
+    "static/js/2.f7e366fd.chunk.js.map": "/destiny-power-bars/static/js/2.f7e366fd.chunk.js.map",
     "index.html": "/destiny-power-bars/index.html",
-    "precache-manifest.ff61ef4a673cf19c2d12d2bd48368ec5.js": "/destiny-power-bars/precache-manifest.ff61ef4a673cf19c2d12d2bd48368ec5.js",
+    "precache-manifest.5c5058d3610d7430d07012699a7d1c77.js": "/destiny-power-bars/precache-manifest.5c5058d3610d7430d07012699a7d1c77.js",
     "service-worker.js": "/destiny-power-bars/service-worker.js",
     "static/css/2.764ccc25.chunk.css.map": "/destiny-power-bars/static/css/2.764ccc25.chunk.css.map",
-    "static/css/main.36f8d3d3.chunk.css.map": "/destiny-power-bars/static/css/main.36f8d3d3.chunk.css.map"
+    "static/css/main.a9873197.chunk.css.map": "/destiny-power-bars/static/css/main.a9873197.chunk.css.map"
   }
 }
