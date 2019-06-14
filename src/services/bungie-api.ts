@@ -4,18 +4,22 @@ import { BUNGIE_API_KEY, ACCESS_TOKEN_STORAGE_KEY } from './bungie-auth';
 import { HttpClientConfig, getDestinyManifest, DestinyManifest, DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2'
 
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
-  //const url = `https://www.bungie.net/Platform${path}`
-const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
-  const headers: { [key: string]: string } = { 'x-api-key': BUNGIE_API_KEY }
-  if (accessToken) headers.Authorization = `Bearer ${accessToken}`
-  console.log(config)
-  const url = `${config.url}${
-    config.params
-      ? '?' + Object.entries(config.params).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
-      : ''
-    }`
-  const response = await fetch(url, { headers })
-  return response.json()
+  try {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
+    const headers: { [key: string]: string } = { 'x-api-key': BUNGIE_API_KEY }
+    if (accessToken) headers.Authorization = `Bearer ${accessToken}`
+    console.log(config)
+    const url = `${config.url}${
+      config.params
+        ? '?' + Object.entries(config.params).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
+        : ''
+      }`
+    const response = await fetch(url, { headers })
+    return await response.json()
+  } catch (e) {
+    console.error(e)
+    return {}
+  }
 }
 
 const MANIFEST_VERSION_KEY = 'MANIFEST_VERSION'
@@ -47,15 +51,21 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   return manifestData
 }
 
+let cachedManifestData: ManifestData | undefined
+
 export const getManifest = async (): Promise<ManifestData> => {
   const manifest = await getDestinyManifest(bungieAuthedFetch)
   const localStorageManifestVersion = localStorage.getItem(MANIFEST_VERSION_KEY)
-  if (manifest.Response.version === localStorageManifestVersion && !window.location.search.includes('updateManifest')) {
-    try {
-      return await getCachedManifestData()
-    } catch (e) {
-      console.error(e)
-    }
+  if (manifest
+    && manifest.Response
+    && manifest.Response.version === localStorageManifestVersion
+    && !window.location.search.includes('updateManifest')) {
+      if (!cachedManifestData)
+        cachedManifestData = await getCachedManifestData()
+      return cachedManifestData
   }
-  return getRemoteManifestData(manifest.Response)
+  cachedManifestData = undefined
+  const freshManifestData = await getRemoteManifestData(manifest.Response)
+  cachedManifestData = freshManifestData
+  return freshManifestData
 }

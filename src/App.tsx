@@ -36,7 +36,7 @@ const App = () => {
     return <div className={STYLES.App}>
       <div className={STYLES.charactersContainer}>
         <div className={STYLES.characters}>
-          {characterData.map(c => <CharacterDisplay data={c} />)}
+          {characterData.map(c => <CharacterDisplay key={c.id} data={c} />)}
         </div>
       </div>
     </div>

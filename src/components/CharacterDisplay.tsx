@@ -50,17 +50,38 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
 
   const rgbString = ({ red, green, blue }: {red:number, green: number, blue: number}) => `rgb(${red},${green},${blue})`
 
+  // Round to 50s
+  const minItemPower = Math.min(...Object.values(data.maxPowerBySlot))
+  const minPowerToDisplay = Math.max(Math.floor(minItemPower/50)*50 - 50, 0)
+  const maxItemPower = Math.max(...Object.values(data.maxPowerBySlot))
+  const maxPowerToDisplay = Math.min(Math.ceil(maxItemPower/50)*50, 750)
+
+  const roundedPower = Math.floor(data.overallPower)
+
+  const range = maxPowerToDisplay - minPowerToDisplay
+  const perc = Math.floor(((roundedPower - minPowerToDisplay) / range) * 1000) / 10
+
   return (
     <div className={classnames(STYLES.characterDisplay, STYLES[`class_${data.className}`])} style={{backgroundColor:rgbString(data.character.emblemColor)}}>
       <div className={STYLES.header}>
-        <img className={STYLES.emblemBackground} src={`https://www.bungie.net${data.character.emblemBackgroundPath}`} />
+        <img className={STYLES.emblemBackground} src={`https://www.bungie.net${data.character.emblemBackgroundPath}`} alt='' />
         <div className={STYLES.name}>{titleCase(data.className)}</div>
-        <div className={STYLES.power}>{data.overallPower}</div>
+        <div className={STYLES.power}>{roundedPower}</div>
       </div>
       <div className={STYLES.powerBars}>
-        {Object.entries(data.maxPowerBySlot).map(([slotName, power]) =>
-          <Bar min={650} max={750} value={power} avgValue={data.overallPower} label={`${power} ${slotFullNames[slotName] || slotName}`} />
-        )}
+        <div className={STYLES.powerRange}>
+          <div className={STYLES.minPower}>{minPowerToDisplay}</div>
+          <div className={STYLES.rangeLine} />
+          <div className={STYLES.maxPower}>{maxPowerToDisplay}</div>
+        </div>
+        <div className={STYLES.bars}>
+          {Object.entries(data.maxPowerBySlot).map(([slotName, power]) =>
+            <Bar key={`${data.id}_${slotName}`} min={minPowerToDisplay} max={maxPowerToDisplay} value={power} avgValue={roundedPower} label={`${power} ${slotFullNames[slotName] || slotName}`} />
+          )}
+        </div>
+        <div className={STYLES.powerLabel}>
+          <div className={STYLES.indicator} style={{left: `${perc}%`}}>{roundedPower}</div>
+        </div>
       </div>
     </div>
   )
