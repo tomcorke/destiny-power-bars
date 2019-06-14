@@ -145,6 +145,8 @@ export const getCharacterData = async (
 
   } catch (e) {
     console.error(`Error fetching manifest and character data`, e)
+    setIsFetchingCharacterData(false)
+    setIsFetchingManifest(false)
     return
   }
 
