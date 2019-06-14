@@ -2,7 +2,7 @@ import { PowerBySlot, JoinedItemDefinition, CharacterData } from "../types";
 import { ITEM_SLOT_BUCKET_HASHES } from "../constants";
 import { getProfile, DestinyItemComponent, searchDestinyPlayer } from "bungie-api-ts/destiny2";
 import { getManifest, bungieAuthedFetch } from "./bungie-api";
-import { getSelectedDestinyMembership } from "./bungie-auth";
+import { getSelectedDestinyMembership, auth } from "./bungie-auth";
 
 export const getOverallPower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot)
@@ -28,6 +28,11 @@ export const getCharacterData = async (
 ) => {
 
   try {
+
+    // Double check here - also will cause refreshing of expired credentials if we get to this point
+    const isAuthed = await auth();
+    if (!isAuthed) return
+
     setIsFetchingManifest(true)
     const manifestPromise = getManifest()
     manifestPromise.finally(() => setIsFetchingManifest(false))
@@ -139,11 +144,8 @@ export const getCharacterData = async (
       }
 
       const characterIds = Object.keys(characters)
-      console.log({ characters, equipments: characterEquipments, inventories: characterInventories })
       const characterData = characterIds.map(id => getCharacterData(id))
       setCharacterData(characterData)
-
-      console.log(characterData)
     }
 
   } catch (e) {

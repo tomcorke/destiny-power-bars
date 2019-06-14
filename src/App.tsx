@@ -11,6 +11,8 @@ import 'normalize.css'
 import STYLES from './App.module.scss'
 import { UserInfoCard } from 'bungie-api-ts/user';
 
+let characterDataRefreshTimer: NodeJS.Timeout | undefined
+
 const App = () => {
 
   const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth())
@@ -30,14 +32,22 @@ const App = () => {
   useEffect(() => {
     const doGetCharacterData = () => getCharacterData(setCharacterData, setIsFetchingCharacterData, setIsFetchingManifest)
     if (isAuthed && hasMembership) {
-      setInterval(doGetCharacterData, 10000)
+      if (!characterDataRefreshTimer) {
+        characterDataRefreshTimer = setInterval(doGetCharacterData, 10000)
+      }
       doGetCharacterData()
     }
   }, [isAuthed, hasMembership])
 
+  const onSelectMembership = (membership: UserInfoCard) => {
+    setSelectedDestinyMembership(membership)
+    setHasMembership(true)
+  }
+
   if (characterData && characterData.length > 0) {
     return <div className={STYLES.App}>
-      <MembershipSelect onMembershipSelect={() => {}} />
+
+      <MembershipSelect onMembershipSelect={onSelectMembership} />
 
       <div className={STYLES.charactersContainer}>
         <div className={STYLES.characters}>
@@ -61,10 +71,7 @@ const App = () => {
         </ul>
       </div>
 
-      <MembershipSelect onMembershipSelect={(membership: UserInfoCard) => {
-        setSelectedDestinyMembership(membership)
-        setHasMembership(true)
-      }} />
+      <MembershipSelect onMembershipSelect={onSelectMembership} />
     </div>
   )
 

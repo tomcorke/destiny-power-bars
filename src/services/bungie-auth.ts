@@ -36,7 +36,6 @@ const handleTokenResponse = async (tokenResponse: Response, redirect: boolean = 
   clearStorage()
   if (tokenResponse.status === 200) {
     const data = await tokenResponse.json()
-    console.log(data)
     const accessToken = data.access_token as string
     const tokenDuration = data.expires_in as number
     const expiryTime = Date.now() + (tokenDuration * 1000)
