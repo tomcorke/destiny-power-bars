@@ -61,7 +61,7 @@ const App = () => {
   let status = ''
   if (!isAuthed) {
     status = 'Authenticating...'
-  } else if (isFetchingCharacterData || isFetchingCharacterData) {
+  } else if (isFetchingManifest || isFetchingCharacterData) {
     status = 'Fetching data...'
   } else if (!hasMembership) {
     status = 'Waiting for Destiny platform selection...'

@@ -12,6 +12,7 @@ export interface CharacterData {
   itemsBySlot: { [key: string]: JoinedItemDefinition[] }
   maxPowerBySlot: PowerBySlot
   overallPower: number
+  bestItemBySlot: { [key: string]: JoinedItemDefinition }
 }
 
 export interface PowerBySlot { [key: string]: number }

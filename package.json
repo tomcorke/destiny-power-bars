@@ -20,8 +20,7 @@
     "typescript": "3.5.1"
   },
   "scripts": {
-    "start:https": "cross-env HTTPS=true npm start",
-    "start": "react-scripts start",
+    "start": "cross-env HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

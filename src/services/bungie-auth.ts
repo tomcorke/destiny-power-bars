@@ -13,8 +13,6 @@ const BUNGIE_MEMBERSHIP_ID_STORAGE_KEY = 'bungieMembershipId'
 const DESTINY_MEMBERSHIPS_STORAGE_KEY = 'destinyMemberships'
 const DESTINY_MEMBERSHIP_STORAGE_KEY = 'destinyMembership'
 
-const DEFAULT_MEMBERSHIP_TYPE = 4
-
 const clearStorage = () => {
   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
   localStorage.removeItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY);

@@ -23,6 +23,7 @@
   display: flex;
   align-items: flex-start;
   min-height: 60vh;
+  width: 100%;
   padding-top: 3em;
   box-sizing: border-box;
 }
@@ -31,6 +32,7 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  width: 100%;
 }
 
 .loadingStatus {

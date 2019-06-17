@@ -17,17 +17,23 @@ interface BarProps {
   value: number
   avgValue: number
   label: string
+  icon?: string
 }
-const Bar = ({ min, max, value, avgValue, label }: BarProps) => {
+const Bar = ({ min, max, value, avgValue, label, icon }: BarProps) => {
   const range = max - min
   const perc = Math.floor(((value - min) / range) * 1000) / 10
   const avgPerc = Math.floor(((avgValue - min) / range) * 1000) / 10
-  const plusTwoPerc = Math.floor(((avgValue + 2 - min) / range) * 1000) / 10
-  const plusFivePerc = Math.floor(((avgValue + 5 - min) / range) * 1000) / 10
-  return <div className={STYLES.barContainer}>
-    <div className={STYLES.filledBar} style={{width: `${perc}%`}}><span>{label}</span></div>
-    <div className={STYLES.barLine} style={{left: `${avgPerc}%`}} />
-  </div>
+  // const plusTwoPerc = Math.floor(((avgValue + 2 - min) / range) * 1000) / 10
+  // const plusFivePerc = Math.floor(((avgValue + 5 - min) / range) * 1000) / 10
+  return (
+    <div className={STYLES.barWrapper}>
+      {icon && (<img className={STYLES.icon} src={`https://www.bungie.net${icon}`} alt={label} />)}
+      <div className={STYLES.barContainer}>
+        <div className={STYLES.filledBar} style={{width: `${perc}%`}}><span>{label}</span></div>
+        <div className={STYLES.barLine} style={{left: `${avgPerc}%`}} />
+      </div>
+    </div>
+  )
 }
 
 const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
@@ -75,9 +81,20 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           <div className={STYLES.maxPower}>{maxPowerToDisplay}</div>
         </div>
         <div className={STYLES.bars}>
-          {Object.entries(data.maxPowerBySlot).map(([slotName, power]) =>
-            <Bar key={`${data.id}_${slotName}`} min={minPowerToDisplay} max={maxPowerToDisplay} value={power} avgValue={roundedPower} label={`${power} ${slotFullNames[slotName] || slotName}`} />
-          )}
+          {Object.entries(data.maxPowerBySlot).map(([slotName, power]) => {
+            const bestItem = data.bestItemBySlot[slotName]
+            return (
+              <Bar
+                key={`${data.id}_${slotName}`}
+                min={minPowerToDisplay}
+                max={maxPowerToDisplay}
+                value={power}
+                avgValue={roundedPower}
+                label={`${power} ${slotFullNames[slotName] || slotName}`}
+                icon={bestItem.itemDefinition && bestItem.itemDefinition.displayProperties.icon}
+              />
+            )
+          })}
         </div>
         <div className={STYLES.powerLabel}>
           <div className={STYLES.indicator} style={{left: `${perc}%`}}>{roundedPower}</div>

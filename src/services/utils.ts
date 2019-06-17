@@ -1,6 +1,6 @@
 import { PowerBySlot, JoinedItemDefinition, CharacterData } from "../types";
 import { ITEM_SLOT_BUCKET_HASHES } from "../constants";
-import { getProfile, DestinyItemComponent, searchDestinyPlayer } from "bungie-api-ts/destiny2";
+import { getProfile, DestinyItemComponent } from "bungie-api-ts/destiny2";
 import { getManifest, bungieAuthedFetch } from "./bungie-api";
 import { getSelectedDestinyMembership, auth } from "./bungie-auth";
 
@@ -131,6 +131,21 @@ export const getCharacterData = async (
             }
           }, {} as { [key: string]: number })
 
+        const getBestItemForSlot = (slotName: string) => {
+          const maxPowerForSlot = maxPowerBySlot[slotName]
+          const maxPowerItemsForSlot = itemsBySlot[slotName].filter(i => i.instanceData && i.instanceData.primaryStat.value === maxPowerForSlot)
+          if (maxPowerItemsForSlot.length === 1) return maxPowerItemsForSlot[0]
+          const equippedItems = maxPowerItemsForSlot.filter(i => characterEquipments[id].items.some(ci => ci.itemInstanceId === i.itemInstanceId))
+          if (equippedItems.length === 1) return equippedItems[0]
+          return maxPowerItemsForSlot[0]
+        }
+
+        const bestItemBySlot = Object.keys(ITEM_SLOT_BUCKET_HASHES)
+          .reduce((slots, slotName) => ({
+            ...slots,
+            [slotName]: getBestItemForSlot(slotName),
+          }), {} as { [key: string]: JoinedItemDefinition })
+
         const overallPower = getOverallPower(maxPowerBySlot)
 
         return {
@@ -140,6 +155,7 @@ export const getCharacterData = async (
           itemsBySlot,
           maxPowerBySlot,
           overallPower,
+          bestItemBySlot,
         }
       }
 

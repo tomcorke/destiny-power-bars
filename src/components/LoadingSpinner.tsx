@@ -1,5 +1,4 @@
 import React from 'react'
-import classnames from 'classnames'
 
 import STYLES from './LoadingSpinner.module.scss'
 
