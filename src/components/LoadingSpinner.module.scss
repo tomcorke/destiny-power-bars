@@ -1,0 +1,34 @@
+@import './Spinner.module.scss';
+
+.loadingSpinnerContainer {
+  width: 100%;
+  height: 100%;
+  min-width: 200px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anchor {
+  position: relative;
+}
+
+.spinnerLarge {
+  @include spinner(60px, 8s, false);
+}
+
+.spinnerSmall {
+  @include spinner(40px, 12s, true);
+}
+
+.status {
+  position: absolute;
+  left: -200px;
+  width: 400px;
+  top: 60px;
+  color: rgba(white, 0.9);
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+}

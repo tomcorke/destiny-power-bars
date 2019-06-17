@@ -10,6 +10,7 @@ import MembershipSelect from './components/MembershipSelect'
 import 'normalize.css'
 import STYLES from './App.module.scss'
 import { UserInfoCard } from 'bungie-api-ts/user';
+import LoadingSpinner from './components/LoadingSpinner';
 
 let characterDataRefreshTimer: NodeJS.Timeout | undefined
 
@@ -45,32 +46,32 @@ const App = () => {
   }
 
   if (characterData && characterData.length > 0) {
-    return <div className={STYLES.App}>
-
-      <MembershipSelect onMembershipSelect={onSelectMembership} />
-
-      <div className={STYLES.charactersContainer}>
-        <div className={STYLES.characters}>
-          {characterData.map(c => <CharacterDisplay key={c.id} data={c} />)}
+    return (
+      <div className={STYLES.App}>
+        <MembershipSelect onMembershipSelect={onSelectMembership} />
+        <div className={STYLES.charactersContainer}>
+          <div className={STYLES.characters}>
+            {characterData.map(c => <CharacterDisplay key={c.id} data={c} />)}
+          </div>
         </div>
       </div>
-    </div>
+    )
+  }
+
+  let status = ''
+  if (!isAuthed) {
+    status = 'Authenticating...'
+  } else if (isFetchingCharacterData || isFetchingCharacterData) {
+    status = 'Fetching data...'
+  } else if (!hasMembership) {
+    status = 'Waiting for Destiny platform selection...'
+  } else if (!characterData || characterData.length === 0) {
+    status = 'No character data'
   }
 
   return (
     <div className={STYLES.App}>
-      <div className={STYLES.loadingStatus}>
-        <ul>
-          <li>{isAuthed ? 'Authenticated' : 'Not authenticated'}</li>
-          {isFetchingManifest && <li>Fetching manifest...</li>}
-          {isFetchingCharacterData && <li>Fetching character data...</li>}
-          {characterData
-            ? <li>{`Has character data (${characterData.length} characters)`}</li>
-            : <li>No character data</li> }
-          {isAuthed && !hasMembership && <li>Waiting for Destiny membership select...</li>}
-        </ul>
-      </div>
-
+      <LoadingSpinner status={status} />
       <MembershipSelect onMembershipSelect={onSelectMembership} />
     </div>
   )

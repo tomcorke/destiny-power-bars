@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserInfoCard, BungieMembershipType } from 'bungie-api-ts/user';
+import { UserInfoCard } from 'bungie-api-ts/user';
 import classnames from 'classnames'
 
 import STYLES from './MembershipSelect.module.scss'
