@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/destiny-power-bars/static/css/main.5a87126d.chunk.css",
-    "main.js": "/destiny-power-bars/static/js/main.8e77bb32.chunk.js",
-    "main.js.map": "/destiny-power-bars/static/js/main.8e77bb32.chunk.js.map",
-    "runtime~main.js": "/destiny-power-bars/static/js/runtime~main.5c018d2b.js",
-    "runtime~main.js.map": "/destiny-power-bars/static/js/runtime~main.5c018d2b.js.map",
-    "static/css/2.764ccc25.chunk.css": "/destiny-power-bars/static/css/2.764ccc25.chunk.css",
-    "static/js/2.9ac29a9c.chunk.js": "/destiny-power-bars/static/js/2.9ac29a9c.chunk.js",
-    "static/js/2.9ac29a9c.chunk.js.map": "/destiny-power-bars/static/js/2.9ac29a9c.chunk.js.map",
-    "index.html": "/destiny-power-bars/index.html",
-    "precache-manifest.6204aaf01cc2e2e22c0d12b25121b4ee.js": "/destiny-power-bars/precache-manifest.6204aaf01cc2e2e22c0d12b25121b4ee.js",
-    "service-worker.js": "/destiny-power-bars/service-worker.js",
-    "static/css/2.764ccc25.chunk.css.map": "/destiny-power-bars/static/css/2.764ccc25.chunk.css.map",
-    "static/css/main.5a87126d.chunk.css.map": "/destiny-power-bars/static/css/main.5a87126d.chunk.css.map",
-    "static/media/App.module.scss": "/destiny-power-bars/static/media/09_540_blur.b7f2785c.jpg"
+    "main.css": "/static/css/main.249e2815.chunk.css",
+    "main.js": "/static/js/main.fcf17878.chunk.js",
+    "main.js.map": "/static/js/main.fcf17878.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/css/2.764ccc25.chunk.css": "/static/css/2.764ccc25.chunk.css",
+    "static/js/2.9ac29a9c.chunk.js": "/static/js/2.9ac29a9c.chunk.js",
+    "static/js/2.9ac29a9c.chunk.js.map": "/static/js/2.9ac29a9c.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.425616fd838fafbfd98db97e2fd2a578.js": "/precache-manifest.425616fd838fafbfd98db97e2fd2a578.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.764ccc25.chunk.css.map": "/static/css/2.764ccc25.chunk.css.map",
+    "static/css/main.249e2815.chunk.css.map": "/static/css/main.249e2815.chunk.css.map",
+    "static/media/App.module.scss": "/static/media/09_540_blur.b7f2785c.jpg"
   }
 }
