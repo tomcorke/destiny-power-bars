@@ -32,13 +32,13 @@ const App = () => {
   const [characterData, setCharacterData] = useState<CharacterData[] | undefined>(undefined)
   useEffect(() => {
     const doGetCharacterData = () => getCharacterData(setCharacterData, setIsFetchingCharacterData, setIsFetchingManifest)
-    if (isAuthed && hasMembership) {
+    if (isAuthed && hasMembership && !isFetchingManifest && !isFetchingCharacterData) {
       if (!characterDataRefreshTimer) {
         characterDataRefreshTimer = setInterval(doGetCharacterData, 10000)
       }
       doGetCharacterData()
     }
-  }, [isAuthed, hasMembership])
+  }, [isAuthed, hasMembership, isFetchingManifest, isFetchingCharacterData])
 
   const onSelectMembership = (membership: UserInfoCard) => {
     setSelectedDestinyMembership(membership)
