@@ -27,7 +27,9 @@ const Bar = ({ min, max, value, avgValue, label, icon }: BarProps) => {
   // const plusFivePerc = Math.floor(((avgValue + 5 - min) / range) * 1000) / 10
   return (
     <div className={STYLES.barWrapper}>
-      {icon && (<img className={STYLES.icon} src={`https://www.bungie.net${icon}`} alt={label} />)}
+      <div className={STYLES.iconWrapper}>{
+        icon && <img className={STYLES.icon} src={`https://www.bungie.net${icon}`} alt={label} />
+      }</div>
       <div className={STYLES.barContainer}>
         <div className={STYLES.filledBar} style={{width: `${perc}%`}}><span>{label}</span></div>
         <div className={STYLES.barLine} style={{left: `${avgPerc}%`}} />
@@ -82,7 +84,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         </div>
         <div className={STYLES.bars}>
           {Object.entries(data.maxPowerBySlot).map(([slotName, power]) => {
-            const bestItem = data.bestItemBySlot[slotName]
+            const bestItem = data.bestItemBySlot && data.bestItemBySlot[slotName]
             return (
               <Bar
                 key={`${data.id}_${slotName}`}
@@ -91,7 +93,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
                 value={power}
                 avgValue={roundedPower}
                 label={`${power} ${slotFullNames[slotName] || slotName}`}
-                icon={bestItem.itemDefinition && bestItem.itemDefinition.displayProperties.icon}
+                icon={bestItem && bestItem.itemDefinition && bestItem.itemDefinition.displayProperties.icon}
               />
             )
           })}

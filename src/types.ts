@@ -9,10 +9,10 @@ export interface CharacterData {
   id: string
   className: string
   character: DestinyCharacterComponent
-  itemsBySlot: { [key: string]: JoinedItemDefinition[] }
+  itemsBySlot?: { [key: string]: JoinedItemDefinition[] }
   maxPowerBySlot: PowerBySlot
   overallPower: number
-  bestItemBySlot: { [key: string]: JoinedItemDefinition }
+  bestItemBySlot?: { [key: string]: JoinedItemDefinition }
 }
 
 export interface PowerBySlot { [key: string]: number }

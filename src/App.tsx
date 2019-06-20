@@ -11,8 +11,9 @@ import 'normalize.css'
 import STYLES from './App.module.scss'
 import { UserInfoCard } from 'bungie-api-ts/user';
 import LoadingSpinner from './components/LoadingSpinner';
+import { getManifest } from './services/bungie-api';
 
-let characterDataRefreshTimer: NodeJS.Timeout | undefined
+let characterDataRefreshTimer: number | undefined
 
 const App = () => {
 
@@ -26,23 +27,41 @@ const App = () => {
   })
 
   const [hasMembership, setHasMembership] = useState<boolean>(hasSelectedDestinyMembership())
-  const [isFetchingManifest, setIsFetchingManifest] = useState<boolean>(false)
-  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<boolean>(false)
 
+  const [hasManifestData, setHasManifestData] = useState<boolean>(false)
+  useEffect(() => {
+    (async () => {
+      await getManifest()
+      setHasManifestData(true)
+    })();
+  })
+
+  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<boolean>(false)
   const [characterData, setCharacterData] = useState<CharacterData[] | undefined>(undefined)
   useEffect(() => {
-    const doGetCharacterData = () => getCharacterData(setCharacterData, setIsFetchingCharacterData, setIsFetchingManifest)
-    if (isAuthed && hasMembership && !isFetchingManifest && !isFetchingCharacterData) {
+    const doGetCharacterData = (returnEarlyResults: boolean = false) => getCharacterData(setCharacterData, setIsFetchingCharacterData, returnEarlyResults)
+    if (isAuthed && hasMembership && !isFetchingCharacterData) {
       if (!characterDataRefreshTimer) {
         characterDataRefreshTimer = setInterval(doGetCharacterData, 10000)
+        doGetCharacterData(true)
       }
-      doGetCharacterData()
     }
-  }, [isAuthed, hasMembership, isFetchingManifest, isFetchingCharacterData])
+  }, [isAuthed, hasMembership, hasManifestData, isFetchingCharacterData])
 
   const onSelectMembership = (membership: UserInfoCard) => {
     setSelectedDestinyMembership(membership)
     setHasMembership(true)
+  }
+
+  let status = ''
+  if (!isAuthed) {
+    status = 'Authenticating...'
+  } else if (!hasMembership) {
+    status = 'Waiting for Destiny platform selection...'
+  } else if (!characterData || characterData.length === 0) {
+    status = 'No character data'
+  } else if (!hasManifestData) {
+    status = 'Fetching Destiny item manifest...'
   }
 
   if (characterData && characterData.length > 0) {
@@ -54,19 +73,9 @@ const App = () => {
             {characterData.map(c => <CharacterDisplay key={c.id} data={c} />)}
           </div>
         </div>
+        {status && <LoadingSpinner status={status} /> }
       </div>
     )
-  }
-
-  let status = ''
-  if (!isAuthed) {
-    status = 'Authenticating...'
-  } else if (isFetchingManifest || isFetchingCharacterData) {
-    status = 'Fetching data...'
-  } else if (!hasMembership) {
-    status = 'Waiting for Destiny platform selection...'
-  } else if (!characterData || characterData.length === 0) {
-    status = 'No character data'
   }
 
   return (

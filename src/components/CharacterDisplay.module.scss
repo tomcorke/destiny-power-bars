@@ -19,6 +19,8 @@
     max-width: 90vh;
     width: 100%;
     height: auto;
+    width: 494px;
+    height: 96px;
   }
 
   .name {
@@ -99,10 +101,17 @@ $bar-border-color: rgba(white, 0.5);
   flex-flow: row nowrap;
 }
 
-.icon {
-  width: auto;
-  height: 100%;
+
+.iconWrapper {
+  width: $bar-size - 2;
+  height: $bar-size - 2;
   border-right: 1px solid $bar-border-color;
+  background-color: rgb(82, 47, 101);
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
 }
 
 .barContainer {

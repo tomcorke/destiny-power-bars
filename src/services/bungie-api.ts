@@ -52,20 +52,26 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
 }
 
 let cachedManifestData: ManifestData | undefined
+let getManifestPromise: Promise<ManifestData> | undefined
 
 export const getManifest = async (): Promise<ManifestData> => {
-  const manifest = await getDestinyManifest(bungieAuthedFetch)
-  const localStorageManifestVersion = localStorage.getItem(MANIFEST_VERSION_KEY)
-  if (manifest
-    && manifest.Response
-    && manifest.Response.version === localStorageManifestVersion
-    && !window.location.search.includes('updateManifest')) {
-      if (!cachedManifestData)
-        cachedManifestData = await getCachedManifestData()
-      return cachedManifestData
+  if (!getManifestPromise) {
+    getManifestPromise = (async () => {
+      const manifest = await getDestinyManifest(bungieAuthedFetch)
+      const localStorageManifestVersion = localStorage.getItem(MANIFEST_VERSION_KEY)
+      if (manifest
+        && manifest.Response
+        && manifest.Response.version === localStorageManifestVersion
+        && !window.location.search.includes('updateManifest')) {
+          if (!cachedManifestData)
+            cachedManifestData = await getCachedManifestData()
+          return cachedManifestData
+      }
+      cachedManifestData = undefined
+      const freshManifestData = await getRemoteManifestData(manifest.Response)
+      cachedManifestData = freshManifestData
+      return freshManifestData
+    })();
   }
-  cachedManifestData = undefined
-  const freshManifestData = await getRemoteManifestData(manifest.Response)
-  cachedManifestData = freshManifestData
-  return freshManifestData
+  return getManifestPromise
 }
