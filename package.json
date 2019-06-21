@@ -3,6 +3,38 @@
   "homepage": "https://destiny-power-bars.corke.dev",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "cross-env HTTPS=true react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "prettier:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "tslint": "tslint \"src/**/*.{ts,tsx}\"",
+    "tslint:fix": "tslint --fix \"src/**/*.{ts,tsx}\""
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["npm run prettier:fix", "npm run tslint", "git add"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier && npm run tslint"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
     "@types/jest": "24.0.13",
     "@types/node": "12.0.8",
@@ -21,41 +53,13 @@
     "react-scripts": "3.0.1",
     "typescript": "3.5.1"
   },
-  "scripts": {
-    "start": "cross-env HTTPS=true react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
-    "prettier:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "tslint": "tslint \"src/**/*.{ts,tsx}\"",
-    "tslint:fix": "tslint --fix \"src/**/*.{ts,tsx}\""
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run prettier:fix && npm run tslint"
-    }
-  },
   "devDependencies": {
     "@types/classnames": "^2.2.8",
     "@types/lodash": "^4.14.134",
     "@types/node-sass": "^4.11.0",
     "gh-pages": "^2.0.1",
     "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
     "prettier": "^1.18.2",
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0"
