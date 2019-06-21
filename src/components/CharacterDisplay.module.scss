@@ -85,7 +85,7 @@ $bar-border-color: rgba(white, 0.5);
       background-color: rgba(0, 0, 0, 0.5);
       color: yellow;
       margin-left: -1em;
-      transition: left 5s ease-out;
+      transition: left 3s ease-out;
     }
   }
 }
@@ -126,7 +126,7 @@ $bar-border-color: rgba(white, 0.5);
   height: 100%;
   width: 2px;
   background-color: yellow;
-  transition: left 5s ease-out;
+  transition: left 3s ease-out;
 }
 
 .filledBar {

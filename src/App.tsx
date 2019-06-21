@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { UserInfoCard } from 'bungie-api-ts/user';
 
 import { auth, hasValidAuth, hasSelectedDestinyMembership, setSelectedDestinyMembership } from './services/bungie-auth'
 import { CharacterData } from './types'
@@ -6,12 +7,11 @@ import { CharacterData } from './types'
 import { getCharacterData } from './services/utils'
 import CharacterDisplay from './components/CharacterDisplay'
 import MembershipSelect from './components/MembershipSelect'
+import LoadingSpinner from './components/LoadingSpinner';
+import { getManifest } from './services/bungie-api';
 
 import 'normalize.css'
 import STYLES from './App.module.scss'
-import { UserInfoCard } from 'bungie-api-ts/user';
-import LoadingSpinner from './components/LoadingSpinner';
-import { getManifest } from './services/bungie-api';
 
 let characterDataRefreshTimer: number | undefined
 
@@ -58,11 +58,17 @@ const App = () => {
     status = 'Authenticating...'
   } else if (!hasMembership) {
     status = 'Waiting for Destiny platform selection...'
-  } else if (!characterData || characterData.length === 0) {
-    status = 'No character data'
   } else if (!hasManifestData) {
     status = 'Fetching Destiny item manifest...'
+  } else if (!characterData || characterData.length === 0) {
+    if (isFetchingCharacterData) {
+      status = 'Fetching character data...'
+    } else {
+      status = 'No character data'
+    }
   }
+
+  (window as any).characterData = characterData
 
   if (characterData && characterData.length > 0) {
     return (

@@ -136,11 +136,11 @@ export const auth = async () => {
     window.location.replace(`${window.location.origin}${window.location.pathname}`)
   }
 
-  if (hasValidAuth()) {
+  if (hasValidAuth() && hasDestinyMemberships()) {
     return true
   }
 
-  console.log('Redirecting to fresh authentication for missing or expired access token')
+  console.log('Redirecting to fresh authentication for missing or expired access token, or missing destiny memberships')
   clearStorage()
   redirectToAuth()
 }

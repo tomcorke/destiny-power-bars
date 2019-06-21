@@ -8,7 +8,6 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
     const accessToken = getAccessToken()
     const headers: { [key: string]: string } = { 'x-api-key': BUNGIE_API_KEY }
     if (accessToken) headers.Authorization = `Bearer ${accessToken}`
-    console.log(config)
     const url = `${config.url}${
       config.params
         ? '?' + Object.entries(config.params).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
