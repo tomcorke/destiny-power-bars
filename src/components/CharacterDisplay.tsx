@@ -61,7 +61,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
   const classItemNames: { [key: string]: string } = {
     hunter: "Hunter Cloak",
     titan: "Titan Mark",
-    warlock: "Warlock Bond",
+    warlock: "Warlock Bond"
   };
   const slotFullNames: { [key: string]: string } = {
     chest: "Chest Armor",
@@ -71,7 +71,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
     head: "Helmet",
     kinetic: "Kinetic Weapon",
     legs: "Leg Armor",
-    power: "Power Weapon",
+    power: "Power Weapon"
   };
 
   const rgbString = ({
