@@ -28,10 +28,10 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "prettier": "prettier --check \"src/**/*.ts\"",
-    "prettier:fix": "prettier --write \"src/**/*.ts\"",
-    "tslint": "tslint \"src/**/*.ts\"",
-    "tslint:fix": "tslint --fix \"src/**/*.ts\""
+    "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "prettier:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "tslint": "tslint \"src/**/*.{ts,tsx}\"",
+    "tslint:fix": "tslint --fix \"src/**/*.{ts,tsx}\""
   },
   "browserslist": {
     "production": [

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
-import STYLES from './LoadingSpinner.module.scss'
+import STYLES from "./LoadingSpinner.module.scss";
 
 interface LoadingSpinnerProps {
-  status: string
+  status: string;
 }
 
 const LoadingSpinner = ({ status }: LoadingSpinnerProps) => {
@@ -15,7 +15,7 @@ const LoadingSpinner = ({ status }: LoadingSpinnerProps) => {
         <div className={STYLES.status}>{status}</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoadingSpinner
+export default LoadingSpinner;

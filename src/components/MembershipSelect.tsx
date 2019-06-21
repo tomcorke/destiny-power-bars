@@ -1,29 +1,30 @@
-import { UserInfoCard } from 'bungie-api-ts/user';
-import classnames from 'classnames'
-import React from 'react'
+import { UserInfoCard } from "bungie-api-ts/user";
+import classnames from "classnames";
+import React from "react";
 
-import { getDestinyMemberships } from '../services/bungie-auth';
-import STYLES from './MembershipSelect.module.scss'
+import { getDestinyMemberships } from "../services/bungie-auth";
+import STYLES from "./MembershipSelect.module.scss";
 
 interface MembershipSelectProps {
-  onMembershipSelect: (membership: UserInfoCard) => any
+  onMembershipSelect: (membership: UserInfoCard) => any;
 }
 
 const MembershipSelect = ({ onMembershipSelect }: MembershipSelectProps) => {
+  const destinyMemberships = getDestinyMemberships();
 
-  const destinyMemberships = getDestinyMemberships()
-
-  if (!destinyMemberships) { return null }
+  if (!destinyMemberships) {
+    return null;
+  }
 
   if (destinyMemberships.length === 0) {
-    return <div>No destiny memberships!</div>
+    return <div>No destiny memberships!</div>;
   }
 
   const PLATFORMS: { [key: number]: string } = {
-    1: 'xbox',
-    2: 'psn',
-    4: 'blizzard'
-  }
+    1: "xbox",
+    2: "psn",
+    4: "blizzard"
+  };
 
   return (
     <div className={STYLES.membershipSelect}>
@@ -31,15 +32,18 @@ const MembershipSelect = ({ onMembershipSelect }: MembershipSelectProps) => {
         return (
           <div
             key={m.membershipId}
-            className={classnames(STYLES.membership, STYLES[`platform_${PLATFORMS[m.membershipType]}`])}
-            onClick={() => onMembershipSelect(m)}>
+            className={classnames(
+              STYLES.membership,
+              STYLES[`platform_${PLATFORMS[m.membershipType]}`]
+            )}
+            onClick={() => onMembershipSelect(m)}
+          >
             {m.displayName}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
+};
 
-}
-
-export default MembershipSelect
+export default MembershipSelect;
