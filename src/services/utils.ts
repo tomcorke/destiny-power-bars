@@ -1,87 +1,98 @@
-import { PowerBySlot, JoinedItemDefinition, CharacterData } from "../types";
-import { ITEM_SLOT_BUCKETS, ITEM_TYPE_WEAPON, CLASS_NAMES, ITEM_TYPE_ARMOR, CLASS_TYPE_ALL, ITEM_TIER_TYPE_EXOTIC, ITEM_SLOT_GROUP_WEAPONS, ITEM_SLOT_GROUP_ARMOR, ITEM_BUCKET_SLOTS } from "../constants";
-import { getProfile, DestinyItemComponent, DestinyCharacterComponent } from "bungie-api-ts/destiny2";
-import { bungieAuthedFetch, getManifest } from "./bungie-api";
-import { getSelectedDestinyMembership, auth } from "./bungie-auth";
+import {
+  DestinyCharacterComponent,
+  DestinyItemComponent,
+  getItem
+} from "bungie-api-ts/destiny2";
+import _ from "lodash";
+import {
+  CLASS_NAMES,
+  CLASS_TYPE_ALL,
+  ITEM_BUCKET_SLOTS,
+  ITEM_SLOT_BUCKETS,
+  ITEM_TYPE_ARMOR,
+  ITEM_TYPE_WEAPON
+} from "../constants";
+import { CharacterData, JoinedItemDefinition, PowerBySlot } from "../types";
+import { getBasicProfile, getFullProfile, getManifest } from "./bungie-api";
+import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 
-export const getOverallPower = (powerBySlot: PowerBySlot) =>
-  Object.values(powerBySlot)
-    .reduce((sum, power) => sum + power, 0)
-  / Object.keys(ITEM_SLOT_BUCKETS).length
+const getOverallPower = (powerBySlot: PowerBySlot) =>
+  Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
+  Object.keys(ITEM_SLOT_BUCKETS).length;
 
-export const getDropEfficiency = (maxPowerBySlot: PowerBySlot, dropPowerIncrease: number = 0) => {
-  const base = getOverallPower(maxPowerBySlot)
-  const dropPower = Math.floor(base + dropPowerIncrease)
-  const overallPerSlotChanges = Object.keys(ITEM_SLOT_BUCKETS)
-    .reduce((changes, slotName) => ({
+const getDropEfficiency = (
+  maxPowerBySlot: PowerBySlot,
+  dropPowerIncrease: number = 0
+) => {
+  const base = getOverallPower(maxPowerBySlot);
+  const dropPower = Math.floor(base + dropPowerIncrease);
+  const overallPerSlotChanges = Object.keys(ITEM_SLOT_BUCKETS).reduce(
+    (changes, slotName) => ({
       ...changes,
-      [slotName]: Math.max(0, getOverallPower({ ...maxPowerBySlot, [slotName]: dropPower }) - base),
-    }), {} as PowerBySlot)
-  return getOverallPower(overallPerSlotChanges)
-}
+      [slotName]: Math.max(
+        0,
+        getOverallPower({ ...maxPowerBySlot, [slotName]: dropPower }) - base
+      )
+    }),
+    {} as PowerBySlot
+  );
+  return getOverallPower(overallPerSlotChanges);
+};
 
-const getBasicProfile = (membershipType: number, membershipId: string) => getProfile(bungieAuthedFetch, {
-  membershipType: membershipType,
-  destinyMembershipId: membershipId,
-  components: [
-    200, // DestinyComponentType.Characters,
-    205, // DestinyComponentType.CharacterEquipment,
-  ]
-})
+const mergeItems = <
+  T extends { [key: string]: { items: DestinyItemComponent[] } }
+>(
+  characterItemMap: T
+) => {
+  return Object.values(characterItemMap).reduce(
+    (allItems, characterItems) => allItems.concat(characterItems.items),
+    [] as DestinyItemComponent[]
+  );
+};
 
-const getFullProfile = (membershipType: number, membershipId: string) => getProfile(bungieAuthedFetch, {
-  membershipType: membershipType,
-  destinyMembershipId: membershipId,
-  components: [
-    200, // DestinyComponentType.Characters,
-    201, // DestinyComponentType.CharacterInventories,
-    205, // DestinyComponentType.CharacterEquipment,
-    102, // DestinyComponentType.ProfileInventories,
-    300, // DestinyComponentType.ItemInstances,
-  ]
-})
+const isItemEquippableByCharacter = (
+  item: JoinedItemDefinition,
+  character: DestinyCharacterComponent
+) => {
+  if (!item.instanceData) { return false; }
+  if (item.instanceData.canEquip) { return true; } // If the game says we can equip it, let's believe it
+  if (item.instanceData.cannotEquipReason === 16) { return true; } // Only reason is that it's in your vault
+  if (item.instanceData.equipRequiredLevel > character.baseCharacterLevel) {
+    return false;
+  }
+  // Let's ignore the rest for now
+  return true;
+};
 
-export const getBasicCharacterData = async (pendingBasicProfile: ReturnType<typeof getBasicProfile>) => {
-  const profile = await pendingBasicProfile
-  if (!profile || !profile.Response || !profile.Response.characters) return
-  const characters = profile.Response.characters.data
+const maxItemPower = (items: JoinedItemDefinition[] = []) =>
+  Math.max(
+    ...items.map(i => (i.instanceData ? i.instanceData.primaryStat.value : 0))
+  );
+
+const getBasicCharacterData = async (
+  pendingBasicProfile: ReturnType<typeof getBasicProfile>
+) => {
+  const profile = await pendingBasicProfile;
+  if (!profile || !profile.Response || !profile.Response.characters) { return; }
+  const characters = profile.Response.characters.data;
 
   if (characters) {
     const getDataForCharacterId = (id: string): CharacterData => {
-      const character = characters[id]
-      const className = CLASS_NAMES[character.classType]
+      const character = characters[id];
+      const className = CLASS_NAMES[character.classType];
       return {
         character,
-        id,
         className,
-        overallPower: character.light,
-        maxPowerBySlot: Object.keys(ITEM_SLOT_BUCKETS)
-          .reduce((slots, slotName) => ({ ...slots, [slotName]: character.light }), {} as { [key: string]: number })
-      }
-    }
+        id,
+        overallPower: character.light
+      };
+    };
 
-    const characterIds = Object.keys(characters)
-    const characterData = characterIds.map(id => getDataForCharacterId(id))
-    return characterData
+    const characterIds = Object.keys(characters);
+    const characterData = characterIds.map(id => getDataForCharacterId(id));
+    return characterData;
   }
 };
-
-const mergeItems = <T extends { [key: string]: { items: DestinyItemComponent[] } }>(characterItemMap: T) => {
-  return Object.values(characterItemMap)
-    .reduce((allItems, characterItems) => allItems.concat(characterItems.items), [] as DestinyItemComponent[])
-}
-
-const isItemEquippableByCharacter = (item: JoinedItemDefinition, character: DestinyCharacterComponent) => {
-  if (!item.instanceData) return false
-  if (item.instanceData.canEquip) return true // If the game says we can equip it, let's believe it
-  if (item.instanceData.cannotEquipReason === 16) return true // Only reason is that it's in your vault
-  if (item.instanceData.equipRequiredLevel > character.baseCharacterLevel) return false
-  // Let's ignore the rest for now
-  return true
-}
-
-const maxItemPower = (items: JoinedItemDefinition[] = []) =>
-  Math.max(...items.map(i => i.instanceData ? i.instanceData.primaryStat.value : 0))
 
 export const getCharacterData = async (
   setCharacterData: (state: CharacterData[]) => any,
@@ -89,225 +100,223 @@ export const getCharacterData = async (
   returnBasicCharacterData: boolean = false
 ) => {
   try {
+    const isAuthed = await auth();
+    if (!isAuthed) { return; }
 
-    const isAuthed = await auth()
-    if (!isAuthed) return
+    const pendingManifest = getManifest();
 
-    const pendingManifest = getManifest()
+    setIsFetchingCharacterData(true);
 
-    setIsFetchingCharacterData(true)
+    const destinyMembership = getSelectedDestinyMembership();
+    if (!destinyMembership) { return; }
 
-    const destinyMembership = getSelectedDestinyMembership()
-    if (!destinyMembership) return
-
-    const pendingBasicProfile = getBasicProfile(destinyMembership.membershipType, destinyMembership.membershipId)
-    pendingBasicProfile.catch(() => {})
+    let pendingBasicProfile: ReturnType<typeof getBasicProfile> | undefined;
 
     // Flag lets this be disabled to prevent setting after full profile is returned
-    let shouldSetBasicCharacterData = true
+    let shouldSetBasicCharacterData = true;
     // Produce basic data if flag is set
     if (returnBasicCharacterData) {
-      const pendingBasicCharacterData = getBasicCharacterData(pendingBasicProfile)
-        .catch(e => {});
+      pendingBasicProfile = getBasicProfile(
+        destinyMembership.membershipType,
+        destinyMembership.membershipId
+      );
+      pendingBasicProfile.catch(() => { /* Do nothing */});
+      const pendingBasicCharacterData = getBasicCharacterData(
+        pendingBasicProfile
+      ).catch(e => { /* Do nothing */});
       (async () => {
-        const basicCharacterData = await pendingBasicCharacterData
-        if (basicCharacterData && shouldSetBasicCharacterData) { setCharacterData(basicCharacterData) }
+        const basicCharacterData = await pendingBasicCharacterData;
+        if (basicCharacterData && shouldSetBasicCharacterData) {
+          setCharacterData(basicCharacterData);
+        }
       })();
     }
 
     const fullProfile = await getFullProfile(
       destinyMembership.membershipType,
-      destinyMembership.membershipId,
-    )
-    setIsFetchingCharacterData(false)
+      destinyMembership.membershipId
+    );
+    setIsFetchingCharacterData(false);
 
-    if (!fullProfile
-      || !fullProfile.Response
-      || !fullProfile.Response.characters || !fullProfile.Response.characters.data
-      || !fullProfile.Response.characterEquipment || !fullProfile.Response.characterEquipment.data
-      || !fullProfile.Response.characterInventories || !fullProfile.Response.characterInventories.data
-      || !fullProfile.Response.profileInventory || !fullProfile.Response.profileInventory.data
-      || !fullProfile.Response.itemComponents || !fullProfile.Response.itemComponents.instances || !fullProfile.Response.itemComponents.instances.data) return
+    if (
+      !fullProfile ||
+      !fullProfile.Response ||
+      !fullProfile.Response.characters ||
+      !fullProfile.Response.characters.data ||
+      !fullProfile.Response.characterEquipment ||
+      !fullProfile.Response.characterEquipment.data ||
+      !fullProfile.Response.characterInventories ||
+      !fullProfile.Response.characterInventories.data ||
+      !fullProfile.Response.profileInventory ||
+      !fullProfile.Response.profileInventory.data ||
+      !fullProfile.Response.itemComponents ||
+      !fullProfile.Response.itemComponents.instances ||
+      !fullProfile.Response.itemComponents.instances.data
+    ) {
+      return;
+    }
 
-    const characters = fullProfile.Response.characters.data
-    const characterEquipments = fullProfile.Response.characterEquipment.data
-    const characterInventories = fullProfile.Response.characterInventories.data
-    const profileInventories = fullProfile.Response.profileInventory.data
-    const itemInstances = fullProfile.Response.itemComponents.instances.data
+    const characters = fullProfile.Response.characters.data;
+    const characterEquipments = fullProfile.Response.characterEquipment.data;
+    const characterInventories = fullProfile.Response.characterInventories.data;
+    const profileInventories = fullProfile.Response.profileInventory.data;
+    const itemInstances = fullProfile.Response.itemComponents.instances.data;
 
-    const manifest = await pendingManifest
+    const manifest = await pendingManifest;
 
-    if (!manifest) return
+    if (!manifest) { return; }
 
     const allCharacterItems = mergeItems(characterInventories)
       .concat(mergeItems(characterEquipments))
-      .concat(profileInventories.items)
-    console.log(
-      allCharacterItems
-        .filter(i => i.itemInstanceId && itemInstances[i.itemInstanceId] && itemInstances[i.itemInstanceId].primaryStat && itemInstances[i.itemInstanceId].primaryStat.value === 750)
-        .map(i => manifest.DestinyInventoryItemDefinition[i.itemHash])
-    )
+      .concat(profileInventories.items);
     const allCharacterWeapons = allCharacterItems.filter(i => {
-      const itemDefinition = i.itemHash && manifest.DestinyInventoryItemDefinition[i.itemHash]
-      return itemDefinition && itemDefinition.itemType === ITEM_TYPE_WEAPON
-    })
+      const itemDefinition =
+        i.itemHash && manifest.DestinyInventoryItemDefinition[i.itemHash];
+      return itemDefinition && itemDefinition.itemType === ITEM_TYPE_WEAPON;
+    });
 
     const getDataForCharacterId = (id: string): CharacterData => {
-      const character = characters[id]
-      const className = CLASS_NAMES[character.classType]
+      const character = characters[id];
+      const className = CLASS_NAMES[character.classType];
 
-      const mapAndFilterItems = (items: DestinyItemComponent[]) => items
-        .map(item => {
-          const instanceData = item.itemInstanceId ? itemInstances[item.itemInstanceId] : undefined
-          const itemDefinition = manifest.DestinyInventoryItemDefinition[item.itemHash]
-          return {
-            ...item,
-            instanceData,
-            itemDefinition,
-          }
-        })
-        .filter(i => i.instanceData && i.itemDefinition && [ITEM_TYPE_ARMOR, ITEM_TYPE_WEAPON].includes(i.itemDefinition.itemType))
+      const mapAndFilterItems = (
+        items: DestinyItemComponent[]
+      ): JoinedItemDefinition[] =>
+        items
+          .map(item => {
+            const instanceData = item.itemInstanceId
+              ? itemInstances[item.itemInstanceId]
+              : undefined;
+            const itemDefinition =
+              manifest.DestinyInventoryItemDefinition[item.itemHash];
+            return {
+              ...item,
+              instanceData,
+              itemDefinition
+            };
+          })
+          .filter(
+            i =>
+              i.instanceData &&
+              i.itemDefinition &&
+              [ITEM_TYPE_ARMOR, ITEM_TYPE_WEAPON].includes(
+                i.itemDefinition.itemType
+              )
+          )
+          .map(i => ({
+            ...i,
+            instanceData: i.instanceData!,
+            itemDefinition: i.itemDefinition!
+          }))
+          .map(i => ({
+            ...i,
+            slotName:
+              ITEM_BUCKET_SLOTS[i.itemDefinition.inventory.bucketTypeHash]
+          }))
+          .filter(i => isItemEquippableByCharacter(i, character));
 
       const characterItems = mapAndFilterItems(
         characterInventories[id].items
           .concat(characterEquipments[id].items)
           .concat(allCharacterWeapons)
-      )
-      const profileItems = mapAndFilterItems(profileInventories.items)
-        .filter(i => i.itemDefinition && (i.itemDefinition.classType === CLASS_TYPE_ALL || i.itemDefinition.classType === character.classType))
+      );
+      const relevantProfileItems = mapAndFilterItems(
+        profileInventories.items
+      ).filter(
+        i =>
+          i.itemDefinition &&
+          (i.itemDefinition.classType === CLASS_TYPE_ALL ||
+            i.itemDefinition.classType === character.classType)
+      );
 
-      const combinedItems = characterItems.concat(profileItems)
-      const equippableItems = combinedItems.filter(i => isItemEquippableByCharacter(i, character))
+      const allItems = characterItems.concat(relevantProfileItems);
 
-      interface ItemBySlot { [slotName: string]: JoinedItemDefinition }
-      interface ItemsBySlot { [slotName: string]: JoinedItemDefinition[] }
-      interface PowerBySlot { [slotName: string]: number }
+      const getItemScore = (item: JoinedItemDefinition) => {
+        return item.instanceData.primaryStat.value;
+      };
 
-      const getItemsBySlot = (items: JoinedItemDefinition[], itemFilter?: (item: JoinedItemDefinition) => boolean) => {
-        return Object.entries(ITEM_SLOT_BUCKETS)
-          .reduce((slots, [slotName, slotBucketHash]) => ({
-            ...slots,
-            [slotName]: items
-              .filter(item => item.itemDefinition && item.itemDefinition.inventory.bucketTypeHash === slotBucketHash)
-              .filter(item => !itemFilter || itemFilter(item))
-          }), {} as ItemsBySlot)
-      }
-      const equippableItemsBySlot = getItemsBySlot(equippableItems)
+      const getEquipLabel = (item: JoinedItemDefinition) =>
+        item.itemDefinition.equippingBlock.uniqueLabel;
 
-      const exoticItemsBySlot = getItemsBySlot(equippableItems, item => !!(item.itemDefinition && item.itemDefinition.inventory.tierType === ITEM_TIER_TYPE_EXOTIC))
-      const nonExoticItemsBySlot = getItemsBySlot(equippableItems, item => !!(item.itemDefinition && item.itemDefinition.inventory.tierType !== ITEM_TIER_TYPE_EXOTIC))
-
-      const nonExoticMaxPowerItemsBySlot = Object.keys(ITEM_SLOT_BUCKETS)
-        .reduce((slots, slotName) => {
-          const maxPower = maxItemPower(nonExoticItemsBySlot[slotName])
-          const maxPowerItems = nonExoticItemsBySlot[slotName].filter(i => i.instanceData && i.instanceData.primaryStat.value === maxPower)
-          return {
-            ...slots,
-            [slotName]: maxPowerItems
-          }
-        }, {} as ItemsBySlot)
-
-      const exoticMaxPowerItemsBySlot = Object.keys(ITEM_SLOT_BUCKETS)
-        .reduce((slots, slotName) => {
-          const maxPower = maxItemPower(exoticItemsBySlot[slotName])
-          if (maxPower < maxItemPower(nonExoticMaxPowerItemsBySlot[slotName])) return slots
-          const maxPowerItems = exoticItemsBySlot[slotName].filter(i => i.instanceData && i.instanceData.primaryStat.value === maxPower)
-          return {
-            ...slots,
-            [slotName]: maxPowerItems
-          }
-        }, {} as ItemsBySlot)
-
-      const groupedMaxPowerItems = {
-        weapons: ITEM_SLOT_GROUP_WEAPONS.reduce((slots, slotName) => ({ ...slots, [slotName]: nonExoticMaxPowerItemsBySlot[slotName] }), {} as ItemsBySlot),
-        exoticWeapons: ITEM_SLOT_GROUP_WEAPONS.reduce((allItems, slotName) => allItems.concat(exoticMaxPowerItemsBySlot[slotName]), [] as JoinedItemDefinition[]),
-        armor: ITEM_SLOT_GROUP_ARMOR.reduce((slots, slotName) => ({ ...slots, [slotName]: nonExoticMaxPowerItemsBySlot[slotName] }), {} as ItemsBySlot),
-        exoticArmor: ITEM_SLOT_GROUP_ARMOR.reduce((allItems, slotName) => allItems.concat(exoticMaxPowerItemsBySlot[slotName]), [] as JoinedItemDefinition[]),
+      interface ItemBySlot {
+        [slotName: string]: JoinedItemDefinition;
       }
 
-      const findBestExotic = (nonExoticItemsBySlot: ItemsBySlot, exoticItems: JoinedItemDefinition[]): ItemsBySlot => {
-        let maxPower = 0
-        let bestExotic: JoinedItemDefinition | undefined
-        let bestExoticSlot: string | undefined
-        // Try every exotic
-        exoticItems.forEach(item => {
-          const itemSlot = item && item.itemDefinition &&  ITEM_BUCKET_SLOTS[item.itemDefinition.inventory.bucketTypeHash]
-          const itemInstance = item && item.instanceData
-          if (!itemSlot || !itemInstance) return
-          const totalPowerWithItem = Object.entries(nonExoticItemsBySlot)
-            .reduce((totalPower, [slotName, items]) => {
-              if (slotName === itemSlot) return totalPower + itemInstance.primaryStat.value
-              return totalPower + maxItemPower(items)
-            }, 0)
-          if (totalPowerWithItem > maxPower) {
-            maxPower = totalPowerWithItem
-            bestExotic = item
-            bestExoticSlot = itemSlot
-          }
-        })
+      // Group by slot
+      const itemsBySlot = _.groupBy(allItems, i => i.slotName);
+      // Get max power items per slot
+      let topItemsBySlot = _.mapValues(
+        itemsBySlot,
+        items => _.maxBy(items, getItemScore)!
+      );
+      // Get overlaps by equip label
+      const uniqueEquippedGroups = _.groupBy(
+        Object.values(topItemsBySlot).filter(getEquipLabel),
+        getEquipLabel
+      );
+      // For overlaps with more than one item, generate valid options where all-but-one item is swapped for the next best non-exotic
+      _.forIn(uniqueEquippedGroups, uniqueEquippedGroup => {
+        if (uniqueEquippedGroup.length <= 1) { return; }
 
-        if (!bestExotic || !bestExoticSlot) return nonExoticItemsBySlot
+        const validItemCombinations: ItemBySlot[] = [];
 
-        return { ...nonExoticItemsBySlot, [bestExoticSlot]: [bestExotic] }
-      }
-
-      const maxPowerEquippableWeaponsBySlot = findBestExotic(groupedMaxPowerItems.weapons, groupedMaxPowerItems.exoticWeapons)
-      const maxPowerEquippableArmorBySlot = findBestExotic(groupedMaxPowerItems.armor, groupedMaxPowerItems.exoticArmor)
-
-      const maxPowerEquippableItems = {
-        ...maxPowerEquippableWeaponsBySlot,
-        ...maxPowerEquippableArmorBySlot,
-      }
-
-      const getMaxPowerBySlot = (itemsBySlot: ItemsBySlot) => {
-        return Object.entries(itemsBySlot)
-          .reduce((slots, [slotName, items]) => {
-            return {
-              ...slots,
-              [slotName]: maxItemPower(items)
+        uniqueEquippedGroup.forEach(item => {
+          const otherItems = uniqueEquippedGroup.filter(
+            otherItem => otherItem !== item
+          );
+          let isCombinationValid = true;
+          const combination = { ...topItemsBySlot };
+          otherItems.forEach(otherItem => {
+            // Find non-exotics for this slot
+            const nonExotics = itemsBySlot[otherItem.slotName].filter(
+              i => !getEquipLabel(i)
+            );
+            if (nonExotics.length > 0) {
+              // Select max power from non-exotics
+              combination[otherItem.slotName] = _.maxBy(
+                nonExotics,
+                getItemScore
+              )!;
+            } else {
+              // No non-exotic options for this slot, so whole combination is invalidaa
+              isCombinationValid = false;
             }
-          }, {} as PowerBySlot)
-      }
+          });
+          if (isCombinationValid) { validItemCombinations.push(combination); }
+        });
 
-      const maxPowerBySlot = getMaxPowerBySlot(maxPowerEquippableItems)
+        // Select highest total scoring valid combination, if alternative item combinations have been generated
+        if (validItemCombinations.length > 0) {
+          const bestCombination = _.maxBy(validItemCombinations, combination =>
+            _.sumBy(Object.values(combination), getItemScore)
+          )!;
+          topItemsBySlot = bestCombination;
+        }
+      });
 
-      const getBestItemForSlot = (slotName: string) => {
-        const maxPowerForSlot = maxPowerBySlot[slotName]
-        const maxPowerItemsForSlot = equippableItemsBySlot[slotName].filter(i => i.instanceData && i.instanceData.primaryStat.value === maxPowerForSlot)
-        if (maxPowerItemsForSlot.length === 1) return maxPowerItemsForSlot[0]
-        const equippedItems = maxPowerItemsForSlot.filter(i => characterEquipments[id].items.some(ci => ci.itemInstanceId === i.itemInstanceId))
-        if (equippedItems.length === 1) return equippedItems[0]
-        return maxPowerItemsForSlot[0]
-      }
-
-      const bestItemBySlot = Object.keys(ITEM_SLOT_BUCKETS)
-        .reduce((slots, slotName) => ({
-          ...slots,
-          [slotName]: getBestItemForSlot(slotName),
-        }), {} as ItemBySlot)
-
-      const overallPower = getOverallPower(maxPowerBySlot)
+      const overallPower = Math.floor(
+        Object.values(topItemsBySlot).reduce(
+          (total, item) => total + item.instanceData.primaryStat.value,
+          0
+        ) / Object.keys(topItemsBySlot).length
+      );
 
       return {
         character,
-        id,
         className,
-        equippableItemsBySlot,
-        maxPowerBySlot,
+        id,
         overallPower,
-        bestItemBySlot,
-      }
-    }
+        topItemsBySlot
+      };
+    };
 
-    const characterIds = Object.keys(characters)
-    const characterData = characterIds.map(id => getDataForCharacterId(id))
-    shouldSetBasicCharacterData = false
-    setCharacterData(characterData)
-
+    const characterIds = Object.keys(characters);
+    const characterData = characterIds.map(id => getDataForCharacterId(id));
+    shouldSetBasicCharacterData = false;
+    setCharacterData(characterData);
   } catch (e) {
-    console.error(`Error fetching manifest and character data`, e)
-    setIsFetchingCharacterData(false)
-    return
+    console.error(`Error fetching manifest and character data`, e);
+    setIsFetchingCharacterData(false);
+    return;
   }
-
-}
+};

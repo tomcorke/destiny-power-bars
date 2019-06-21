@@ -13,6 +13,7 @@
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "idb-keyval": "^3.2.0",
+    "lodash": "^4.17.11",
     "node-sass": "^4.12.0",
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",
@@ -26,10 +27,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "deploy": "gh-pages -d build",
+    "prettier": "prettier --check \"src/**/*.ts\"",
+    "prettier:fix": "prettier --write \"src/**/*.ts\"",
+    "tslint": "tslint \"src/**/*.ts\"",
+    "tslint:fix": "tslint --fix \"src/**/*.ts\""
   },
   "browserslist": {
     "production": [
@@ -43,9 +45,19 @@
       "last 1 safari version"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier:fix && npm run tslint"
+    }
+  },
   "devDependencies": {
     "@types/classnames": "^2.2.8",
+    "@types/lodash": "^4.14.134",
     "@types/node-sass": "^4.11.0",
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "husky": "^2.4.1",
+    "prettier": "^1.18.2",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0"
   }
 }

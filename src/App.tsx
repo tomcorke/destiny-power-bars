@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
 import { UserInfoCard } from 'bungie-api-ts/user';
+import React, { useEffect, useState } from 'react'
 
-import { auth, hasValidAuth, hasSelectedDestinyMembership, setSelectedDestinyMembership } from './services/bungie-auth'
+import { auth, hasSelectedDestinyMembership, hasValidAuth, setSelectedDestinyMembership } from './services/bungie-auth'
 import { CharacterData } from './types'
 
-import { getCharacterData } from './services/utils'
 import CharacterDisplay from './components/CharacterDisplay'
-import MembershipSelect from './components/MembershipSelect'
 import LoadingSpinner from './components/LoadingSpinner';
+import MembershipSelect from './components/MembershipSelect'
 import { getManifest } from './services/bungie-api';
+import { getCharacterData } from './services/utils'
 
 import 'normalize.css'
 import STYLES from './App.module.scss'
@@ -21,9 +21,9 @@ const App = () => {
   useEffect(() => {
     const doAuth = async () => {
       const authResult = await auth()
-      if (authResult) setIsAuthed(true)
+      if (authResult) { setIsAuthed(true) }
     }
-    if (!isAuthed) doAuth()
+    if (!isAuthed) { doAuth() }
   })
 
   const [hasMembership, setHasMembership] = useState<boolean>(hasSelectedDestinyMembership())
@@ -39,7 +39,7 @@ const App = () => {
   const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<boolean>(false)
   const [characterData, setCharacterData] = useState<CharacterData[] | undefined>(undefined)
   useEffect(() => {
-    const doGetCharacterData = (returnEarlyResults: boolean = false) => getCharacterData(setCharacterData, setIsFetchingCharacterData, returnEarlyResults)
+    const doGetCharacterData = (returnBasicCharacterData: boolean = false) => getCharacterData(setCharacterData, setIsFetchingCharacterData, returnBasicCharacterData)
     if (isAuthed && hasMembership && !isFetchingCharacterData) {
       if (!characterDataRefreshTimer) {
         characterDataRefreshTimer = setInterval(doGetCharacterData, 10000)

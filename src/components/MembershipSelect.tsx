@@ -1,9 +1,9 @@
-import React from 'react'
 import { UserInfoCard } from 'bungie-api-ts/user';
 import classnames from 'classnames'
+import React from 'react'
 
-import STYLES from './MembershipSelect.module.scss'
 import { getDestinyMemberships } from '../services/bungie-auth';
+import STYLES from './MembershipSelect.module.scss'
 
 interface MembershipSelectProps {
   onMembershipSelect: (membership: UserInfoCard) => any
@@ -13,7 +13,7 @@ const MembershipSelect = ({ onMembershipSelect }: MembershipSelectProps) => {
 
   const destinyMemberships = getDestinyMemberships()
 
-  if (!destinyMemberships) return null
+  if (!destinyMemberships) { return null }
 
   if (destinyMemberships.length === 0) {
     return <div>No destiny memberships!</div>

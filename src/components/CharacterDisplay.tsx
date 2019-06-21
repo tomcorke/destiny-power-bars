@@ -1,8 +1,10 @@
-import React from 'react'
 import classnames from 'classnames'
+import _ from 'lodash'
+import React from 'react'
 
 import { CharacterData } from "../types";
 
+import { ITEM_SLOT_BUCKETS, ITEM_SLOT_ENERGY, ITEM_SLOT_GROUP_ARMOR, ITEM_SLOT_GROUP_WEAPONS, ITEM_SLOT_KINETIC, ITEM_SLOT_POWER, ORDERED_ITEM_SLOTS } from '../constants';
 import STYLES from './CharacterDisplay.module.scss'
 
 interface CharacterDisplayProps {
@@ -58,10 +60,17 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
 
   const rgbString = ({ red, green, blue }: {red:number, green: number, blue: number}) => `rgb(${red},${green},${blue})`
 
+  interface PowerBySlot { [slotName: string]: number }
+
+  const powerBySlot = ORDERED_ITEM_SLOTS.reduce((slots, slotName) => ({
+    ...slots,
+    [slotName]: data.topItemsBySlot ? data.topItemsBySlot[slotName].instanceData.primaryStat.value : data.overallPower
+  }), {} as PowerBySlot)
+
   // Round to 50s
-  const minItemPower = Math.min(...Object.values(data.maxPowerBySlot))
+  const minItemPower = Math.min(...Object.values(powerBySlot))
   const minPowerToDisplay = Math.max(Math.floor(minItemPower/50)*50 - 50, 0)
-  const maxItemPower = Math.max(...Object.values(data.maxPowerBySlot))
+  const maxItemPower = Math.max(...Object.values(powerBySlot))
   const maxPowerToDisplay = Math.min(Math.ceil(maxItemPower/50)*50, 750)
 
   const roundedPower = Math.floor(data.overallPower)
@@ -83,8 +92,8 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           <div className={STYLES.maxPower}>{maxPowerToDisplay}</div>
         </div>
         <div className={STYLES.bars}>
-          {Object.entries(data.maxPowerBySlot).map(([slotName, power]) => {
-            const bestItem = data.bestItemBySlot && data.bestItemBySlot[slotName]
+          {Object.entries(powerBySlot).map(([slotName, power]) => {
+            const bestItem = data.topItemsBySlot && data.topItemsBySlot[slotName]
             return (
               <Bar
                 key={`${data.id}_${slotName}`}

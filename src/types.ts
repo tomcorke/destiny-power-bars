@@ -1,18 +1,17 @@
-import { DestinyItemComponent, DestinyItemInstanceComponent, DestinyInventoryItemDefinition, DestinyCharacterComponent } from "bungie-api-ts/destiny2";
+import { DestinyCharacterComponent, DestinyInventoryItemDefinition, DestinyItemComponent, DestinyItemInstanceComponent } from "bungie-api-ts/destiny2";
 
 export type JoinedItemDefinition = DestinyItemComponent & {
-  instanceData?: DestinyItemInstanceComponent
-  itemDefinition?: DestinyInventoryItemDefinition
+  instanceData: DestinyItemInstanceComponent
+  itemDefinition: DestinyInventoryItemDefinition
+  slotName: string
 }
 
 export interface CharacterData {
   id: string
   className: string
   character: DestinyCharacterComponent
-  equippableItemsBySlot?: { [key: string]: JoinedItemDefinition[] }
-  maxPowerBySlot: PowerBySlot
   overallPower: number
-  bestItemBySlot?: { [key: string]: JoinedItemDefinition }
+  topItemsBySlot?: { [key: string]: JoinedItemDefinition }
 }
 
 export interface PowerBySlot { [key: string]: number }
