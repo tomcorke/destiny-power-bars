@@ -11,14 +11,22 @@ export type JoinedItemDefinition = DestinyItemComponent & {
   slotName: string;
 };
 
+export interface PowerBySlot {
+  [key: string]: number;
+}
+
+export interface ItemBySlot {
+  [key: string]: JoinedItemDefinition;
+}
+
+export interface ItemsBySlot {
+  [key: string]: JoinedItemDefinition[];
+}
+
 export interface CharacterData {
   id: string;
   className: string;
   character: DestinyCharacterComponent;
   overallPower: number;
-  topItemsBySlot?: { [key: string]: JoinedItemDefinition };
-}
-
-export interface PowerBySlot {
-  [key: string]: number;
+  topItemBySlot?: ItemBySlot;
 }

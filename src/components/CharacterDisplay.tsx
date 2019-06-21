@@ -1,18 +1,9 @@
 import classnames from "classnames";
-import _ from "lodash";
 import React from "react";
 
 import { CharacterData } from "../types";
 
-import {
-  ITEM_SLOT_BUCKETS,
-  ITEM_SLOT_ENERGY,
-  ITEM_SLOT_GROUP_ARMOR,
-  ITEM_SLOT_GROUP_WEAPONS,
-  ITEM_SLOT_KINETIC,
-  ITEM_SLOT_POWER,
-  ORDERED_ITEM_SLOTS
-} from "../constants";
+import { ORDERED_ITEM_SLOTS } from "../constants";
 import STYLES from "./CharacterDisplay.module.scss";
 
 interface CharacterDisplayProps {
@@ -88,11 +79,12 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
     [slotName: string]: number;
   }
 
+  // Get power by slot, using overall power if slot data does not exist
   const powerBySlot = ORDERED_ITEM_SLOTS.reduce(
     (slots, slotName) => ({
       ...slots,
-      [slotName]: data.topItemsBySlot
-        ? data.topItemsBySlot[slotName].instanceData.primaryStat.value
+      [slotName]: data.topItemBySlot
+        ? data.topItemBySlot[slotName].instanceData.primaryStat.value
         : data.overallPower
     }),
     {} as PowerBySlot
@@ -138,8 +130,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         </div>
         <div className={STYLES.bars}>
           {Object.entries(powerBySlot).map(([slotName, power]) => {
-            const bestItem =
-              data.topItemsBySlot && data.topItemsBySlot[slotName];
+            const bestItem = data.topItemBySlot && data.topItemBySlot[slotName];
             return (
               <Bar
                 key={`${data.id}_${slotName}`}

@@ -16,11 +16,19 @@
     "tslint:fix": "tslint --fix \"src/**/*.{ts,tsx}\""
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["npm run prettier:fix", "npm run tslint", "git add"]
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "tslint --fix",
+      "git add"
+    ],
+    "*.{js,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier && npm run tslint"
+      "pre-commit": "lint-staged"
     }
   },
   "browserslist": {

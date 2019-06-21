@@ -1,7 +1,6 @@
 import {
   DestinyCharacterComponent,
-  DestinyItemComponent,
-  getItem
+  DestinyItemComponent
 } from "bungie-api-ts/destiny2";
 import _ from "lodash";
 import {
@@ -12,32 +11,21 @@ import {
   ITEM_TYPE_ARMOR,
   ITEM_TYPE_WEAPON
 } from "../constants";
-import { CharacterData, JoinedItemDefinition, PowerBySlot } from "../types";
+import {
+  CharacterData,
+  ItemBySlot,
+  JoinedItemDefinition,
+  PowerBySlot
+} from "../types";
 import { getBasicProfile, getFullProfile, getManifest } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
+
+const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
+  _.mapValues(itemsBySlot, item => item.instanceData.primaryStat.value);
 
 const getOverallPower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
   Object.keys(ITEM_SLOT_BUCKETS).length;
-
-const getDropEfficiency = (
-  maxPowerBySlot: PowerBySlot,
-  dropPowerIncrease: number = 0
-) => {
-  const base = getOverallPower(maxPowerBySlot);
-  const dropPower = Math.floor(base + dropPowerIncrease);
-  const overallPerSlotChanges = Object.keys(ITEM_SLOT_BUCKETS).reduce(
-    (changes, slotName) => ({
-      ...changes,
-      [slotName]: Math.max(
-        0,
-        getOverallPower({ ...maxPowerBySlot, [slotName]: dropPower }) - base
-      )
-    }),
-    {} as PowerBySlot
-  );
-  return getOverallPower(overallPerSlotChanges);
-};
 
 const mergeItems = <
   T extends { [key: string]: { items: DestinyItemComponent[] } }
@@ -69,11 +57,6 @@ const isItemEquippableByCharacter = (
   // Let's ignore the rest for now
   return true;
 };
-
-const maxItemPower = (items: JoinedItemDefinition[] = []) =>
-  Math.max(
-    ...items.map(i => (i.instanceData ? i.instanceData.primaryStat.value : 0))
-  );
 
 const getBasicCharacterData = async (
   pendingBasicProfile: ReturnType<typeof getBasicProfile>
@@ -250,26 +233,29 @@ export const getCharacterData = async (
       const allItems = characterItems.concat(relevantProfileItems);
 
       const getItemScore = (item: JoinedItemDefinition) => {
-        return item.instanceData.primaryStat.value;
+        let score = item.instanceData.primaryStat.value;
+        if (item.instanceData.isEquipped) {
+          score += 0.1;
+        }
+        if (item.location === 1) {
+          score += 0.05;
+        }
+        return score;
       };
 
       const getEquipLabel = (item: JoinedItemDefinition) =>
         item.itemDefinition.equippingBlock.uniqueLabel;
 
-      interface ItemBySlot {
-        [slotName: string]: JoinedItemDefinition;
-      }
-
       // Group by slot
       const itemsBySlot = _.groupBy(allItems, i => i.slotName);
       // Get max power items per slot
-      let topItemsBySlot = _.mapValues(
+      let topItemBySlot = _.mapValues(
         itemsBySlot,
         items => _.maxBy(items, getItemScore)!
       );
       // Get overlaps by equip label
       const uniqueEquippedGroups = _.groupBy(
-        Object.values(topItemsBySlot).filter(getEquipLabel),
+        Object.values(topItemBySlot).filter(getEquipLabel),
         getEquipLabel
       );
       // For overlaps with more than one item, generate valid options where all-but-one item is swapped for the next best non-exotic
@@ -285,7 +271,7 @@ export const getCharacterData = async (
             otherItem => otherItem !== item
           );
           let isCombinationValid = true;
-          const combination = { ...topItemsBySlot };
+          const combination = { ...topItemBySlot };
           otherItems.forEach(otherItem => {
             // Find non-exotics for this slot
             const nonExotics = itemsBySlot[otherItem.slotName].filter(
@@ -312,23 +298,19 @@ export const getCharacterData = async (
           const bestCombination = _.maxBy(validItemCombinations, combination =>
             _.sumBy(Object.values(combination), getItemScore)
           )!;
-          topItemsBySlot = bestCombination;
+          topItemBySlot = bestCombination;
         }
       });
 
-      const overallPower = Math.floor(
-        Object.values(topItemsBySlot).reduce(
-          (total, item) => total + item.instanceData.primaryStat.value,
-          0
-        ) / Object.keys(topItemsBySlot).length
-      );
+      const powerBySlot = getPowerBySlot(topItemBySlot);
+      const overallPower = getOverallPower(powerBySlot);
 
       return {
         character,
         className,
         id,
         overallPower,
-        topItemsBySlot
+        topItemBySlot
       };
     };
 
