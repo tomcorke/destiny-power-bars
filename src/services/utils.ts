@@ -48,9 +48,6 @@ const isItemEquippableByCharacter = (
   item: JoinedItemDefinition,
   character: DestinyCharacterComponent
 ) => {
-  if (!item.instanceData) {
-    return false;
-  }
   if (item.instanceData.canEquip) {
     return true;
   } // If the game says we can equip it, let's believe it
@@ -58,6 +55,12 @@ const isItemEquippableByCharacter = (
     return true;
   } // Only reason is that it's in your vault
   if (item.instanceData.equipRequiredLevel > character.baseCharacterLevel) {
+    return false;
+  }
+  if (
+    item.itemDefinition.classType !== CLASS_TYPE_ALL &&
+    item.itemDefinition.classType !== character.classType
+  ) {
     return false;
   }
   // Let's ignore the rest for now
@@ -231,9 +234,8 @@ export const getCharacterData = async (
         profileInventories.items
       ).filter(
         i =>
-          i.itemDefinition &&
-          (i.itemDefinition.classType === CLASS_TYPE_ALL ||
-            i.itemDefinition.classType === character.classType)
+          i.itemDefinition.classType === CLASS_TYPE_ALL ||
+          i.itemDefinition.classType === character.classType
       );
 
       const allItems = characterItems.concat(relevantProfileItems);
