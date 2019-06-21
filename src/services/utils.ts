@@ -2,7 +2,13 @@ import {
   DestinyCharacterComponent,
   DestinyItemComponent
 } from "bungie-api-ts/destiny2";
-import _ from "lodash";
+
+import forIn from "lodash/forIn";
+import groupBy from "lodash/groupBy";
+import mapValues from "lodash/mapValues";
+import maxBy from "lodash/maxBy";
+import sumBy from "lodash/sumBy";
+
 import {
   CLASS_NAMES,
   CLASS_TYPE_ALL,
@@ -21,7 +27,7 @@ import { getBasicProfile, getFullProfile, getManifest } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
-  _.mapValues(itemsBySlot, item => item.instanceData.primaryStat.value);
+  mapValues(itemsBySlot, item => item.instanceData.primaryStat.value);
 
 const getOverallPower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
@@ -247,19 +253,19 @@ export const getCharacterData = async (
         item.itemDefinition.equippingBlock.uniqueLabel;
 
       // Group by slot
-      const itemsBySlot = _.groupBy(allItems, i => i.slotName);
+      const itemsBySlot = groupBy(allItems, i => i.slotName);
       // Get max power items per slot
-      let topItemBySlot = _.mapValues(
+      let topItemBySlot = mapValues(
         itemsBySlot,
-        items => _.maxBy(items, getItemScore)!
+        items => maxBy(items, getItemScore)!
       );
       // Get overlaps by equip label
-      const uniqueEquippedGroups = _.groupBy(
+      const uniqueEquippedGroups = groupBy(
         Object.values(topItemBySlot).filter(getEquipLabel),
         getEquipLabel
       );
       // For overlaps with more than one item, generate valid options where all-but-one item is swapped for the next best non-exotic
-      _.forIn(uniqueEquippedGroups, uniqueEquippedGroup => {
+      forIn(uniqueEquippedGroups, uniqueEquippedGroup => {
         if (uniqueEquippedGroup.length <= 1) {
           return;
         }
@@ -279,7 +285,7 @@ export const getCharacterData = async (
             );
             if (nonExotics.length > 0) {
               // Select max power from non-exotics
-              combination[otherItem.slotName] = _.maxBy(
+              combination[otherItem.slotName] = maxBy(
                 nonExotics,
                 getItemScore
               )!;
@@ -295,8 +301,8 @@ export const getCharacterData = async (
 
         // Select highest total scoring valid combination, if alternative item combinations have been generated
         if (validItemCombinations.length > 0) {
-          const bestCombination = _.maxBy(validItemCombinations, combination =>
-            _.sumBy(Object.values(combination), getItemScore)
+          const bestCombination = maxBy(validItemCombinations, combination =>
+            sumBy(Object.values(combination), getItemScore)
           )!;
           topItemBySlot = bestCombination;
         }
