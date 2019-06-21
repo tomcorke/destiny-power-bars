@@ -88,7 +88,7 @@ const fetchAuthToken = async (authCode: string) => {
     },
     method: "POST",
     redirect: "follow",
-    referrer: "no-referrer",
+    referrer: "no-referrer"
   });
   return await handleTokenResponse(tokenResponse);
 };

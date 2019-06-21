@@ -13,7 +13,9 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
   try {
     const accessToken = getAccessToken();
     const headers: { [key: string]: string } = { "x-api-key": BUNGIE_API_KEY };
-    if (accessToken) { headers.Authorization = `Bearer ${accessToken}`; }
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
+    }
     const url = `${config.url}${
       config.params
         ? "?" +
@@ -58,7 +60,9 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   const manifestData = await manifestDataResponse.json();
   console.log("Pruning manifest data");
   Object.keys(manifestData).forEach(key => {
-    if (!manifestPropertyWhitelist.includes(key)) { delete manifestData[key]; }
+    if (!manifestPropertyWhitelist.includes(key)) {
+      delete manifestData[key];
+    }
   });
   console.log("Storing manifest data in IDB");
   await set(MANIFEST_IDB_KEY, manifestData);
@@ -103,7 +107,7 @@ export const getBasicProfile = (membershipType: number, membershipId: string) =>
       205 // DestinyComponentType.CharacterEquipment,
     ],
     destinyMembershipId: membershipId,
-    membershipType,
+    membershipType
   });
 
 export const getFullProfile = (membershipType: number, membershipId: string) =>
@@ -116,5 +120,5 @@ export const getFullProfile = (membershipType: number, membershipId: string) =>
       300 // DestinyComponentType.ItemInstances,
     ],
     destinyMembershipId: membershipId,
-    membershipType,
+    membershipType
   });

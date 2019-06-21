@@ -54,9 +54,15 @@ const isItemEquippableByCharacter = (
   item: JoinedItemDefinition,
   character: DestinyCharacterComponent
 ) => {
-  if (!item.instanceData) { return false; }
-  if (item.instanceData.canEquip) { return true; } // If the game says we can equip it, let's believe it
-  if (item.instanceData.cannotEquipReason === 16) { return true; } // Only reason is that it's in your vault
+  if (!item.instanceData) {
+    return false;
+  }
+  if (item.instanceData.canEquip) {
+    return true;
+  } // If the game says we can equip it, let's believe it
+  if (item.instanceData.cannotEquipReason === 16) {
+    return true;
+  } // Only reason is that it's in your vault
   if (item.instanceData.equipRequiredLevel > character.baseCharacterLevel) {
     return false;
   }
@@ -73,7 +79,9 @@ const getBasicCharacterData = async (
   pendingBasicProfile: ReturnType<typeof getBasicProfile>
 ) => {
   const profile = await pendingBasicProfile;
-  if (!profile || !profile.Response || !profile.Response.characters) { return; }
+  if (!profile || !profile.Response || !profile.Response.characters) {
+    return;
+  }
   const characters = profile.Response.characters.data;
 
   if (characters) {
@@ -101,14 +109,18 @@ export const getCharacterData = async (
 ) => {
   try {
     const isAuthed = await auth();
-    if (!isAuthed) { return; }
+    if (!isAuthed) {
+      return;
+    }
 
     const pendingManifest = getManifest();
 
     setIsFetchingCharacterData(true);
 
     const destinyMembership = getSelectedDestinyMembership();
-    if (!destinyMembership) { return; }
+    if (!destinyMembership) {
+      return;
+    }
 
     let pendingBasicProfile: ReturnType<typeof getBasicProfile> | undefined;
 
@@ -120,10 +132,14 @@ export const getCharacterData = async (
         destinyMembership.membershipType,
         destinyMembership.membershipId
       );
-      pendingBasicProfile.catch(() => { /* Do nothing */});
+      pendingBasicProfile.catch(() => {
+        /* Do nothing */
+      });
       const pendingBasicCharacterData = getBasicCharacterData(
         pendingBasicProfile
-      ).catch(e => { /* Do nothing */});
+      ).catch(e => {
+        /* Do nothing */
+      });
       (async () => {
         const basicCharacterData = await pendingBasicCharacterData;
         if (basicCharacterData && shouldSetBasicCharacterData) {
@@ -164,7 +180,9 @@ export const getCharacterData = async (
 
     const manifest = await pendingManifest;
 
-    if (!manifest) { return; }
+    if (!manifest) {
+      return;
+    }
 
     const allCharacterItems = mergeItems(characterInventories)
       .concat(mergeItems(characterEquipments))
@@ -256,7 +274,9 @@ export const getCharacterData = async (
       );
       // For overlaps with more than one item, generate valid options where all-but-one item is swapped for the next best non-exotic
       _.forIn(uniqueEquippedGroups, uniqueEquippedGroup => {
-        if (uniqueEquippedGroup.length <= 1) { return; }
+        if (uniqueEquippedGroup.length <= 1) {
+          return;
+        }
 
         const validItemCombinations: ItemBySlot[] = [];
 
@@ -282,7 +302,9 @@ export const getCharacterData = async (
               isCombinationValid = false;
             }
           });
-          if (isCombinationValid) { validItemCombinations.push(combination); }
+          if (isCombinationValid) {
+            validItemCombinations.push(combination);
+          }
         });
 
         // Select highest total scoring valid combination, if alternative item combinations have been generated
