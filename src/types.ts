@@ -29,4 +29,5 @@ export interface CharacterData {
   character: DestinyCharacterComponent;
   overallPower: number;
   topItemBySlot?: ItemBySlot;
+  maxItemPower?: number;
 }

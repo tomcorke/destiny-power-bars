@@ -142,3 +142,16 @@ $bar-border-color: rgba(white, 0.5);
   overflow-x: visible;
   white-space: nowrap;
 }
+
+.label {
+  .power {
+    margin-right: 0.3em;
+
+    &.max {
+      color: cyan;
+    }
+  }
+
+  .slotName {
+  }
+}

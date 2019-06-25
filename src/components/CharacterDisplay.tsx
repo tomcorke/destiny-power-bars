@@ -27,6 +27,17 @@ const Bar = ({ min, max, value, avgValue, label, icon }: BarProps) => {
   const avgPerc = Math.floor(((avgValue - min) / range) * 1000) / 10;
   // const plusTwoPerc = Math.floor(((avgValue + 2 - min) / range) * 1000) / 10
   // const plusFivePerc = Math.floor(((avgValue + 5 - min) / range) * 1000) / 10
+  const fullLabelText = `${value} ${label}`;
+  const fullLabel = (
+    <span className={STYLES.label}>
+      <span
+        className={classnames(STYLES.power, { [STYLES.max]: value >= max })}
+      >
+        {value}
+      </span>
+      <span className={STYLES.slotName}>{label}</span>
+    </span>
+  );
   return (
     <div className={STYLES.barWrapper}>
       <div className={STYLES.iconWrapper}>
@@ -34,13 +45,13 @@ const Bar = ({ min, max, value, avgValue, label, icon }: BarProps) => {
           <img
             className={STYLES.icon}
             src={`https://www.bungie.net${icon}`}
-            alt={label}
+            alt={fullLabelText}
           />
         )}
       </div>
       <div className={STYLES.barContainer}>
         <div className={STYLES.filledBar} style={{ width: `${perc}%` }}>
-          <span>{label}</span>
+          {fullLabel}
         </div>
         <div className={STYLES.barLine} style={{ left: `${avgPerc}%` }} />
       </div>
@@ -97,7 +108,8 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
     0
   );
   const maxItemPower = Math.max(...Object.values(powerBySlot));
-  const maxPowerToDisplay = Math.min(Math.ceil(maxItemPower / 50) * 50, 750);
+  const maxPowerToDisplay =
+    data.maxItemPower || Math.min(Math.ceil(maxItemPower / 50) * 50, 750);
 
   const roundedPower = Math.floor(data.overallPower);
 
@@ -138,7 +150,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
                 max={maxPowerToDisplay}
                 value={power}
                 avgValue={roundedPower}
-                label={`${power} ${slotFullNames[slotName] || slotName}`}
+                label={slotFullNames[slotName] || slotName}
                 icon={
                   bestItem &&
                   bestItem.itemDefinition &&
