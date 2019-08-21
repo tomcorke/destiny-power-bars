@@ -7,65 +7,55 @@
 .membership {
   box-sizing: border-box;
   margin: 5px 10px;
-  padding: 2px 10px 2px 5px;
-  background-color: white;
-  color: black;
+  padding: 5px 10px 5px 5px;
+  background-color: black;
+  color: white;
   cursor: pointer;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  border-radius: 4px;
-  box-shadow: 0 0 2px 1px black, 0 0 0 3px white;
+  border-radius: 2px;
+  box-shadow: 0 0 2px 1px black;
 
-  &.platform_blizzard {
-    background-color: #448bd4;
-    color: white;
-    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5), 0 0 0 3px #448bd4;
-
-
+  @mixin icon-before($iconPath) {
     &:before {
       display: inline-block;
       content: '';
-      width: 30px;
-      height: 30px;
-      background-image: url('../images/blizzard-icon.png');
-      background-size: cover;
+      width: 25px;
+      height: 20px;
+      background-image: url($iconPath);
+      background-size: contain;
       background-repeat: no-repeat;
-      margin-right: 5px;
-    }
-  }
-
-  &.platform_psn {
-    background-color: #00419c;
-    color: white;
-    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5), 0 0 0 3px #00419c;
-
-    &:before {
-      display: inline-block;
-      content: '';
-      width: 30px;
-      height: 30px;
-      background-image: url('../images/psn-icon.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      margin-right: 5px;
+      background-position: center center;
+      margin-right: 10px;
     }
   }
 
   &.platform_xbox {
     background-color: #00ad00;
-    color: white;
-    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.5), 0 0 0 3px #00ad00;
+    background: linear-gradient(270deg, #177a18 0, #2a9917);
 
-    &:before {
-      display: inline-block;
-      content: '';
-      width: 30px;
-      height: 30px;
-      background-image: url('../images/xbox-icon.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      margin-right: 5px;
-    }
+    @include icon-before('../images/xbox-icon.png');
+  }
+
+  &.platform_psn {
+    background-color: #00419c;
+    background: linear-gradient(270deg, #013682 0, #3a87ba);
+
+    @include icon-before('../images/psn-icon.png');
+  }
+
+  &.platform_steam {
+    background-color: #1d2c40;
+    background: linear-gradient(270deg, #1d2c40 0, #29435a);
+
+    @include icon-before('../images/steam-icon.png');
+  }
+
+  &.platform_blizzard {
+    background-color: #448bd4;
+    background: linear-gradient(270deg, #012750 0 ,#0895df);
+
+    @include icon-before('../images/blizzard-icon.png');
   }
 }
