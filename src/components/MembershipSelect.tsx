@@ -23,6 +23,7 @@ const MembershipSelect = ({ onMembershipSelect }: MembershipSelectProps) => {
   const PLATFORMS: { [key: number]: string } = {
     1: "xbox",
     2: "psn",
+    3: "steam",
     4: "blizzard"
   };
 

@@ -4,9 +4,9 @@ import {
   DestinyInventoryItemDefinition,
   DestinyManifest,
   getDestinyManifest,
-  getProfile,
-  HttpClientConfig
+  getProfile
 } from "bungie-api-ts/destiny2";
+import { HttpClientConfig } from "bungie-api-ts/http";
 import { BUNGIE_API_KEY, getAccessToken } from "./bungie-auth";
 
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
@@ -52,6 +52,9 @@ const getCachedManifestData = async () => {
 };
 
 const getRemoteManifestData = async (manifest: DestinyManifest) => {
+  if (!manifest) {
+    throw Error("No manifest!");
+  }
   const version = manifest.version;
   console.log("Fetching fresh manifest data");
   const manifestDataResponse = await fetch(
@@ -90,6 +93,18 @@ export const getManifest = async (): Promise<ManifestData> => {
           cachedManifestData = await getCachedManifestData();
         }
         return cachedManifestData;
+      }
+      if (
+        manifest &&
+        manifest.ErrorStatus &&
+        manifest.ErrorStatus !== "Success"
+      ) {
+        throw Error(
+          `Error status "${manifest.ErrorStatus}" returned from manifest request`
+        );
+      }
+      if (!manifest || !manifest.Response) {
+        throw Error("No manifest received!");
       }
       cachedManifestData = undefined;
       const freshManifestData = await getRemoteManifestData(manifest.Response);

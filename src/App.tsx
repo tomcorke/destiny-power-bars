@@ -22,11 +22,26 @@ let characterDataRefreshTimer: number | undefined;
 
 const App = () => {
   const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth());
+  const [hasAuthError, setAuthError] = useState<boolean>(false);
+  const [hasMembership, setHasMembership] = useState<boolean>(
+    hasSelectedDestinyMembership()
+  );
+  const [hasManifestData, setHasManifestData] = useState<boolean>(false);
+  const [hasManifestError, setManifestError] = useState<boolean>(false);
+  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<
+    boolean
+  >(false);
+  const [characterData, setCharacterData] = useState<
+    CharacterData[] | undefined
+  >(undefined);
+
   useEffect(() => {
     const doAuth = async () => {
       const authResult = await auth();
       if (authResult) {
         setIsAuthed(true);
+      } else {
+        setAuthError(true);
       }
     };
     if (!isAuthed) {
@@ -34,24 +49,18 @@ const App = () => {
     }
   });
 
-  const [hasMembership, setHasMembership] = useState<boolean>(
-    hasSelectedDestinyMembership()
-  );
-
-  const [hasManifestData, setHasManifestData] = useState<boolean>(false);
   useEffect(() => {
     (async () => {
-      await getManifest();
-      setHasManifestData(true);
+      try {
+        await getManifest();
+        setHasManifestData(true);
+      } catch (e) {
+        console.error(e.message);
+        setManifestError(true);
+      }
     })();
   });
 
-  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<
-    boolean
-  >(false);
-  const [characterData, setCharacterData] = useState<
-    CharacterData[] | undefined
-  >(undefined);
   useEffect(() => {
     const doGetCharacterData = (returnBasicCharacterData: boolean = false) =>
       getCharacterData(
@@ -73,7 +82,11 @@ const App = () => {
   };
 
   let status = "";
-  if (!isAuthed) {
+  if (hasAuthError) {
+    status = "Authentication error, refresh page to try again!";
+  } else if (hasManifestError) {
+    status = "Error fetching manifest, refresh page to try again!";
+  } else if (!isAuthed) {
     status = "Authenticating...";
   } else if (!hasMembership) {
     status = "Waiting for Destiny platform selection...";

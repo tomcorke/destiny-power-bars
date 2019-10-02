@@ -109,7 +109,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
   );
   const maxItemPower = Math.max(...Object.values(powerBySlot));
   const maxPowerToDisplay =
-    data.maxItemPower || Math.min(Math.ceil(maxItemPower / 50) * 50, 750);
+    data.maxItemPower || Math.ceil(maxItemPower / 50) * 50;
 
   const roundedPower = Math.floor(data.overallPower);
 

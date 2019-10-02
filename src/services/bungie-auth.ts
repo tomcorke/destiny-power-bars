@@ -58,6 +58,19 @@ const handleTokenResponse = async (
       bungieAuthedFetch,
       { membershipId: bungieMembershipId, membershipType: 254 }
     );
+
+    if (
+      !destinyMembershipsResponse ||
+      !destinyMembershipsResponse.Response ||
+      (destinyMembershipsResponse.ErrorStatus &&
+        destinyMembershipsResponse.ErrorStatus !== "Success")
+    ) {
+      return {
+        authSuccess: false,
+        error: `Status code ${destinyMembershipsResponse.ErrorStatus} from memberships endpoint`
+      };
+    }
+
     const destinyMemberships =
       destinyMembershipsResponse.Response.destinyMemberships;
     localStorage.setItem(
@@ -70,8 +83,14 @@ const handleTokenResponse = async (
       setSelectedDestinyMembership(destinyMemberships[0]);
     }
 
-    return { accessToken };
+    return { accessToken, authSuccess: true };
   } else {
+    if (tokenResponse.status !== 200) {
+      return {
+        authSuccess: false,
+        error: `Status code ${tokenResponse.status} from authentication request`
+      };
+    }
     // return redirectToAuth()
   }
 };
@@ -165,7 +184,11 @@ export const auth = async () => {
 
   if (authCode && !hasValidAuth()) {
     console.log("Fetching access token with auth code");
-    await fetchAuthToken(authCode);
+    const authResponse = await fetchAuthToken(authCode);
+    if (authResponse && authResponse.authSuccess === false) {
+      console.error(authResponse.error);
+      return false;
+    }
   }
 
   if (authCode) {
