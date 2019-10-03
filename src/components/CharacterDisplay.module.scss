@@ -74,6 +74,12 @@
       align-items: center;
     }
   }
+
+  .detailSeparator {
+    margin: 1em 0;
+    border-top: 1px solid rgba(white, 0.25);
+    width: 100%;
+  }
 }
 
 $bar-size: 40px;

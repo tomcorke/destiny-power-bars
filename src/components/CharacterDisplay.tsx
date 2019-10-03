@@ -220,23 +220,20 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           <>
             <div className={STYLES.detailsRow}>
               <div className={STYLES.detailsLabel}>
-                Potential equippable gear power:
+                World drops can increase your gear power to this level:
               </div>
               <div className={STYLES.detailsValue}>
                 {data.potentialOverallPower}
               </div>
             </div>
-            <div className={STYLES.detailsRow}>
-              Replace items below the current overall power to reach this power
-              level
-            </div>
+            <div className={STYLES.detailSeparator} />
           </>
         ) : null}
 
         {data.overallPower < 900 ? (
           <div className={STYLES.detailsRow}>
-            Get rewards anywhere in the game to increase your overall power
-            level up to 900!
+            Any rewards throughout the game can increase your gear power level
+            up to 900
           </div>
         ) : null}
 
@@ -244,7 +241,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         data.overallPower >= 900 &&
         data.overallPower < 950 ? (
           <div className={STYLES.detailsRow}>
-            Get powerful rewards to increase your overall power level up to 950!
+            Powerful rewards can increase your gear power level up to 950
           </div>
         ) : null}
 
@@ -252,7 +249,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         data.overallPower >= 950 &&
         data.overallPower < 960 ? (
           <div className={STYLES.detailsRow}>
-            Get pinnacle rewards to increase your overall power level up to 960!
+            Pinnacle rewards can increase your gear power level up to 960
           </div>
         ) : null}
       </div>
