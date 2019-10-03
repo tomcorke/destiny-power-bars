@@ -215,7 +215,8 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
 
       <div className={STYLES.details}>
         {data.potentialOverallPower &&
-        data.potentialOverallPower > data.overallPower ? (
+        data.potentialOverallPower > data.overallPower &&
+        data.potentialOverallPower > 900 ? (
           <>
             <div className={STYLES.detailsRow}>
               <div className={STYLES.detailsLabel}>
