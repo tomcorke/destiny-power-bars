@@ -37,4 +37,6 @@ export interface CharacterData {
   topItemBySlot?: ItemBySlot;
   maxItemPower?: number;
   artifactData?: SeasonalArtifactData;
+  potentialPowerBySlot?: PowerBySlot;
+  potentialOverallPower?: number;
 }

@@ -177,6 +177,10 @@ $bar-border-color: rgba(white, 0.5);
     &.max {
       color: cyan;
     }
+
+    &.belowAverage {
+      color: #f63;
+    }
   }
 
   .slotName {

@@ -32,8 +32,10 @@ const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
   mapValues(itemsBySlot, item => item.instanceData.primaryStat.value);
 
 const getOverallPower = (powerBySlot: PowerBySlot) =>
-  Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
-  Object.keys(ITEM_SLOT_BUCKETS).length;
+  Math.floor(
+    Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
+      Object.keys(ITEM_SLOT_BUCKETS).length
+  );
 
 const mergeItems = <
   T extends { [key: string]: { items: DestinyItemComponent[] } }
@@ -334,12 +336,31 @@ export const getCharacterData = async (
         };
       }
 
+      const potentialPowerBySlot = { ...powerBySlot };
+      while (
+        Object.values(potentialPowerBySlot).some(
+          power => power < getOverallPower(potentialPowerBySlot)
+        )
+      ) {
+        const tempPotentialOverallPower = getOverallPower(potentialPowerBySlot);
+        Object.keys(potentialPowerBySlot).forEach(
+          slot =>
+            (potentialPowerBySlot[slot] = Math.max(
+              tempPotentialOverallPower,
+              potentialPowerBySlot[slot]
+            ))
+        );
+      }
+      const potentialOverallPower = getOverallPower(potentialPowerBySlot);
+
       return {
         artifactData,
         character,
         className,
         id,
         overallPower,
+        potentialOverallPower,
+        potentialPowerBySlot,
         topItemBySlot
       };
     };

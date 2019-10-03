@@ -31,7 +31,10 @@ const Bar = ({ min, max, value, avgValue, label, icon }: BarProps) => {
   const fullLabel = (
     <span className={STYLES.label}>
       <span
-        className={classnames(STYLES.power, { [STYLES.max]: value >= max })}
+        className={classnames(STYLES.power, {
+          [STYLES.max]: value >= max,
+          [STYLES.belowAverage]: value < avgValue
+        })}
       >
         {value}
       </span>
@@ -149,7 +152,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
       </div>
       <div className={STYLES.details}>
         <div className={STYLES.detailsRow}>
-          <div className={STYLES.detailsLabel}>Max equippable power:</div>
+          <div className={STYLES.detailsLabel}>Max equippable gear power:</div>
           <div className={STYLES.defailsValue}>{roundedPower}</div>
         </div>
         {data.artifactData ? (
@@ -209,6 +212,23 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           </div>
         </div>
       </div>
+      {data.potentialOverallPower &&
+      data.potentialOverallPower > data.overallPower ? (
+        <div className={STYLES.details}>
+          <div className={STYLES.detailsRow}>
+            <div className={STYLES.detailsLabel}>
+              Potential equippable gear power:
+            </div>
+            <div className={STYLES.detailsValue}>
+              {data.potentialOverallPower}
+            </div>
+          </div>
+          <div>
+            Replace items below the current overall power to reach this power
+            level
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
