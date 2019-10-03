@@ -1,15 +1,14 @@
 .characterDisplay {
-  padding: 10px;
   min-width: 200px;
   max-width: 514px;
+  margin: 5px 10px 4em;
+  padding: 10px;
   box-sizing: border-box;
-  margin: 5px 10px;
   transition: background-color 1s ease-in-out;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 .header {
-  margin-bottom: 1em;
   position: relative;
   font-weight: 600;
   letter-spacing: 0.22ch;
@@ -50,16 +49,24 @@
   }
 }
 
+.details {
+}
+
 .details,
 .hints {
   color: white;
   padding: 0 10px;
+  margin: 10px 0;
 
   .detailsRow,
   .hint {
     display: flex;
     flex-flow: row wrap;
     margin-bottom: 0.5em;
+
+    &:last-of-type() {
+      margin-bottom: 0;
+    }
 
     .detailsLabel {
       flex: 1 1 0;
@@ -93,6 +100,7 @@ $bar-border-color: rgba(white, 0.5);
 .powerBars {
   padding: 10px;
   background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
 
   .powerRange {
     color: rgba(255, 255, 255, 0.4);
