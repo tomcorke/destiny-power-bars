@@ -213,34 +213,30 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         </div>
       </div>
 
-      <div className={STYLES.details}>
+      <div className={STYLES.hints}>
         {data.potentialOverallPower &&
         data.potentialOverallPower > data.overallPower &&
         data.potentialOverallPower > 900 ? (
           <>
-            <div className={STYLES.detailsRow}>
-              <div className={STYLES.detailsLabel}>
-                World drops can increase your overall gear power to:
-              </div>
-              <div className={STYLES.detailsValue}>
-                {data.potentialOverallPower}
-              </div>
+            <div className={STYLES.hint}>
+              World drops can increase your overall gear power level to{" "}
+              {data.potentialOverallPower}
             </div>
-            <div className={STYLES.detailSeparator} />
+            <div className={STYLES.separator} />
           </>
         ) : null}
 
         {data.overallPower < 900 ? (
-          <div className={STYLES.detailsRow}>
-            Any rewards throughout the game can increase your gear power level
-            up to 900
+          <div className={STYLES.hint}>
+            Rewards throughout the game can increase your gear power level up to
+            900
           </div>
         ) : null}
 
         {data.potentialOverallPower === data.overallPower &&
         data.overallPower >= 900 &&
         data.overallPower < 950 ? (
-          <div className={STYLES.detailsRow}>
+          <div className={STYLES.hint}>
             Powerful rewards can increase your gear power level up to 950
           </div>
         ) : null}
@@ -248,7 +244,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         {data.potentialOverallPower === data.overallPower &&
         data.overallPower >= 950 &&
         data.overallPower < 960 ? (
-          <div className={STYLES.detailsRow}>
+          <div className={STYLES.hint}>
             Pinnacle rewards can increase your gear power level up to 960
           </div>
         ) : null}
