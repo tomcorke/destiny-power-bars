@@ -118,17 +118,12 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
     Math.floor(((roundedPower - minPowerToDisplay) / range) * 1000) / 10;
 
   const withSign = (value: number) => {
-    if (value > 0) {
+    if (value >= 0) {
       return `+${value}`;
-    }
-    if (value === 0) {
-      return "";
     }
     return `${value}`;
   };
 
-  const artifactBonusPower =
-    data.artifactData && withSign(data.artifactData.bonusPower);
   const summableArtifactBonusPower = data.artifactData
     ? data.artifactData.bonusPower
     : 0;
@@ -164,11 +159,12 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
                 <img
                   className={STYLES.detailsInlineIcon}
                   src={`https://www.bungie.net${data.artifactData.iconPath}`}
+                  alt=""
                 />
                 {data.artifactData.name} bonus power:
               </div>
               <div className={STYLES.detailsValue}>
-                {data.artifactData.bonusPower}
+                {withSign(data.artifactData.bonusPower)}
               </div>
             </div>
 
@@ -209,7 +205,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         </div>
         <div className={STYLES.powerLabel}>
           <div className={STYLES.indicator} style={{ left: `${perc}%` }}>
-            {roundedPower + summableArtifactBonusPower}
+            {roundedPower}
           </div>
         </div>
       </div>

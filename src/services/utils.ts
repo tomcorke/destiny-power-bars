@@ -1,6 +1,5 @@
 import {
   DestinyCharacterComponent,
-  DestinyInventoryComponent,
   DestinyItemComponent
 } from "bungie-api-ts/destiny2";
 
@@ -320,8 +319,6 @@ export const getCharacterData = async (
         .flatMap(i => i.items)
         .find(i => i.itemHash === UNDYING_ARTIFACT_ITEM_HASH);
 
-      const hasArtifact =
-        !!artifactItemComponent && !!artifactItemComponent.itemInstanceId;
       let artifactData: SeasonalArtifactData | undefined;
       if (artifactItemComponent && artifactItemComponent.itemInstanceId) {
         const artifactDefinition = manifest.DestinyInventoryItemDefinition[
