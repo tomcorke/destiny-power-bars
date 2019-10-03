@@ -129,6 +129,9 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
 
   const artifactBonusPower =
     data.artifactData && withSign(data.artifactData.bonusPower);
+  const summableArtifactBonusPower = data.artifactData
+    ? data.artifactData.bonusPower
+    : 0;
 
   return (
     <div
@@ -146,9 +149,37 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         />
         <div className={STYLES.name}>{titleCase(data.className)}</div>
         <div className={STYLES.power}>
-          {roundedPower}
-          {artifactBonusPower && `(${artifactBonusPower})`}
+          {roundedPower + summableArtifactBonusPower}
         </div>
+      </div>
+      <div className={STYLES.details}>
+        <div className={STYLES.detailsRow}>
+          <div className={STYLES.detailsLabel}>Max equippable power:</div>
+          <div className={STYLES.defailsValue}>{roundedPower}</div>
+        </div>
+        {data.artifactData ? (
+          <>
+            <div className={STYLES.detailsRow}>
+              <div className={STYLES.detailsLabel}>
+                <img
+                  className={STYLES.detailsInlineIcon}
+                  src={`https://www.bungie.net${data.artifactData.iconPath}`}
+                />
+                {data.artifactData.name} bonus power:
+              </div>
+              <div className={STYLES.detailsValue}>
+                {data.artifactData.bonusPower}
+              </div>
+            </div>
+
+            <div className={STYLES.detailsRow}>
+              <div className={STYLES.detailsLabel}>Total combined power:</div>
+              <div className={STYLES.detailsValue}>
+                {roundedPower + summableArtifactBonusPower}
+              </div>
+            </div>
+          </>
+        ) : null}
       </div>
       <div className={STYLES.powerBars}>
         <div className={STYLES.powerRange}>
@@ -178,8 +209,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         </div>
         <div className={STYLES.powerLabel}>
           <div className={STYLES.indicator} style={{ left: `${perc}%` }}>
-            {roundedPower}
-            {artifactBonusPower && `(${artifactBonusPower})`}
+            {roundedPower + summableArtifactBonusPower}
           </div>
         </div>
       </div>
