@@ -220,7 +220,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           <>
             <div className={STYLES.detailsRow}>
               <div className={STYLES.detailsLabel}>
-                World drops can increase your gear power to this level:
+                World drops can increase your gear power to:
               </div>
               <div className={STYLES.detailsValue}>
                 {data.potentialOverallPower}
