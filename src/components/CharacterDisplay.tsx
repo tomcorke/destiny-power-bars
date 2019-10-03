@@ -212,23 +212,49 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           </div>
         </div>
       </div>
-      {data.potentialOverallPower &&
-      data.potentialOverallPower > data.overallPower ? (
-        <div className={STYLES.details}>
+
+      <div className={STYLES.details}>
+        {data.potentialOverallPower &&
+        data.potentialOverallPower > data.overallPower ? (
+          <>
+            <div className={STYLES.detailsRow}>
+              <div className={STYLES.detailsLabel}>
+                Potential equippable gear power:
+              </div>
+              <div className={STYLES.detailsValue}>
+                {data.potentialOverallPower}
+              </div>
+            </div>
+            <div className={STYLES.detailsRow}>
+              Replace items below the current overall power to reach this power
+              level
+            </div>
+          </>
+        ) : null}
+
+        {data.overallPower < 900 ? (
           <div className={STYLES.detailsRow}>
-            <div className={STYLES.detailsLabel}>
-              Potential equippable gear power:
-            </div>
-            <div className={STYLES.detailsValue}>
-              {data.potentialOverallPower}
-            </div>
+            Get rewards anywhere in the game to increase your overall power
+            level up to 900!
           </div>
-          <div>
-            Replace items below the current overall power to reach this power
-            level
+        ) : null}
+
+        {data.potentialOverallPower === data.overallPower &&
+        data.overallPower >= 900 &&
+        data.overallPower < 950 ? (
+          <div className={STYLES.detailsRow}>
+            Get powerful rewards to increase your overall power level up to 950!
           </div>
-        </div>
-      ) : null}
+        ) : null}
+
+        {data.potentialOverallPower === data.overallPower &&
+        data.overallPower >= 950 &&
+        data.overallPower < 960 ? (
+          <div className={STYLES.detailsRow}>
+            Get pinnacle rewards to increase your overall power level up to 960!
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
