@@ -117,6 +117,19 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
   const perc =
     Math.floor(((roundedPower - minPowerToDisplay) / range) * 1000) / 10;
 
+  const withSign = (value: number) => {
+    if (value > 0) {
+      return `+${value}`;
+    }
+    if (value === 0) {
+      return "";
+    }
+    return `${value}`;
+  };
+
+  const artifactBonusPower =
+    data.artifactData && withSign(data.artifactData.bonusPower);
+
   return (
     <div
       className={classnames(
@@ -132,7 +145,10 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           alt=""
         />
         <div className={STYLES.name}>{titleCase(data.className)}</div>
-        <div className={STYLES.power}>{roundedPower}</div>
+        <div className={STYLES.power}>
+          {roundedPower}
+          {artifactBonusPower && `(${artifactBonusPower})`}
+        </div>
       </div>
       <div className={STYLES.powerBars}>
         <div className={STYLES.powerRange}>
@@ -163,6 +179,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         <div className={STYLES.powerLabel}>
           <div className={STYLES.indicator} style={{ left: `${perc}%` }}>
             {roundedPower}
+            {artifactBonusPower && `(${artifactBonusPower})`}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import {
   DestinyCharacterComponent,
+  DestinyInventoryComponent,
   DestinyItemComponent
 } from "bungie-api-ts/destiny2";
 
@@ -15,13 +16,15 @@ import {
   ITEM_BUCKET_SLOTS,
   ITEM_SLOT_BUCKETS,
   ITEM_TYPE_ARMOR,
-  ITEM_TYPE_WEAPON
+  ITEM_TYPE_WEAPON,
+  UNDYING_ARTIFACT_ITEM_HASH
 } from "../constants";
 import {
   CharacterData,
   ItemBySlot,
   JoinedItemDefinition,
-  PowerBySlot
+  PowerBySlot,
+  SeasonalArtifactData
 } from "../types";
 import { getBasicProfile, getFullProfile, getManifest } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
@@ -313,7 +316,29 @@ export const getCharacterData = async (
       const powerBySlot = getPowerBySlot(topItemBySlot);
       const overallPower = getOverallPower(powerBySlot);
 
+      const artifactItemComponent = Object.values(characterEquipments)
+        .flatMap(i => i.items)
+        .find(i => i.itemHash === UNDYING_ARTIFACT_ITEM_HASH);
+
+      const hasArtifact =
+        !!artifactItemComponent && !!artifactItemComponent.itemInstanceId;
+      let artifactData: SeasonalArtifactData | undefined;
+      if (artifactItemComponent && artifactItemComponent.itemInstanceId) {
+        const artifactDefinition = manifest.DestinyInventoryItemDefinition[
+          artifactItemComponent.itemHash
+        ]!;
+        const artifactInstance = itemInstances[
+          artifactItemComponent.itemInstanceId
+        ]!;
+        artifactData = {
+          bonusPower: artifactInstance.primaryStat.value,
+          iconPath: artifactDefinition.displayProperties.icon,
+          name: artifactDefinition.displayProperties.name
+        };
+      }
+
       return {
+        artifactData,
         character,
         className,
         id,

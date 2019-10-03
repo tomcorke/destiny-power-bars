@@ -53,3 +53,6 @@ export const CLASS_HUNTER = "hunter";
 export const CLASS_WARLOCK = "warlock";
 
 export const CLASS_NAMES = [CLASS_TITAN, CLASS_HUNTER, CLASS_WARLOCK];
+
+export const ITEM_TYPE_ARTIFACT = 28;
+export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;

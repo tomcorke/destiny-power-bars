@@ -23,6 +23,12 @@ export interface ItemsBySlot {
   [key: string]: JoinedItemDefinition[];
 }
 
+export interface SeasonalArtifactData {
+  iconPath: string;
+  name: string;
+  bonusPower: number;
+}
+
 export interface CharacterData {
   id: string;
   className: string;
@@ -30,4 +36,5 @@ export interface CharacterData {
   overallPower: number;
   topItemBySlot?: ItemBySlot;
   maxItemPower?: number;
+  artifactData?: SeasonalArtifactData;
 }
