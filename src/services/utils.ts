@@ -339,15 +339,15 @@ export const getCharacterData = async (
       const potentialPowerBySlot = { ...powerBySlot };
       while (
         Object.values(potentialPowerBySlot).some(
-          power => power < getOverallPower(potentialPowerBySlot)
+          power => power < getOverallPower(potentialPowerBySlot) || power < 900
         )
       ) {
         const tempPotentialOverallPower = getOverallPower(potentialPowerBySlot);
         Object.keys(potentialPowerBySlot).forEach(
           slot =>
             (potentialPowerBySlot[slot] = Math.max(
-              tempPotentialOverallPower,
-              potentialPowerBySlot[slot]
+              900,
+              Math.max(tempPotentialOverallPower, potentialPowerBySlot[slot])
             ))
         );
       }
