@@ -245,6 +245,9 @@ export const getCharacterData = async (
       const allItems = characterItems.concat(relevantProfileItems);
 
       const getItemScore = (item: JoinedItemDefinition) => {
+        if (!item || !item.instanceData || !item.instanceData.primaryStat) {
+          return 0;
+        }
         let score = item.instanceData.primaryStat.value;
         if (item.instanceData.isEquipped) {
           score += 0.1;
