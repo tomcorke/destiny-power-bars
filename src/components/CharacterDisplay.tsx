@@ -216,20 +216,18 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
       <div className={STYLES.hints}>
         {data.potentialOverallPower &&
         data.potentialOverallPower > data.overallPower ? (
-          <>
-            <div className={classnames(STYLES.hint, STYLES.worldDropHint)}>
-              World drops can increase your overall gear power level to{" "}
-              {data.potentialOverallPower}
-            </div>
-          </>
+          <div className={classnames(STYLES.hint, STYLES.worldDropHint)}>
+            World drops can increase your overall gear power level to{" "}
+            {data.potentialOverallPower}
+          </div>
         ) : null}
 
         {data.potentialOverallPower === data.overallPower &&
         data.overallPower >= 900 &&
         data.overallPower < 950 ? (
           <div className={classnames(STYLES.hint, STYLES.powerfulHint)}>
-            Powerful rewards can increase your gear power level up to the
-            powerful cap of 950
+            Powerful rewards can increase your overall gear power level up to
+            the powerful cap of 950
           </div>
         ) : null}
 
@@ -237,8 +235,8 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         data.overallPower >= 950 &&
         data.overallPower < 960 ? (
           <div className={classnames(STYLES.hint, STYLES.pinnacleHint)}>
-            Pinnacle rewards can increase your gear power level up to the
-            pinnacle cap of 960
+            Pinnacle rewards can increase your overall gear power level up to
+            the pinnacle cap of 960
           </div>
         ) : null}
       </div>
