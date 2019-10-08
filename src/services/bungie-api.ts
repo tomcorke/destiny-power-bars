@@ -82,7 +82,8 @@ export const getManifest = async (): Promise<ManifestData> => {
     getManifestPromise = (async () => {
       ga.event({
         category: "Data",
-        action: "Attempt load manifest"
+        action: "Attempt load manifest",
+        nonInteraction: true
       });
       const manifest = await getDestinyManifest(bungieAuthedFetch);
       const localStorageManifestVersion = localStorage.getItem(
@@ -106,7 +107,8 @@ export const getManifest = async (): Promise<ManifestData> => {
       ) {
         ga.event({
           category: "Errors",
-          action: `Error status "${manifest.ErrorStatus}" returned from manifest request`
+          action: `Error status "${manifest.ErrorStatus}" returned from manifest request`,
+          nonInteraction: true
         });
         throw Error(
           `Error status "${manifest.ErrorStatus}" returned from manifest request`
@@ -118,7 +120,8 @@ export const getManifest = async (): Promise<ManifestData> => {
       cachedManifestData = undefined;
       ga.event({
         category: "Data",
-        action: "Fetch remote manifest"
+        action: "Fetch remote manifest",
+        nonInteraction: true
       });
       const freshManifestData = await getRemoteManifestData(manifest.Response);
       cachedManifestData = freshManifestData;
@@ -134,7 +137,8 @@ export const getBasicProfile = (
 ) => {
   ga.event({
     category: "Character Data",
-    action: "Fetch minimal profile"
+    action: "Fetch minimal profile",
+    nonInteraction: true
   });
   return getProfile(bungieAuthedFetch, {
     components: [
@@ -152,7 +156,8 @@ export const getFullProfile = (
 ) => {
   ga.event({
     category: "Character Data",
-    action: "Fetch full profile"
+    action: "Fetch full profile",
+    nonInteraction: true
   });
   return getProfile(bungieAuthedFetch, {
     components: [

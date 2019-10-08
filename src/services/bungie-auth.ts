@@ -33,7 +33,8 @@ const redirectToAuth = () => {
   clearStorage();
   ga.event({
     category: "Auth",
-    action: "Redirect to oauth"
+    action: "Redirect to oauth",
+    nonInteraction: true
   });
   window.location.replace(getAuthUrl());
 };
@@ -72,7 +73,8 @@ const handleTokenResponse = async (
     ) {
       ga.event({
         category: "Errors",
-        action: `Destiny membership fetch error, status: ${destinyMembershipsResponse.ErrorStatus}`
+        action: `Destiny membership fetch error, status: ${destinyMembershipsResponse.ErrorStatus}`,
+        nonInteraction: true
       });
       return {
         authSuccess: false,
@@ -95,6 +97,11 @@ const handleTokenResponse = async (
     return { accessToken, authSuccess: true };
   } else {
     if (tokenResponse.status !== 200) {
+      ga.event({
+        category: "Auth",
+        action: `Status code ${tokenResponse.status} from authentication request`,
+        nonInteraction: true
+      });
       return {
         authSuccess: false,
         error: `Status code ${tokenResponse.status} from authentication request`
@@ -109,7 +116,8 @@ const fetchAuthToken = async (authCode: string) => {
   clearStorage();
   ga.event({
     category: "Auth",
-    action: "Oauth token request"
+    action: "Oauth token request",
+    nonInteraction: true
   });
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: `grant_type=authorization_code&code=${authCode}&client_id=${BUNGIE_OAUTH_CLIENT_ID}`,
@@ -157,6 +165,11 @@ export const getDestinyMemberships = () => {
       return JSON.parse(destinyMembershipsString) as UserInfoCard[];
     }
   } catch (e) {
+    ga.event({
+      category: "Data",
+      action: "Error loading destiny memberships from local storage",
+      nonInteraction: true
+    });
     console.error(`Error loading destiny memberships`, e.message);
   }
   return undefined;
@@ -175,6 +188,11 @@ export const getSelectedDestinyMembership = () => {
       return JSON.parse(destinyMembershipString) as UserInfoCard;
     }
   } catch (e) {
+    ga.event({
+      category: "Data",
+      action: "Error loading destiny membership from local storage",
+      nonInteraction: true
+    });
     console.error("Error loading destiny membership", e.message);
   }
   return undefined;
@@ -214,6 +232,11 @@ export const auth = async () => {
     return true;
   }
 
+  ga.event({
+    category: "System",
+    action: "Redirect for fresh authentication",
+    nonInteraction: true
+  });
   console.log(
     "Redirecting to fresh authentication for missing or expired access token, or missing destiny memberships"
   );
