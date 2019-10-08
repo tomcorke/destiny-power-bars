@@ -1,5 +1,6 @@
 import { getMembershipDataById, UserInfoCard } from "bungie-api-ts/user";
 import { bungieAuthedFetch } from "./bungie-api";
+import ga from "./ga";
 
 const isDev = process.env.NODE_ENV === "development";
 export const BUNGIE_API_KEY = isDev
@@ -30,6 +31,10 @@ const getAuthUrl = () =>
 const redirectToAuth = () => {
   console.log("Redirect to auth");
   clearStorage();
+  ga.event({
+    category: "Auth",
+    action: "Redirect to oauth"
+  });
   window.location.replace(getAuthUrl());
 };
 
@@ -65,6 +70,10 @@ const handleTokenResponse = async (
       (destinyMembershipsResponse.ErrorStatus &&
         destinyMembershipsResponse.ErrorStatus !== "Success")
     ) {
+      ga.event({
+        category: "Errors",
+        action: `Destiny membership fetch error, status: ${destinyMembershipsResponse.ErrorStatus}`
+      });
       return {
         authSuccess: false,
         error: `Status code ${destinyMembershipsResponse.ErrorStatus} from memberships endpoint`
@@ -98,6 +107,10 @@ const handleTokenResponse = async (
 const fetchAuthToken = async (authCode: string) => {
   console.log("fetchAuthToken", authCode);
   clearStorage();
+  ga.event({
+    category: "Auth",
+    action: "Oauth token request"
+  });
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: `grant_type=authorization_code&code=${authCode}&client_id=${BUNGIE_OAUTH_CLIENT_ID}`,
     cache: "no-cache",

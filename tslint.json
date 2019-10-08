@@ -1,18 +1,14 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-config-prettier"
-    ],
-    "jsRules": {},
-    "rules": {
-        "interface-name": false,
-        "no-console": false
-    },
-    "rulesDirectory": [],
-    "linterOptions": {
-        "exclude": [
-            "src/serviceWorker.ts"
-        ]
-    }
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "interface-name": false,
+    "no-console": false,
+    "object-literal-sort-keys": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["src/serviceWorker.ts"]
+  }
 }

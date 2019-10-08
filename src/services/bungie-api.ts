@@ -8,6 +8,7 @@ import {
 } from "bungie-api-ts/destiny2";
 import { HttpClientConfig } from "bungie-api-ts/http";
 import { BUNGIE_API_KEY, getAccessToken } from "./bungie-auth";
+import ga from "./ga";
 
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
   try {
@@ -79,6 +80,10 @@ let getManifestPromise: Promise<ManifestData> | undefined;
 export const getManifest = async (): Promise<ManifestData> => {
   if (!getManifestPromise) {
     getManifestPromise = (async () => {
+      ga.event({
+        category: "Data",
+        action: "Attempt load manifest"
+      });
       const manifest = await getDestinyManifest(bungieAuthedFetch);
       const localStorageManifestVersion = localStorage.getItem(
         MANIFEST_VERSION_KEY
@@ -99,6 +104,10 @@ export const getManifest = async (): Promise<ManifestData> => {
         manifest.ErrorStatus &&
         manifest.ErrorStatus !== "Success"
       ) {
+        ga.event({
+          category: "Errors",
+          action: `Error status "${manifest.ErrorStatus}" returned from manifest request`
+        });
         throw Error(
           `Error status "${manifest.ErrorStatus}" returned from manifest request`
         );
@@ -107,6 +116,10 @@ export const getManifest = async (): Promise<ManifestData> => {
         throw Error("No manifest received!");
       }
       cachedManifestData = undefined;
+      ga.event({
+        category: "Data",
+        action: "Fetch remote manifest"
+      });
       const freshManifestData = await getRemoteManifestData(manifest.Response);
       cachedManifestData = freshManifestData;
       return freshManifestData;
@@ -115,8 +128,15 @@ export const getManifest = async (): Promise<ManifestData> => {
   return getManifestPromise;
 };
 
-export const getBasicProfile = (membershipType: number, membershipId: string) =>
-  getProfile(bungieAuthedFetch, {
+export const getBasicProfile = (
+  membershipType: number,
+  membershipId: string
+) => {
+  ga.event({
+    category: "Character Data",
+    action: "Fetch minimal profile"
+  });
+  return getProfile(bungieAuthedFetch, {
     components: [
       200, // DestinyComponentType.Characters,
       205 // DestinyComponentType.CharacterEquipment,
@@ -124,9 +144,17 @@ export const getBasicProfile = (membershipType: number, membershipId: string) =>
     destinyMembershipId: membershipId,
     membershipType
   });
+};
 
-export const getFullProfile = (membershipType: number, membershipId: string) =>
-  getProfile(bungieAuthedFetch, {
+export const getFullProfile = (
+  membershipType: number,
+  membershipId: string
+) => {
+  ga.event({
+    category: "Character Data",
+    action: "Fetch full profile"
+  });
+  return getProfile(bungieAuthedFetch, {
     components: [
       200, // DestinyComponentType.Characters,
       201, // DestinyComponentType.CharacterInventories,
@@ -137,3 +165,4 @@ export const getFullProfile = (membershipType: number, membershipId: string) =>
     destinyMembershipId: membershipId,
     membershipType
   });
+};
