@@ -26,6 +26,10 @@
   width: 100%;
   padding-top: 3em;
   box-sizing: border-box;
+
+  @media (max-width: 500px) {
+    padding-top: 1em;
+  }
 }
 
 .characters {
