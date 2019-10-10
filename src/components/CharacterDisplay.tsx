@@ -233,9 +233,9 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <p>
-                  World drops (from strikes, public events, non-powerful
-                  legendary rewards) can drop with a power level from{" "}
-                  <Power>{data.overallPower - 3}</Power> to{" "}
+                  World drops (from strikes, public events, vendors,
+                  non-powerful legendary rewards) can drop with a power level
+                  from <Power>{data.overallPower - 3}</Power> to{" "}
                   <Power>{data.overallPower}</Power> for this character.
                 </p>
                 <p>
