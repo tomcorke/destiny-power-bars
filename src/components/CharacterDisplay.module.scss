@@ -103,6 +103,11 @@
     }
   }
 
+  .inlinePowerNumber {
+    color: cyan;
+    font-weight: bold;
+  }
+
   $common-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/fda4e2d5d36a2e44fe2199801e80c9e8.png";
   $rare-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/522cca42043a56e876e2d186315d8425.png";
   $legendary-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/ca25b277ec22eddd9f4e9881dd153390.png";
@@ -305,8 +310,5 @@ $bar-border-color: rgba(white, 0.5);
     &.belowAverage {
       color: #f63;
     }
-  }
-
-  .slotName {
   }
 }

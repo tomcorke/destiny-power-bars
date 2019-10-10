@@ -31,11 +31,11 @@ import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
   mapValues(itemsBySlot, item => item.instanceData.primaryStat.value);
 
+const getAveragePower = (powerBySlot: PowerBySlot) =>
+  Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
+  Object.keys(ITEM_SLOT_BUCKETS).length;
 const getOverallPower = (powerBySlot: PowerBySlot) =>
-  Math.floor(
-    Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
-      Object.keys(ITEM_SLOT_BUCKETS).length
-  );
+  Math.floor(getAveragePower(powerBySlot));
 
 const mergeItems = <
   T extends { [key: string]: { items: DestinyItemComponent[] } }
@@ -356,7 +356,11 @@ export const getCharacterData = async (
       }
       const potentialOverallPower = getOverallPower(potentialPowerBySlot);
 
-      return {
+      const averagePower = getAveragePower(powerBySlot);
+      const powerRequiredToReachPotential =
+        (potentialOverallPower - averagePower) * 8;
+
+      const resultData: CharacterData = {
         artifactData,
         character,
         className,
@@ -364,8 +368,11 @@ export const getCharacterData = async (
         overallPower,
         potentialOverallPower,
         potentialPowerBySlot,
-        topItemBySlot
+        topItemBySlot,
+        powerRequiredToReachPotential
       };
+
+      return resultData;
     };
 
     const characterIds = Object.keys(characters);

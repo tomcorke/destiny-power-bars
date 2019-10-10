@@ -62,6 +62,13 @@ const Bar = ({ min, max, value, avgValue, label, icon }: BarProps) => {
   );
 };
 
+interface InlinePowerNumberProps {
+  children: number | string;
+}
+const Power = ({ children }: InlinePowerNumberProps) => (
+  <span className={STYLES.inlinePowerNumber}>{children}</span>
+);
+
 const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
   const classItemNames: { [key: string]: string } = {
     hunter: "Hunter Cloak",
@@ -153,7 +160,9 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
       <div className={STYLES.details}>
         <div className={STYLES.detailsRow}>
           <div className={STYLES.detailsLabel}>Max equippable gear power:</div>
-          <div className={STYLES.defailsValue}>{roundedPower}</div>
+          <div className={STYLES.defailsValue}>
+            <Power>{roundedPower}</Power>
+          </div>
         </div>
         {data.artifactData ? (
           <>
@@ -167,14 +176,14 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
                 {data.artifactData.name} bonus power:
               </div>
               <div className={STYLES.detailsValue}>
-                {withSign(data.artifactData.bonusPower)}
+                <Power>{withSign(data.artifactData.bonusPower)}</Power>
               </div>
             </div>
 
             <div className={STYLES.detailsRow}>
               <div className={STYLES.detailsLabel}>Total combined power:</div>
               <div className={STYLES.detailsValue}>
-                {roundedPower + summableArtifactBonusPower}
+                <Power>{roundedPower + summableArtifactBonusPower}</Power>
               </div>
             </div>
           </>
@@ -219,20 +228,28 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           <div className={classnames(STYLES.hint, STYLES.worldDropHint)}>
             <span>
               World drops can increase your overall gear power to{" "}
-              {data.potentialOverallPower}
+              <Power>{data.potentialOverallPower}</Power>
             </span>
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <p>
                   World drops (from strikes, public events, non-powerful
-                  legendary rewards) used to replace items lower than your
-                  current overall gear power can be used to increase your
-                  overall gear power to {data.potentialOverallPower}.
+                  legendary rewards) can drop with a power level from{" "}
+                  <Power>{data.overallPower - 3}</Power> to{" "}
+                  <Power>{data.overallPower}</Power> for this character.
                 </p>
                 <p>
-                  This process may take multiple replacements of the same slots
-                  if this is far beyond your current overall power.
+                  Replacing items below your current overall power can increase
+                  your power to a higher average.
                 </p>
+                {data.powerRequiredToReachPotential ? (
+                  <p>
+                    You need an extra{" "}
+                    <Power>{data.powerRequiredToReachPotential}</Power> total
+                    power on your items to reach an overall power of{" "}
+                    <Power>{data.potentialOverallPower}</Power>.
+                  </p>
+                ) : null}
               </div>
             </div>
           </div>
@@ -244,14 +261,14 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           <div className={classnames(STYLES.hint, STYLES.powerfulHint)}>
             <span>
               Powerful rewards can increase your overall gear power up to the
-              powerful cap of 950
+              powerful cap of <Power>{950}</Power>
             </span>
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <p>
                   Powerful and pinnacle reward sources (Weekly challenges, Year
                   3 raids) will give you items above your overall gear power,
-                  with powerful rewards capped at 950.
+                  with powerful rewards capped at <Power>{950}</Power>.
                 </p>
                 <p>
                   Powerful rewards (Tier 1) will give items up to 3 levels above

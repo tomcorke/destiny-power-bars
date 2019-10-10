@@ -39,4 +39,6 @@ export interface CharacterData {
   artifactData?: SeasonalArtifactData;
   potentialPowerBySlot?: PowerBySlot;
   potentialOverallPower?: number;
+  powerRequiredToReachPotential?: number;
+  other?: unknown;
 }
