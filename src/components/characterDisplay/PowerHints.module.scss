@@ -1,0 +1,108 @@
+.hints {
+  color: white;
+  padding: 0 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+
+  .hint {
+    display: flex;
+    flex-flow: row wrap;
+    margin-bottom: 0.5em;
+    text-shadow: 0 0 3px black, 0 0 10px black;
+
+    &:last-of-type() {
+      margin-bottom: 0;
+    }
+  }
+
+  $common-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/fda4e2d5d36a2e44fe2199801e80c9e8.png";
+  $rare-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/522cca42043a56e876e2d186315d8425.png";
+  $legendary-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/ca25b277ec22eddd9f4e9881dd153390.png";
+  $powerful-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/330b67ab92b271c67f5ab2ca36298924.png";
+  $exotic-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/dec08a304d9aaa0dbfda85ac1e97f170.png";
+
+  .worldDropHint,
+  .powerfulHint,
+  .pinnacleHint {
+    padding-left: 55px;
+    background-image: url($rare-engram-icon);
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: left center;
+    min-height: 45px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .worldDropHint {
+    background-image: url($legendary-engram-icon), url($rare-engram-icon);
+    background-position: 10px 10px, left top;
+  }
+
+  .powerfulHint,
+  .pinnacleHint {
+    background-image: url($powerful-engram-icon), url($exotic-engram-icon);
+    background-position: 10px 10px, left top;
+  }
+
+  .separator {
+    margin: 1em 0;
+    border-top: 1px solid rgba(white, 0.25);
+    width: 100%;
+  }
+
+  $icon-size: 24px;
+
+  .hintExtra {
+    flex: 0 0 $icon-size;
+    position: relative;
+    width: $icon-size;
+    height: $icon-size;
+    margin-left: 10px;
+    cursor: help;
+    text-shadow: none;
+
+    .hintExtraInner {
+      position: absolute;
+      right: 50%;
+      bottom: 50%;
+      background: rgba(black, 0.9);
+      box-shadow: 0 0 5px 1px rgba(white, 0.7);
+      border-radius: 8px;
+      border-bottom-right-radius: 0;
+      padding: 10px;
+      width: 10000%;
+      max-width: 380px;
+      box-sizing: border-box;
+      text-align: center;
+      cursor: auto;
+      pointer-events: none;
+
+      display: none;
+    }
+
+    &:before {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: $icon-size;
+      height: $icon-size;
+      border-radius: 50%;
+      background-color: darkgray;
+      content: "?";
+      font-size: 18px;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: black;
+    }
+
+    &:hover {
+      .hintExtraInner {
+        display: block;
+        z-index: 1000;
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+@import "./bar-vars.scss";
+
+.powerBars {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+
+  .powerRange {
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    .rangeLine {
+      height: 1px;
+      width: 100%;
+      flex-basis: 100%;
+      background-color: rgba(255, 255, 255, 0.5);
+      margin: 0 5px;
+    }
+  }
+
+  .powerLabel {
+    height: 1em;
+    position: relative;
+    margin-left: $bar-size;
+    box-sizing: border-box;
+
+    .indicator {
+      position: absolute;
+      top: -1px;
+      display: block;
+      padding: 2px 4px 4px;
+      border-radius: 2px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: yellow;
+      margin-left: -1.15em;
+      transition: left 3s ease-out;
+    }
+  }
+}
