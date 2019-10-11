@@ -1,5 +1,6 @@
 import { UserInfoCard } from "bungie-api-ts/user";
 import React, { useEffect, useState } from "react";
+import ga from "./services/ga";
 
 import {
   auth,
@@ -77,6 +78,11 @@ const App = () => {
   }, [isAuthed, hasMembership, hasManifestData, isFetchingCharacterData]);
 
   const onSelectMembership = (membership: UserInfoCard) => {
+    ga.event({
+      category: "Platform",
+      action: "Select platform",
+      label: `Membership type: ${membership.membershipType}`
+    });
     setSelectedDestinyMembership(membership);
     setHasMembership(true);
   };
