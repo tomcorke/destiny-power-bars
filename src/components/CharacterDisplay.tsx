@@ -51,11 +51,13 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         </div>
       </div>
 
-      <PowerDetails {...data} />
+      <div className={STYLES.content}>
+        <PowerDetails {...data} />
 
-      <PowerBars {...data} />
+        <PowerBars {...data} />
 
-      <PowerHints {...data} />
+        <PowerHints {...data} />
+      </div>
     </div>
   );
 };

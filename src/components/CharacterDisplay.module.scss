@@ -2,11 +2,12 @@
   min-width: 200px;
   max-width: 400px;
   margin: 5px 10px 4em;
-  padding: 10px;
   box-sizing: border-box;
   transition: background-color 1s ease-in-out;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 5px 10px rgba(black, 0.5), 2px 5px 10px rgba(black, 0.5);
   border-radius: 5px;
+  overflow: hidden;
+  padding-top: 10px;
 
   @media (max-width: 500px) {
     max-width: 100%;
@@ -26,7 +27,6 @@
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 3px;
   }
 
   .name,
@@ -78,4 +78,8 @@
       margin-right: 0.05em;
     }
   }
+}
+
+.content {
+  padding: 10px;
 }
