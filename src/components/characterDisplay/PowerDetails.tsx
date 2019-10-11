@@ -23,9 +23,11 @@ interface PowerDetailsProps {
 export const PowerDetails = (data: PowerDetailsProps) => {
   const roundedPower = Math.floor(data.overallPower);
 
+  /*
   const summableArtifactBonusPower = data.artifactData
     ? data.artifactData.bonusPower
     : 0;
+    */
 
   if (!data.artifactData || data.artifactData.bonusPower === 0) {
     return null;
@@ -34,7 +36,9 @@ export const PowerDetails = (data: PowerDetailsProps) => {
   return (
     <div className={STYLES.details}>
       <div className={STYLES.detailsRow}>
-        <div className={STYLES.detailsLabel}>Max equippable gear power:</div>
+        <div className={STYLES.detailsLabel}>
+          Maximum equippable gear power:
+        </div>
         <div className={STYLES.defailsValue}>
           <Power>{roundedPower}</Power>
         </div>
@@ -55,12 +59,12 @@ export const PowerDetails = (data: PowerDetailsProps) => {
             </div>
           </div>
 
-          <div className={STYLES.detailsRow}>
+          {/*<div className={STYLES.detailsRow}>
             <div className={STYLES.detailsLabel}>Total combined power:</div>
             <div className={STYLES.detailsValue}>
               <Power>{roundedPower + summableArtifactBonusPower}</Power>
             </div>
-          </div>
+      </div>*/}
         </>
       ) : null}
     </div>
