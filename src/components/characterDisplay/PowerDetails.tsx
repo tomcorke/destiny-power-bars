@@ -27,6 +27,10 @@ export const PowerDetails = (data: PowerDetailsProps) => {
     ? data.artifactData.bonusPower
     : 0;
 
+  if (!data.artifactData || data.artifactData.bonusPower === 0) {
+    return null;
+  }
+
   return (
     <div className={STYLES.details}>
       <div className={STYLES.detailsRow}>
