@@ -18,8 +18,17 @@ import { getCharacterData } from "./services/utils";
 
 import "normalize.css";
 import STYLES from "./App.module.scss";
+import FetchSpinner from "./components/FetchSpinner";
+
+const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
 let characterDataRefreshTimer: number | undefined;
+
+const AUTO_PAGE_REFRESH_DELAY = 5000;
+
+const refreshPage = () => {
+  window.location.pathname = "/";
+};
 
 const App = () => {
   const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth());
@@ -43,6 +52,8 @@ const App = () => {
         setIsAuthed(true);
       } else {
         setAuthError(true);
+        // Refresh automatically in 30s
+        setTimeout(refreshPage, AUTO_PAGE_REFRESH_DELAY);
       }
     };
     if (!isAuthed) {
