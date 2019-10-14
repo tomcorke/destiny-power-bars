@@ -4,6 +4,11 @@
   margin-top: 1em;
 }
 
+@font-face {
+  font-family: "Destiny Keys";
+  src: url("../fonts/DestinyKeys.woff2") format("woff2");
+}
+
 .membership {
   box-sizing: border-box;
   margin: 5px 10px;
@@ -20,7 +25,7 @@
   @mixin icon-before($iconPath) {
     &:before {
       display: inline-block;
-      content: '';
+      content: "";
       width: 25px;
       height: 20px;
       background-image: url($iconPath);
@@ -35,27 +40,31 @@
     background-color: #00ad00;
     background: linear-gradient(270deg, #177a18 0, #2a9917);
 
-    @include icon-before('../images/xbox-icon.png');
+    @include icon-before("../images/xbox-icon.png");
   }
 
   &.platform_psn {
     background-color: #00419c;
     background: linear-gradient(270deg, #013682 0, #3a87ba);
 
-    @include icon-before('../images/psn-icon.png');
+    @include icon-before("../images/psn-icon.png");
   }
 
   &.platform_steam {
     background-color: #1d2c40;
     background: linear-gradient(270deg, #1d2c40 0, #29435a);
 
-    @include icon-before('../images/steam-icon.png');
+    font-family: "Destiny Keys", "Noto Sans HK", -apple-system,
+      BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+      "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+    @include icon-before("../images/steam-icon.png");
   }
 
   &.platform_blizzard {
     background-color: #448bd4;
-    background: linear-gradient(270deg, #012750 0 ,#0895df);
+    background: linear-gradient(270deg, #012750 0, #0895df);
 
-    @include icon-before('../images/blizzard-icon.png');
+    @include icon-before("../images/blizzard-icon.png");
   }
 }

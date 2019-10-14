@@ -31,4 +31,11 @@
   display: flex;
   justify-content: center;
   font-weight: 600;
+
+  a,
+  a:active,
+  a:visited,
+  a:hover {
+    color: white;
+  }
 }
