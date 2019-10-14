@@ -1,4 +1,4 @@
-@mixin spinner ($size: 50px, $spinTime: 8s, $reverse: false) {
+@mixin spinner($size: 50px, $spinTime: 8s, $reverse: false) {
   position: absolute;
   left: 0 - ($size / 2);
   top: 0 - ($size / 2);
@@ -19,8 +19,12 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .anchor {
@@ -28,5 +32,5 @@
 }
 
 .spinner {
-  @include spinner
+  @include spinner;
 }

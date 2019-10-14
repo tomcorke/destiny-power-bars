@@ -1,0 +1,23 @@
+@import "./Spinner.module.scss";
+
+.fetchSpinnerContainer {
+  position: fixed;
+  top: 25px;
+  right: 30px;
+}
+
+.anchor {
+  position: relative;
+}
+
+.spinner {
+  @include spinner(25px, 3s, false);
+}
+
+.spinnerSmall {
+  @include spinner(15px, 2s, true);
+}
+
+.spinnerTiny {
+  @include spinner(5px, 1s, false);
+}

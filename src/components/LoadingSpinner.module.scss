@@ -1,4 +1,4 @@
-@import './Spinner.module.scss';
+@import "./Spinner.module.scss";
 
 .loadingSpinnerContainer {
   width: 100%;
@@ -15,11 +15,11 @@
 }
 
 .spinnerLarge {
-  @include spinner(60px, 8s, false);
+  @include spinner(40px, 12s, false);
 }
 
 .spinnerSmall {
-  @include spinner(40px, 12s, true);
+  @include spinner(25px, 8s, true);
 }
 
 .status {

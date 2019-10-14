@@ -63,16 +63,23 @@ const App = () => {
   });
 
   useEffect(() => {
-    const doGetCharacterData = (returnBasicCharacterData: boolean = false) =>
-      getCharacterData(
-        setCharacterData,
-        setIsFetchingCharacterData,
-        returnBasicCharacterData
-      );
+    const doGetCharacterData = (returnBasicCharacterData: boolean = false) => {
+      if (!isFetchingCharacterData) {
+        getCharacterData(
+          setCharacterData,
+          setIsFetchingCharacterData,
+          returnBasicCharacterData
+        );
+      }
+    };
     if (isAuthed && hasMembership && !isFetchingCharacterData) {
       if (!characterDataRefreshTimer) {
-        characterDataRefreshTimer = setInterval(doGetCharacterData, 10000);
+        characterDataRefreshTimer = setInterval(
+          doGetCharacterData,
+          CHARACTER_DATA_REFRESH_TIMER
+        );
         doGetCharacterData(true);
+        (window as any).refreshCharacterData = () => doGetCharacterData();
       }
     }
   }, [isAuthed, hasMembership, hasManifestData, isFetchingCharacterData]);
@@ -87,11 +94,19 @@ const App = () => {
     setHasMembership(true);
   };
 
-  let status = "";
+  let status: string | JSX.Element = "";
   if (hasAuthError) {
-    status = "Authentication error, refresh page to try again!";
+    status = (
+      <span>
+        Authentication error, <a href="/">refresh page</a> to try again!
+      </span>
+    );
   } else if (hasManifestError) {
-    status = "Error fetching manifest, refresh page to try again!";
+    status = (
+      <span>
+        Error fetching manifest, <a href="/">refresh page</a> to try again!
+      </span>
+    );
   } else if (!isAuthed) {
     status = "Authenticating...";
   } else if (!hasMembership) {
@@ -119,15 +134,16 @@ const App = () => {
             ))}
           </div>
         </div>
-        {status && <LoadingSpinner status={status} />}
+        {status && <LoadingSpinner>{status}</LoadingSpinner>}
+        {isFetchingCharacterData && <FetchSpinner />}
       </div>
     );
   }
 
   return (
     <div className={STYLES.App}>
-      <LoadingSpinner status={status} />
       <MembershipSelect onMembershipSelect={onSelectMembership} />
+      <LoadingSpinner>{status}</LoadingSpinner>
     </div>
   );
 };
