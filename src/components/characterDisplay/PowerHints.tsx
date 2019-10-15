@@ -91,19 +91,12 @@ export const PowerHints = (data: PowerHintsProps) => (
           pinnacle cap of 960
         </span>
         <div className={STYLES.hintExtra}>
-          <p>
-            Pinnacle reward sources (Weekly challenges, Year 3 raids) will give
-            you items above your overall gear power, capped at 960.
-          </p>
-          <p>
-            Pinnacle rewards will give items up to 8 levels above your overall
-            gear power
-          </p>
-          <p>
-            After getting a pinnacle reward, check back here to see if it's
-            beneficial to catch up the rest of your slots with world drops
-            before getting another!
-          </p>
+          <div className={STYLES.hintExtraInner}>
+            <p>
+              Pinnacle reward sources (Weekly challenges, Year 3 raids) will
+              give you items above your overall gear power, capped at 960.
+            </p>
+          </div>
         </div>
       </div>
     ) : null}
