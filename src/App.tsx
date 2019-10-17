@@ -27,7 +27,7 @@ let characterDataRefreshTimer: number | undefined;
 const AUTO_PAGE_REFRESH_DELAY = 5000;
 
 const refreshPage = () => {
-  window.location.pathname = "/";
+  window.location.search = "";
 };
 
 const App = () => {
