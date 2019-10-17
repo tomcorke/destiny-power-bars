@@ -43,8 +43,9 @@ export const PowerBars = (data: PowerBarsProps) => {
     0
   );
   const maxItemPower = Math.max(...Object.values(powerBySlot));
+  const maxItemPowerGrouping = maxItemPower <= 950 ? 50 : 10;
   const maxPowerToDisplay =
-    data.maxItemPower || Math.ceil(maxItemPower / 50) * 50;
+    Math.ceil(maxItemPower / maxItemPowerGrouping) * maxItemPowerGrouping;
 
   const range = maxPowerToDisplay - minPowerToDisplay;
   const perc =
