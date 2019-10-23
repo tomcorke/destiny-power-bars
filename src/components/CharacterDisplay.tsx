@@ -1,6 +1,7 @@
 import classnames from "classnames";
 import React from "react";
 
+import { VendorEngramsData } from "../services/vendor-engrams";
 import { CharacterData } from "../types";
 import STYLES from "./CharacterDisplay.module.scss";
 import { PowerBars } from "./characterDisplay/PowerBars";
@@ -9,12 +10,13 @@ import { PowerHints } from "./characterDisplay/PowerHints";
 
 interface CharacterDisplayProps {
   data: CharacterData;
+  vendorData?: VendorEngramsData;
 }
 
 const titleCase = (text: string) =>
   text.substr(0, 1).toUpperCase() + text.substr(1);
 
-const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
+const CharacterDisplay = ({ data, vendorData }: CharacterDisplayProps) => {
   const rgbString = ({
     red,
     green,
@@ -56,7 +58,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
 
         <PowerBars {...data} />
 
-        <PowerHints {...data} />
+        <PowerHints {...data} vendorData={vendorData} />
       </div>
     </div>
   );

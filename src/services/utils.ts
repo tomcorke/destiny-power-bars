@@ -27,6 +27,7 @@ import {
 } from "../types";
 import { getBasicProfile, getFullProfile, getManifest } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
+import { getVendorEngramsData, VendorEngramsData } from "./vendor-engrams";
 
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
   mapValues(itemsBySlot, item => item.instanceData.primaryStat.value);
@@ -101,7 +102,8 @@ const getBasicCharacterData = async (
 export const getCharacterData = async (
   setCharacterData: (state: CharacterData[]) => any,
   setIsFetchingCharacterData: (state: boolean) => any,
-  returnBasicCharacterData: boolean = false
+  returnBasicCharacterData: boolean = false,
+  setVendorData: (state: VendorEngramsData) => any
 ) => {
   try {
     const isAuthed = await auth();
@@ -317,6 +319,9 @@ export const getCharacterData = async (
         }
       });
 
+      // Mock lower kinetic weapon power level to test display of world drop hints
+      // (topItemBySlot.kinetic.instanceData.primaryStat as any).value = 940;
+
       const powerBySlot = getPowerBySlot(topItemBySlot);
       const overallPower = getOverallPower(powerBySlot);
 
@@ -374,6 +379,10 @@ export const getCharacterData = async (
 
       return resultData;
     };
+
+    getVendorEngramsData()
+      .then(data => setVendorData(data))
+      .catch(e => console.warn(`Error fetching vendor engrams data`, e));
 
     const characterIds = Object.keys(characters);
     const characterData = characterIds.map(id => getDataForCharacterId(id));

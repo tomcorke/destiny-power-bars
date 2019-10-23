@@ -11,14 +11,15 @@ import {
 import { CharacterData } from "./types";
 
 import CharacterDisplay from "./components/CharacterDisplay";
+import FetchSpinner from "./components/FetchSpinner";
 import LoadingSpinner from "./components/LoadingSpinner";
 import MembershipSelect from "./components/MembershipSelect";
 import { getManifest } from "./services/bungie-api";
 import { getCharacterData } from "./services/utils";
+import { VendorEngramsData } from "./services/vendor-engrams";
 
 import "normalize.css";
 import STYLES from "./App.module.scss";
-import FetchSpinner from "./components/FetchSpinner";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -44,6 +45,9 @@ const App = () => {
   const [characterData, setCharacterData] = useState<
     CharacterData[] | undefined
   >(undefined);
+  const [vendorData, setVendorData] = useState<VendorEngramsData | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     const doAuth = async () => {
@@ -79,7 +83,8 @@ const App = () => {
         getCharacterData(
           setCharacterData,
           setIsFetchingCharacterData,
-          returnBasicCharacterData
+          returnBasicCharacterData,
+          setVendorData
         );
       }
     };
@@ -141,7 +146,7 @@ const App = () => {
         <div className={STYLES.charactersContainer}>
           <div className={STYLES.characters}>
             {characterData.map(c => (
-              <CharacterDisplay key={c.id} data={c} />
+              <CharacterDisplay key={c.id} data={c} vendorData={vendorData} />
             ))}
           </div>
         </div>

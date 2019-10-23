@@ -81,6 +81,15 @@
       pointer-events: none;
 
       display: none;
+
+      & > div {
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+
+      ul {
+        text-align: left;
+      }
     }
 
     &:before {
