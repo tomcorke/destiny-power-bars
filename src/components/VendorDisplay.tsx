@@ -166,7 +166,7 @@ export const VendorDisplay = ({ manifestData }: VendorDisplayProps) => {
             target="_blank"
             rel="noopener"
           >
-            vendorenrams.xyz
+            vendorengrams.xyz
           </a>
           {vendorsLastCheckedString && (
             <>, last updated {vendorsLastCheckedString} ago.</>
