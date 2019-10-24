@@ -1,12 +1,6 @@
 import classnames from "classnames";
-import humanizeDuration from "humanize-duration";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import {
-  getVendorDisplayName,
-  VENDOR_ENGRAMS_DROP_HIGH,
-  VendorEngramsData
-} from "../../services/vendor-engrams";
 import { Power } from "./Power";
 
 import STYLES from "./PowerHints.module.scss";
@@ -15,38 +9,9 @@ interface PowerHintsProps {
   overallPower: number;
   potentialOverallPower?: number;
   powerRequiredToReachPotential?: number;
-  vendorData?: VendorEngramsData;
 }
 
 export const PowerHints = (data: PowerHintsProps) => {
-  const highVendors =
-    (data.vendorData &&
-      data.vendorData.data.filter(
-        v => v.drop === VENDOR_ENGRAMS_DROP_HIGH && v.display === "1"
-      )) ||
-    [];
-
-  const [vendorStaleTimeString, setVendorStaleTimeString] = useState("");
-
-  useEffect(() => {
-    const timeStringUpdateTimer = setInterval(() => {
-      if (!data.vendorData) {
-        return "";
-      }
-      const newString = humanizeDuration(
-        data.vendorData.updateTimestamp - Date.now(),
-        {
-          round: true
-        }
-      );
-      setVendorStaleTimeString(newString);
-    }, 1000);
-
-    return () => {
-      clearInterval(timeStringUpdateTimer);
-    };
-  });
-
   return (
     <div className={STYLES.hints}>
       {data.potentialOverallPower &&
@@ -64,27 +29,6 @@ export const PowerHints = (data: PowerHintsProps) => {
                 <Power>{data.overallPower - 3}</Power> to{" "}
                 <Power>{data.overallPower}</Power> for this character.
               </div>
-              {highVendors.length > 0 ? (
-                <div>
-                  The following vendors are giving engrams at your maximum
-                  equippable gear power, according to{" "}
-                  <a
-                    href="https://www.vendorengrams.xyz"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    vendorengrams.xyz
-                  </a>
-                  , last updated {vendorStaleTimeString} ago:
-                  <ul>
-                    {highVendors.map(v => (
-                      <li key={v.shorthand}>
-                        <Power>{getVendorDisplayName(v.shorthand)}</Power>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
               <div>
                 Replacing items below your current overall power can increase
                 your power to a higher average.
@@ -150,8 +94,8 @@ export const PowerHints = (data: PowerHintsProps) => {
           <div className={STYLES.hintExtra}>
             <div className={STYLES.hintExtraInner}>
               <div>
-                Pinnacle reward sources (Weekly challenges, Year 3 raids) will
-                give you items above your overall gear power, capped at{" "}
+                Pinnacle reward sources (Some weekly challenges, Year 3 raids)
+                will give you items above your overall gear power, capped at{" "}
                 <Power>{960}</Power>.
               </div>
             </div>

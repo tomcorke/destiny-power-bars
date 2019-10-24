@@ -14,9 +14,9 @@ import CharacterDisplay from "./components/CharacterDisplay";
 import FetchSpinner from "./components/FetchSpinner";
 import LoadingSpinner from "./components/LoadingSpinner";
 import MembershipSelect from "./components/MembershipSelect";
-import { getManifest } from "./services/bungie-api";
+import { VendorDisplay } from "./components/VendorDisplay";
+import { getManifest, ManifestData } from "./services/bungie-api";
 import { getCharacterData } from "./services/utils";
-import { VendorEngramsData } from "./services/vendor-engrams";
 
 import "normalize.css";
 import STYLES from "./App.module.scss";
@@ -37,7 +37,9 @@ const App = () => {
   const [hasMembership, setHasMembership] = useState<boolean>(
     hasSelectedDestinyMembership()
   );
-  const [hasManifestData, setHasManifestData] = useState<boolean>(false);
+  const [manifestData, setManifestData] = useState<ManifestData | undefined>(
+    undefined
+  );
   const [hasManifestError, setManifestError] = useState<boolean>(false);
   const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<
     boolean
@@ -45,9 +47,8 @@ const App = () => {
   const [characterData, setCharacterData] = useState<
     CharacterData[] | undefined
   >(undefined);
-  const [vendorData, setVendorData] = useState<VendorEngramsData | undefined>(
-    undefined
-  );
+
+  const hasManifestData = !!manifestData;
 
   useEffect(() => {
     const doAuth = async () => {
@@ -63,19 +64,19 @@ const App = () => {
     if (!isAuthed) {
       doAuth();
     }
-  });
+  }, [isAuthed]);
 
   useEffect(() => {
     (async () => {
       try {
-        await getManifest();
-        setHasManifestData(true);
+        const data = await getManifest();
+        setManifestData(data);
       } catch (e) {
         console.error(e.message);
         setManifestError(true);
       }
     })();
-  });
+  }, []);
 
   useEffect(() => {
     const doGetCharacterData = (returnBasicCharacterData: boolean = false) => {
@@ -83,8 +84,7 @@ const App = () => {
         getCharacterData(
           setCharacterData,
           setIsFetchingCharacterData,
-          returnBasicCharacterData,
-          setVendorData
+          returnBasicCharacterData
         );
       }
     };
@@ -146,10 +146,11 @@ const App = () => {
         <div className={STYLES.charactersContainer}>
           <div className={STYLES.characters}>
             {characterData.map(c => (
-              <CharacterDisplay key={c.id} data={c} vendorData={vendorData} />
+              <CharacterDisplay key={c.id} data={c} />
             ))}
           </div>
         </div>
+        <VendorDisplay manifestData={manifestData} />
         {status && <LoadingSpinner>{status}</LoadingSpinner>}
         {isFetchingCharacterData && <FetchSpinner />}
       </div>

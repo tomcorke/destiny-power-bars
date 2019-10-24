@@ -3,6 +3,7 @@ import { get, set } from "idb-keyval";
 import {
   DestinyInventoryItemDefinition,
   DestinyManifest,
+  DestinyVendorDefinition,
   getDestinyManifest,
   getProfile
 } from "bungie-api-ts/destiny2";
@@ -38,12 +39,19 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
 
 const MANIFEST_VERSION_KEY = "MANIFEST_VERSION";
 const MANIFEST_IDB_KEY = "MANIFEST_DATA";
-interface ManifestData {
+export interface ManifestData {
+  [key: string]: any | undefined;
   DestinyInventoryItemDefinition: {
     [key: string]: DestinyInventoryItemDefinition | undefined;
   };
+  DestinyVendorDefinition: {
+    [key: string]: DestinyVendorDefinition | undefined;
+  };
 }
-const manifestPropertyWhitelist = ["DestinyInventoryItemDefinition"];
+const manifestPropertyWhitelist = [
+  "DestinyInventoryItemDefinition",
+  "DestinyVendorDefinition"
+];
 
 const getCachedManifestData = async () => {
   console.log("Loading manifest data from IDB");
@@ -98,7 +106,14 @@ export const getManifest = async (): Promise<ManifestData> => {
         if (!cachedManifestData) {
           cachedManifestData = await getCachedManifestData();
         }
-        return cachedManifestData;
+        if (
+          cachedManifestData &&
+          manifestPropertyWhitelist.every(
+            key => cachedManifestData && !!cachedManifestData[key]
+          )
+        ) {
+          return cachedManifestData;
+        }
       }
       if (
         manifest &&

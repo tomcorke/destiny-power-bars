@@ -1,7 +1,7 @@
 const VENDOR_ENGRAMS_API_ENDPOINT =
   "https://api.vendorengrams.xyz/getVendorDrops";
 
-interface VendorEngramsVendorData {
+export interface VendorEngramsVendorData {
   vendorID: string;
   display: string;
   drop: string;
