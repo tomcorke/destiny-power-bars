@@ -19,7 +19,6 @@ import { VendorDisplay } from "./components/VendorDisplay";
 import { getManifest, ManifestData } from "./services/bungie-api";
 import { getCharacterData } from "./services/utils";
 
-import "normalize.css";
 import STYLES from "./App.module.scss";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;

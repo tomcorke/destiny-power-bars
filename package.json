@@ -13,7 +13,8 @@
     "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
     "prettier:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
     "tslint": "tslint \"src/**/*.{ts,tsx}\"",
-    "tslint:fix": "tslint --fix \"src/**/*.{ts,tsx}\""
+    "tslint:fix": "tslint --fix \"src/**/*.{ts,tsx}\"",
+    "storybook": "start-storybook"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -58,6 +59,7 @@
     "react-scripts": "^3.2.0"
   },
   "devDependencies": {
+    "@storybook/react": "^5.2.5",
     "@types/classnames": "^2.2.8",
     "@types/humanize-duration": "^3.18.0",
     "@types/jest": "24.0.13",
@@ -66,6 +68,7 @@
     "@types/node-sass": "^4.11.0",
     "@types/react": "^16.9.6",
     "@types/react-dom": "^16.9.2",
+    "awesome-typescript-loader": "^5.2.1",
     "cross-env": "^6.0.3",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.9",

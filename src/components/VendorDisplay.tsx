@@ -22,7 +22,7 @@ interface VendorProps {
   vendor: VendorEngramsVendorData;
   manifestData: ManifestData;
 }
-const Vendor = ({ vendor, manifestData }: VendorProps) => {
+export const Vendor = ({ vendor, manifestData }: VendorProps) => {
   const manifestVendor = manifestData.DestinyVendorDefinition[vendor.vendorID];
   let vendorInner: JSX.Element | string;
 
