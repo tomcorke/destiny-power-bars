@@ -1,10 +1,14 @@
 .App {
+  position: relative;
   min-height: 100vh;
   height: 100%;
+  width: 100%;
+
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+
   background-color: #333;
   background: #333 url("./images/09_540_blur.jpg") center center no-repeat;
   background-size: cover;

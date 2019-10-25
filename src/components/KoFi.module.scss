@@ -1,0 +1,21 @@
+.kofiContainer {
+  position: fixed;
+  bottom: 0.5em;
+  right: 0.5em;
+
+  &.hidden {
+    opacity: 0;
+  }
+
+  transition: opacity ease-out 5s;
+
+  @media (max-width: 500px) {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 2em 0;
+  }
+}

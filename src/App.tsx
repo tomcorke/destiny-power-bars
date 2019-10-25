@@ -12,6 +12,7 @@ import { CharacterData } from "./types";
 
 import CharacterDisplay from "./components/CharacterDisplay";
 import FetchSpinner from "./components/FetchSpinner";
+import { Kofi } from "./components/KoFi";
 import LoadingSpinner from "./components/LoadingSpinner";
 import MembershipSelect from "./components/MembershipSelect";
 import { VendorDisplay } from "./components/VendorDisplay";
@@ -153,6 +154,7 @@ const App = () => {
         <VendorDisplay manifestData={manifestData} />
         {status && <LoadingSpinner>{status}</LoadingSpinner>}
         {isFetchingCharacterData && <FetchSpinner />}
+        <Kofi />
       </div>
     );
   }
@@ -161,6 +163,7 @@ const App = () => {
     <div className={STYLES.App}>
       <MembershipSelect onMembershipSelect={onSelectMembership} />
       <LoadingSpinner>{status}</LoadingSpinner>
+      <Kofi />
     </div>
   );
 };
