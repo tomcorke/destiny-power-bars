@@ -130,7 +130,7 @@ export const VendorDisplay = ({ manifestData }: VendorDisplayProps) => {
   return (
     <div className={STYLES.vendorDisplay}>
       {highVendors.length > 0 && (
-        <div className={STYLES.section}>
+        <div className={classnames(STYLES.section, STYLES.withSeparator)}>
           <div className={STYLES.description}>
             These vendors are currently giving at-level engrams which can help
             you raise the power of slots below your average, or to provide items

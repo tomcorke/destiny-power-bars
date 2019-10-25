@@ -18,6 +18,12 @@
     .description {
       flex: 0 0 60%;
     }
+
+    &.withSeparator {
+      padding-bottom: 2em;
+      margin-bottom: 2em;
+      border-bottom: 1px solid rgba(white, 0.2);
+    }
   }
 }
 
