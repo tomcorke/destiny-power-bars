@@ -19,10 +19,10 @@ export const Kofi = () => {
         [STYLES.hidden]: !visible
       })}
     >
-      {/* eslint-disable-next-line react/jsx-no-target-blank */}
       <a
         className={STYLES.link}
         href="https://ko-fi.com/tomcorke"
+        /* eslint-disable-next-line react/jsx-no-target-blank */
         target="_blank"
         rel="noopener"
       >
