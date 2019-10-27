@@ -145,6 +145,7 @@ const mapAndFilterItems = (
       ...i,
       slotName: ITEM_BUCKET_SLOTS[i.itemDefinition.inventory.bucketTypeHash]
     }))
+    .filter(i => i.instanceData.primaryStat && i.instanceData.primaryStat.value)
     .filter(i => isItemEquippableByCharacter(i, character));
 
 const getItemScore = (item: JoinedItemDefinition) => {
