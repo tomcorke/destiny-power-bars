@@ -15,6 +15,14 @@ $kofi-dark: #434b57;
     justify-content: center;
     color: white;
 
+    &:active,
+    &:visited {
+      color: white;
+    }
+    &:hover {
+      color: cyan;
+    }
+
     span {
       margin: 0 0.5em;
     }

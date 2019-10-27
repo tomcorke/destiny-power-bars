@@ -164,6 +164,16 @@ const getItemScore = (item: JoinedItemDefinition) => {
 const getEquipLabel = (item: JoinedItemDefinition) =>
   item.itemDefinition.equippingBlock.uniqueLabel;
 
+const getEmblemData = (
+  character: DestinyCharacterComponent,
+  manifest: ManifestData
+) => {
+  if (!manifest) {
+    return;
+  }
+  return manifest.DestinyInventoryItemDefinition[character.emblemHash];
+};
+
 const getDataForCharacterId = (
   id: string,
   characters: ObjectOf<DestinyCharacterComponent>,
@@ -297,6 +307,8 @@ const getDataForCharacterId = (
   const powerRequiredToReachPotential =
     (potentialOverallPower - averagePower) * 8;
 
+  const emblemData = getEmblemData(character, manifest);
+
   const resultData: CharacterData = {
     artifactData,
     character,
@@ -306,7 +318,8 @@ const getDataForCharacterId = (
     potentialOverallPower,
     potentialPowerBySlot,
     topItemBySlot,
-    powerRequiredToReachPotential
+    powerRequiredToReachPotential,
+    emblemData
   };
 
   return resultData;

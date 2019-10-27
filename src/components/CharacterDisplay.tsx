@@ -45,10 +45,33 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           src={`https://www.bungie.net${data.character.emblemBackgroundPath}`}
           alt=""
         />
+        {data.emblemData &&
+          data.emblemData.secondaryOverlay &&
+          data.emblemData.secondarySpecial &&
+          false && (
+            <>
+              <div
+                className={STYLES.emblemSecondarySpecial}
+                style={{
+                  backgroundImage: `url("https://www.bungie.net${
+                    data.emblemData!.secondarySpecial
+                  }")`
+                }}
+              />
+              <img
+                className={STYLES.emblemSecondaryOverlay}
+                src={`https://www.bungie.net${
+                  data.emblemData!.secondaryOverlay
+                }`}
+                alt=""
+              />
+            </>
+          )}
         <div className={STYLES.name}>{titleCase(data.className)}</div>
         <div className={STYLES.power}>
           {roundedPower + summableArtifactBonusPower}
         </div>
+        <div className={STYLES.headerOverlayBar} />
       </div>
 
       <div className={STYLES.content}>
