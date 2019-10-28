@@ -14,7 +14,9 @@ import ga from "./ga";
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
   try {
     const accessToken = getAccessToken();
-    const headers: { [key: string]: string } = { "x-api-key": BUNGIE_API_KEY };
+    const headers: { [key: string]: string } = {
+      "x-api-key": BUNGIE_API_KEY
+    };
     if (accessToken) {
       headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -29,7 +31,7 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
           )
         : ""
     }`;
-    const response = await fetch(url, { headers });
+    const response = await fetch(url, { headers, credentials: "include" });
     return await response.json();
   } catch (e) {
     console.error(e);
