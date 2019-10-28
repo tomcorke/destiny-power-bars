@@ -1,6 +1,8 @@
 import classnames from "classnames";
 import React, { useEffect, useState } from "react";
 
+import kofiIcon from "../images/Ko-fi_Icon_RGBforDarkBg_sm.png";
+
 import STYLES from "./KoFi.module.scss";
 
 export const Kofi = () => {
@@ -17,14 +19,20 @@ export const Kofi = () => {
         [STYLES.hidden]: !visible
       })}
     >
-      {/* eslint-disable-next-line react/jsx-no-target-blank */}
-      <a href="https://ko-fi.com/tomcorke" target="_blank" rel="noopener">
+      <a
+        className={STYLES.link}
+        href="https://ko-fi.com/tomcorke"
+        /* eslint-disable-next-line react/jsx-no-target-blank */
+        target="_blank"
+        rel="noopener"
+      >
         <img
           height="36"
           style={{ border: "0px", height: "36px" }}
-          src="https://az743702.vo.msecnd.net/cdn/kofi3.png?v=2"
+          src={kofiIcon}
           alt="Buy Me a Coffee at ko-fi.com"
         />
+        <span>Buy me a coffee</span>
       </a>
     </div>
   );

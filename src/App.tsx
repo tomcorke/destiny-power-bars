@@ -34,7 +34,7 @@ const refreshPage = () => {
 const App = () => {
   const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth());
   const [hasAuthError, setAuthError] = useState<boolean>(false);
-  const [hasMembership, setHasMembership] = useState<boolean>(
+  const [hasSelectedMembership, setHasMembership] = useState<boolean>(
     hasSelectedDestinyMembership()
   );
   const [manifestData, setManifestData] = useState<ManifestData | undefined>(
@@ -88,7 +88,7 @@ const App = () => {
         );
       }
     };
-    if (isAuthed && hasMembership && !isFetchingCharacterData) {
+    if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
       if (!characterDataRefreshTimer) {
         characterDataRefreshTimer = setInterval(
           doGetCharacterData,
@@ -98,7 +98,12 @@ const App = () => {
         (window as any).refreshCharacterData = () => doGetCharacterData();
       }
     }
-  }, [isAuthed, hasMembership, hasManifestData, isFetchingCharacterData]);
+  }, [
+    isAuthed,
+    hasSelectedMembership,
+    hasManifestData,
+    isFetchingCharacterData
+  ]);
 
   const onSelectMembership = (membership: UserInfoCard) => {
     ga.event({
@@ -125,7 +130,7 @@ const App = () => {
     );
   } else if (!isAuthed) {
     status = "Authenticating...";
-  } else if (!hasMembership) {
+  } else if (!hasSelectedMembership) {
     status = "Waiting for Destiny platform selection...";
   } else if (!hasManifestData) {
     status = "Fetching Destiny item manifest...";
@@ -146,7 +151,7 @@ const App = () => {
         <div className={STYLES.charactersContainer}>
           <div className={STYLES.characters}>
             {characterData.map(c => (
-              <CharacterDisplay key={c.id} data={c} />
+              <CharacterDisplay key={c.character.characterId} data={c} />
             ))}
           </div>
         </div>

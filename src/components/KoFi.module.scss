@@ -1,7 +1,32 @@
+$kofi-red: #ff5e5b;
+$kofi-blue: #29abe0;
+$kofi-yellow: #fbaa19;
+$kofi-dark: #434b57;
+
 .kofiContainer {
   position: fixed;
   bottom: 0.5em;
   right: 0.5em;
+
+  .link {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    color: white;
+
+    &:active,
+    &:visited {
+      color: white;
+    }
+    &:hover {
+      color: cyan;
+    }
+
+    span {
+      margin: 0 0.5em;
+    }
+  }
 
   &.hidden {
     opacity: 0;

@@ -91,12 +91,12 @@ const getBasicCharacterData = async (
     const getBasicDataForCharacterId = (id: string): CharacterData => {
       const character = characters[id];
       const className = CLASS_NAMES[character.classType];
-      return {
+      const result: CharacterData = {
         character,
         className,
-        id,
         overallPower: character.light
       };
+      return result;
     };
 
     const characterIds = Object.keys(characters);
@@ -145,6 +145,7 @@ const mapAndFilterItems = (
       ...i,
       slotName: ITEM_BUCKET_SLOTS[i.itemDefinition.inventory.bucketTypeHash]
     }))
+    .filter(i => i.instanceData.primaryStat && i.instanceData.primaryStat.value)
     .filter(i => isItemEquippableByCharacter(i, character));
 
 const getItemScore = (item: JoinedItemDefinition) => {
@@ -164,8 +165,18 @@ const getItemScore = (item: JoinedItemDefinition) => {
 const getEquipLabel = (item: JoinedItemDefinition) =>
   item.itemDefinition.equippingBlock.uniqueLabel;
 
+const getEmblemData = (
+  character: DestinyCharacterComponent,
+  manifest: ManifestData
+) => {
+  if (!manifest) {
+    return;
+  }
+  return manifest.DestinyInventoryItemDefinition[character.emblemHash];
+};
+
 const getDataForCharacterId = (
-  id: string,
+  characterId: string,
   characters: ObjectOf<DestinyCharacterComponent>,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
   manifest: ManifestData,
@@ -174,12 +185,12 @@ const getDataForCharacterId = (
   allCharacterWeapons: DestinyItemComponent[],
   profileInventories: DestinyInventoryComponent
 ): CharacterData => {
-  const character = characters[id];
+  const character = characters[characterId];
   const className = CLASS_NAMES[character.classType];
 
   const characterItems = mapAndFilterItems(
-    characterInventories[id].items
-      .concat(characterEquipments[id].items)
+    characterInventories[characterId].items
+      .concat(characterEquipments[characterId].items)
       .concat(allCharacterWeapons),
     manifest,
     itemInstances,
@@ -297,16 +308,18 @@ const getDataForCharacterId = (
   const powerRequiredToReachPotential =
     (potentialOverallPower - averagePower) * 8;
 
+  const emblemData = getEmblemData(character, manifest);
+
   const resultData: CharacterData = {
-    artifactData,
     character,
     className,
-    id,
     overallPower,
     potentialOverallPower,
     potentialPowerBySlot,
     topItemBySlot,
-    powerRequiredToReachPotential
+    powerRequiredToReachPotential,
+    artifactData,
+    emblemData
   };
 
   return resultData;

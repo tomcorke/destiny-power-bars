@@ -22,6 +22,9 @@ const clearStorage = () => {
   localStorage.removeItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY);
   localStorage.removeItem(BUNGIE_MEMBERSHIP_ID_STORAGE_KEY);
   localStorage.removeItem(DESTINY_MEMBERSHIPS_STORAGE_KEY);
+};
+
+const clearSelectedMembership = () => {
   localStorage.removeItem(DESTINY_MEMBERSHIP_STORAGE_KEY);
 };
 
@@ -88,6 +91,18 @@ const handleTokenResponse = async (
       DESTINY_MEMBERSHIPS_STORAGE_KEY,
       JSON.stringify(destinyMemberships)
     );
+
+    // If has stored membership and the membership ID is not in the new list
+    // of memberships then clear it
+    const selectedMembership = getSelectedDestinyMembership();
+    if (
+      selectedMembership &&
+      !destinyMemberships.some(
+        m => m.membershipId === selectedMembership.membershipId
+      )
+    ) {
+      clearSelectedMembership();
+    }
 
     // If there is only one membership, select it automatically
     if (destinyMemberships.length === 1) {

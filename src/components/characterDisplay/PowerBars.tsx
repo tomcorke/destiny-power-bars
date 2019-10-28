@@ -63,7 +63,7 @@ export const PowerBars = (data: PowerBarsProps) => {
           const bestItem = data.topItemBySlot && data.topItemBySlot[slotName];
           return (
             <PowerBar
-              key={`${data.id}_${slotName}`}
+              key={`${data.character.characterId}_${slotName}`}
               min={minPowerToDisplay}
               max={maxPowerToDisplay}
               value={power}
