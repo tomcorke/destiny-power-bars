@@ -30,9 +30,8 @@ export interface SeasonalArtifactData {
 }
 
 export interface CharacterData {
-  id: string;
-  className: string;
   character: DestinyCharacterComponent;
+  className: string;
   overallPower: number;
   topItemBySlot?: ItemBySlot;
   maxItemPower?: number;

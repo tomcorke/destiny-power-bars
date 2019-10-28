@@ -91,12 +91,12 @@ const getBasicCharacterData = async (
     const getBasicDataForCharacterId = (id: string): CharacterData => {
       const character = characters[id];
       const className = CLASS_NAMES[character.classType];
-      return {
+      const result: CharacterData = {
         character,
         className,
-        id,
         overallPower: character.light
       };
+      return result;
     };
 
     const characterIds = Object.keys(characters);
@@ -176,7 +176,7 @@ const getEmblemData = (
 };
 
 const getDataForCharacterId = (
-  id: string,
+  characterId: string,
   characters: ObjectOf<DestinyCharacterComponent>,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
   manifest: ManifestData,
@@ -185,12 +185,12 @@ const getDataForCharacterId = (
   allCharacterWeapons: DestinyItemComponent[],
   profileInventories: DestinyInventoryComponent
 ): CharacterData => {
-  const character = characters[id];
+  const character = characters[characterId];
   const className = CLASS_NAMES[character.classType];
 
   const characterItems = mapAndFilterItems(
-    characterInventories[id].items
-      .concat(characterEquipments[id].items)
+    characterInventories[characterId].items
+      .concat(characterEquipments[characterId].items)
       .concat(allCharacterWeapons),
     manifest,
     itemInstances,
@@ -311,15 +311,14 @@ const getDataForCharacterId = (
   const emblemData = getEmblemData(character, manifest);
 
   const resultData: CharacterData = {
-    artifactData,
     character,
     className,
-    id,
     overallPower,
     potentialOverallPower,
     potentialPowerBySlot,
     topItemBySlot,
     powerRequiredToReachPotential,
+    artifactData,
     emblemData
   };
 
