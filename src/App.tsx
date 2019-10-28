@@ -31,6 +31,10 @@ const refreshPage = () => {
   window.location.search = "";
 };
 
+export const AppWrapper = ({ children }: { children: JSX.Element }) => {
+  return <div className={STYLES.App}>{children}</div>;
+};
+
 const App = () => {
   const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth());
   const [hasAuthError, setAuthError] = useState<boolean>(false);
