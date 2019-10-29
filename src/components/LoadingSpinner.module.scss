@@ -1,17 +1,19 @@
 @import "./Spinner.module.scss";
 
-.loadingSpinnerContainer {
+.loading {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 110px;
   padding: 50px 0 0;
   min-width: 200px;
   min-height: 110px;
+
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+
   background: rgba(black, 0.8);
   z-index: 1000;
 }
@@ -29,14 +31,12 @@
 }
 
 .status {
-  position: absolute;
-  left: -200px;
-  width: 400px;
-  top: 60px;
+  margin: 50px 1em 1em;
   color: rgba(white, 0.9);
   display: flex;
   justify-content: center;
   font-weight: 600;
+  text-align: center;
 
   a,
   a:active,

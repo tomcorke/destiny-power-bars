@@ -39,6 +39,12 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
   }
 };
 
+export class BungieSystemDisabledError extends Error {
+  constructor() {
+    super("Bungie API disabled");
+  }
+}
+
 const MANIFEST_VERSION_KEY = "MANIFEST_VERSION";
 const MANIFEST_IDB_KEY = "MANIFEST_DATA";
 export interface ManifestData {
@@ -71,7 +77,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   const manifestDataResponse = await fetch(
     `https://www.bungie.net${manifest.jsonWorldContentPaths.en}`
   );
-  const manifestData = await manifestDataResponse.json();
+  const manifestData: ManifestData = await manifestDataResponse.json();
   console.log("Pruning manifest data");
   Object.keys(manifestData).forEach(key => {
     if (!manifestPropertyWhitelist.includes(key)) {
@@ -84,12 +90,19 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   return manifestData;
 };
 
-let cachedManifestData: ManifestData | undefined;
-let getManifestPromise: Promise<ManifestData> | undefined;
+type GetManifestResult =
+  | {
+      manifest: ManifestData;
+      error?: null;
+    }
+  | { manifest: null; error: Error };
 
-export const getManifest = async (): Promise<ManifestData> => {
+let cachedManifestData: ManifestData | undefined;
+let getManifestPromise: Promise<GetManifestResult> | undefined;
+
+export const getManifest = async (): Promise<GetManifestResult> => {
   if (!getManifestPromise) {
-    getManifestPromise = (async () => {
+    getManifestPromise = Promise.resolve().then(async () => {
       ga.event({
         category: "Data",
         action: "Attempt load manifest",
@@ -114,7 +127,7 @@ export const getManifest = async (): Promise<ManifestData> => {
             key => cachedManifestData && !!cachedManifestData[key]
           )
         ) {
-          return cachedManifestData;
+          return { manifest: cachedManifestData };
         }
       }
       if (
@@ -127,9 +140,18 @@ export const getManifest = async (): Promise<ManifestData> => {
           action: `Error status "${manifest.ErrorStatus}" returned from manifest request`,
           nonInteraction: true
         });
-        throw Error(
-          `Error status "${manifest.ErrorStatus}" returned from manifest request`
-        );
+        if (manifest.ErrorStatus === "SystemDisabled") {
+          return {
+            manifest: null,
+            error: new BungieSystemDisabledError()
+          };
+        }
+        return {
+          manifest: null,
+          error: Error(
+            `Error status "${manifest.ErrorStatus}" returned from manifest request`
+          )
+        };
       }
       if (!manifest || !manifest.Response) {
         throw Error("No manifest received!");
@@ -142,8 +164,8 @@ export const getManifest = async (): Promise<ManifestData> => {
       });
       const freshManifestData = await getRemoteManifestData(manifest.Response);
       cachedManifestData = freshManifestData;
-      return freshManifestData;
-    })();
+      return { manifest: freshManifestData };
+    });
   }
   return getManifestPromise;
 };

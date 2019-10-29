@@ -8,12 +8,12 @@ interface LoadingSpinnerProps {
 
 const LoadingSpinner = ({ children }: LoadingSpinnerProps) => {
   return (
-    <div className={STYLES.loadingSpinnerContainer}>
+    <div className={STYLES.loading}>
       <div className={STYLES.anchor}>
         <div className={STYLES.spinnerLarge} />
         <div className={STYLES.spinnerSmall} />
-        <div className={STYLES.status}>{children}</div>
       </div>
+      <div className={STYLES.status}>{children}</div>
     </div>
   );
 };

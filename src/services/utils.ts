@@ -401,11 +401,13 @@ export const getCharacterData = async (
     const profileInventories = fullProfile.Response.profileInventory.data;
     const itemInstances = fullProfile.Response.itemComponents.instances.data;
 
-    const manifest = await pendingManifest;
+    const manifestResult = await pendingManifest;
 
-    if (!manifest) {
+    if (!manifestResult || !manifestResult.manifest) {
       return;
     }
+
+    const { manifest } = manifestResult;
 
     const allCharacterItems = mergeItems(characterInventories)
       .concat(mergeItems(characterEquipments))

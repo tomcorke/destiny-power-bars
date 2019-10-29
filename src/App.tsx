@@ -17,7 +17,11 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import MembershipSelect from "./components/MembershipSelect";
 import { VendorDisplay } from "./components/VendorDisplay";
 import api from "./services/api";
-import { getManifest, ManifestData } from "./services/bungie-api";
+import {
+  BungieSystemDisabledError,
+  getManifest,
+  ManifestData
+} from "./services/bungie-api";
 import { getCharacterData } from "./services/utils";
 
 import "normalize.css";
@@ -49,6 +53,9 @@ const App = () => {
     undefined
   );
   const [hasManifestError, setManifestError] = useState<boolean>(false);
+  const [isBungieSystemDisabled, setBungieSystemDisabled] = useState<boolean>(
+    false
+  );
   const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<
     boolean
   >(false);
@@ -77,10 +84,18 @@ const App = () => {
   useEffect(() => {
     (async () => {
       try {
-        const data = await getManifest();
-        setManifestData(data);
+        const manifestResult = await getManifest();
+        if (manifestResult.error) {
+          console.error(manifestResult.error.message);
+          setManifestError(true);
+          if (manifestResult.error instanceof BungieSystemDisabledError) {
+            setBungieSystemDisabled(true);
+          }
+          return;
+        }
+        setManifestData(manifestResult.manifest);
       } catch (e) {
-        console.error(e.message);
+        console.error(e);
         setManifestError(true);
       }
     })();
@@ -89,11 +104,15 @@ const App = () => {
   useEffect(() => {
     const doGetCharacterData = (returnBasicCharacterData: boolean = false) => {
       if (!isFetchingCharacterData) {
-        getCharacterData(
-          setCharacterData,
-          setIsFetchingCharacterData,
-          returnBasicCharacterData
-        );
+        try {
+          getCharacterData(
+            setCharacterData,
+            setIsFetchingCharacterData,
+            returnBasicCharacterData
+          );
+        } catch (e) {
+          console.error("Error fetching character data:", e);
+        }
       }
     };
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
@@ -124,7 +143,23 @@ const App = () => {
   };
 
   let status: string | JSX.Element = "";
-  if (hasAuthError) {
+  if (isBungieSystemDisabled) {
+    status = (
+      <span>
+        Bungie API disabled.
+        <br />
+        Check{" "}
+        <a
+          href="https://www.bungie.net/en/Help/Article/13125"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Bungie's server and update status page
+        </a>{" "}
+        for more information
+      </span>
+    );
+  } else if (hasAuthError) {
     status = (
       <span>
         Authentication error, <a href="/">refresh page</a> to try again!
