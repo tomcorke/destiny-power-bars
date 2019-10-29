@@ -3,11 +3,7 @@ import React from "react";
 import { ManifestData } from "../services/bungie-api";
 import { VendorEngramsVendorData } from "../services/vendor-engrams";
 
-import { AppWrapper } from "../App";
 import { Vendor } from "./VendorDisplay";
-
-import "normalize.css";
-import "../index.css";
 
 export default { title: "Vendor" };
 
@@ -55,13 +51,9 @@ const mockVendor: VendorEngramsVendorData = {
 };
 
 export const vendorWithNoManifestData = () => (
-  <AppWrapper>
-    <Vendor manifestData={mockEmptyManifest} vendor={mockVendor} />
-  </AppWrapper>
+  <Vendor manifestData={mockEmptyManifest} vendor={mockVendor} />
 );
 
 export const vendorWithManifestData = () => (
-  <AppWrapper>
-    <Vendor manifestData={mockManifestWithData} vendor={mockVendor} />
-  </AppWrapper>
+  <Vendor manifestData={mockManifestWithData} vendor={mockVendor} />
 );

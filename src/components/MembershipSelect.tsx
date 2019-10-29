@@ -2,15 +2,25 @@ import { UserInfoCard } from "bungie-api-ts/user";
 import classnames from "classnames";
 import React from "react";
 
-import { getDestinyMemberships } from "../services/bungie-auth";
+import { PartialApi } from "../services/api";
 import STYLES from "./MembershipSelect.module.scss";
+
+export interface RequiredApi extends PartialApi {
+  bungieAuth: {
+    getDestinyMemberships: () => UserInfoCard[] | undefined;
+  };
+}
 
 interface MembershipSelectProps {
   onMembershipSelect: (membership: UserInfoCard) => any;
+  api: RequiredApi;
 }
 
-const MembershipSelect = ({ onMembershipSelect }: MembershipSelectProps) => {
-  const destinyMemberships = getDestinyMemberships();
+const MembershipSelect = ({
+  onMembershipSelect,
+  api
+}: MembershipSelectProps) => {
+  const destinyMemberships = api.bungieAuth.getDestinyMemberships();
 
   if (!destinyMemberships) {
     return null;
@@ -24,7 +34,8 @@ const MembershipSelect = ({ onMembershipSelect }: MembershipSelectProps) => {
     1: "xbox",
     2: "psn",
     3: "steam",
-    4: "blizzard"
+    4: "blizzard",
+    5: "stadia"
   };
 
   return (

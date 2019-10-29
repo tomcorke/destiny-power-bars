@@ -16,8 +16,12 @@ import { Kofi } from "./components/KoFi";
 import LoadingSpinner from "./components/LoadingSpinner";
 import MembershipSelect from "./components/MembershipSelect";
 import { VendorDisplay } from "./components/VendorDisplay";
+import api from "./services/api";
 import { getManifest, ManifestData } from "./services/bungie-api";
 import { getCharacterData } from "./services/utils";
+
+import "normalize.css";
+import "./index.css";
 
 import STYLES from "./App.module.scss";
 
@@ -151,7 +155,7 @@ const App = () => {
   if (characterData && characterData.length > 0) {
     return (
       <div className={STYLES.App}>
-        <MembershipSelect onMembershipSelect={onSelectMembership} />
+        <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
         <div className={STYLES.charactersContainer}>
           <div className={STYLES.characters}>
             {characterData.map(c => (
@@ -169,7 +173,7 @@ const App = () => {
 
   return (
     <div className={STYLES.App}>
-      <MembershipSelect onMembershipSelect={onSelectMembership} />
+      <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
       <LoadingSpinner>{status}</LoadingSpinner>
       <Kofi />
     </div>
