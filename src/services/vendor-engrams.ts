@@ -1,5 +1,5 @@
 const VENDOR_ENGRAMS_API_ENDPOINT =
-  "https://api.vendorengrams.xyz/getVendorDrops";
+  "https://api.vendorengrams.xyz/getVendorDrops?source=destiny-power-bars";
 
 export interface VendorEngramsVendorData {
   vendorID: string;
