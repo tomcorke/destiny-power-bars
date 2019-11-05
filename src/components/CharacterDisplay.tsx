@@ -14,17 +14,17 @@ interface CharacterDisplayProps {
 const titleCase = (text: string) =>
   text.substr(0, 1).toUpperCase() + text.substr(1);
 
-const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
-  const rgbString = ({
-    red,
-    green,
-    blue
-  }: {
-    red: number;
-    green: number;
-    blue: number;
-  }) => `rgb(${red},${green},${blue})`;
+const rgbString = ({
+  red,
+  green,
+  blue
+}: {
+  red: number;
+  green: number;
+  blue: number;
+}) => `rgb(${red},${green},${blue})`;
 
+const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
   const roundedPower = Math.floor(data.overallPower);
 
   const summableArtifactBonusPower = data.artifactData
@@ -45,28 +45,6 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           src={`https://www.bungie.net${data.character.emblemBackgroundPath}`}
           alt=""
         />
-        {data.emblemData &&
-          data.emblemData.secondaryOverlay &&
-          data.emblemData.secondarySpecial &&
-          false && (
-            <>
-              <div
-                className={STYLES.emblemSecondarySpecial}
-                style={{
-                  backgroundImage: `url("https://www.bungie.net${
-                    data.emblemData!.secondarySpecial
-                  }")`
-                }}
-              />
-              <img
-                className={STYLES.emblemSecondaryOverlay}
-                src={`https://www.bungie.net${
-                  data.emblemData!.secondaryOverlay
-                }`}
-                alt=""
-              />
-            </>
-          )}
         <div className={STYLES.name}>{titleCase(data.className)}</div>
         <div className={STYLES.power}>
           {roundedPower + summableArtifactBonusPower}
@@ -76,9 +54,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
 
       <div className={STYLES.content}>
         <PowerDetails {...data} />
-
         <PowerBars {...data} />
-
         <PowerHints {...data} />
       </div>
     </div>
