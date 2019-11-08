@@ -1,6 +1,6 @@
 import { UserInfoCard } from "bungie-api-ts/user";
+import preval from "preval.macro";
 import React, { useEffect, useState } from "react";
-import ga from "./services/ga";
 
 import {
   auth,
@@ -8,6 +8,7 @@ import {
   hasValidAuth,
   setSelectedDestinyMembership
 } from "./services/bungie-auth";
+import ga from "./services/ga";
 import { CharacterData } from "./types";
 
 import CharacterDisplay from "./components/CharacterDisplay";
@@ -187,6 +188,13 @@ const App = () => {
 
   (window as any).characterData = characterData;
 
+  const gitHead = (process.env.REACT_APP_NPM_PACKAGE_GITHEAD || "").substr(
+    0,
+    6
+  );
+
+  const buildTimestamp = preval`module.exports = new Date().toISOString();`;
+
   if (characterData && characterData.length > 0) {
     return (
       <div className={STYLES.App}>
@@ -201,6 +209,9 @@ const App = () => {
         <VendorDisplay manifestData={manifestData} />
         {status && <LoadingSpinner>{status}</LoadingSpinner>}
         {isFetchingCharacterData && <FetchSpinner />}
+        <div className={STYLES.buildStamp}>
+          {gitHead} {buildTimestamp}
+        </div>
         <Kofi />
       </div>
     );
@@ -210,6 +221,9 @@ const App = () => {
     <div className={STYLES.App}>
       <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
       <LoadingSpinner>{status}</LoadingSpinner>
+      <div className={STYLES.buildStamp}>
+        {gitHead} {buildTimestamp}
+      </div>
       <Kofi />
     </div>
   );

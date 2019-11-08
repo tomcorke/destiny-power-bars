@@ -55,3 +55,11 @@
 .loadingStatus {
   color: white;
 }
+
+.buildStamp {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  pointer-events: none;
+  color: rgba(white, 0.1);
+}
