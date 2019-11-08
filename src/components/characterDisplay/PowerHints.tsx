@@ -34,14 +34,16 @@ export const PowerHints = (data: PowerHintsProps) => {
                 Replacing items below your current overall power can increase
                 your power to a higher average.
               </div>
-              {data.powerRequiredToReachNext && (
-                <div>
-                  You need an extra{" "}
-                  <Power>{data.powerRequiredToReachNext}</Power> total power on
-                  your items to reach an overall power of{" "}
-                  <Power>{Math.floor(data.overallPower + 1)}</Power>.
-                </div>
-              )}
+              {data.powerRequiredToReachNext &&
+                data.powerRequiredToReachNext !==
+                  data.powerRequiredToReachPotential && (
+                  <div>
+                    You need an extra{" "}
+                    <Power>{data.powerRequiredToReachNext}</Power> total power
+                    on your items to reach an overall power of{" "}
+                    <Power>{Math.floor(data.overallPower + 1)}</Power>.
+                  </div>
+                )}
               {data.powerRequiredToReachPotential && (
                 <div>
                   You need an extra{" "}
