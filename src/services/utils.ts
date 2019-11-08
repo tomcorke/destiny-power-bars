@@ -308,6 +308,9 @@ const getDataForCharacterId = (
   const powerRequiredToReachPotential =
     (potentialOverallPower - averagePower) * 8;
 
+  const powerRequiredToReachNext =
+    (Math.floor(averagePower + 1) - averagePower) * 8;
+
   const emblemData = getEmblemData(character, manifest);
 
   const resultData: CharacterData = {
@@ -318,6 +321,7 @@ const getDataForCharacterId = (
     potentialPowerBySlot,
     topItemBySlot,
     powerRequiredToReachPotential,
+    powerRequiredToReachNext,
     artifactData,
     emblemData
   };

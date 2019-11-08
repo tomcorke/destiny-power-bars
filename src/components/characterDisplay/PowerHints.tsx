@@ -9,6 +9,7 @@ interface PowerHintsProps {
   overallPower: number;
   potentialOverallPower?: number;
   powerRequiredToReachPotential?: number;
+  powerRequiredToReachNext?: number;
 }
 
 export const PowerHints = (data: PowerHintsProps) => {
@@ -33,14 +34,22 @@ export const PowerHints = (data: PowerHintsProps) => {
                 Replacing items below your current overall power can increase
                 your power to a higher average.
               </div>
-              {data.powerRequiredToReachPotential ? (
+              {data.powerRequiredToReachNext && (
+                <div>
+                  You need an extra{" "}
+                  <Power>{data.powerRequiredToReachNext}</Power> total power on
+                  your items to reach an overall power of{" "}
+                  <Power>{Math.floor(data.overallPower + 1)}</Power>.
+                </div>
+              )}
+              {data.powerRequiredToReachPotential && (
                 <div>
                   You need an extra{" "}
                   <Power>{data.powerRequiredToReachPotential}</Power> total
                   power on your items to reach an overall power of{" "}
                   <Power>{data.potentialOverallPower}</Power>.
                 </div>
-              ) : null}
+              )}
             </div>
           </div>
         </div>
@@ -61,18 +70,14 @@ export const PowerHints = (data: PowerHintsProps) => {
                 raids) will give you items above your overall gear power, with
                 powerful rewards capped at <Power>{950}</Power>.
               </div>
-              <div>
-                Powerful rewards (Tier 1) will give items up to 3 levels above
-                your overall gear power
-              </div>
-              <div>
-                Powerful rewards (Tier 2) will give items up to 5 levels above
-                your overall gear power
-              </div>
-              <div>
-                Pinnacle rewards will give items up to 7 levels above your
-                overall gear power
-              </div>
+              {data.powerRequiredToReachNext && (
+                <div>
+                  You need an extra{" "}
+                  <Power>{data.powerRequiredToReachNext}</Power> total power on
+                  your items to reach an overall power of{" "}
+                  <Power>{Math.floor(data.overallPower + 1)}</Power>.
+                </div>
+              )}
               <div>
                 After getting a powerful reward, check back here to see if it's
                 beneficial to catch up the rest of your slots with world drops
@@ -95,9 +100,17 @@ export const PowerHints = (data: PowerHintsProps) => {
             <div className={STYLES.hintExtraInner}>
               <div>
                 Pinnacle reward sources (Some weekly challenges, Year 3 raids)
-                will give you items above your overall gear power, capped at{" "}
-                <Power>{960}</Power>.
+                will give you items at{" "}
+                <Power>{Math.min(data.overallPower + 2, 960)}</Power> power.
               </div>
+              {data.powerRequiredToReachNext && (
+                <div>
+                  You need an extra{" "}
+                  <Power>{data.powerRequiredToReachNext}</Power> total power on
+                  your items to reach an overall power of{" "}
+                  <Power>{Math.floor(data.overallPower + 1)}</Power>.
+                </div>
+              )}
             </div>
           </div>
         </div>

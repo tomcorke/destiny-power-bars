@@ -39,6 +39,7 @@ export interface CharacterData {
   potentialPowerBySlot?: PowerBySlot;
   potentialOverallPower?: number;
   powerRequiredToReachPotential?: number;
+  powerRequiredToReachNext?: number;
   other?: unknown;
   emblemData?: DestinyInventoryItemDefinition;
 }
