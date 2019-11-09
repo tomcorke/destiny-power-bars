@@ -1,5 +1,3 @@
-import { get, set } from "idb-keyval";
-
 import {
   DestinyInventoryItemDefinition,
   DestinyManifest,
@@ -8,7 +6,10 @@ import {
   getProfile
 } from "bungie-api-ts/destiny2";
 import { HttpClientConfig } from "bungie-api-ts/http";
+import { get, set } from "idb-keyval";
+
 import { BUNGIE_API_KEY, getAccessToken } from "./bungie-auth";
+import eventEmitter, { EVENTS } from "./events";
 import ga from "./ga";
 
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
@@ -73,18 +74,18 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     throw Error("No manifest!");
   }
   const version = manifest.version;
-  console.log("Fetching fresh manifest data");
+  eventEmitter.emit(EVENTS.FETCH_MANIFEST_DATA);
   const manifestDataResponse = await fetch(
     `https://www.bungie.net${manifest.jsonWorldContentPaths.en}`
   );
   const manifestData: ManifestData = await manifestDataResponse.json();
-  console.log("Pruning manifest data");
+  eventEmitter.emit(EVENTS.PARSE_MANIFEST_DATA);
   Object.keys(manifestData).forEach(key => {
     if (!manifestPropertyWhitelist.includes(key)) {
       delete manifestData[key];
     }
   });
-  console.log("Storing manifest data in IDB");
+  eventEmitter.emit(EVENTS.STORE_MANIFEST_DATA);
   await set(MANIFEST_IDB_KEY, manifestData);
   localStorage.setItem(MANIFEST_VERSION_KEY, version);
   return manifestData;
@@ -108,6 +109,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         action: "Attempt load manifest",
         nonInteraction: true
       });
+      eventEmitter.emit(EVENTS.GET_MANIFEST);
       const manifest = await getDestinyManifest(bungieAuthedFetch);
       const localStorageManifestVersion = localStorage.getItem(
         MANIFEST_VERSION_KEY
@@ -119,6 +121,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         !window.location.search.includes("updateManifest")
       ) {
         if (!cachedManifestData) {
+          eventEmitter.emit(EVENTS.LOAD_MANIFEST_DATA);
           cachedManifestData = await getCachedManifestData();
         }
         if (
@@ -165,6 +168,11 @@ export const getManifest = async (): Promise<GetManifestResult> => {
       const freshManifestData = await getRemoteManifestData(manifest.Response);
       cachedManifestData = freshManifestData;
       return { manifest: freshManifestData };
+    });
+    getManifestPromise.then(result => {
+      if (result.manifest && !result.error) {
+        eventEmitter.emit(EVENTS.MANIFEST_DATA_READY);
+      }
     });
   }
   return getManifestPromise;

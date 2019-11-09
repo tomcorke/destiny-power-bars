@@ -23,6 +23,7 @@ import {
   getManifest,
   ManifestData
 } from "./services/bungie-api";
+import { EVENTS, useEvent } from "./services/events";
 import { getCharacterData } from "./services/utils";
 
 import "normalize.css";
@@ -64,7 +65,27 @@ const App = () => {
     CharacterData[] | undefined
   >(undefined);
 
-  const hasManifestData = !!manifestData;
+  const [manifestState, setManifestState] = useState<string>("Unknown");
+  useEvent(EVENTS.GET_MANIFEST, () =>
+    setManifestState("Checking manifest version")
+  );
+  useEvent(EVENTS.LOAD_MANIFEST_DATA, () =>
+    setManifestState("Loading manifest data")
+  );
+  useEvent(EVENTS.FETCH_MANIFEST_DATA, () =>
+    setManifestState("Fetching manifest data from Bungie")
+  );
+  useEvent(EVENTS.PARSE_MANIFEST_DATA, () =>
+    setManifestState("Processing manifest data")
+  );
+  useEvent(EVENTS.STORE_MANIFEST_DATA, () =>
+    setManifestState("Saving manifest data")
+  );
+  useEvent(EVENTS.MANIFEST_DATA_READY, () =>
+    setManifestState("Manifest ready")
+  );
+
+  const hasManifestData = manifestState === "Manifest ready";
 
   useEffect(() => {
     const doAuth = async () => {
@@ -126,12 +147,7 @@ const App = () => {
         (window as any).refreshCharacterData = () => doGetCharacterData();
       }
     }
-  }, [
-    isAuthed,
-    hasSelectedMembership,
-    hasManifestData,
-    isFetchingCharacterData
-  ]);
+  }, [isAuthed, hasSelectedMembership, isFetchingCharacterData]);
 
   const onSelectMembership = (membership: UserInfoCard) => {
     ga.event({
@@ -177,7 +193,7 @@ const App = () => {
   } else if (!hasSelectedMembership) {
     status = "Waiting for Destiny platform selection...";
   } else if (!hasManifestData) {
-    status = "Fetching Destiny item manifest...";
+    status = manifestState;
   } else if (!characterData || characterData.length === 0) {
     if (isFetchingCharacterData) {
       status = "Fetching character data...";
