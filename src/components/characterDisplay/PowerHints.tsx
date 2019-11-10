@@ -6,62 +6,72 @@ import { Power } from "./Power";
 import STYLES from "./PowerHints.module.scss";
 
 interface PowerHintsProps {
-  averagePower: number;
+  overallPowerExact: number;
   overallPower: number;
   potentialOverallPower?: number;
-  powerRequiredToReachPotential?: number;
-  powerRequiredToReachNext?: number;
 }
 
-export const PowerHints = (data: PowerHintsProps) => {
+export const PowerHints = ({
+  overallPowerExact,
+  overallPower,
+  potentialOverallPower
+}: PowerHintsProps) => {
+  potentialOverallPower = potentialOverallPower || Math.min(900, overallPower);
+
+  const nextPower =
+    overallPowerExact === overallPower
+      ? overallPower + 1
+      : Math.ceil(overallPowerExact);
+
+  const powerRequiredToReachNext = (nextPower - overallPowerExact) * 8;
+  const powerRequiredToReachPotential =
+    (potentialOverallPower - overallPowerExact) * 8;
+
   return (
     <div className={STYLES.hints}>
-      {data.potentialOverallPower &&
-        data.potentialOverallPower > data.overallPower && (
-          <div className={classnames(STYLES.hint, STYLES.worldDropHint)}>
-            <span>
-              World drops can increase your overall gear power to{" "}
-              <Power>{data.potentialOverallPower}</Power>
-            </span>
-            <div className={STYLES.hintExtra}>
-              <div className={STYLES.hintExtraInner}>
-                <div>
-                  World drops (from strikes, public events,{" "}
-                  {data.overallPower <= 950 && "vendors, "}non-powerful
-                  legendary rewards) can drop with a power level from{" "}
-                  <Power>{data.overallPower - 3}</Power> to{" "}
-                  <Power>{data.overallPower}</Power> for this character.
-                </div>
-                <div>
-                  Replacing items below your current overall power can increase
-                  your power to a higher average.
-                </div>
-                {data.powerRequiredToReachNext &&
-                  data.powerRequiredToReachNext !==
-                    data.powerRequiredToReachPotential && (
-                    <div>
-                      You need an extra{" "}
-                      <Power>{data.powerRequiredToReachNext}</Power> total power
-                      on your items to reach an overall power of{" "}
-                      <Power>{Math.floor(data.overallPower + 1)}</Power>.
-                    </div>
-                  )}
-                {data.powerRequiredToReachPotential && (
+      {potentialOverallPower && potentialOverallPower > overallPower && (
+        <div className={classnames(STYLES.hint, STYLES.worldDropHint)}>
+          <span>
+            World drops can increase your overall gear power to{" "}
+            <Power>{potentialOverallPower}</Power>
+          </span>
+          <div className={STYLES.hintExtra}>
+            <div className={STYLES.hintExtraInner}>
+              <div>
+                World drops (from strikes, public events,{" "}
+                {overallPower <= 950 && "vendors, "}non-powerful legendary
+                rewards) can drop with a power level from{" "}
+                <Power>{overallPower - 3}</Power> to{" "}
+                <Power>{overallPower}</Power> for this character.
+              </div>
+              <div>
+                Replacing items below your current overall power can increase
+                your power to a higher average.
+              </div>
+              {powerRequiredToReachNext &&
+                powerRequiredToReachNext !== powerRequiredToReachPotential && (
                   <div>
-                    You need an extra{" "}
-                    <Power>{data.powerRequiredToReachPotential}</Power> total
-                    power on your items to reach an overall power of{" "}
-                    <Power>{data.potentialOverallPower}</Power>.
+                    You need an extra <Power>{powerRequiredToReachNext}</Power>{" "}
+                    total power on your items to reach an overall power of{" "}
+                    <Power>{Math.floor(overallPower + 1)}</Power>.
                   </div>
                 )}
-              </div>
+              {powerRequiredToReachPotential && (
+                <div>
+                  You need an extra{" "}
+                  <Power>{powerRequiredToReachPotential}</Power> total power on
+                  your items to reach an overall power of{" "}
+                  <Power>{potentialOverallPower}</Power>.
+                </div>
+              )}
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-      {data.potentialOverallPower === data.overallPower &&
-        data.overallPower >= 900 &&
-        data.overallPower < 950 && (
+      {potentialOverallPower === overallPower &&
+        overallPower >= 900 &&
+        overallPower < 950 && (
           <div className={classnames(STYLES.hint, STYLES.powerfulHint)}>
             <span>
               Powerful rewards can increase your overall gear power up to the
@@ -74,12 +84,11 @@ export const PowerHints = (data: PowerHintsProps) => {
                   3 raids) will give you items above your overall gear power,
                   with powerful rewards capped at <Power>{950}</Power>.
                 </div>
-                {data.powerRequiredToReachNext && (
+                {powerRequiredToReachNext && (
                   <div>
-                    You need an extra{" "}
-                    <Power>{data.powerRequiredToReachNext}</Power> total power
-                    on your items to reach an overall power of{" "}
-                    <Power>{Math.floor(data.overallPower + 1)}</Power>.
+                    You need an extra <Power>{powerRequiredToReachNext}</Power>{" "}
+                    total power on your items to reach an overall power of{" "}
+                    <Power>{Math.floor(overallPower + 1)}</Power>.
                   </div>
                 )}
                 <div>
@@ -92,9 +101,9 @@ export const PowerHints = (data: PowerHintsProps) => {
           </div>
         )}
 
-      {data.potentialOverallPower === data.overallPower &&
-        data.overallPower >= 950 &&
-        data.overallPower < 960 && (
+      {potentialOverallPower === overallPower &&
+        overallPower >= 950 &&
+        overallPower < 960 && (
           <div className={classnames(STYLES.hint, STYLES.pinnacleHint)}>
             <span>
               Pinnacle rewards can increase your overall gear power up to the
@@ -105,14 +114,13 @@ export const PowerHints = (data: PowerHintsProps) => {
                 <div>
                   Pinnacle reward sources (Some weekly challenges, Year 3 raids)
                   will give you items at{" "}
-                  <Power>{Math.min(data.overallPower + 2, 960)}</Power> power.
+                  <Power>{Math.min(overallPower + 2, 960)}</Power> power.
                 </div>
-                {data.powerRequiredToReachNext && (
+                {powerRequiredToReachNext && (
                   <div>
-                    You need an extra{" "}
-                    <Power>{data.powerRequiredToReachNext}</Power> total power
-                    on your items to reach an overall power of{" "}
-                    <Power>{Math.floor(data.overallPower + 1)}</Power>.
+                    You need an extra <Power>{powerRequiredToReachNext}</Power>{" "}
+                    total power on your items to reach an overall power of{" "}
+                    <Power>{Math.floor(overallPower + 1)}</Power>.
                   </div>
                 )}
               </div>

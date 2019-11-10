@@ -27,20 +27,19 @@ export interface SeasonalArtifactData {
   iconPath: string;
   name: string;
   bonusPower: number;
+  progressToNextLevel: number;
+  nextLevelAt: number;
 }
 
 export interface CharacterData {
   character: DestinyCharacterComponent;
   className: string;
-  averagePower: number;
+  overallPowerExact: number;
   overallPower: number;
   topItemBySlot?: ItemBySlot;
   maxItemPower?: number;
   artifactData?: SeasonalArtifactData;
-  potentialPowerBySlot?: PowerBySlot;
   potentialOverallPower?: number;
-  powerRequiredToReachPotential?: number;
-  powerRequiredToReachNext?: number;
   other?: unknown;
   emblemData?: DestinyInventoryItemDefinition;
 }

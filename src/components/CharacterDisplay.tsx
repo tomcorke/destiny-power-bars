@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import React from "react";
 
 import { CharacterData } from "../types";
@@ -24,6 +23,15 @@ const rgbString = ({
   blue: number;
 }) => `rgb(${red},${green},${blue})`;
 
+export const CharacterDisplayBodyWrapper = (
+  backgroundColor: string,
+  children: JSX.Element
+) => (
+  <div className={STYLES.characterDisplay} style={{ backgroundColor }}>
+    {children}
+  </div>
+);
+
 const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
   const roundedPower = Math.floor(data.overallPower);
 
@@ -31,14 +39,9 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
     ? data.artifactData.bonusPower
     : 0;
 
-  return (
-    <div
-      className={classnames(
-        STYLES.characterDisplay,
-        STYLES[`class_${data.className}`]
-      )}
-      style={{ backgroundColor: rgbString(data.character.emblemColor) }}
-    >
+  return CharacterDisplayBodyWrapper(
+    rgbString(data.character.emblemColor),
+    <>
       <div className={STYLES.header}>
         <img
           className={STYLES.emblemBackground}
@@ -57,7 +60,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         <PowerBars {...data} />
         <PowerHints {...data} />
       </div>
-    </div>
+    </>
   );
 };
 

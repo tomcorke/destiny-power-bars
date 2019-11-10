@@ -212,7 +212,8 @@ export const getFullProfile = (
       201, // DestinyComponentType.CharacterInventories,
       205, // DestinyComponentType.CharacterEquipment,
       102, // DestinyComponentType.ProfileInventories,
-      300 // DestinyComponentType.ItemInstances,
+      300, // DestinyComponentType.ItemInstances,
+      104 // DestinyComponentType.ProfileProgression
     ],
     destinyMembershipId: membershipId,
     membershipType

@@ -2,7 +2,8 @@ import {
   DestinyCharacterComponent,
   DestinyInventoryComponent,
   DestinyItemComponent,
-  DestinyItemInstanceComponent
+  DestinyItemInstanceComponent,
+  DestinyProfileProgressionComponent
 } from "bungie-api-ts/destiny2";
 
 import forIn from "lodash/forIn";
@@ -94,7 +95,7 @@ const getBasicCharacterData = async (
       const result: CharacterData = {
         character,
         className,
-        averagePower: character.light,
+        overallPowerExact: character.light,
         overallPower: character.light
       };
       return result;
@@ -184,7 +185,8 @@ const getDataForCharacterId = (
   characterInventories: ObjectOf<DestinyInventoryComponent>,
   characterEquipments: ObjectOf<DestinyInventoryComponent>,
   allCharacterWeapons: DestinyItemComponent[],
-  profileInventories: DestinyInventoryComponent
+  profileInventories: DestinyInventoryComponent,
+  profileProgression: DestinyProfileProgressionComponent
 ): CharacterData => {
   const character = characters[characterId];
   const className = CLASS_NAMES[character.classType];
@@ -267,6 +269,7 @@ const getDataForCharacterId = (
   // (topItemBySlot.kinetic.instanceData.primaryStat as any).value = 940;
 
   const powerBySlot = getPowerBySlot(topItemBySlot);
+  const overallPowerExact = getAveragePower(powerBySlot);
   const overallPower = getOverallPower(powerBySlot);
 
   const artifactItemComponent = Object.values(characterEquipments)
@@ -274,17 +277,19 @@ const getDataForCharacterId = (
     .find(i => i.itemHash === UNDYING_ARTIFACT_ITEM_HASH);
 
   let artifactData: SeasonalArtifactData | undefined;
-  if (artifactItemComponent && artifactItemComponent.itemInstanceId) {
+  if (artifactItemComponent && profileProgression.seasonalArtifact) {
     const artifactDefinition = manifest.DestinyInventoryItemDefinition[
       artifactItemComponent.itemHash
     ]!;
-    const artifactInstance = itemInstances[
-      artifactItemComponent.itemInstanceId
-    ]!;
     artifactData = {
-      bonusPower: artifactInstance.primaryStat.value,
+      bonusPower: profileProgression.seasonalArtifact.powerBonus,
       iconPath: artifactDefinition.displayProperties.icon,
-      name: artifactDefinition.displayProperties.name
+      name: artifactDefinition.displayProperties.name,
+      progressToNextLevel:
+        profileProgression.seasonalArtifact.powerBonusProgression
+          .progressToNextLevel,
+      nextLevelAt:
+        profileProgression.seasonalArtifact.powerBonusProgression.nextLevelAt
     };
   }
 
@@ -305,25 +310,15 @@ const getDataForCharacterId = (
   }
   const potentialOverallPower = getOverallPower(potentialPowerBySlot);
 
-  const averagePower = getAveragePower(powerBySlot);
-  const powerRequiredToReachPotential =
-    (potentialOverallPower - averagePower) * 8;
-
-  const powerRequiredToReachNext =
-    (Math.floor(averagePower + 1) - averagePower) * 8;
-
   const emblemData = getEmblemData(character, manifest);
 
   const resultData: CharacterData = {
     character,
     className,
-    averagePower,
+    overallPowerExact,
     overallPower,
     potentialOverallPower,
-    potentialPowerBySlot,
     topItemBySlot,
-    powerRequiredToReachPotential,
-    powerRequiredToReachNext,
     artifactData,
     emblemData
   };
@@ -396,7 +391,9 @@ export const getCharacterData = async (
       !fullProfile.Response.profileInventory.data ||
       !fullProfile.Response.itemComponents ||
       !fullProfile.Response.itemComponents.instances ||
-      !fullProfile.Response.itemComponents.instances.data
+      !fullProfile.Response.itemComponents.instances.data ||
+      !fullProfile.Response.profileProgression ||
+      !fullProfile.Response.profileProgression.data
     ) {
       return;
     }
@@ -406,6 +403,7 @@ export const getCharacterData = async (
     const characterInventories = fullProfile.Response.characterInventories.data;
     const profileInventories = fullProfile.Response.profileInventory.data;
     const itemInstances = fullProfile.Response.itemComponents.instances.data;
+    const profileProgression = fullProfile.Response.profileProgression.data;
 
     const manifestResult = await pendingManifest;
 
@@ -434,7 +432,8 @@ export const getCharacterData = async (
         characterInventories,
         characterEquipments,
         allCharacterWeapons,
-        profileInventories
+        profileInventories,
+        profileProgression
       )
     );
     shouldSetBasicCharacterData = false;

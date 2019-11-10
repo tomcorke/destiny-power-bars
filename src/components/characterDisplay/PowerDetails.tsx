@@ -12,26 +12,36 @@ const withSign = (value: number) => {
   return `${value}`;
 };
 
+const ProgressBar = ({ value, max }: { value: number; max: number }) => {
+  const perc = Math.floor((value / max) * 1000) / 10;
+  return (
+    <div className={STYLES.progressBar}>
+      <div className={STYLES.progressBarFill} style={{ width: `${perc}%` }} />
+      <div className={STYLES.progressBarOverlay} />
+    </div>
+  );
+};
+
 interface PowerDetailsProps {
-  averagePower: number;
+  overallPowerExact: number;
   overallPower: number;
   artifactData?: {
     name: string;
     iconPath: string;
     bonusPower: number;
+    progressToNextLevel: number;
+    nextLevelAt: number;
   };
 }
 
-export const PowerDetails = (data: PowerDetailsProps) => {
-  const roundedPower = Math.floor(data.overallPower);
+export const PowerDetails = ({
+  overallPowerExact,
+  overallPower,
+  artifactData
+}: PowerDetailsProps) => {
+  const roundedPower = Math.floor(overallPower);
 
-  /*
-  const summableArtifactBonusPower = data.artifactData
-    ? data.artifactData.bonusPower
-    : 0;
-    */
-
-  if (!data.artifactData || data.artifactData.bonusPower === 0) {
+  if (!artifactData || artifactData.bonusPower === 0) {
     return null;
   }
 
@@ -45,26 +55,32 @@ export const PowerDetails = (data: PowerDetailsProps) => {
           <Power>{roundedPower}</Power>
         </div>
       </div>
-      {data.artifactData && (
+      <div className={STYLES.detailsRow}>
+        <InterPowerBar value={overallPowerExact} />
+      </div>
+      {artifactData && (
         <>
           <div className={STYLES.detailsRow}>
             <div className={STYLES.detailsLabel}>
               <img
                 className={STYLES.detailsInlineIcon}
-                src={`https://www.bungie.net${data.artifactData.iconPath}`}
+                src={`https://www.bungie.net${artifactData.iconPath}`}
                 alt=""
               />
-              {data.artifactData.name} bonus power:
+              {artifactData.name} bonus power:
             </div>
             <div className={STYLES.detailsValue}>
-              <Power>{withSign(data.artifactData.bonusPower)}</Power>
+              <Power>{withSign(artifactData.bonusPower)}</Power>
             </div>
+          </div>
+          <div className={STYLES.detailsRow}>
+            <ProgressBar
+              value={artifactData.progressToNextLevel}
+              max={artifactData.nextLevelAt}
+            />
           </div>
         </>
       )}
-      <div className={STYLES.detailsRow}>
-        <InterPowerBar value={data.averagePower} />
-      </div>
     </div>
   );
 };
