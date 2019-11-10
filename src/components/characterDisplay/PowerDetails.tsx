@@ -14,8 +14,13 @@ const withSign = (value: number) => {
 
 const ProgressBar = ({ value, max }: { value: number; max: number }) => {
   const perc = Math.floor((value / max) * 1000) / 10;
+  const withThousands = (n: number) =>
+    n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
-    <div className={STYLES.progressBar}>
+    <div
+      className={STYLES.progressBar}
+      title={`${withThousands(value)} / ${withThousands(max)}`}
+    >
       <div className={STYLES.progressBarFill} style={{ width: `${perc}%` }} />
       <div className={STYLES.progressBarOverlay} />
     </div>
