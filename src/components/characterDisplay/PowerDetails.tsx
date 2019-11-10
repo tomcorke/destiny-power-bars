@@ -2,6 +2,7 @@ import React from "react";
 
 import STYLES from "./PowerDetails.module.scss";
 
+import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
 
 const withSign = (value: number) => {
@@ -12,6 +13,7 @@ const withSign = (value: number) => {
 };
 
 interface PowerDetailsProps {
+  averagePower: number;
   overallPower: number;
   artifactData?: {
     name: string;
@@ -43,7 +45,7 @@ export const PowerDetails = (data: PowerDetailsProps) => {
           <Power>{roundedPower}</Power>
         </div>
       </div>
-      {data.artifactData ? (
+      {data.artifactData && (
         <>
           <div className={STYLES.detailsRow}>
             <div className={STYLES.detailsLabel}>
@@ -58,15 +60,11 @@ export const PowerDetails = (data: PowerDetailsProps) => {
               <Power>{withSign(data.artifactData.bonusPower)}</Power>
             </div>
           </div>
-
-          {/*<div className={STYLES.detailsRow}>
-            <div className={STYLES.detailsLabel}>Total combined power:</div>
-            <div className={STYLES.detailsValue}>
-              <Power>{roundedPower + summableArtifactBonusPower}</Power>
-            </div>
-      </div>*/}
         </>
-      ) : null}
+      )}
+      <div className={STYLES.detailsRow}>
+        <InterPowerBar value={data.averagePower} />
+      </div>
     </div>
   );
 };

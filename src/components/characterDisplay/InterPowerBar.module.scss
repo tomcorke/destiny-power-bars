@@ -1,0 +1,51 @@
+.interPowerBar {
+  width: 100%;
+  max-width: 800px;
+  color: white;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.min,
+.max {
+  flex-grow: 0;
+}
+
+.bar {
+  position: relative;
+  top: 1px;
+  flex-grow: 1;
+  text-align: center;
+  margin: 0 5px;
+  height: 8px;
+  background: #334;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.fillBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: cyan;
+}
+
+.barOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: repeating-linear-gradient(
+    to right,
+    black,
+    black 1px,
+    transparent 1px,
+    transparent calc(12.5% - 1px),
+    black calc(12.5% - 1px),
+    black 12.5%
+  );
+}

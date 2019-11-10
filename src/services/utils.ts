@@ -94,6 +94,7 @@ const getBasicCharacterData = async (
       const result: CharacterData = {
         character,
         className,
+        averagePower: character.light,
         overallPower: character.light
       };
       return result;
@@ -316,6 +317,7 @@ const getDataForCharacterId = (
   const resultData: CharacterData = {
     character,
     className,
+    averagePower,
     overallPower,
     potentialOverallPower,
     potentialPowerBySlot,
