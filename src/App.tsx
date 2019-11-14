@@ -1,6 +1,7 @@
 import { UserInfoCard } from "bungie-api-ts/user";
 import preval from "preval.macro";
 import React, { useEffect, useState } from "react";
+import ga from "./services/ga";
 
 import {
   auth,
@@ -123,20 +124,61 @@ const App = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    const doGetCharacterData = (returnBasicCharacterData: boolean = false) => {
-      if (!isFetchingCharacterData) {
-        try {
-          getCharacterData(
-            setCharacterData,
-            setIsFetchingCharacterData,
-            returnBasicCharacterData
-          );
-        } catch (e) {
-          console.error("Error fetching character data:", e);
+  const doGetCharacterData = (returnBasicCharacterData: boolean = false) => {
+    const updateCharacterData = (newData: CharacterData[]) => {
+      if (characterData && characterData[0] && characterData[0].artifactData) {
+        const currentOverallPower = Math.max(
+          ...characterData.map(c => c.overallPower)
+        );
+        const newOverallPower = Math.max(...newData.map(c => c.overallPower));
+        const currentArtifactPower = Math.max(
+          ...characterData.map(c => c.artifactData!.bonusPower)
+        );
+        const newArtifactPower = Math.max(
+          ...newData.map(c => c.artifactData!.bonusPower)
+        );
+        const currentTotalPower = currentOverallPower + currentArtifactPower;
+        const newTotalPower = newOverallPower + newArtifactPower;
+        ga.event({
+          category: "Power Report",
+          action: "Maximum power",
+          value: newTotalPower,
+          nonInteraction: true
+        });
+        if (currentArtifactPower < newArtifactPower) {
+          ga.event({
+            category: "Power Report",
+            action: "Artifact power increase",
+            value: newArtifactPower,
+            nonInteraction: true
+          });
+        }
+        if (currentOverallPower < newOverallPower) {
+          ga.event({
+            category: "Power Report",
+            action: "Gear power increase",
+            value: newOverallPower,
+            nonInteraction: true
+          });
         }
       }
+      setCharacterData(newData);
     };
+
+    if (!isFetchingCharacterData) {
+      try {
+        getCharacterData(
+          updateCharacterData,
+          setIsFetchingCharacterData,
+          returnBasicCharacterData
+        );
+      } catch (e) {
+        console.error("Error fetching character data:", e);
+      }
+    }
+  };
+
+  useEffect(() => {
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
       if (!characterDataRefreshTimer) {
         characterDataRefreshTimer = setInterval(
