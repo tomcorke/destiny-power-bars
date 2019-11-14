@@ -1,7 +1,6 @@
 import { UserInfoCard } from "bungie-api-ts/user";
 import preval from "preval.macro";
 import React, { useEffect, useState } from "react";
-import ga from "./services/ga";
 
 import {
   auth,
