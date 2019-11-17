@@ -1,6 +1,7 @@
+import useInterval from "@use-it/interval";
 import { UserInfoCard } from "bungie-api-ts/user";
 import preval from "preval.macro";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   auth,
@@ -32,8 +33,6 @@ import "./index.css";
 import STYLES from "./App.module.scss";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
-
-let characterDataRefreshTimer: number | undefined;
 
 const AUTO_PAGE_REFRESH_DELAY = 5000;
 
@@ -85,6 +84,8 @@ const App = () => {
     setManifestState("Manifest ready")
   );
 
+  useEvent(EVENTS.LOG_OUT, () => setIsAuthed(false));
+
   const hasManifestData = manifestState === "Manifest ready";
 
   useEffect(() => {
@@ -123,20 +124,13 @@ const App = () => {
     })();
   }, []);
 
-  const doGetCharacterData = (returnBasicCharacterData: boolean = false) => {
-    const updateCharacterData = (newData: CharacterData[]) => {
-      if (characterData && characterData[0] && characterData[0].artifactData) {
-        const currentOverallPower = Math.max(
-          ...characterData.map(c => c.overallPower)
-        );
+  const doGetCharacterData = useCallback(
+    (returnBasicCharacterData: boolean = false) => {
+      const updateCharacterData = (newData: CharacterData[]) => {
         const newOverallPower = Math.max(...newData.map(c => c.overallPower));
-        const currentArtifactPower = Math.max(
-          ...characterData.map(c => c.artifactData!.bonusPower)
-        );
         const newArtifactPower = Math.max(
           ...newData.map(c => c.artifactData!.bonusPower)
         );
-        const currentTotalPower = currentOverallPower + currentArtifactPower;
         const newTotalPower = newOverallPower + newArtifactPower;
         ga.event({
           category: "Power Report",
@@ -144,51 +138,70 @@ const App = () => {
           value: newTotalPower,
           nonInteraction: true
         });
-        if (currentArtifactPower < newArtifactPower) {
-          ga.event({
-            category: "Power Report",
-            action: "Artifact power increase",
-            value: newArtifactPower,
-            nonInteraction: true
-          });
-        }
-        if (currentOverallPower < newOverallPower) {
-          ga.event({
-            category: "Power Report",
-            action: "Gear power increase",
-            value: newOverallPower,
-            nonInteraction: true
-          });
-        }
-      }
-      setCharacterData(newData);
-    };
 
-    if (!isFetchingCharacterData) {
-      try {
-        getCharacterData(
-          updateCharacterData,
-          setIsFetchingCharacterData,
-          returnBasicCharacterData
-        );
-      } catch (e) {
-        console.error("Error fetching character data:", e);
+        if (
+          characterData &&
+          characterData[0] &&
+          characterData[0].artifactData
+        ) {
+          const currentOverallPower = Math.max(
+            ...characterData.map(c => c.overallPower)
+          );
+          const currentArtifactPower = Math.max(
+            ...characterData.map(c => c.artifactData!.bonusPower)
+          );
+          if (currentArtifactPower < newArtifactPower) {
+            ga.event({
+              category: "Power Report",
+              action: "Artifact power increase",
+              value: newArtifactPower,
+              nonInteraction: true
+            });
+          }
+          if (currentOverallPower < newOverallPower) {
+            ga.event({
+              category: "Power Report",
+              action: "Gear power increase",
+              value: newOverallPower,
+              nonInteraction: true
+            });
+          }
+        }
+        setCharacterData(newData);
+      };
+
+      if (!isFetchingCharacterData) {
+        try {
+          getCharacterData(
+            characterData,
+            updateCharacterData,
+            setIsFetchingCharacterData,
+            returnBasicCharacterData
+          );
+        } catch (e) {
+          console.error("Error fetching character data:", e);
+        }
       }
+    },
+    [
+      characterData,
+      setCharacterData,
+      isFetchingCharacterData,
+      setIsFetchingCharacterData
+    ]
+  );
+
+  useInterval(() => {
+    if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
+      doGetCharacterData();
     }
-  };
+  }, CHARACTER_DATA_REFRESH_TIMER);
 
   useEffect(() => {
-    if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
-      if (!characterDataRefreshTimer) {
-        characterDataRefreshTimer = setInterval(
-          doGetCharacterData,
-          CHARACTER_DATA_REFRESH_TIMER
-        );
-        doGetCharacterData(true);
-        (window as any).refreshCharacterData = () => doGetCharacterData();
-      }
+    if (!characterData && !isFetchingCharacterData) {
+      doGetCharacterData();
     }
-  }, [isAuthed, hasSelectedMembership, isFetchingCharacterData]);
+  }, [characterData, isFetchingCharacterData, doGetCharacterData]);
 
   const onSelectMembership = (membership: UserInfoCard) => {
     ga.event({

@@ -16,7 +16,7 @@ export interface PowerBySlot {
 }
 
 export interface ItemBySlot {
-  [key: string]: JoinedItemDefinition;
+  [key: string]: JoinedItemDefinition | undefined;
 }
 
 export interface ItemsBySlot {

@@ -37,7 +37,9 @@ import {
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
-  mapValues(itemsBySlot, item => item.instanceData.primaryStat.value);
+  mapValues(itemsBySlot, item =>
+    item && item.instanceData ? item.instanceData.primaryStat.value : 0
+  );
 
 const getAveragePower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
@@ -60,6 +62,9 @@ const isItemEquippableByCharacter = (
   item: JoinedItemDefinition,
   character: DestinyCharacterComponent
 ) => {
+  if (!item.instanceData) {
+    return false;
+  }
   if (item.instanceData.canEquip) {
     return true;
   } // If the game says we can equip it, let's believe it
@@ -150,7 +155,7 @@ const mapAndFilterItems = (
     .filter(i => i.instanceData.primaryStat && i.instanceData.primaryStat.value)
     .filter(i => isItemEquippableByCharacter(i, character));
 
-const getItemScore = (item: JoinedItemDefinition) => {
+const getItemScore = (item?: JoinedItemDefinition) => {
   if (!item || !item.instanceData || !item.instanceData.primaryStat) {
     return 0;
   }
@@ -164,8 +169,8 @@ const getItemScore = (item: JoinedItemDefinition) => {
   return score;
 };
 
-const getEquipLabel = (item: JoinedItemDefinition) =>
-  item.itemDefinition.equippingBlock.uniqueLabel;
+const getEquipLabel = (item?: JoinedItemDefinition) =>
+  item && item.itemDefinition.equippingBlock.uniqueLabel;
 
 const getEmblemData = (
   character: DestinyCharacterComponent,
@@ -215,7 +220,7 @@ const getDataForCharacterId = (
   // Group by slot
   const itemsBySlot = groupBy(allItems, i => i.slotName);
   // Get max power items per slot
-  let topItemBySlot = mapValues(
+  let topItemBySlot: ItemBySlot = mapValues(
     itemsBySlot,
     items => maxBy(items, getItemScore)!
   );
@@ -233,9 +238,10 @@ const getDataForCharacterId = (
     const validItemCombinations: ItemBySlot[] = [];
 
     uniqueEquippedGroup.forEach(item => {
-      const otherItems = uniqueEquippedGroup.filter(
-        otherItem => otherItem !== item
-      );
+      const otherItems: JoinedItemDefinition[] = uniqueEquippedGroup
+        .filter(otherItem => otherItem !== item)
+        .filter(otherItem => !!otherItem)
+        .map(otherItem => otherItem!);
       let isCombinationValid = true;
       const combination = { ...topItemBySlot };
       otherItems.forEach(otherItem => {
@@ -327,6 +333,7 @@ const getDataForCharacterId = (
 };
 
 export const getCharacterData = async (
+  currentCharacterData: CharacterData[] | undefined,
   setCharacterData: (state: CharacterData[]) => any,
   setIsFetchingCharacterData: (state: boolean) => any,
   returnBasicCharacterData: boolean = false

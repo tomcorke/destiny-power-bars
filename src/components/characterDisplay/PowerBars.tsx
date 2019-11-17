@@ -28,9 +28,10 @@ export const PowerBars = (data: PowerBarsProps) => {
   const powerBySlot = ORDERED_ITEM_SLOTS.reduce(
     (slots, slotName) => ({
       ...slots,
-      [slotName]: data.topItemBySlot
-        ? data.topItemBySlot[slotName].instanceData.primaryStat.value
-        : data.overallPower
+      [slotName]:
+        data.topItemBySlot && data.topItemBySlot[slotName]
+          ? data.topItemBySlot[slotName]!.instanceData.primaryStat.value
+          : data.overallPower
     }),
     {} as PowerBySlot
   );
