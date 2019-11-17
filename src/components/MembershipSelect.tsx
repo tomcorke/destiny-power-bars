@@ -3,6 +3,7 @@ import classnames from "classnames";
 import React from "react";
 
 import { PartialApi } from "../services/api";
+import { logOut } from "../services/bungie-auth";
 import STYLES from "./MembershipSelect.module.scss";
 
 export interface RequiredApi extends PartialApi {
@@ -54,6 +55,13 @@ const MembershipSelect = ({
           </div>
         );
       })}
+      <a
+        className={STYLES.logOut}
+        onClick={() => logOut()}
+        title="Re-authenticate"
+      >
+        <span>Re-authenticate</span>
+      </a>
     </div>
   );
 };

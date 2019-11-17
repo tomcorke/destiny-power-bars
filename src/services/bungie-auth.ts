@@ -1,5 +1,7 @@
 import { getMembershipDataById, UserInfoCard } from "bungie-api-ts/user";
+
 import { bungieAuthedFetch } from "./bungie-api";
+import eventEmitter, { EVENTS } from "./events";
 import ga from "./ga";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -257,4 +259,9 @@ export const auth = async () => {
   );
   clearStorage();
   redirectToAuth();
+};
+
+export const logOut = async () => {
+  clearStorage();
+  eventEmitter.emit(EVENTS.LOG_OUT);
 };

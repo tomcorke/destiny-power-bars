@@ -2,11 +2,38 @@
   display: flex;
   flex-flow: row wrap;
   margin-top: 1em;
+  align-items: center;
 }
 
 @font-face {
   font-family: "Destiny Keys";
   src: url("../fonts/DestinyKeys.woff2") format("woff2");
+}
+
+.logOut {
+  background: rgba(#300, 0.9);
+  background-image: url("../images/reload.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid black;
+  box-shadow: 0 0 2px 1px black;
+  border-radius: 3px;
+
+  span {
+    display: none;
+  }
+
+  color: white;
+  opacity: 0.5;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
 }
 
 .membership {
