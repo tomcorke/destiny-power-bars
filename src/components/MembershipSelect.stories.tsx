@@ -60,6 +60,7 @@ export const allMemberships = () => (
   <MembershipSelect
     api={mockApi}
     onMembershipSelect={action("membership selected")}
+    onLogout={action("Logout")}
   />
 );
 
@@ -67,6 +68,7 @@ export const xboxMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(1)}
     onMembershipSelect={action("membership selected")}
+    onLogout={action("Logout")}
   />
 );
 
@@ -74,6 +76,7 @@ export const psMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(2)}
     onMembershipSelect={action("membership selected")}
+    onLogout={action("Logout")}
   />
 );
 
@@ -81,6 +84,7 @@ export const steamMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(3)}
     onMembershipSelect={action("membership selected")}
+    onLogout={action("Logout")}
   />
 );
 
@@ -88,6 +92,7 @@ export const battleNetMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(4)}
     onMembershipSelect={action("membership selected")}
+    onLogout={action("Logout")}
   />
 );
 
@@ -95,5 +100,6 @@ export const stadiaMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(5)}
     onMembershipSelect={action("membership selected")}
+    onLogout={action("Logout")}
   />
 );

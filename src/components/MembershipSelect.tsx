@@ -15,11 +15,15 @@ export interface RequiredApi extends PartialApi {
 interface MembershipSelectProps {
   onMembershipSelect: (membership: UserInfoCard) => any;
   api: RequiredApi;
+  onLogout?: () => void;
 }
+
+const defaultOnLogout = () => logOut();
 
 const MembershipSelect = ({
   onMembershipSelect,
-  api
+  api,
+  onLogout = defaultOnLogout
 }: MembershipSelectProps) => {
   const destinyMemberships = api.bungieAuth.getDestinyMemberships();
 
@@ -57,7 +61,7 @@ const MembershipSelect = ({
       })}
       <button
         className={STYLES.logOut}
-        onClick={() => logOut()}
+        onClick={() => onLogout()}
         title="Re-authenticate"
       >
         <span>Re-authenticate</span>
