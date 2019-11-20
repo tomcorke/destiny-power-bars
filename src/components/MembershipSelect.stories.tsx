@@ -15,27 +15,27 @@ const mockApi: RequiredApi = {
     getDestinyMemberships: () =>
       ([
         {
-          membershipId: 111,
+          membershipId: 1,
           membershipType: 1,
           displayName: "Test Xbox Membership"
         },
         {
-          membershipId: 111,
+          membershipId: 2,
           membershipType: 2,
           displayName: "Test PS Membership"
         },
         {
-          membershipId: 111,
+          membershipId: 3,
           membershipType: 3,
           displayName: "Test Steam Membership"
         },
         {
-          membershipId: 111,
+          membershipId: 4,
           membershipType: 4,
           displayName: "Test Battle.net Membership"
         },
         {
-          membershipId: 111,
+          membershipId: 5,
           membershipType: 5,
           displayName: "Test Stadia Membership"
         }

@@ -129,44 +129,14 @@ const App = () => {
       const updateCharacterData = (newData: CharacterData[]) => {
         const newOverallPower = Math.max(...newData.map(c => c.overallPower));
         const newArtifactPower = Math.max(
-          ...newData.map(c => c.artifactData!.bonusPower)
+          ...newData.map(c => (c.artifactData ? c.artifactData.bonusPower : 0))
         );
         const newTotalPower = newOverallPower + newArtifactPower;
-        ga.event({
-          category: "Power Report",
-          action: "Maximum power",
-          value: newTotalPower,
-          nonInteraction: true
+        ga.set({
+          dimension1: `${newOverallPower}`,
+          dimension2: `${newArtifactPower}`,
+          dimension3: `${newTotalPower}`
         });
-
-        if (
-          characterData &&
-          characterData[0] &&
-          characterData[0].artifactData
-        ) {
-          const currentOverallPower = Math.max(
-            ...characterData.map(c => c.overallPower)
-          );
-          const currentArtifactPower = Math.max(
-            ...characterData.map(c => c.artifactData!.bonusPower)
-          );
-          if (currentArtifactPower < newArtifactPower) {
-            ga.event({
-              category: "Power Report",
-              action: "Artifact power increase",
-              value: newArtifactPower,
-              nonInteraction: true
-            });
-          }
-          if (currentOverallPower < newOverallPower) {
-            ga.event({
-              category: "Power Report",
-              action: "Gear power increase",
-              value: newOverallPower,
-              nonInteraction: true
-            });
-          }
-        }
         setCharacterData(newData);
       };
 

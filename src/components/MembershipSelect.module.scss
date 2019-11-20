@@ -67,14 +67,18 @@
     background-color: #00ad00;
     background: linear-gradient(270deg, #177a18 0, #2a9917);
 
-    @include icon-before("../images/xbox-icon.png");
+    @include icon-before(
+      "https://www.bungie.net/7/ca/bungie/icons/logos/xbox/icon.png"
+    );
   }
 
   &.platform_psn {
     background-color: #00419c;
     background: linear-gradient(270deg, #013682 0, #3a87ba);
 
-    @include icon-before("../images/psn-icon.png");
+    @include icon-before(
+      "https://www.bungie.net/7/ca/bungie/icons/logos/playstation/icon.png"
+    );
   }
 
   &.platform_steam {
@@ -85,7 +89,9 @@
       BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
       "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
-    @include icon-before("../images/steam-icon.png");
+    @include icon-before(
+      "https://www.bungie.net/7/ca/bungie/icons/logos/steam/icon.png"
+    );
   }
 
   &.platform_blizzard {
@@ -93,5 +99,14 @@
     background: linear-gradient(270deg, #012750 0, #0895df);
 
     @include icon-before("../images/blizzard-icon.png");
+  }
+
+  &.platform_stadia {
+    background-color: #a31561;
+    background: linear-gradient(270deg, #f34c23 0, #a31561);
+
+    @include icon-before(
+      "https://www.bungie.net/7/ca/bungie/icons/logos/stadia/icon.png"
+    );
   }
 }

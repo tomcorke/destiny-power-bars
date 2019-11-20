@@ -55,13 +55,13 @@ const MembershipSelect = ({
           </div>
         );
       })}
-      <a
+      <button
         className={STYLES.logOut}
         onClick={() => logOut()}
         title="Re-authenticate"
       >
         <span>Re-authenticate</span>
-      </a>
+      </button>
     </div>
   );
 };
