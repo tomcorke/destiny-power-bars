@@ -3,7 +3,9 @@ import {
   DestinyInventoryComponent,
   DestinyItemComponent,
   DestinyItemInstanceComponent,
-  DestinyProfileProgressionComponent
+  DestinyProfileProgressionComponent,
+  DestinyProfileResponse,
+  ServerResponse
 } from "bungie-api-ts/destiny2";
 
 import forIn from "lodash/forIn";
@@ -379,10 +381,17 @@ export const getCharacterData = async (
       })();
     }
 
-    const fullProfile = await getFullProfile(
-      destinyMembership.membershipType,
-      destinyMembership.membershipId
-    );
+    let fullProfile: ServerResponse<DestinyProfileResponse> | undefined;
+    try {
+      fullProfile = await getFullProfile(
+        destinyMembership.membershipType,
+        destinyMembership.membershipId
+      );
+    } catch (e) {
+      if (e.message === "401") {
+        await auth();
+      }
+    }
     setIsFetchingCharacterData(false);
 
     if (

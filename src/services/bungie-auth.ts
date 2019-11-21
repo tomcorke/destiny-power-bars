@@ -1,4 +1,5 @@
 import { getMembershipDataById, UserInfoCard } from "bungie-api-ts/user";
+import { stringify } from "simple-query-string";
 
 import { bungieAuthedFetch } from "./bungie-api";
 import eventEmitter, { EVENTS } from "./events";
@@ -6,15 +7,20 @@ import ga from "./ga";
 
 const isDev = process.env.NODE_ENV === "development";
 export const BUNGIE_API_KEY = isDev
-  ? "f7f184669f044a89b560fc5f71ed5d60"
-  : "d94be1e34632448fafdaf77c7afbb501";
+  ? "5b209e9ffcfb4cd69df4c4591199ec54"
+  : "d216f4575ce8407781070ce5579340ae";
 const BUNGIE_OAUTH_AUTHORIZE_URL = "https://www.bungie.net/en/OAuth/Authorize";
-const BUNGIE_OAUTH_CLIENT_ID = isDev ? "26087" : "27213";
+const BUNGIE_OAUTH_CLIENT_ID = isDev ? "31115" : "31116";
+const BUNGIE_OAUTH_CLIENT_SECRET = isDev
+  ? "eq5UdbxDmEHcPjqLFPMrlJCVJi0cCgWFWKDPYUnZPWs"
+  : "TgX91i4g22hBjysd4tffoiOoZRbkox5xH0p2x7mSC4I";
 const BUNGIE_OAUTH_TOKEN_URL =
   "https://www.bungie.net/platform/app/oauth/token/";
 
 const ACCESS_TOKEN_STORAGE_KEY = "bungieAccessToken";
 const ACCESS_TOKEN_EXPIRY_STORAGE_KEY = "bungieAccessTokenExpiryTime";
+const REFRESH_TOKEN_STORAGE_KEY = "bungieRefreshToken";
+const REFRESH_TOKEN_EXPIRY_STORAGE_KEY = "bungieRefreshTokenExpiryTime";
 const BUNGIE_MEMBERSHIP_ID_STORAGE_KEY = "bungieMembershipId";
 const DESTINY_MEMBERSHIPS_STORAGE_KEY = "destinyMemberships";
 const DESTINY_MEMBERSHIP_STORAGE_KEY = "destinyMembership";
@@ -22,6 +28,8 @@ const DESTINY_MEMBERSHIP_STORAGE_KEY = "destinyMembership";
 const clearStorage = () => {
   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
   localStorage.removeItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_EXPIRY_STORAGE_KEY);
   localStorage.removeItem(BUNGIE_MEMBERSHIP_ID_STORAGE_KEY);
   localStorage.removeItem(DESTINY_MEMBERSHIPS_STORAGE_KEY);
 };
@@ -31,7 +39,12 @@ const clearSelectedMembership = () => {
 };
 
 const getAuthUrl = () =>
-  `${BUNGIE_OAUTH_AUTHORIZE_URL}?response_type=code&client_id=${BUNGIE_OAUTH_CLIENT_ID}`;
+  `${BUNGIE_OAUTH_AUTHORIZE_URL}?${stringify({
+    response_type: "code",
+    client_id: BUNGIE_OAUTH_CLIENT_ID,
+    client_secret: BUNGIE_OAUTH_CLIENT_SECRET,
+    reauth: true
+  })}`;
 
 const redirectToAuth = () => {
   console.log("Redirect to auth");
@@ -52,9 +65,15 @@ const handleTokenResponse = async (
   clearStorage();
   if (tokenResponse.status === 200) {
     const data = await tokenResponse.json();
+
     const accessToken = data.access_token as string;
     const tokenDuration = data.expires_in as number;
     const expiryTime = Date.now() + tokenDuration * 1000;
+
+    const refreshToken = data.refresh_token as string;
+    const refreshTokenDuration = data.refresh_expires_in as number;
+    const refreshExpiryTime = Date.now() + refreshTokenDuration * 1000;
+
     const bungieMembershipId = data.membership_id as string;
 
     localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken);
@@ -62,6 +81,12 @@ const handleTokenResponse = async (
       ACCESS_TOKEN_EXPIRY_STORAGE_KEY,
       expiryTime.toString()
     );
+    localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);
+    localStorage.setItem(
+      REFRESH_TOKEN_EXPIRY_STORAGE_KEY,
+      refreshExpiryTime.toString()
+    );
+
     localStorage.setItem(BUNGIE_MEMBERSHIP_ID_STORAGE_KEY, bungieMembershipId);
 
     // 254 = all memberships
@@ -128,8 +153,8 @@ const handleTokenResponse = async (
   }
 };
 
-const fetchAuthToken = async (authCode: string) => {
-  console.log("fetchAuthToken", authCode);
+const fetchAccessToken = async (authCode: string) => {
+  console.log("fetchAccessToken", authCode);
   clearStorage();
   ga.event({
     category: "Auth",
@@ -137,7 +162,39 @@ const fetchAuthToken = async (authCode: string) => {
     nonInteraction: true
   });
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
-    body: `grant_type=authorization_code&code=${authCode}&client_id=${BUNGIE_OAUTH_CLIENT_ID}`,
+    body: stringify({
+      grant_type: "authorization_code",
+      code: authCode,
+      client_id: BUNGIE_OAUTH_CLIENT_ID,
+      client_secret: BUNGIE_OAUTH_CLIENT_SECRET
+    }),
+    cache: "no-cache",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    method: "POST",
+    redirect: "follow",
+    referrer: "no-referrer"
+  });
+  return await handleTokenResponse(tokenResponse);
+};
+
+const refreshAccessToken = async () => {
+  console.log("refreshAccessToken");
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
+  ga.event({
+    category: "Auth",
+    action: "Oauth token refresh",
+    nonInteraction: true
+  });
+  const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
+    body: stringify({
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+      client_id: BUNGIE_OAUTH_CLIENT_ID,
+      client_secret: BUNGIE_OAUTH_CLIENT_SECRET
+    }),
     cache: "no-cache",
     credentials: "include",
     headers: {
@@ -154,20 +211,33 @@ export const getAccessToken = () => {
   return localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
 };
 
-export const hasValidAuth = () => {
+const hasValidAccessToken = () => {
   const accessToken = getAccessToken();
   const accessTokenExpiryTime = parseInt(
     localStorage.getItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY) || "-1",
     10
   );
+
+  return accessToken && accessTokenExpiryTime > Date.now();
+};
+
+const hasValidRefreshToken = () => {
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
+  const refreshTokenExpiryTime = parseInt(
+    localStorage.getItem(REFRESH_TOKEN_EXPIRY_STORAGE_KEY) || "-1",
+    10
+  );
+
+  return refreshToken && refreshTokenExpiryTime > Date.now();
+};
+
+export const hasValidAuth = () => {
+  const accessTokenIsValid = hasValidAccessToken();
+
   const bungieMembershipId = localStorage.getItem(
     BUNGIE_MEMBERSHIP_ID_STORAGE_KEY
   );
-  if (
-    !accessToken ||
-    Date.now() >= accessTokenExpiryTime ||
-    !bungieMembershipId
-  ) {
+  if (!accessTokenIsValid || !bungieMembershipId) {
     return false;
   }
   return true;
@@ -226,13 +296,13 @@ export const setSelectedDestinyMembership = (membership: UserInfoCard) => {
   );
 };
 
-export const auth = async () => {
+export const auth = async (): Promise<boolean> => {
   const queryParams = new URLSearchParams(window.location.search);
   const authCode = queryParams.get("code");
 
   if (authCode && !hasValidAuth()) {
     console.log("Fetching access token with auth code");
-    const authResponse = await fetchAuthToken(authCode);
+    const authResponse = await fetchAccessToken(authCode);
     if (authResponse && authResponse.authSuccess === false) {
       console.error(authResponse.error);
       return false;
@@ -249,6 +319,14 @@ export const auth = async () => {
     return true;
   }
 
+  const isAccessTokenValid = hasValidAccessToken();
+  const isRefreshTokenValid = hasValidRefreshToken();
+
+  if (!isAccessTokenValid && isRefreshTokenValid) {
+    await refreshAccessToken();
+    return auth();
+  }
+
   ga.event({
     category: "System",
     action: "Redirect for fresh authentication",
@@ -259,6 +337,7 @@ export const auth = async () => {
   );
   clearStorage();
   redirectToAuth();
+  return false;
 };
 
 export const logOut = async () => {

@@ -33,6 +33,9 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
         : ""
     }`;
     const response = await fetch(url, { headers, credentials: "include" });
+    if (response.status !== 200) {
+      throw Error(response.status.toString());
+    }
     return await response.json();
   } catch (e) {
     console.error(e);
