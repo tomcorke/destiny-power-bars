@@ -27,7 +27,7 @@ const DESTINY_MEMBERSHIP_STORAGE_KEY = "destinyMembership";
 
 eventEmitter.on(EVENTS.UNAUTHED_FETCH_ERROR, () => {
   // If we get 401 from an "authenticated" request, assume the access token is invalid
-  console.log("Clearing access token");
+  console.log("Clearing invalid access token");
   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
 });
 
