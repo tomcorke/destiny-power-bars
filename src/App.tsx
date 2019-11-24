@@ -65,9 +65,10 @@ const App = () => {
   >(undefined);
 
   const [manifestState, setManifestState] = useState<string>("Unknown");
-  useEvent(EVENTS.GET_MANIFEST, () =>
-    setManifestState("Checking manifest version")
-  );
+  useEvent(EVENTS.GET_MANIFEST, () => {
+    setManifestError(false);
+    setManifestState("Checking manifest version");
+  });
   useEvent(EVENTS.LOAD_MANIFEST_DATA, () =>
     setManifestState("Loading manifest data")
   );
@@ -80,10 +81,10 @@ const App = () => {
   useEvent(EVENTS.STORE_MANIFEST_DATA, () =>
     setManifestState("Saving manifest data")
   );
-  useEvent(EVENTS.MANIFEST_DATA_READY, () =>
-    setManifestState("Manifest ready")
-  );
-
+  useEvent(EVENTS.MANIFEST_DATA_READY, () => {
+    setManifestError(false);
+    setManifestState("Manifest ready");
+  });
   useEvent(EVENTS.LOG_OUT, () => setIsAuthed(false));
 
   const hasManifestData = manifestState === "Manifest ready";
@@ -104,7 +105,7 @@ const App = () => {
     }
   }, [isAuthed]);
 
-  useEffect(() => {
+  const doGetManifest = useCallback(() => {
     (async () => {
       try {
         const manifestResult = await getManifest();
@@ -122,7 +123,13 @@ const App = () => {
         setManifestError(true);
       }
     })();
-  }, []);
+  }, [setManifestData, setManifestError]);
+
+  useEffect(() => doGetManifest(), [doGetManifest]);
+
+  useEvent(EVENTS.MANIFEST_FETCH_ERROR, () => {
+    doGetManifest();
+  });
 
   const doGetCharacterData = useCallback(
     (returnBasicCharacterData: boolean = false) => {

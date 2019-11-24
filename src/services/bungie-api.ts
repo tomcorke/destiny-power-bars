@@ -34,6 +34,10 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
     }`;
     const response = await fetch(url, { headers, credentials: "include" });
     if (response.status !== 200) {
+      if (response.status === 401) {
+        console.log("401!");
+        eventEmitter.emit(EVENTS.UNAUTHED_FETCH_ERROR);
+      }
       throw Error(response.status.toString());
     }
     return await response.json();
@@ -65,11 +69,17 @@ const manifestPropertyWhitelist = [
   "DestinyVendorDefinition"
 ];
 
+let getCachedManifestDataPromise: Promise<ManifestData> | undefined;
 const getCachedManifestData = async () => {
-  console.log("Loading manifest data from IDB");
-  const manifestData = await get(MANIFEST_IDB_KEY);
-  console.log("Finished loading manifest data from IDB");
-  return manifestData as ManifestData;
+  if (!getCachedManifestDataPromise) {
+    getCachedManifestDataPromise = (async () => {
+      console.log("Loading manifest data from IDB");
+      const manifestData = await get(MANIFEST_IDB_KEY);
+      console.log("Finished loading manifest data from IDB");
+      return manifestData as ManifestData;
+    })();
+  }
+  return getCachedManifestDataPromise;
 };
 
 const getRemoteManifestData = async (manifest: DestinyManifest) => {
@@ -94,7 +104,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   return manifestData;
 };
 
-type GetManifestResult =
+export type GetManifestResult =
   | {
       manifest: ManifestData;
       error?: null;
@@ -106,77 +116,90 @@ let getManifestPromise: Promise<GetManifestResult> | undefined;
 
 export const getManifest = async (): Promise<GetManifestResult> => {
   if (!getManifestPromise) {
-    getManifestPromise = Promise.resolve().then(async () => {
-      ga.event({
-        category: "Data",
-        action: "Attempt load manifest",
-        nonInteraction: true
-      });
-      eventEmitter.emit(EVENTS.GET_MANIFEST);
-      const manifest = await getDestinyManifest(bungieAuthedFetch);
-      const localStorageManifestVersion = localStorage.getItem(
-        MANIFEST_VERSION_KEY
-      );
-      if (
-        manifest &&
-        manifest.Response &&
-        manifest.Response.version === localStorageManifestVersion &&
-        !window.location.search.includes("updateManifest")
-      ) {
-        if (!cachedManifestData) {
-          eventEmitter.emit(EVENTS.LOAD_MANIFEST_DATA);
-          cachedManifestData = await getCachedManifestData();
-        }
-        if (
-          cachedManifestData &&
-          manifestPropertyWhitelist.every(
-            key => cachedManifestData && !!cachedManifestData[key]
-          )
-        ) {
-          return { manifest: cachedManifestData };
-        }
-      }
-      if (
-        manifest &&
-        manifest.ErrorStatus &&
-        manifest.ErrorStatus !== "Success"
-      ) {
+    getManifestPromise = Promise.resolve()
+      .then(async () => {
         ga.event({
-          category: "Errors",
-          action: `Error status "${manifest.ErrorStatus}" returned from manifest request`,
+          category: "Data",
+          action: "Attempt load manifest",
           nonInteraction: true
         });
-        if (manifest.ErrorStatus === "SystemDisabled") {
+        eventEmitter.emit(EVENTS.GET_MANIFEST);
+        const manifest = await getDestinyManifest(bungieAuthedFetch);
+        const localStorageManifestVersion = localStorage.getItem(
+          MANIFEST_VERSION_KEY
+        );
+        if (
+          manifest &&
+          manifest.Response &&
+          manifest.Response.version === localStorageManifestVersion &&
+          !window.location.search.includes("updateManifest")
+        ) {
+          if (!cachedManifestData) {
+            eventEmitter.emit(EVENTS.LOAD_MANIFEST_DATA);
+            cachedManifestData = await getCachedManifestData();
+          }
+          if (
+            cachedManifestData &&
+            manifestPropertyWhitelist.every(
+              key => cachedManifestData && !!cachedManifestData[key]
+            )
+          ) {
+            return { manifest: cachedManifestData };
+          }
+        }
+        if (
+          manifest &&
+          manifest.ErrorStatus &&
+          manifest.ErrorStatus !== "Success"
+        ) {
+          ga.event({
+            category: "Errors",
+            action: `Error status "${manifest.ErrorStatus}" returned from manifest request`,
+            nonInteraction: true
+          });
+          if (manifest.ErrorStatus === "SystemDisabled") {
+            return {
+              manifest: null,
+              error: new BungieSystemDisabledError()
+            };
+          }
           return {
             manifest: null,
-            error: new BungieSystemDisabledError()
+            error: Error(
+              `Error status "${manifest.ErrorStatus}" returned from manifest request`
+            )
           };
         }
-        return {
-          manifest: null,
-          error: Error(
-            `Error status "${manifest.ErrorStatus}" returned from manifest request`
-          )
-        };
-      }
-      if (!manifest || !manifest.Response) {
-        throw Error("No manifest received!");
-      }
-      cachedManifestData = undefined;
-      ga.event({
-        category: "Data",
-        action: "Fetch remote manifest",
-        nonInteraction: true
+        if (!manifest || !manifest.Response) {
+          throw Error("No manifest received!");
+        }
+        cachedManifestData = undefined;
+        ga.event({
+          category: "Data",
+          action: "Fetch remote manifest",
+          nonInteraction: true
+        });
+        const freshManifestData = await getRemoteManifestData(
+          manifest.Response
+        );
+        cachedManifestData = freshManifestData;
+        return { manifest: freshManifestData };
+      })
+      .then(result => {
+        if (result.manifest && !result.error) {
+          eventEmitter.emit(EVENTS.MANIFEST_DATA_READY);
+          return result;
+        } else {
+          throw result.error;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        // Clear manifest promise so it can be re-fetched
+        eventEmitter.emit(EVENTS.MANIFEST_FETCH_ERROR);
+        getManifestPromise = undefined;
+        return { manifest: null, error: err };
       });
-      const freshManifestData = await getRemoteManifestData(manifest.Response);
-      cachedManifestData = freshManifestData;
-      return { manifest: freshManifestData };
-    });
-    getManifestPromise.then(result => {
-      if (result.manifest && !result.error) {
-        eventEmitter.emit(EVENTS.MANIFEST_DATA_READY);
-      }
-    });
   }
   return getManifestPromise;
 };

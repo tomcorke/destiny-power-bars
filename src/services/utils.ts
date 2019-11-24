@@ -34,6 +34,7 @@ import {
   getBasicProfile,
   getFullProfile,
   getManifest,
+  GetManifestResult,
   ManifestData
 } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
@@ -421,7 +422,13 @@ export const getCharacterData = async (
     const itemInstances = fullProfile.Response.itemComponents.instances.data;
     const profileProgression = fullProfile.Response.profileProgression.data;
 
-    const manifestResult = await pendingManifest;
+    let manifestResult: GetManifestResult | undefined;
+    try {
+      manifestResult = await pendingManifest;
+    } catch (e) {
+      console.error(e);
+      return;
+    }
 
     if (!manifestResult || !manifestResult.manifest) {
       return;
