@@ -7,6 +7,7 @@ $kofi-dark: #434b57;
   position: fixed;
   bottom: 0.5em;
   right: 0.5em;
+  z-index: 2000;
 
   .link {
     display: flex;

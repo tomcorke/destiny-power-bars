@@ -7,6 +7,7 @@ import {
   auth,
   hasSelectedDestinyMembership,
   hasValidAuth,
+  manualStartAuth,
   setSelectedDestinyMembership
 } from "./services/bungie-auth";
 import ga from "./services/ga";
@@ -30,15 +31,14 @@ import { getCharacterData } from "./services/utils";
 import "normalize.css";
 import "./index.css";
 
+import ExampleTitanCharacterDisplayImageLowRes from "./images/example-titan-character-display-with-info-blur.jpg";
+import ExampleTitanCharacterDisplayImage from "./images/example-titan-character-display-with-info.png";
+// import ExampleTitanCharacterDisplayImage from "./images/example-titan-character-display.jpg";
+
 import STYLES from "./App.module.scss";
+import { LazyImage } from "./components/LazyImage";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
-
-const AUTO_PAGE_REFRESH_DELAY = 5000;
-
-const refreshPage = () => {
-  window.location.search = "";
-};
 
 export const AppWrapper = ({ children }: { children: JSX.Element }) => {
   return <div className={STYLES.App}>{children}</div>;
@@ -96,8 +96,6 @@ const App = () => {
         setIsAuthed(true);
       } else {
         setAuthError(true);
-        // Refresh automatically in 30s
-        setTimeout(refreshPage, AUTO_PAGE_REFRESH_DELAY);
       }
     };
     if (!isAuthed) {
@@ -209,8 +207,8 @@ const App = () => {
     );
   } else if (hasAuthError) {
     status = (
-      <span>
-        Authentication error, <a href="/">refresh page</a> to try again!
+      <span onClick={() => manualStartAuth()}>
+        Bungie authentication required
       </span>
     );
   } else if (hasManifestError) {
@@ -242,7 +240,7 @@ const App = () => {
 
   const buildTimestamp = preval`module.exports = new Date().toISOString();`;
 
-  if (characterData && characterData.length > 0) {
+  if (isAuthed && characterData && characterData.length > 0) {
     return (
       <div className={STYLES.App}>
         <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
@@ -256,6 +254,38 @@ const App = () => {
         <VendorDisplay manifestData={manifestData} />
         {status && <LoadingSpinner>{status}</LoadingSpinner>}
         {isFetchingCharacterData && <FetchSpinner />}
+        <div className={STYLES.buildStamp}>
+          {gitHead} {buildTimestamp}
+        </div>
+        <Kofi />
+      </div>
+    );
+  }
+
+  if (hasAuthError) {
+    return (
+      <div className={STYLES.App}>
+        <div className={STYLES.header}>Destiny Power Bars</div>
+        <div className={STYLES.subHeader}>by Tom Corke</div>
+        <div className={STYLES.loginContainer}>
+          <div className={STYLES.exampleImage}>
+            <LazyImage
+              lowResImage={ExampleTitanCharacterDisplayImageLowRes}
+              highResImage={ExampleTitanCharacterDisplayImage}
+              alt="Example Destiny Power Bars"
+            />
+          </div>
+          <div className={STYLES.login}>
+            <div>
+              Destiny Power Bars requires access to your inventory and vault to
+              determine your maximum power per slot and character. Please log in
+              to Bungie.net to authorize this application.
+            </div>
+            <button onClick={() => manualStartAuth()}>
+              Log in with Bungie.net
+            </button>
+          </div>
+        </div>
         <div className={STYLES.buildStamp}>
           {gitHead} {buildTimestamp}
         </div>

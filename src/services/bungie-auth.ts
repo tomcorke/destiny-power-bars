@@ -24,6 +24,7 @@ const REFRESH_TOKEN_EXPIRY_STORAGE_KEY = "bungieRefreshTokenExpiryTime";
 const BUNGIE_MEMBERSHIP_ID_STORAGE_KEY = "bungieMembershipId";
 const DESTINY_MEMBERSHIPS_STORAGE_KEY = "destinyMemberships";
 const DESTINY_MEMBERSHIP_STORAGE_KEY = "destinyMembership";
+const MANUAL_AUTHED_STORAGE_KEY = "manualAuthed";
 
 eventEmitter.on(EVENTS.UNAUTHED_FETCH_ERROR, () => {
   // If we get 401 from an "authenticated" request, assume the access token is invalid
@@ -44,23 +45,30 @@ const clearSelectedMembership = () => {
   localStorage.removeItem(DESTINY_MEMBERSHIP_STORAGE_KEY);
 };
 
+const hasManuallyAuthed = () => {
+  return !!localStorage.getItem(MANUAL_AUTHED_STORAGE_KEY);
+};
+
 const getAuthUrl = () =>
   `${BUNGIE_OAUTH_AUTHORIZE_URL}?${stringify({
     response_type: "code",
     client_id: BUNGIE_OAUTH_CLIENT_ID,
-    client_secret: BUNGIE_OAUTH_CLIENT_SECRET,
-    reauth: true
+    client_secret: BUNGIE_OAUTH_CLIENT_SECRET
   })}`;
 
 const redirectToAuth = () => {
-  console.log("Redirect to auth");
   clearStorage();
   ga.event({
     category: "Auth",
-    action: "Redirect to oauth",
+    action: "Redirect for Bungie authentication",
     nonInteraction: true
   });
   window.location.replace(getAuthUrl());
+};
+
+export const manualStartAuth = () => {
+  localStorage.setItem(MANUAL_AUTHED_STORAGE_KEY, "TRUE");
+  redirectToAuth();
 };
 
 const handleTokenResponse = async (
@@ -333,16 +341,10 @@ export const auth = async (): Promise<boolean> => {
     return auth();
   }
 
-  ga.event({
-    category: "System",
-    action: "Redirect for fresh authentication",
-    nonInteraction: true
-  });
-  console.log(
-    "Redirecting to fresh authentication for missing or expired access token, or missing destiny memberships"
-  );
-  clearStorage();
-  redirectToAuth();
+  // console.log(
+  //   "Redirecting to fresh authentication for missing or expired access token, or missing destiny memberships"
+  // );
+  // redirectToAuth();
   return false;
 };
 
