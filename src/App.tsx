@@ -278,7 +278,17 @@ const App = () => {
     return (
       <div className={STYLES.App}>
         <div className={STYLES.header}>Destiny Power Bars</div>
-        <div className={STYLES.subHeader}>by Tom Corke</div>
+        <div className={STYLES.subHeader}>
+          by{" "}
+          <a
+            className={STYLES.author}
+            href="https://twitter.com/corke_tom"
+            rel="noreferrer nofollow"
+            target="_blank"
+          >
+            Tom Corke
+          </a>
+        </div>
         <div className={STYLES.loginContainer}>
           <div className={STYLES.exampleImage}>
             <LazyImage

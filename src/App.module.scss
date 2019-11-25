@@ -81,6 +81,11 @@
   margin-bottom: 4em;
   font-size: 14px;
   opacity: 0.8;
+
+  a.author {
+    color: white;
+    text-decoration: underline;
+  }
 }
 
 .loginContainer {
