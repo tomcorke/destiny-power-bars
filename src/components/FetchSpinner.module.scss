@@ -17,7 +17,3 @@
 .spinnerSmall {
   @include spinner(15px, 2s, true);
 }
-
-.spinnerTiny {
-  @include spinner(5px, 1s, false);
-}

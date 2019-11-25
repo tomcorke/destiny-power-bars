@@ -11,7 +11,9 @@ const LoadingSpinner = ({ children }: LoadingSpinnerProps) => {
     <div className={STYLES.loading}>
       <div className={STYLES.anchor}>
         <div className={STYLES.spinnerLarge} />
+        <div className={STYLES.spinnerLargeDouble} />
         <div className={STYLES.spinnerSmall} />
+        <div className={STYLES.spinnerSmallDouble} />
       </div>
       <div className={STYLES.status}>{children}</div>
     </div>

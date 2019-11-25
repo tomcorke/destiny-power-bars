@@ -23,16 +23,24 @@
 }
 
 .spinnerLarge {
-  @include spinner(40px, 12s, false);
+  @include spinner(40px, 15s, false);
+}
+
+.spinnerLargeDouble {
+  @include spinner(40px, 4s, false);
 }
 
 .spinnerSmall {
   @include spinner(25px, 8s, true);
 }
 
+.spinnerSmallDouble {
+  @include spinner(25px, 3s, true);
+}
+
 .status {
   margin: 50px 1em 1em;
-  color: rgba(white, 0.9);
+  color: white;
   display: flex;
   justify-content: center;
   font-weight: 600;
