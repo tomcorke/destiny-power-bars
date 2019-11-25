@@ -62,7 +62,7 @@ const MembershipSelect = ({
       <button
         className={STYLES.logOut}
         onClick={() => onLogout()}
-        title="Re-authenticate"
+        title="Log out"
       >
         <span>Re-authenticate</span>
       </button>
