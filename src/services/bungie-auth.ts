@@ -45,7 +45,7 @@ const clearSelectedMembership = () => {
   localStorage.removeItem(DESTINY_MEMBERSHIP_STORAGE_KEY);
 };
 
-const hasManuallyAuthed = () => {
+export const hasManuallyAuthed = () => {
   return !!localStorage.getItem(MANUAL_AUTHED_STORAGE_KEY);
 };
 
@@ -163,7 +163,6 @@ const handleTokenResponse = async (
         error: `Status code ${tokenResponse.status} from authentication request`
       };
     }
-    // return redirectToAuth()
   }
 };
 
@@ -341,14 +340,17 @@ export const auth = async (): Promise<boolean> => {
     return auth();
   }
 
-  // console.log(
-  //   "Redirecting to fresh authentication for missing or expired access token, or missing destiny memberships"
-  // );
-  // redirectToAuth();
+  if (hasManuallyAuthed()) {
+    console.log(
+      "Redirecting to fresh authentication for missing or expired access token, or missing destiny memberships"
+    );
+    redirectToAuth();
+  }
   return false;
 };
 
 export const logOut = async () => {
+  localStorage.removeItem(MANUAL_AUTHED_STORAGE_KEY);
   clearStorage();
   eventEmitter.emit(EVENTS.LOG_OUT);
 };

@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import {
   auth,
+  hasManuallyAuthed,
   hasSelectedDestinyMembership,
   hasValidAuth,
   manualStartAuth,
@@ -45,6 +46,9 @@ export const AppWrapper = ({ children }: { children: JSX.Element }) => {
 };
 
 const App = () => {
+  const [disableManualLogin, setDisableManualLogin] = useState(
+    hasManuallyAuthed()
+  );
   const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth());
   const [hasAuthError, setAuthError] = useState<boolean>(false);
   const [hasSelectedMembership, setHasMembership] = useState<boolean>(
@@ -85,7 +89,10 @@ const App = () => {
     setManifestError(false);
     setManifestState("Manifest ready");
   });
-  useEvent(EVENTS.LOG_OUT, () => setIsAuthed(false));
+  useEvent(EVENTS.LOG_OUT, () => {
+    setIsAuthed(false);
+    setDisableManualLogin(false);
+  });
 
   const hasManifestData = manifestState === "Manifest ready";
 
@@ -94,7 +101,9 @@ const App = () => {
       const authResult = await auth();
       if (authResult) {
         setIsAuthed(true);
+        setAuthError(false);
       } else {
+        setIsAuthed(false);
         setAuthError(true);
       }
     };
@@ -207,8 +216,11 @@ const App = () => {
     );
   } else if (hasAuthError) {
     status = (
-      <span onClick={() => manualStartAuth()}>
-        Bungie authentication required
+      <span
+        className={STYLES.statusAuthError}
+        onClick={() => manualStartAuth()}
+      >
+        Bungie.net authentication required
       </span>
     );
   } else if (hasManifestError) {
@@ -262,7 +274,7 @@ const App = () => {
     );
   }
 
-  if (hasAuthError) {
+  if (hasAuthError && !disableManualLogin) {
     return (
       <div className={STYLES.App}>
         <div className={STYLES.header}>Destiny Power Bars</div>

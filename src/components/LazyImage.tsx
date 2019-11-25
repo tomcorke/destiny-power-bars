@@ -16,7 +16,6 @@ export const LazyImage = ({
   alt = ""
 }: LazyImageProps) => {
   const [highResImageLoaded, setHighResImageLoaded] = useState(false);
-  const [lowResImageAsOverlay, setLowResImageAsOverlay] = useState(false);
 
   const onHighResImageLoad = useCallback(() => {
     setHighResImageLoaded(true);
