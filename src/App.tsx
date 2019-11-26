@@ -1,6 +1,5 @@
 import useInterval from "@use-it/interval";
 import { UserInfoCard } from "bungie-api-ts/user";
-import preval from "preval.macro";
 import React, { useCallback, useEffect, useState } from "react";
 
 import {
@@ -16,8 +15,10 @@ import { CharacterData } from "./types";
 
 import CharacterDisplay from "./components/CharacterDisplay";
 import FetchSpinner from "./components/FetchSpinner";
-import { Kofi } from "./components/KoFi";
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
 import LoadingSpinner from "./components/LoadingSpinner";
+import { LoginPrompt } from "./components/LoginPrompt";
 import MembershipSelect from "./components/MembershipSelect";
 import { VendorDisplay } from "./components/VendorDisplay";
 import api from "./services/api";
@@ -32,12 +33,7 @@ import { getCharacterData } from "./services/utils";
 import "normalize.css";
 import "./index.css";
 
-import ExampleTitanCharacterDisplayImageLowRes from "./images/example-titan-character-display-with-info-blur.jpg";
-import ExampleTitanCharacterDisplayImage from "./images/example-titan-character-display-with-info.png";
-// import ExampleTitanCharacterDisplayImage from "./images/example-titan-character-display.jpg";
-
 import STYLES from "./App.module.scss";
-import { LazyImage } from "./components/LazyImage";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -245,13 +241,6 @@ const App = () => {
 
   (window as any).characterData = characterData;
 
-  const gitHead = (process.env.REACT_APP_NPM_PACKAGE_GITHEAD || "").substr(
-    0,
-    6
-  );
-
-  const buildTimestamp = preval`module.exports = new Date().toISOString();`;
-
   if (isAuthed && characterData && characterData.length > 0) {
     return (
       <div className={STYLES.App}>
@@ -266,10 +255,7 @@ const App = () => {
         <VendorDisplay manifestData={manifestData} />
         {status && <LoadingSpinner>{status}</LoadingSpinner>}
         {isFetchingCharacterData && <FetchSpinner />}
-        <div className={STYLES.buildStamp}>
-          {gitHead} {buildTimestamp}
-        </div>
-        <Kofi />
+        <Footer />
       </div>
     );
   }
@@ -277,41 +263,9 @@ const App = () => {
   if (hasAuthError && !disableManualLogin) {
     return (
       <div className={STYLES.App}>
-        <div className={STYLES.header}>Destiny Power Bars</div>
-        <div className={STYLES.subHeader}>
-          by{" "}
-          <a
-            className={STYLES.author}
-            href="https://twitter.com/corke_tom"
-            rel="noreferrer nofollow"
-            target="_blank"
-          >
-            Tom Corke
-          </a>
-        </div>
-        <div className={STYLES.loginContainer}>
-          <div className={STYLES.exampleImage}>
-            <LazyImage
-              lowResImage={ExampleTitanCharacterDisplayImageLowRes}
-              highResImage={ExampleTitanCharacterDisplayImage}
-              alt="Example Destiny Power Bars"
-            />
-          </div>
-          <div className={STYLES.login}>
-            <div>
-              Destiny Power Bars requires access to your inventory and vault to
-              determine your maximum power per slot and character. Please log in
-              to Bungie.net to authorize this application.
-            </div>
-            <button onClick={() => manualStartAuth()}>
-              Log in with Bungie.net
-            </button>
-          </div>
-        </div>
-        <div className={STYLES.buildStamp}>
-          {gitHead} {buildTimestamp}
-        </div>
-        <Kofi />
+        <Header />
+        <LoginPrompt />
+        <Footer />
       </div>
     );
   }
@@ -320,10 +274,7 @@ const App = () => {
     <div className={STYLES.App}>
       <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
       <LoadingSpinner>{status}</LoadingSpinner>
-      <div className={STYLES.buildStamp}>
-        {gitHead} {buildTimestamp}
-      </div>
-      <Kofi />
+      <Footer />
     </div>
   );
 };

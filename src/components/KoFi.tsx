@@ -1,24 +1,12 @@
-import classnames from "classnames";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import kofiIcon from "../images/Ko-fi_Icon_RGBforDarkBg_sm.png";
 
 import STYLES from "./KoFi.module.scss";
 
 export const Kofi = () => {
-  const [visible, setVisible] = useState<boolean>(false);
-
-  useEffect(() => {
-    const delay = setTimeout(() => setVisible(true), 10000);
-    return () => clearTimeout(delay);
-  }, []);
-
   return (
-    <div
-      className={classnames(STYLES.kofiContainer, {
-        [STYLES.hidden]: !visible
-      })}
-    >
+    <div className={STYLES.kofiContainer}>
       <a
         className={STYLES.link}
         href="https://ko-fi.com/tomcorke"

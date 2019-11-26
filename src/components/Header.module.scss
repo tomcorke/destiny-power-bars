@@ -1,0 +1,28 @@
+.headerContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin: 1em 0 4em;
+}
+
+.header {
+  color: white;
+  margin-bottom: 0.5em;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.subHeader {
+  color: white;
+  font-size: 14px;
+  opacity: 0.8;
+
+  a.author {
+    color: white !important;
+    text-decoration: underline;
+    font-weight: bold;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -4,17 +4,14 @@ $kofi-yellow: #fbaa19;
 $kofi-dark: #434b57;
 
 .kofiContainer {
-  position: fixed;
-  bottom: 0.5em;
-  right: 0.5em;
-  z-index: 2000;
-
   .link {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
     color: white;
+    max-height: 1.5em;
+    overflow: hidden;
 
     &:active,
     &:visited {
@@ -25,23 +22,7 @@ $kofi-dark: #434b57;
     }
 
     span {
-      margin: 0 0.5em;
+      margin-left: 0.25em;
     }
-  }
-
-  &.hidden {
-    opacity: 0;
-  }
-
-  transition: opacity ease-out 5s;
-
-  @media (max-width: 500px) {
-    position: relative;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 2em 0;
   }
 }
