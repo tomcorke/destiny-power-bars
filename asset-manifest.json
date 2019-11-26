@@ -1,28 +1,30 @@
 {
   "files": {
-    "main.css": "/static/css/main.870d3fd4.chunk.css",
-    "main.js": "/static/js/main.b8bb6613.chunk.js",
-    "main.js.map": "/static/js/main.b8bb6613.chunk.js.map",
+    "main.css": "/static/css/main.20636f06.chunk.css",
+    "main.js": "/static/js/main.be6c68e2.chunk.js",
+    "main.js.map": "/static/js/main.be6c68e2.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.75d6e202.js",
     "runtime-main.js.map": "/static/js/runtime-main.75d6e202.js.map",
     "static/css/2.764ccc25.chunk.css": "/static/css/2.764ccc25.chunk.css",
-    "static/js/2.68b94af5.chunk.js": "/static/js/2.68b94af5.chunk.js",
-    "static/js/2.68b94af5.chunk.js.map": "/static/js/2.68b94af5.chunk.js.map",
+    "static/js/2.1b5ae381.chunk.js": "/static/js/2.1b5ae381.chunk.js",
+    "static/js/2.1b5ae381.chunk.js.map": "/static/js/2.1b5ae381.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.5d285a5bdb978c75997826b375db0c40.js": "/precache-manifest.5d285a5bdb978c75997826b375db0c40.js",
+    "precache-manifest.02ef79849347ff1858cc94a02107d397.js": "/precache-manifest.02ef79849347ff1858cc94a02107d397.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.764ccc25.chunk.css.map": "/static/css/2.764ccc25.chunk.css.map",
-    "static/css/main.870d3fd4.chunk.css.map": "/static/css/main.870d3fd4.chunk.css.map",
+    "static/css/main.20636f06.chunk.css.map": "/static/css/main.20636f06.chunk.css.map",
     "static/media/MembershipSelect.module.scss": "/static/media/blizzard-icon.fe754cd7.png",
     "static/media/App.module.scss": "/static/media/bg_shadowkeep.43da54af.jpg",
     "static/media/example-titan-character-display-with-info-blur.jpg": "/static/media/example-titan-character-display-with-info-blur.1817ae29.jpg",
-    "static/media/example-titan-character-display-with-info.png": "/static/media/example-titan-character-display-with-info.92b10b76.png"
+    "static/media/example-titan-character-display-with-info.png": "/static/media/example-titan-character-display-with-info.92b10b76.png",
+    "static/media/github.617870e4.svg": "/static/media/github.617870e4.svg",
+    "static/media/twitter.be066898.svg": "/static/media/twitter.be066898.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.75d6e202.js",
     "static/css/2.764ccc25.chunk.css",
-    "static/js/2.68b94af5.chunk.js",
-    "static/css/main.870d3fd4.chunk.css",
-    "static/js/main.b8bb6613.chunk.js"
+    "static/js/2.1b5ae381.chunk.js",
+    "static/css/main.20636f06.chunk.css",
+    "static/js/main.be6c68e2.chunk.js"
   ]
 }

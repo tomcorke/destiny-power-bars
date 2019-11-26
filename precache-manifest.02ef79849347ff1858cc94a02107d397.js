@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c40072e7ec2ebc248e7c4092d2d86d8e",
+    "revision": "5a698940bacf3dfc95c3df0eaec2497a",
     "url": "/index.html"
   },
   {
-    "revision": "3e3b7db019a105811490",
+    "revision": "44486fed27a3f7587fbe",
     "url": "/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "8af4adcf86e68225fd85",
-    "url": "/static/css/main.870d3fd4.chunk.css"
+    "revision": "7adbfe4af5179ec355f2",
+    "url": "/static/css/main.20636f06.chunk.css"
   },
   {
-    "revision": "3e3b7db019a105811490",
-    "url": "/static/js/2.68b94af5.chunk.js"
+    "revision": "44486fed27a3f7587fbe",
+    "url": "/static/js/2.1b5ae381.chunk.js"
   },
   {
-    "revision": "8af4adcf86e68225fd85",
-    "url": "/static/js/main.b8bb6613.chunk.js"
+    "revision": "7adbfe4af5179ec355f2",
+    "url": "/static/js/main.be6c68e2.chunk.js"
   },
   {
     "revision": "41b7bd55fd7c4d2791da",
@@ -42,5 +42,13 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "92b10b76cc0ce69eaf1bc4850e13dacf",
     "url": "/static/media/example-titan-character-display-with-info.92b10b76.png"
+  },
+  {
+    "revision": "617870e422d4b75087cdcf9ff298032e",
+    "url": "/static/media/github.617870e4.svg"
+  },
+  {
+    "revision": "be06689853aec102607f5e54e6fd2dfa",
+    "url": "/static/media/twitter.be066898.svg"
   }
 ]);
