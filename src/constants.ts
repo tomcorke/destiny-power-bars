@@ -55,7 +55,10 @@ export const CLASS_WARLOCK = "warlock";
 export const CLASS_NAMES = [CLASS_TITAN, CLASS_HUNTER, CLASS_WARLOCK];
 
 export const ITEM_TYPE_ARTIFACT = 28;
-export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;
+export const ARTIFACT_INVENTORY_BUCKET_HASH = 1506418338;
+
+// Do not export, in an attempt to not need to hard-code a specific artifact.
+// export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;
 
 export const ITEM_POWER_SOFT_CAP = 900;
 export const ITEM_POWER_POWERFUL_CAP = 950;

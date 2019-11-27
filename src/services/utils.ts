@@ -15,14 +15,14 @@ import maxBy from "lodash/maxBy";
 import sumBy from "lodash/sumBy";
 
 import {
+  ARTIFACT_INVENTORY_BUCKET_HASH,
   CLASS_NAMES,
   CLASS_TYPE_ALL,
   ITEM_BUCKET_SLOTS,
   ITEM_POWER_SOFT_CAP,
   ITEM_SLOT_BUCKETS,
   ITEM_TYPE_ARMOR,
-  ITEM_TYPE_WEAPON,
-  UNDYING_ARTIFACT_ITEM_HASH
+  ITEM_TYPE_WEAPON
 } from "../constants";
 import {
   CharacterData,
@@ -284,7 +284,10 @@ const getDataForCharacterId = (
 
   const artifactItemComponent = Object.values(characterEquipments)
     .flatMap(i => i.items)
-    .find(i => i.itemHash === UNDYING_ARTIFACT_ITEM_HASH);
+    .find(i => i.bucketHash === ARTIFACT_INVENTORY_BUCKET_HASH);
+
+  // Old method to find artifact by specific item hash
+  // .find(i => i.itemHash === UNDYING_ARTIFACT_ITEM_HASH);
 
   let artifactData: SeasonalArtifactData | undefined;
   if (artifactItemComponent && profileProgression.seasonalArtifact) {
