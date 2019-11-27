@@ -21,9 +21,7 @@
   $powerful-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/330b67ab92b271c67f5ab2ca36298924.png";
   $exotic-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/dec08a304d9aaa0dbfda85ac1e97f170.png";
 
-  .worldDropHint,
-  .powerfulHint,
-  .pinnacleHint {
+  .dropHint {
     padding-left: 55px;
     background-image: url($rare-engram-icon);
     background-size: auto;
@@ -40,11 +38,14 @@
     background-image: url($legendary-engram-icon), url($rare-engram-icon);
     background-position: 10px 10px, left top;
   }
-
+  .legendaryWorldDropHint {
+    background-image: url($powerful-engram-icon), url($legendary-engram-icon);
+    background-position: 10px 15px, left 5px;
+  }
   .powerfulHint,
   .pinnacleHint {
     background-image: url($powerful-engram-icon), url($exotic-engram-icon);
-    background-position: 10px 10px, left top;
+    background-position: 10px 15px, left 5px;
   }
 
   .separator {
