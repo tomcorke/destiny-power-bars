@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ORDERED_ITEM_SLOTS } from "../../constants";
+import { ITEM_POWER_POWERFUL_CAP, ORDERED_ITEM_SLOTS } from "../../constants";
 import { CharacterData, PowerBySlot } from "../../types";
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
@@ -44,7 +44,8 @@ export const PowerBars = (data: PowerBarsProps) => {
     0
   );
   const maxItemPower = Math.max(...Object.values(powerBySlot));
-  const maxItemPowerGrouping = maxItemPower <= 950 ? 50 : 10;
+  const maxItemPowerGrouping =
+    maxItemPower <= ITEM_POWER_POWERFUL_CAP ? 50 : 10;
   const maxPowerToDisplay =
     Math.ceil(maxItemPower / maxItemPowerGrouping) * maxItemPowerGrouping;
 

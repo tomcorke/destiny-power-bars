@@ -3,6 +3,7 @@ import classnames from "classnames";
 import HumanizeDuration from "humanize-duration";
 import React, { useEffect, useState } from "react";
 
+import { ITEM_POWER_POWERFUL_CAP } from "../constants";
 import { ManifestData } from "../services/bungie-api";
 import {
   getVendorDisplayName,
@@ -134,8 +135,9 @@ export const VendorDisplay = ({ manifestData }: VendorDisplayProps) => {
         <div className={classnames(STYLES.section, STYLES.withSeparator)}>
           <div className={STYLES.description}>
             These vendors are currently giving at-level engrams (to a maximum of{" "}
-            <Power>950</Power>) which can help you raise the power of slots
-            below your average, or to provide items for infusion:
+            <Power>{ITEM_POWER_POWERFUL_CAP}</Power>) which can help you raise
+            the power of slots below your average, or to provide items for
+            infusion:
           </div>
           {vendorListDisplay(highVendors, manifestData)}
         </div>

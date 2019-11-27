@@ -6,4 +6,4 @@ export default {
   title: "Power Number Display"
 };
 
-export const display = () => <Power>321</Power>;
+export const display = () => <Power>{321}</Power>;

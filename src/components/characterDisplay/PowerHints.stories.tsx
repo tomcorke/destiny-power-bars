@@ -1,5 +1,10 @@
 import React from "react";
 
+import {
+  ITEM_POWER_PINNACLE_CAP,
+  ITEM_POWER_POWERFUL_CAP,
+  ITEM_POWER_SOFT_CAP
+} from "../../constants";
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
 import { PowerHints } from "./PowerHints";
 
@@ -14,67 +19,67 @@ export default {
 export const display = () => (
   <>
     <PowerHints
-      overallPowerExact={890}
-      overallPower={890}
-      potentialOverallPower={900}
+      overallPowerExact={ITEM_POWER_SOFT_CAP - 10}
+      overallPower={ITEM_POWER_SOFT_CAP - 10}
+      potentialOverallPower={ITEM_POWER_SOFT_CAP}
     />
     <PowerHints
-      overallPowerExact={930}
-      overallPower={930}
-      potentialOverallPower={930}
+      overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
+      overallPower={ITEM_POWER_POWERFUL_CAP - 10}
+      potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 10}
     />
     <PowerHints
-      overallPowerExact={955}
-      overallPower={955}
-      potentialOverallPower={955}
+      overallPowerExact={ITEM_POWER_PINNACLE_CAP - 5}
+      overallPower={ITEM_POWER_PINNACLE_CAP - 5}
+      potentialOverallPower={ITEM_POWER_PINNACLE_CAP - 5}
     />
   </>
 );
 
-export const below900Power = () => (
+export const belowSoftCap = () => (
   <PowerHints
-    overallPowerExact={890}
-    overallPower={890}
-    potentialOverallPower={900}
+    overallPowerExact={ITEM_POWER_SOFT_CAP - 10}
+    overallPower={ITEM_POWER_SOFT_CAP - 10}
+    potentialOverallPower={ITEM_POWER_SOFT_CAP}
   />
 );
 
-export const below950Power = () => (
+export const belowPowerfulCap = () => (
   <PowerHints
-    overallPowerExact={930}
-    overallPower={930}
-    potentialOverallPower={930}
+    overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
+    overallPower={ITEM_POWER_POWERFUL_CAP - 10}
+    potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 10}
   />
 );
 
-export const below950PowerWithPotential = () => (
+export const belowPowerfulCapWithPotential = () => (
   <PowerHints
-    overallPowerExact={930}
-    overallPower={930}
-    potentialOverallPower={931}
+    overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
+    overallPower={ITEM_POWER_POWERFUL_CAP - 10}
+    potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 9}
   />
 );
 
-export const below960Power = () => (
+export const belowPinnacleCap = () => (
   <PowerHints
-    overallPowerExact={955}
-    overallPower={955}
-    potentialOverallPower={955}
+    overallPowerExact={ITEM_POWER_PINNACLE_CAP - 5}
+    overallPower={ITEM_POWER_PINNACLE_CAP - 5}
+    potentialOverallPower={ITEM_POWER_PINNACLE_CAP - 5}
   />
 );
 
-export const below960PowerWithPotential = () => (
+export const belowPinnacleCapWithPotential = () => (
   <PowerHints
-    overallPowerExact={955}
-    overallPower={955}
-    potentialOverallPower={956}
+    overallPowerExact={ITEM_POWER_PINNACLE_CAP - 5}
+    overallPower={ITEM_POWER_PINNACLE_CAP - 5}
+    potentialOverallPower={ITEM_POWER_PINNACLE_CAP - 4}
   />
 );
 
-export const above960Power = () => (
+export const abovePinnacleCap = () => (
   <PowerHints
-    overallPowerExact={965}
-    overallPower={965}
-    potentialOverallPower={965}
+    overallPowerExact={ITEM_POWER_PINNACLE_CAP + 5}
+    overallPower={ITEM_POWER_PINNACLE_CAP + 5}
+    potentialOverallPower={ITEM_POWER_PINNACLE_CAP + 5}
   />
 );

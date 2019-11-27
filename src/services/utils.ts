@@ -18,6 +18,7 @@ import {
   CLASS_NAMES,
   CLASS_TYPE_ALL,
   ITEM_BUCKET_SLOTS,
+  ITEM_POWER_SOFT_CAP,
   ITEM_SLOT_BUCKETS,
   ITEM_TYPE_ARMOR,
   ITEM_TYPE_WEAPON,
@@ -305,14 +306,16 @@ const getDataForCharacterId = (
   const potentialPowerBySlot = { ...powerBySlot };
   while (
     Object.values(potentialPowerBySlot).some(
-      power => power < getOverallPower(potentialPowerBySlot) || power < 900
+      power =>
+        power < getOverallPower(potentialPowerBySlot) ||
+        power < ITEM_POWER_SOFT_CAP
     )
   ) {
     const tempPotentialOverallPower = getOverallPower(potentialPowerBySlot);
     Object.keys(potentialPowerBySlot).forEach(
       slot =>
         (potentialPowerBySlot[slot] = Math.max(
-          900,
+          ITEM_POWER_SOFT_CAP,
           Math.max(tempPotentialOverallPower, potentialPowerBySlot[slot])
         ))
     );

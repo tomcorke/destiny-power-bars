@@ -56,3 +56,10 @@ export const CLASS_NAMES = [CLASS_TITAN, CLASS_HUNTER, CLASS_WARLOCK];
 
 export const ITEM_TYPE_ARTIFACT = 28;
 export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;
+
+export const ITEM_POWER_SOFT_CAP = 900;
+export const ITEM_POWER_POWERFUL_CAP = 950;
+export const ITEM_POWER_PINNACLE_CAP = 960;
+
+// How much above your current power do pinnacles drop when above the powerful cap
+export const ITEM_POWER_PINNACLE_DROP_OFFSET = 2;

@@ -1,6 +1,12 @@
 import classnames from "classnames";
 import React from "react";
 
+import {
+  ITEM_POWER_PINNACLE_CAP,
+  ITEM_POWER_PINNACLE_DROP_OFFSET,
+  ITEM_POWER_POWERFUL_CAP,
+  ITEM_POWER_SOFT_CAP
+} from "../../constants";
 import { Power } from "./Power";
 
 import STYLES from "./PowerHints.module.scss";
@@ -16,7 +22,8 @@ export const PowerHints = ({
   overallPower,
   potentialOverallPower
 }: PowerHintsProps) => {
-  potentialOverallPower = potentialOverallPower || Math.min(900, overallPower);
+  potentialOverallPower =
+    potentialOverallPower || Math.min(ITEM_POWER_SOFT_CAP, overallPower);
 
   const nextPower =
     overallPowerExact === overallPower
@@ -31,7 +38,7 @@ export const PowerHints = ({
     <div className={STYLES.hints}>
       {potentialOverallPower &&
         potentialOverallPower > overallPower &&
-        overallPower > 950 && (
+        overallPower > ITEM_POWER_POWERFUL_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -79,7 +86,7 @@ export const PowerHints = ({
 
       {potentialOverallPower &&
         potentialOverallPower > overallPower &&
-        overallPower <= 950 && (
+        overallPower <= ITEM_POWER_POWERFUL_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -95,9 +102,9 @@ export const PowerHints = ({
               <div className={STYLES.hintExtraInner}>
                 <div>
                   World drops (from strikes, public events,{" "}
-                  {overallPower <= 950 && "vendors, "}non-powerful legendary
-                  rewards) can drop with a power level from{" "}
-                  <Power>{overallPower - 3}</Power> to{" "}
+                  {overallPower <= ITEM_POWER_POWERFUL_CAP && "vendors, "}
+                  non-powerful legendary rewards) can drop with a power level
+                  from <Power>{overallPower - 3}</Power> to{" "}
                   <Power>{overallPower}</Power> for this character.
                 </div>
                 <div>
@@ -128,8 +135,8 @@ export const PowerHints = ({
         )}
 
       {potentialOverallPower === overallPower &&
-        overallPower >= 900 &&
-        overallPower < 950 && (
+        overallPower >= ITEM_POWER_SOFT_CAP &&
+        overallPower < ITEM_POWER_POWERFUL_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -139,14 +146,15 @@ export const PowerHints = ({
           >
             <span>
               Powerful rewards can increase your overall gear power up to the
-              powerful cap of <Power>{950}</Power>
+              powerful cap of <Power>{ITEM_POWER_POWERFUL_CAP}</Power>
             </span>
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <div>
                   Powerful and pinnacle reward sources (Weekly challenges, Year
                   3 raids) will give you items above your overall gear power,
-                  with powerful rewards capped at <Power>{950}</Power>.
+                  with powerful rewards capped at{" "}
+                  <Power>{ITEM_POWER_POWERFUL_CAP}</Power>.
                 </div>
                 {powerRequiredToReachNext && (
                   <div>
@@ -166,8 +174,8 @@ export const PowerHints = ({
         )}
 
       {potentialOverallPower === overallPower &&
-        overallPower >= 950 &&
-        overallPower < 960 && (
+        overallPower >= ITEM_POWER_POWERFUL_CAP &&
+        overallPower < ITEM_POWER_PINNACLE_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -177,14 +185,20 @@ export const PowerHints = ({
           >
             <span>
               Pinnacle rewards can increase your overall gear power up to the
-              pinnacle cap of <Power>{960}</Power>
+              pinnacle cap of <Power>{ITEM_POWER_PINNACLE_CAP}</Power>
             </span>
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <div>
                   Pinnacle reward sources (Some weekly challenges, Year 3 raids)
                   will give you items at{" "}
-                  <Power>{Math.min(overallPower + 2, 960)}</Power> power.
+                  <Power>
+                    {Math.min(
+                      overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET,
+                      ITEM_POWER_PINNACLE_CAP
+                    )}
+                  </Power>{" "}
+                  power.
                 </div>
                 {powerRequiredToReachNext && (
                   <div>

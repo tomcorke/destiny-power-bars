@@ -5,13 +5,6 @@ import STYLES from "./PowerDetails.module.scss";
 import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
 
-const withSign = (value: number) => {
-  if (value >= 0) {
-    return `+${value}`;
-  }
-  return `${value}`;
-};
-
 const ProgressBar = ({ value, max }: { value: number; max: number }) => {
   const perc = Math.floor((value / max) * 1000) / 10;
   const withThousands = (n: number) =>
@@ -75,7 +68,7 @@ export const PowerDetails = ({
               {artifactData.name} bonus power:
             </div>
             <div className={STYLES.detailsValue}>
-              <Power>{withSign(artifactData.bonusPower)}</Power>
+              <Power withSign>{artifactData.bonusPower}</Power>
             </div>
           </div>
           <div className={STYLES.detailsRow}>
