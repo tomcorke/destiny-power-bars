@@ -47,20 +47,26 @@ export const PowerHints = ({
             )}
           >
             <span>
-              Legendary world drops and powerful rewards can increase your
-              overall gear power to <Power>{potentialOverallPower}</Power>
+              Powerful rewards can increase your overall gear power to{" "}
+              <Power>{potentialOverallPower}</Power>
             </span>
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <div>
-                  Items from legendary world drops and powerful rewards can drop
+                  Powerful rewards from milestones or prime engrams can drop
                   with a power level up to <Power>{overallPower}</Power> for
                   this character.
                 </div>
                 <div>
-                  Replacing items below your current overall power can increase
-                  your power to a higher average.
+                  Replacing items which are below your current overall power can
+                  increase your power to a higher average.
                 </div>
+                {overallPower < ITEM_POWER_PINNACLE_CAP && (
+                  <div>
+                    Raising your overall power before collecting your next
+                    pinnacle reward will give you the most efficient progress.
+                  </div>
+                )}
                 {powerRequiredToReachNext &&
                   powerRequiredToReachNext !==
                     powerRequiredToReachPotential && (
@@ -108,8 +114,8 @@ export const PowerHints = ({
                   <Power>{overallPower}</Power> for this character.
                 </div>
                 <div>
-                  Replacing items below your current overall power can increase
-                  your power to a higher average.
+                  Replacing items which are below your current overall power can
+                  increase your power to a higher average.
                 </div>
                 {powerRequiredToReachNext &&
                   powerRequiredToReachNext !==
