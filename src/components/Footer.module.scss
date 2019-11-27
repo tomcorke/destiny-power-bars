@@ -5,6 +5,7 @@
   right: 0;
   padding: 0.5em;
   box-sizing: border-box;
+  z-index: 2000;
 
   display: flex;
   flex-flow: row-reverse wrap;
@@ -13,5 +14,6 @@
 
   @media (max-width: 500px) {
     justify-content: center;
+    z-index: unset;
   }
 }

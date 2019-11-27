@@ -1,13 +1,15 @@
 .hints {
   color: white;
-  padding: 0 10px;
-  margin: 10px 0;
+  padding: 10px;
   box-sizing: border-box;
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
 
   .hint {
     display: flex;
     flex-flow: row wrap;
-    margin-bottom: 0.5em;
     text-shadow: 0 0 3px black, 0 0 10px black;
 
     &:last-of-type() {
