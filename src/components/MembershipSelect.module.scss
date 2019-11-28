@@ -3,6 +3,11 @@
   flex-flow: row wrap;
   margin-top: 1em;
   align-items: center;
+
+  @media (max-width: 500px) {
+    flex-flow: column nowrap;
+    align-items: center;
+  }
 }
 
 @font-face {
@@ -29,6 +34,10 @@
     display: none;
   }
 
+  @media (max-width: 500px) {
+    margin-top: 1em;
+  }
+
   &:hover {
     opacity: 1;
     text-decoration: underline;
@@ -48,6 +57,11 @@
   align-items: center;
   border-radius: 2px;
   box-shadow: 0 0 2px 1px black;
+  justify-content: space-between;
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 
   @mixin icon-before($iconPath) {
     &:before {
