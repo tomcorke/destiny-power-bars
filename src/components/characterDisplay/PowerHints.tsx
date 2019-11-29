@@ -90,8 +90,7 @@ export const PowerHints = ({
           </div>
         )}
 
-      {potentialOverallPower &&
-        potentialOverallPower > overallPower &&
+      {potentialOverallPower > overallPower &&
         overallPower <= ITEM_POWER_POWERFUL_CAP && (
           <div
             className={classnames(
@@ -109,9 +108,19 @@ export const PowerHints = ({
                 <div>
                   World drops (from strikes, public events,{" "}
                   {overallPower <= ITEM_POWER_POWERFUL_CAP && "vendors, "}
-                  non-powerful legendary rewards) can drop with a power level
-                  from <Power>{overallPower - 3}</Power> to{" "}
-                  <Power>{overallPower}</Power> for this character.
+                  non-powerful rewards) can drop with a power level{" "}
+                  {overallPower >= ITEM_POWER_SOFT_CAP ? (
+                    <>
+                      from <Power>{overallPower - 3}</Power> to{" "}
+                      <Power>{overallPower}</Power>
+                    </>
+                  ) : (
+                    <>
+                      above your current power, increasing your power
+                      incrementally up to <Power>{potentialOverallPower}</Power>
+                    </>
+                  )}{" "}
+                  for this character.
                 </div>
                 <div>
                   Replacing items which are below your current overall power can
