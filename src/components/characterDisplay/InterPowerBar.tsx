@@ -1,5 +1,6 @@
 import React from "react";
 
+import { ITEM_POWER_PINNACLE_CAP } from "../../constants";
 import STYLES from "./InterPowerBar.module.scss";
 
 interface InterPowerBarProps {
@@ -7,8 +8,13 @@ interface InterPowerBarProps {
 }
 
 export const InterPowerBar = ({ value }: InterPowerBarProps) => {
-  const min = Math.floor(value);
-  const max = value === min ? value + 1 : Math.ceil(value);
+  let min = Math.floor(value);
+  let max = value === min ? value + 1 : Math.ceil(value);
+
+  if (min === ITEM_POWER_PINNACLE_CAP && value === min) {
+    max = min;
+    min = min - 1;
+  }
 
   const fillPerc = Math.floor(value * 100 - min * 100);
 

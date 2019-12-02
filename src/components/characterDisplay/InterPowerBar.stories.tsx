@@ -1,5 +1,10 @@
 import React from "react";
 
+import {
+  ITEM_POWER_PINNACLE_CAP,
+  ITEM_POWER_POWERFUL_CAP,
+  ITEM_POWER_SOFT_CAP
+} from "../../constants";
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
 import { InterPowerBar } from "./InterPowerBar";
 
@@ -35,14 +40,18 @@ export const atDifferentSizes = () => (
 );
 export const atDifferentValues = () => (
   <>
-    {withMaxSize(400, <InterPowerBar value={950} />)}
-    {withMaxSize(400, <InterPowerBar value={950 + 1 / 8} />)}
-    {withMaxSize(400, <InterPowerBar value={950 + 2 / 8} />)}
-    {withMaxSize(400, <InterPowerBar value={950 + 3 / 8} />)}
-    {withMaxSize(400, <InterPowerBar value={950 + 4 / 8} />)}
-    {withMaxSize(400, <InterPowerBar value={950 + 5 / 8} />)}
-    {withMaxSize(400, <InterPowerBar value={950 + 6 / 8} />)}
-    {withMaxSize(400, <InterPowerBar value={950 + 7 / 8} />)}
-    {withMaxSize(400, <InterPowerBar value={951} />)}
+    {withMaxSize(400, <InterPowerBar value={953} />)}
+    {withMaxSize(400, <InterPowerBar value={953 + 1 / 8} />)}
+    {withMaxSize(400, <InterPowerBar value={953 + 2 / 8} />)}
+    {withMaxSize(400, <InterPowerBar value={953 + 3 / 8} />)}
+    {withMaxSize(400, <InterPowerBar value={953 + 4 / 8} />)}
+    {withMaxSize(400, <InterPowerBar value={953 + 5 / 8} />)}
+    {withMaxSize(400, <InterPowerBar value={953 + 6 / 8} />)}
+    {withMaxSize(400, <InterPowerBar value={953 + 7 / 8} />)}
+    {withMaxSize(400, <InterPowerBar value={954} />)}
+
+    {withMaxSize(400, <InterPowerBar value={ITEM_POWER_SOFT_CAP} />)}
+    {withMaxSize(400, <InterPowerBar value={ITEM_POWER_POWERFUL_CAP} />)}
+    {withMaxSize(400, <InterPowerBar value={ITEM_POWER_PINNACLE_CAP} />)}
   </>
 );
