@@ -7,8 +7,8 @@ interface InterPowerBarProps {
 }
 
 export const InterPowerBar = ({ value }: InterPowerBarProps) => {
-  const max = Math.ceil(value);
-  const min = value === max ? value - 1 : Math.floor(value);
+  const min = Math.floor(value);
+  const max = value === min ? value + 1 : Math.ceil(value);
 
   const fillPerc = Math.floor(value * 100 - min * 100);
 
