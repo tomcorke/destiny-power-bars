@@ -150,6 +150,19 @@ const handleTokenResponse = async (
       setSelectedDestinyMembership(destinyMemberships[0]);
     }
 
+    const crossSavePrimaryMemberships = destinyMemberships.filter(
+      m => m.crossSaveOverride === m.membershipType
+    );
+    const nonCrossSaveMemberships = destinyMemberships.filter(
+      m => m.crossSaveOverride === 0
+    );
+    if (
+      crossSavePrimaryMemberships.length === 1 &&
+      nonCrossSaveMemberships.length === 0
+    ) {
+      setSelectedDestinyMembership(crossSavePrimaryMemberships[0]);
+    }
+
     return { accessToken, authSuccess: true };
   } else {
     if (tokenResponse.status !== 200) {

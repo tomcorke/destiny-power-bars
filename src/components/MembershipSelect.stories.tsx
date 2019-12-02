@@ -1,5 +1,4 @@
 import { action } from "@storybook/addon-actions";
-import { DecoratorFn } from "@storybook/react";
 import { UserInfoCard } from "bungie-api-ts/user";
 import React from "react";
 
@@ -56,9 +55,44 @@ const mockApiWithMembershipType = (membershipType: number) => ({
   }
 });
 
+const mockApiWithCrossSave = (
+  activeMembershipType: number,
+  ...secondaryMembershipTypes: number[]
+) => ({
+  bungieAuth: {
+    getDestinyMemberships: () =>
+      ([
+        {
+          membershipId: 111,
+          membershipType: activeMembershipType,
+          crossSaveOverride: activeMembershipType,
+          applicableMembershipTypes: [
+            activeMembershipType,
+            ...secondaryMembershipTypes
+          ],
+          displayName: "Test Cross Save Membership"
+        },
+        ...secondaryMembershipTypes.map(m => ({
+          membershipId: 111,
+          membershipType: m,
+          crossSaveOverride: activeMembershipType,
+          displayName: "Test Membership"
+        }))
+      ] as any) as UserInfoCard[]
+  }
+});
+
 export const allMemberships = () => (
   <MembershipSelect
     api={mockApi}
+    onMembershipSelect={action("membership selected")}
+    onLogout={action("Logout")}
+  />
+);
+
+export const membershipsWithCrossSave = () => (
+  <MembershipSelect
+    api={mockApiWithCrossSave(3, 1, 2, 5)}
     onMembershipSelect={action("membership selected")}
     onLogout={action("Logout")}
   />

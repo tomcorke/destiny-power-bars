@@ -3,6 +3,7 @@
   flex-flow: row wrap;
   margin-top: 1em;
   align-items: center;
+  justify-content: center;
 
   @media (max-width: 500px) {
     flex-flow: column nowrap;
@@ -17,25 +18,35 @@
 
 .logOut {
   background: transparent;
-  background-image: url("../images/logout.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 25px;
-  height: 25px;
   border: none;
-  margin-left: 0.5em;
   color: white;
   opacity: 0.3;
   cursor: pointer;
   transition: opacity 0.5s ease-out;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
 
-  span {
+  .logOutIcon {
+    background-image: url("../images/logout.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 25px;
+    height: 25px;
+  }
+
+  .logOutText {
+    margin-left: 0.25em;
     display: none;
   }
 
   @media (max-width: 500px) {
     margin-top: 1em;
+
+    .logOutText {
+      display: block;
+    }
   }
 
   &:hover {
@@ -46,9 +57,10 @@
 }
 
 .membership {
+  position: relative;
   box-sizing: border-box;
   margin: 5px 10px;
-  padding: 5px 10px 5px 5px;
+  padding: 5px;
   background-color: black;
   color: white;
   cursor: pointer;
@@ -58,6 +70,10 @@
   border-radius: 2px;
   box-shadow: 0 0 2px 1px black;
   justify-content: space-between;
+
+  .membershipDisplayName {
+    margin-left: 10px;
+  }
 
   @media (max-width: 500px) {
     width: 100%;
@@ -73,7 +89,6 @@
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center center;
-      margin-right: 10px;
     }
   }
 
@@ -124,3 +139,89 @@
     );
   }
 }
+
+.crossSaveDisplay {
+  position: absolute;
+  bottom: -10px;
+  right: 5px;
+  height: 15px;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.crossSaveIcon {
+  width: 15px;
+  height: 100%;
+  background-image: url("../images/cross-save-sm.png");
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.crossSaveMembershipIcon {
+  width: 12px;
+  height: 100%;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 3px;
+}
+
+.crossSaveMembershipType {
+  &_xbox {
+    background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/xbox/icon.png");
+  }
+  &_psn {
+    background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/playstation/icon.png");
+  }
+  &_steam {
+    background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/steam/icon.png");
+  }
+  &_blizzard {
+    background-image: url("../images/blizzard-icon.png");
+  }
+  &_stadia {
+    background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/stadia/icon.png");
+  }
+}
+
+/*
+.crossSaveActive {
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background-image: url("../images/cross-save-sm.png");
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.crossSaveDisabled {
+  opacity: 0.5;
+  filter: saturate(0%);
+
+  .membershipDisplayName {
+    font-size: 0;
+    transition: ease-out 1s;
+    margin-left: 0;
+  }
+
+  &:hover {
+    opacity: 1;
+    filter: saturate(100%);
+
+    .membershipDisplayName {
+      width: 100%;
+      margin-left: 10px;
+    }
+  }
+}
+*/

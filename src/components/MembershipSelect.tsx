@@ -12,13 +12,60 @@ export interface RequiredApi extends PartialApi {
   };
 }
 
+const defaultOnLogout = () => logOut();
+
+const PLATFORMS: { [key: number]: string } = {
+  1: "xbox",
+  2: "psn",
+  3: "steam",
+  4: "blizzard",
+  5: "stadia"
+};
+
+const isCrossSavePrimary = (membership: UserInfoCard) => {
+  return (
+    membership.crossSaveOverride &&
+    membership.crossSaveOverride === membership.membershipType
+  );
+};
+
+const isCrossSaveSecondary = (membership: UserInfoCard) => {
+  return (
+    membership.crossSaveOverride &&
+    membership.crossSaveOverride !== membership.membershipType
+  );
+};
+
+interface CrossSaveDisplayProps {
+  membership: UserInfoCard;
+}
+
+const CrossSaveDisplay = ({ membership }: CrossSaveDisplayProps) => {
+  if (membership.applicableMembershipTypes.length === 0) {
+    return null;
+  }
+  return (
+    <div className={STYLES.crossSaveDisplay}>
+      <div className={STYLES.crossSaveIcon} />
+      {membership.applicableMembershipTypes.map(m => {
+        return (
+          <div
+            className={classnames(
+              STYLES.crossSaveMembershipIcon,
+              STYLES[`crossSaveMembershipType_${PLATFORMS[m]}`]
+            )}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 interface MembershipSelectProps {
   onMembershipSelect: (membership: UserInfoCard) => any;
   api: RequiredApi;
   onLogout?: () => void;
 }
-
-const defaultOnLogout = () => logOut();
 
 const MembershipSelect = ({
   onMembershipSelect,
@@ -35,36 +82,38 @@ const MembershipSelect = ({
     return <div>No destiny memberships!</div>;
   }
 
-  const PLATFORMS: { [key: number]: string } = {
-    1: "xbox",
-    2: "psn",
-    3: "steam",
-    4: "blizzard",
-    5: "stadia"
-  };
-
   return (
     <div className={STYLES.membershipSelect}>
-      {destinyMemberships.map(m => {
-        return (
-          <div
-            key={m.membershipId}
-            className={classnames(
-              STYLES.membership,
-              STYLES[`platform_${PLATFORMS[m.membershipType]}`]
-            )}
-            onClick={() => onMembershipSelect(m)}
-          >
-            {m.displayName}
-          </div>
-        );
-      })}
+      {destinyMemberships
+        .filter(m => !isCrossSaveSecondary(m))
+        .map(m => {
+          return (
+            <div
+              key={m.membershipId}
+              className={classnames(
+                STYLES.membership,
+                STYLES[`platform_${PLATFORMS[m.membershipType]}`],
+                {
+                  [STYLES.crossSaveActive]: isCrossSavePrimary(m),
+                  [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m)
+                }
+              )}
+              onClick={() => onMembershipSelect(m)}
+            >
+              <span className={STYLES.membershipDisplayName}>
+                {m.displayName}
+              </span>
+              {isCrossSavePrimary(m) && <CrossSaveDisplay membership={m} />}
+            </div>
+          );
+        })}
       <button
         className={STYLES.logOut}
         onClick={() => onLogout()}
         title="Log out"
       >
-        <span>Re-authenticate</span>
+        <div className={STYLES.logOutIcon} />
+        <div className={STYLES.logOutText}>Log out</div>
       </button>
     </div>
   );
