@@ -90,13 +90,80 @@ export const allMemberships = () => (
   />
 );
 
-export const membershipsWithCrossSave = () => (
-  <MembershipSelect
-    api={mockApiWithCrossSave(3, 1, 2, 5)}
-    onMembershipSelect={action("membership selected")}
-    onLogout={action("Logout")}
-  />
-);
+export const membershipsWithCrossSave = () => {
+  const membershipDisplays = () => (
+    <>
+      <MembershipSelect
+        api={mockApiWithCrossSave(1, 2, 3, 5)}
+        onMembershipSelect={action("membership selected")}
+        onLogout={action("Logout")}
+      />
+      <MembershipSelect
+        api={mockApiWithCrossSave(2, 1, 3, 5)}
+        onMembershipSelect={action("membership selected")}
+        onLogout={action("Logout")}
+      />
+      <MembershipSelect
+        api={mockApiWithCrossSave(3, 1, 2, 5)}
+        onMembershipSelect={action("membership selected")}
+        onLogout={action("Logout")}
+      />
+      <MembershipSelect
+        api={mockApiWithCrossSave(5, 1, 2, 3)}
+        onMembershipSelect={action("membership selected")}
+        onLogout={action("Logout")}
+      />
+    </>
+  );
+  return (
+    <div style={{ display: "flex", flexFlow: "row nowrap" }}>
+      <div style={{ display: "flex", flexFlow: "column nowrap" }}>
+        <div
+          style={{
+            background: "white",
+            padding: "10px 20px 20px",
+            display: "flex",
+            flexFlow: "column nowrap"
+          }}
+        >
+          {membershipDisplays()}
+        </div>
+        <div
+          style={{
+            background: "#999",
+            padding: "10px 20px 20px",
+            display: "flex",
+            flexFlow: "column nowrap"
+          }}
+        >
+          {membershipDisplays()}
+        </div>
+      </div>
+      <div style={{ display: "flex", flexFlow: "column nowrap" }}>
+        <div
+          style={{
+            background: "linear-gradient(to right, #444, #eee)",
+            padding: "10px 20px 20px",
+            display: "flex",
+            flexFlow: "column nowrap"
+          }}
+        >
+          {membershipDisplays()}
+        </div>
+        <div
+          style={{
+            background: "black",
+            padding: "10px 20px 20px",
+            display: "flex",
+            flexFlow: "column nowrap"
+          }}
+        >
+          {membershipDisplays()}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const xboxMembership = () => (
   <MembershipSelect

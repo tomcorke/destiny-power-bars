@@ -36,6 +36,10 @@ const isCrossSaveSecondary = (membership: UserInfoCard) => {
   );
 };
 
+const titleCase = (s: string = "") => {
+  return s.substr(0, 1).toUpperCase() + s.substr(1);
+};
+
 interface CrossSaveDisplayProps {
   membership: UserInfoCard;
 }
@@ -45,18 +49,25 @@ const CrossSaveDisplay = ({ membership }: CrossSaveDisplayProps) => {
     return null;
   }
   return (
-    <div className={STYLES.crossSaveDisplay}>
-      <div className={STYLES.crossSaveIcon} />
-      {membership.applicableMembershipTypes.map(m => {
-        return (
-          <div
-            className={classnames(
-              STYLES.crossSaveMembershipIcon,
-              STYLES[`crossSaveMembershipType_${PLATFORMS[m]}`]
-            )}
-          />
-        );
-      })}
+    <div className={STYLES.crossSaveDisplayWrapper}>
+      <div
+        className={STYLES.crossSaveDisplay}
+        title={`Cross-save enabled for: ${membership.applicableMembershipTypes
+          .map(t => titleCase(PLATFORMS[t]))
+          .join(", ")}`}
+      >
+        <div className={STYLES.crossSaveIcon} />
+        {membership.applicableMembershipTypes.map(m => {
+          return (
+            <div
+              className={classnames(
+                STYLES.crossSaveMembershipIcon,
+                STYLES[`crossSaveMembershipType_${PLATFORMS[m]}`]
+              )}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

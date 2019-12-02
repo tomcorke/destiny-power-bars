@@ -140,20 +140,34 @@
   }
 }
 
-.crossSaveDisplay {
+.crossSaveDisplayWrapper {
   position: absolute;
-  bottom: -10px;
-  right: 5px;
+  bottom: -15px;
+  left: 0;
+  right: 0;
   height: 15px;
 
   display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
+.crossSaveDisplay {
+  display: flex;
   flex-flow: row nowrap;
   align-items: center;
+
+  background: linear-gradient(to bottom, rgba(black, 0.8), rgba(black, 0.4));
+  padding: 3px 5px 3px;
+  border-radius: 0 0 4px 4px;
+  box-sizing: border-box;
 }
 
 .crossSaveIcon {
-  width: 15px;
-  height: 100%;
+  width: 13px;
+  height: 13px;
+  position: relative;
+  top: -0.5px;
   background-image: url("../images/cross-save-sm-white.png");
   background-position: center center;
   background-size: contain;
