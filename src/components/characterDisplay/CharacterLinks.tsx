@@ -17,7 +17,7 @@ const link = (url: string, { text, tags = [] }: LinkOptions = {}) => {
   const linkText = text || new URL(url).hostname;
   return (
     <li>
-      /* eslint-disable-next-line react/jsx-no-target-blank */
+      {/* eslint-disable-next-line react/jsx-no-target-blank */}
       <a
         href={url}
         target="_blank"
