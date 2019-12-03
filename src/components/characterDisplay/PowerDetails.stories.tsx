@@ -11,7 +11,7 @@ export default {
   ]
 };
 
-export const display = () => (
+export const withFullData = () => (
   <PowerDetails
     overallPowerExact={965 + 5 / 8}
     overallPower={965}
@@ -24,4 +24,8 @@ export const display = () => (
       nextLevelAt: 120
     }}
   />
+);
+
+export const withoutArtifactData = () => (
+  <PowerDetails overallPowerExact={965 + 5 / 8} overallPower={965} />
 );

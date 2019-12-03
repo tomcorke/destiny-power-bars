@@ -116,8 +116,19 @@ export const membershipsWithCrossSave = () => {
     </>
   );
   return (
-    <div style={{ display: "flex", flexFlow: "row nowrap" }}>
-      <div style={{ display: "flex", flexFlow: "column nowrap" }}>
+    <div
+      style={{
+        display: "flex",
+        flexFlow: "row wrap",
+        justifyContent: "center"
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexFlow: "column nowrap"
+        }}
+      >
         <div
           style={{
             background: "white",
@@ -139,7 +150,12 @@ export const membershipsWithCrossSave = () => {
           {membershipDisplays()}
         </div>
       </div>
-      <div style={{ display: "flex", flexFlow: "column nowrap" }}>
+      <div
+        style={{
+          display: "flex",
+          flexFlow: "column nowrap"
+        }}
+      >
         <div
           style={{
             background: "linear-gradient(to right, #444, #eee)",

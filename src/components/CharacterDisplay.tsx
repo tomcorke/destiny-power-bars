@@ -2,6 +2,7 @@ import React from "react";
 
 import { CharacterData } from "../types";
 import STYLES from "./CharacterDisplay.module.scss";
+import { CharacterLinks } from "./characterDisplay/CharacterLinks";
 import { PowerBars } from "./characterDisplay/PowerBars";
 import { PowerDetails } from "./characterDisplay/PowerDetails";
 import { PowerHints } from "./characterDisplay/PowerHints";
@@ -60,6 +61,12 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         <PowerBars {...data} />
         <PowerHints {...data} />
       </div>
+
+      <CharacterLinks
+        membershipType={data.character.membershipType}
+        membershipId={data.character.membershipId}
+        characterId={data.character.characterId}
+      />
     </>
   );
 };

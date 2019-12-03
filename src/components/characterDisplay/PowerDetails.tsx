@@ -40,7 +40,13 @@ export const PowerDetails = ({
   const roundedPower = Math.floor(overallPower);
 
   if (!artifactData || artifactData.bonusPower === 0) {
-    return null;
+    return (
+      <div className={STYLES.details}>
+        <div className={STYLES.detailsRow}>
+          <InterPowerBar value={overallPowerExact} />
+        </div>
+      </div>
+    );
   }
 
   return (

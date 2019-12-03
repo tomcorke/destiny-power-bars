@@ -1,0 +1,116 @@
+@mixin icon-before($iconPath) {
+  &:before {
+    display: inline-block;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-image: url($iconPath);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-right: 0.5em;
+  }
+}
+
+.characterLinks {
+  position: absolute;
+  top: -10px;
+  right: 5px;
+  width: 30px;
+  height: 20px;
+  background: white;
+  background: url("../../images/link.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  cursor: pointer;
+
+  &:hover {
+    .content {
+      display: block;
+    }
+  }
+}
+
+.content {
+  //display: none;
+
+  position: absolute;
+  padding: 0.5em;
+  background: linear-gradient(to bottom, black, rgba(black, 0.8));
+  top: 0;
+  right: -20px;
+  color: white;
+  width: 100vw;
+  max-width: 370px;
+  cursor: auto;
+
+  border: 20px solid transparent;
+  box-sizing: border-box;
+  background-clip: padding-box;
+
+  &:hover {
+    display: block;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: stretch;
+
+    & > li {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: stretch;
+      align-items: center;
+
+      a {
+        padding: 0.5em;
+        flex-grow: 1;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+
+        .linkText {
+          flex-grow: 1;
+        }
+
+        &:after {
+          content: "▶";
+          display: block;
+        }
+
+        &:hover {
+          background: rgba(white, 0.1);
+        }
+      }
+    }
+  }
+}
+
+.link_tag_dim {
+  @include icon-before("../../images/dim.png");
+}
+.link_tag_braytech {
+  // @include icon-before("../../images/braytech.png");
+}
+.link_tag_destinysets {
+  @include icon-before("../../images/destinysets.svg");
+}
+.link_tag_d2checklist {
+  // @include icon-before("../../images/d2checklist.png");
+}
+.link_tag_guardianstats {
+  @include icon-before("../../images/guardianstats.ico");
+}
+.link_tag_raidreport {
+  // @include icon-before("../../images/raidreport.png");
+}
+.link_tag_destinytracker {
+  // @include icon-before("../../images/destinytracker.png");
+}
