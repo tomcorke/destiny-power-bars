@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c7809d11892b7ccdd87ac8add9db0bcf",
+    "revision": "df315ee929d59fb809179d8145026590",
     "url": "/index.html"
   },
   {
@@ -8,16 +8,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "84ee52112eaed2114a49",
-    "url": "/static/css/main.1924e5ac.chunk.css"
+    "revision": "0841096f3c184c3355e6",
+    "url": "/static/css/main.b8a15b00.chunk.css"
   },
   {
     "revision": "e8451d0b6f75e910c987",
     "url": "/static/js/2.7528934d.chunk.js"
   },
   {
-    "revision": "84ee52112eaed2114a49",
-    "url": "/static/js/main.e41069d5.chunk.js"
+    "revision": "0841096f3c184c3355e6",
+    "url": "/static/js/main.30574275.chunk.js"
   },
   {
     "revision": "41b7bd55fd7c4d2791da",
@@ -30,10 +30,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "8a9ddd195b4e83a21d8f38a3f9c3e776",
     "url": "/static/media/DestinyKeys.8a9ddd19.woff2"
-  },
-  {
-    "revision": "43da54af9c83e491e62b9c58f86e43eb",
-    "url": "/static/media/bg_shadowkeep.43da54af.jpg"
   },
   {
     "revision": "fe754cd75bf7270a43a958391df00686",
@@ -58,6 +54,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "85c964c1c8d853bf74d5d8075cf0c2fb",
     "url": "/static/media/guardianstats.85c964c1.ico"
+  },
+  {
+    "revision": "433c10f4942161b173254686a58407ff",
+    "url": "/static/media/season_of_dawn_bg_blur.433c10f4.jpg"
   },
   {
     "revision": "be06689853aec102607f5e54e6fd2dfa",

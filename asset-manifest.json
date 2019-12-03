@@ -1,31 +1,31 @@
 {
   "files": {
-    "main.css": "/static/css/main.1924e5ac.chunk.css",
-    "main.js": "/static/js/main.e41069d5.chunk.js",
-    "main.js.map": "/static/js/main.e41069d5.chunk.js.map",
+    "main.css": "/static/css/main.b8a15b00.chunk.css",
+    "main.js": "/static/js/main.30574275.chunk.js",
+    "main.js.map": "/static/js/main.30574275.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.75d6e202.js",
     "runtime-main.js.map": "/static/js/runtime-main.75d6e202.js.map",
     "static/css/2.764ccc25.chunk.css": "/static/css/2.764ccc25.chunk.css",
     "static/js/2.7528934d.chunk.js": "/static/js/2.7528934d.chunk.js",
     "static/js/2.7528934d.chunk.js.map": "/static/js/2.7528934d.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.67037597a95cb99860197786e4d5c40e.js": "/precache-manifest.67037597a95cb99860197786e4d5c40e.js",
+    "precache-manifest.215d39a0f0942cd66b47d8c60d84a9d8.js": "/precache-manifest.215d39a0f0942cd66b47d8c60d84a9d8.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.764ccc25.chunk.css.map": "/static/css/2.764ccc25.chunk.css.map",
-    "static/css/main.1924e5ac.chunk.css.map": "/static/css/main.1924e5ac.chunk.css.map",
+    "static/css/main.b8a15b00.chunk.css.map": "/static/css/main.b8a15b00.chunk.css.map",
     "static/media/CharacterLinks.module.scss": "/static/media/guardianstats.85c964c1.ico",
     "static/media/MembershipSelect.module.scss": "/static/media/blizzard-icon.fe754cd7.png",
-    "static/media/App.module.scss": "/static/media/bg_shadowkeep.43da54af.jpg",
     "static/media/example-titan-character-display-with-info-blur.jpg": "/static/media/example-titan-character-display-with-info-blur.1817ae29.jpg",
     "static/media/example-titan-character-display-with-info.png": "/static/media/example-titan-character-display-with-info.92b10b76.png",
     "static/media/github.617870e4.svg": "/static/media/github.617870e4.svg",
+    "static/media/App.module.scss": "/static/media/season_of_dawn_bg_blur.433c10f4.jpg",
     "static/media/twitter.be066898.svg": "/static/media/twitter.be066898.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.75d6e202.js",
     "static/css/2.764ccc25.chunk.css",
     "static/js/2.7528934d.chunk.js",
-    "static/css/main.1924e5ac.chunk.css",
-    "static/js/main.e41069d5.chunk.js"
+    "static/css/main.b8a15b00.chunk.css",
+    "static/js/main.30574275.chunk.js"
   ]
 }
