@@ -32,8 +32,8 @@ const link = (url: string, { text, tags = [] }: LinkOptions = {}) => {
 };
 
 const RAID_REPORT_PLATFORMS: { [key: number]: string } = {
-  1: "xbox",
-  2: "psn",
+  1: "xb",
+  2: "ps",
   3: "pc",
   4: "pc",
   5: "stadia"
