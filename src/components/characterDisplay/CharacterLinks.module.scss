@@ -34,7 +34,7 @@
 }
 
 .content {
-  //display: none;
+  display: none;
 
   position: absolute;
   padding: 0.5em;
@@ -106,7 +106,7 @@
   // @include icon-before("../../images/d2checklist.png");
 }
 .link_tag_guardianstats {
-  @include icon-before("../../images/guardianstats.ico");
+  // @include icon-before("../../images/guardianstats.ico");
 }
 .link_tag_raidreport {
   // @include icon-before("../../images/raidreport.png");
