@@ -1,27 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4afb9ace9e26d7ebd6f36a8f1fcc1861",
+    "revision": "e17d33756b56da0ee7b777d4af7b1186",
     "url": "/index.html"
   },
   {
-    "revision": "98c8dcd19952ca6fac39",
+    "revision": "e8451d0b6f75e910c987",
     "url": "/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "6774e0b341709b49953a",
-    "url": "/static/css/main.c43fa448.chunk.css"
+    "revision": "940a33f11bb15a22c41a",
+    "url": "/static/css/main.1924e5ac.chunk.css"
   },
   {
-    "revision": "98c8dcd19952ca6fac39",
-    "url": "/static/js/2.e866f655.chunk.js"
+    "revision": "e8451d0b6f75e910c987",
+    "url": "/static/js/2.7528934d.chunk.js"
   },
   {
-    "revision": "6774e0b341709b49953a",
-    "url": "/static/js/main.35f2eb63.chunk.js"
+    "revision": "940a33f11bb15a22c41a",
+    "url": "/static/js/main.32b9a82f.chunk.js"
   },
   {
     "revision": "41b7bd55fd7c4d2791da",
     "url": "/static/js/runtime-main.75d6e202.js"
+  },
+  {
+    "revision": "bddf127ba5513d62a943fff86e3400c7",
+    "url": "/static/media/BraytechDevice.bddf127b.svg"
   },
   {
     "revision": "8a9ddd195b4e83a21d8f38a3f9c3e776",
