@@ -13,6 +13,8 @@ interface LinkOptions {
   text?: string;
   tags?: string[];
 }
+
+/* eslint-disable react/jsx-no-target-blank */
 const link = (url: string, { text, tags = [] }: LinkOptions = {}) => {
   const linkText = text || new URL(url).hostname;
   return (
