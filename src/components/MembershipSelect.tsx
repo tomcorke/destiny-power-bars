@@ -97,6 +97,7 @@ const MembershipSelect = ({
     <div className={STYLES.membershipSelect}>
       {destinyMemberships
         .filter(m => !isCrossSaveSecondary(m))
+        .filter(m => m.membershipType !== 4)
         .map(m => {
           return (
             <div
@@ -114,7 +115,9 @@ const MembershipSelect = ({
               <span className={STYLES.membershipDisplayName}>
                 {m.displayName}
               </span>
-              {isCrossSavePrimary(m) && <CrossSaveDisplay membership={m} />}
+              {isCrossSavePrimary(m) ? (
+                <CrossSaveDisplay membership={m} />
+              ) : null}
             </div>
           );
         })}
