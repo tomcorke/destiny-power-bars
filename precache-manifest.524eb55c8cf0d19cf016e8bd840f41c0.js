@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1fe993ed60b2f69ad7a4aff8b82c06c2",
+    "revision": "4f4defe18c21a117d4ba43957c8a47e9",
     "url": "/index.html"
   },
   {
-    "revision": "5a9298b6880705e89d73",
+    "revision": "98c8dcd19952ca6fac39",
     "url": "/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "8016a9fba583a0a8559a",
-    "url": "/static/css/main.380bdaff.chunk.css"
+    "revision": "53738cec3f35a3052237",
+    "url": "/static/css/main.d5a2339e.chunk.css"
   },
   {
-    "revision": "5a9298b6880705e89d73",
-    "url": "/static/js/2.d1707f13.chunk.js"
+    "revision": "98c8dcd19952ca6fac39",
+    "url": "/static/js/2.e866f655.chunk.js"
   },
   {
-    "revision": "8016a9fba583a0a8559a",
-    "url": "/static/js/main.fa45bfc2.chunk.js"
+    "revision": "53738cec3f35a3052237",
+    "url": "/static/js/main.4716e31a.chunk.js"
   },
   {
     "revision": "41b7bd55fd7c4d2791da",
@@ -34,6 +34,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "fe754cd75bf7270a43a958391df00686",
     "url": "/static/media/blizzard-icon.fe754cd7.png"
+  },
+  {
+    "revision": "6a3020b9885daf0ee107bffaca128969",
+    "url": "/static/media/destinysets.6a3020b9.svg"
   },
   {
     "revision": "1817ae29515941b73d4d956164742517",
