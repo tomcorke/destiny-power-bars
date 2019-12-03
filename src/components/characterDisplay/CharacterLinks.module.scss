@@ -35,7 +35,7 @@
 
 .content {
   display: none;
-
+  z-index: 2000;
   position: absolute;
   padding: 0.5em;
   background: linear-gradient(to bottom, black, rgba(black, 0.8));

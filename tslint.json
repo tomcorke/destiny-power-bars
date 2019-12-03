@@ -7,7 +7,7 @@
     "no-console": false,
     "object-literal-sort-keys": false,
     "react/jsx-no-target-blank": [
-      true,
+      1,
       {
         "allowReferrer": true
       }
