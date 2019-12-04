@@ -62,7 +62,7 @@ export const PowerDetails = ({
       <div className={STYLES.detailsRow}>
         <InterPowerBar value={overallPowerExact} />
       </div>
-      {artifactData && (
+      {artifactData ? (
         <>
           <div className={STYLES.detailsRow}>
             <div className={STYLES.detailsLabel}>
@@ -84,7 +84,7 @@ export const PowerDetails = ({
             />
           </div>
         </>
-      )}
+      ) : null}
     </div>
   );
 };

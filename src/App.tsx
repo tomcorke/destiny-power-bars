@@ -253,8 +253,8 @@ const App = () => {
           </div>
         </div>
         <VendorDisplay manifestData={manifestData} />
-        {status && <LoadingSpinner>{status}</LoadingSpinner>}
-        {isFetchingCharacterData && <FetchSpinner />}
+        {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
+        {isFetchingCharacterData ? <FetchSpinner /> : null}
         <Footer />
       </div>
     );

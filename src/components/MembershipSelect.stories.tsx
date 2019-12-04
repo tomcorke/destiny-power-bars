@@ -16,27 +16,37 @@ const mockApi: RequiredApi = {
         {
           membershipId: 1,
           membershipType: 1,
-          displayName: "Test Xbox Membership"
+          displayName: "Test Xbox Membership",
+          crossSaveOverride: 0,
+          applicableMembershipTypes: [1]
         },
         {
           membershipId: 2,
           membershipType: 2,
-          displayName: "Test PS Membership"
+          displayName: "Test PS Membership",
+          crossSaveOverride: 0,
+          applicableMembershipTypes: [2]
         },
         {
           membershipId: 3,
           membershipType: 3,
-          displayName: "Test Steam Membership"
+          displayName: "Test Steam Membership",
+          crossSaveOverride: 0,
+          applicableMembershipTypes: [3]
         },
         {
           membershipId: 4,
           membershipType: 4,
-          displayName: "Test Battle.net Membership"
+          displayName: "Test Battle.net Membership",
+          crossSaveOverride: 0,
+          applicableMembershipTypes: [4]
         },
         {
           membershipId: 5,
           membershipType: 5,
-          displayName: "Test Stadia Membership"
+          displayName: "Test Stadia Membership",
+          crossSaveOverride: 0,
+          applicableMembershipTypes: [5]
         }
       ] as any) as UserInfoCard[]
   }

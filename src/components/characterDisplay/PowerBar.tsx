@@ -42,13 +42,13 @@ export const PowerBar = ({
   return (
     <div className={STYLES.barWrapper}>
       <div className={STYLES.iconWrapper}>
-        {icon && (
+        {icon ? (
           <img
             className={STYLES.icon}
             src={`https://www.bungie.net${icon}`}
             alt={fullLabelText}
           />
-        )}
+        ) : null}
       </div>
       <div className={STYLES.barContainer}>
         <div className={STYLES.filledBar} style={{ width: `${perc}%` }}>
