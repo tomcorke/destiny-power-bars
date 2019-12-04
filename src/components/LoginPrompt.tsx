@@ -3,8 +3,8 @@ import React from "react";
 import { manualStartAuth } from "../services/bungie-auth";
 import { LazyImage } from "./LazyImage";
 
-import ExampleTitanCharacterDisplayImageLowRes from "../images/example-titan-character-display-with-info-blur.jpg";
-import ExampleTitanCharacterDisplayImage from "../images/example-titan-character-display-with-info.png";
+import ExampleTitanCharacterDisplayImageLowRes from "../images/screenshots/example-titan-character-display-with-info-blur.jpg";
+import ExampleTitanCharacterDisplayImage from "../images/screenshots/example-titan-character-display-with-info.png";
 import STYLES from "./LoginPrompt.module.scss";
 
 export const LoginPrompt = () => {

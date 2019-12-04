@@ -19,7 +19,7 @@
   width: 30px;
   height: 20px;
   background: white;
-  background: url("../../images/link.png");
+  background: url("../../images/icons/link.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -94,23 +94,23 @@
 }
 
 .link_tag_dim {
-  @include icon-before("../../images/dim.png");
+  @include icon-before("../../images/icons/dim.png");
 }
 .link_tag_braytech {
-  @include icon-before("../../images/BraytechDevice.svg");
+  @include icon-before("../../images/icons/BraytechDevice.svg");
 }
 .link_tag_destinysets {
-  @include icon-before("../../images/destinysets.svg");
+  @include icon-before("../../images/icons/destinysets.svg");
 }
 .link_tag_d2checklist {
-  @include icon-before("../../images/d2checklist.png");
+  @include icon-before("../../images/icons/d2checklist.png");
 }
 .link_tag_guardianstats {
-  @include icon-before("../../images/guardianstats.ico");
+  @include icon-before("../../images/icons/guardianstats.ico");
 }
 .link_tag_raidreport {
-  // @include icon-before("../../images/raidreport.png");
+  @include icon-before("../../images/icons/raidreport.png");
 }
 .link_tag_destinytracker {
-  // @include icon-before("../../images/destinytracker.png");
+  // @include icon-before("../../images/icons/destinytracker.png");
 }

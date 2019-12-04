@@ -28,7 +28,7 @@
   align-items: center;
 
   .logOutIcon {
-    background-image: url("../images/logout.png");
+    background-image: url("../images/icons/logout.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -127,7 +127,7 @@
     background-color: #448bd4;
     background: linear-gradient(270deg, #012750 0, #0895df);
 
-    @include icon-before("../images/blizzard-icon.png");
+    @include icon-before("../images/icons/blizzard-icon.png");
   }
 
   &.platform_stadia {
@@ -168,7 +168,7 @@
   height: 13px;
   position: relative;
   top: -0.5px;
-  background-image: url("../images/cross-save-sm-white.png");
+  background-image: url("../images/icons/cross-save-sm-white.png");
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -194,7 +194,7 @@
     background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/steam/icon.png");
   }
   &_blizzard {
-    background-image: url("../images/blizzard-icon.png");
+    background-image: url("../images/icons/blizzard-icon.png");
   }
   &_stadia {
     background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/stadia/icon.png");

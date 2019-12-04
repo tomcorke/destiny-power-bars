@@ -76,7 +76,8 @@ export const CharacterLinks = ({
           { text: "Guardianstats", tags: ["guardianstats"] }
         )}
         {link(
-          `https://raid.report/${RAID_REPORT_PLATFORMS[membershipType]}/${membershipId}`
+          `https://raid.report/${RAID_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
+          { text: "Raid Report", tags: ["raidreport"] }
         )}
         {link(
           `https://destinytracker.com/destiny-2/profile/${DESTINY_TRACKER_PLATFORMS[membershipType]}/${membershipId}/overview`
