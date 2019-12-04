@@ -79,9 +79,6 @@ export const CharacterLinks = ({
           `https://raid.report/${RAID_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
           { text: "Raid Report", tags: ["raidreport"] }
         )}
-        {link(
-          `https://destinytracker.com/destiny-2/profile/${DESTINY_TRACKER_PLATFORMS[membershipType]}/${membershipId}/overview`
-        )}
       </ul>
     </div>
   </div>
