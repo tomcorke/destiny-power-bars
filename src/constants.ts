@@ -57,6 +57,12 @@ export const CLASS_NAMES = [CLASS_TITAN, CLASS_HUNTER, CLASS_WARLOCK];
 export const ITEM_TYPE_ARTIFACT = 28;
 export const ARTIFACT_INVENTORY_BUCKET_HASH = 1506418338;
 
+export const POWER_SYMBOL = "✧";
+export const BUNGIE_POWER_COLOR = "#DDCB59";
+export const BUNGIE_COLOUR_SOLAR = "ef621d";
+export const BUNGIE_COLOUR_ARC = "7abce9";
+export const BUNGIE_COLOUR_VOID = "b085df";
+
 // Do not export, in an attempt to not need to hard-code a specific artifact.
 // export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;
 

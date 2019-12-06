@@ -152,6 +152,7 @@ const App = () => {
 
       if (!isFetchingCharacterData) {
         try {
+          setIsFetchingCharacterData(true);
           getCharacterData(
             characterData,
             updateCharacterData,

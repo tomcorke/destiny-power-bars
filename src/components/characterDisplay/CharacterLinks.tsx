@@ -39,14 +39,6 @@ const RAID_REPORT_PLATFORMS: { [key: number]: string } = {
   5: "stadia"
 };
 
-const DESTINY_TRACKER_PLATFORMS: { [key: number]: string } = {
-  1: "xbox",
-  2: "psn",
-  3: "steam",
-  4: "bnet",
-  5: "stadia"
-};
-
 export const CharacterLinks = ({
   membershipType,
   membershipId,

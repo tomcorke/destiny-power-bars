@@ -60,6 +60,7 @@ const CrossSaveDisplay = ({ membership }: CrossSaveDisplayProps) => {
         {membership.applicableMembershipTypes.map(m => {
           return (
             <div
+              key={m}
               className={classnames(
                 STYLES.crossSaveMembershipIcon,
                 STYLES[`crossSaveMembershipType_${PLATFORMS[m]}`]
