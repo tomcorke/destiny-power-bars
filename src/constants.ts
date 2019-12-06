@@ -66,9 +66,12 @@ export const BUNGIE_COLOUR_VOID = "b085df";
 // Do not export, in an attempt to not need to hard-code a specific artifact.
 // export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;
 
+// Roll onto next season at 6pm GMT on 10th December 2019
+const isSeasonOfUndying = new Date() < new Date("2019-12-10T18:00:00Z");
+
 export const ITEM_POWER_SOFT_CAP = 900;
-export const ITEM_POWER_POWERFUL_CAP = 950;
-export const ITEM_POWER_PINNACLE_CAP = 960;
+export const ITEM_POWER_POWERFUL_CAP = isSeasonOfUndying ? 950 : 960;
+export const ITEM_POWER_PINNACLE_CAP = isSeasonOfUndying ? 960 : 970;
 
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET = 2;
