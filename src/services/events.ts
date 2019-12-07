@@ -32,8 +32,7 @@ function useEvent<T extends any[]>(
   }, [handler]);
 
   useEffect(() => {
-    const eventListener = (eventData: T) =>
-      savedHandler.current && savedHandler.current(eventData);
+    const eventListener = (eventData: T) => savedHandler.current?.(eventData);
     eventEmitter.addListener(eventName, eventListener);
     return () => {
       eventEmitter.removeListener(eventName, eventListener);

@@ -41,9 +41,7 @@ import {
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
-  mapValues(itemsBySlot, item =>
-    item && item.instanceData ? item.instanceData.primaryStat.value : 0
-  );
+  mapValues(itemsBySlot, item => item?.instanceData?.primaryStat?.value || 0);
 
 const getAveragePower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
@@ -174,7 +172,7 @@ const getItemScore = (item?: JoinedItemDefinition) => {
 };
 
 const getEquipLabel = (item?: JoinedItemDefinition) =>
-  item && item.itemDefinition.equippingBlock.uniqueLabel;
+  item?.itemDefinition.equippingBlock.uniqueLabel;
 
 const getEmblemData = (
   character: DestinyCharacterComponent,
@@ -402,21 +400,12 @@ export const getCharacterData = async (
     setIsFetchingCharacterData(false);
 
     if (
-      !fullProfile ||
-      !fullProfile.Response ||
-      !fullProfile.Response.characters ||
-      !fullProfile.Response.characters.data ||
-      !fullProfile.Response.characterEquipment ||
-      !fullProfile.Response.characterEquipment.data ||
-      !fullProfile.Response.characterInventories ||
-      !fullProfile.Response.characterInventories.data ||
-      !fullProfile.Response.profileInventory ||
-      !fullProfile.Response.profileInventory.data ||
-      !fullProfile.Response.itemComponents ||
-      !fullProfile.Response.itemComponents.instances ||
-      !fullProfile.Response.itemComponents.instances.data ||
-      !fullProfile.Response.profileProgression ||
-      !fullProfile.Response.profileProgression.data
+      !fullProfile?.Response?.characters?.data ||
+      !fullProfile?.Response?.characterEquipment?.data ||
+      !fullProfile?.Response?.characterInventories?.data ||
+      !fullProfile?.Response?.profileInventory?.data ||
+      !fullProfile?.Response?.itemComponents?.instances?.data ||
+      !fullProfile?.Response?.profileProgression?.data
     ) {
       return;
     }

@@ -29,9 +29,8 @@ export const PowerBars = (data: PowerBarsProps) => {
     (slots, slotName) => ({
       ...slots,
       [slotName]:
-        data.topItemBySlot && data.topItemBySlot[slotName]
-          ? data.topItemBySlot[slotName]!.instanceData.primaryStat.value
-          : data.overallPower
+        data.topItemBySlot?.[slotName]?.instanceData.primaryStat.value ||
+        data.overallPower
     }),
     {} as PowerBySlot
   );
@@ -62,7 +61,7 @@ export const PowerBars = (data: PowerBarsProps) => {
       </div>
       <div className={STYLES.bars}>
         {Object.entries(powerBySlot).map(([slotName, power]) => {
-          const bestItem = data.topItemBySlot && data.topItemBySlot[slotName];
+          const bestItem = data.topItemBySlot?.[slotName];
           return (
             <PowerBar
               key={`${data.character.characterId}_${slotName}`}

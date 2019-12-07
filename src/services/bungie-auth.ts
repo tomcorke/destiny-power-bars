@@ -329,7 +329,7 @@ export const auth = async (): Promise<boolean> => {
   if (authCode && !hasValidAuth()) {
     console.log("Fetching access token with auth code");
     const authResponse = await fetchAccessToken(authCode);
-    if (authResponse && authResponse.authSuccess === false) {
+    if (authResponse && authResponse?.authSuccess === false) {
       console.error(authResponse.error);
       return false;
     }
