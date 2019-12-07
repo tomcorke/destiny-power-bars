@@ -1,27 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9918c10b7876d46988412892a5b9e74b",
+    "revision": "d4275310a276db8721fe17d04b7d3c8c",
     "url": "/index.html"
   },
   {
-    "revision": "98c8dcd19952ca6fac39",
+    "revision": "53d7f4b50590b053786d",
     "url": "/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "4ecc4683d1ce1924607a",
-    "url": "/static/css/main.a744c91c.chunk.css"
+    "revision": "e33ce77931ae9c058ea8",
+    "url": "/static/css/main.b344ba27.chunk.css"
   },
   {
-    "revision": "98c8dcd19952ca6fac39",
-    "url": "/static/js/2.e866f655.chunk.js"
+    "revision": "53d7f4b50590b053786d",
+    "url": "/static/js/2.4e3d5f93.chunk.js"
   },
   {
-    "revision": "4ecc4683d1ce1924607a",
-    "url": "/static/js/main.9a1121a1.chunk.js"
+    "revision": "5bc80126796c8a52a114710ab4c7506c",
+    "url": "/static/js/2.4e3d5f93.chunk.js.LICENSE"
   },
   {
-    "revision": "41b7bd55fd7c4d2791da",
-    "url": "/static/js/runtime-main.75d6e202.js"
+    "revision": "e33ce77931ae9c058ea8",
+    "url": "/static/js/main.68e21d3e.chunk.js"
+  },
+  {
+    "revision": "3ed811b9664a0d2fc876",
+    "url": "/static/js/runtime-main.bf6019ff.js"
   },
   {
     "revision": "bddf127ba5513d62a943fff86e3400c7",
@@ -34,6 +38,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "fe754cd75bf7270a43a958391df00686",
     "url": "/static/media/blizzard-icon.fe754cd7.png"
+  },
+  {
+    "revision": "59862c3ad9aee651dfa1c5f14c0c7414",
+    "url": "/static/media/d2checklist.59862c3a.svg"
   },
   {
     "revision": "6a3020b9885daf0ee107bffaca128969",

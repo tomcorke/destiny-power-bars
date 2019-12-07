@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" x="0" y="0" version="1.1" viewBox="0 0 268 268" xml:space="preserve">
+  <style>
+    .icon{fill:#fff}
+  </style>
+  <g class="icon">
+    <path d="M134 50l-20 30H0V0h268v80H154l-20-30z"/>
+    <path d="M134 218l20-30h49v80H0v-80h114l20 30z"/>
+    <path d="M102 174H0V94h101c-15 17-32 29-52 40 20 11 37 23 53 40z"/>
+    <path d="M166 174c15-16 33-29 52-40-19-11-37-24-52-40h70v80h-70z"/>
+    <path d="M163 134c-11 9-20 18-29 30-9-12-18-21-29-30 12-9 22-18 29-29 9 11 18 21 29 29z"/>
+  </g>
+</svg>
