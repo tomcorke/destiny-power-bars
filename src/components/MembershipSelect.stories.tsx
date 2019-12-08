@@ -6,7 +6,7 @@ import MembershipSelect from "./MembershipSelect";
 import { RequiredApi } from "./MembershipSelect";
 
 export default {
-  title: "MembershipSelect"
+  title: "Membership Select"
 };
 
 const mockApi: RequiredApi = {

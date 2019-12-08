@@ -11,7 +11,7 @@ import {
   setSelectedDestinyMembership
 } from "./services/bungie-auth";
 import ga from "./services/ga";
-import { CharacterData } from "./types";
+import { PowerBarsCharacterData } from "./types";
 
 import CharacterDisplay from "./components/CharacterDisplay";
 import FetchSpinner from "./components/FetchSpinner";
@@ -61,7 +61,7 @@ const App = () => {
     boolean
   >(false);
   const [characterData, setCharacterData] = useState<
-    CharacterData[] | undefined
+    PowerBarsCharacterData[] | undefined
   >(undefined);
 
   const [manifestState, setManifestState] = useState<string>("Unknown");
@@ -136,7 +136,7 @@ const App = () => {
 
   const doGetCharacterData = useCallback(
     (returnBasicCharacterData: boolean = false) => {
-      const updateCharacterData = (newData: CharacterData[]) => {
+      const updateCharacterData = (newData: PowerBarsCharacterData[]) => {
         const newOverallPower = Math.max(...newData.map(c => c.overallPower));
         const newArtifactPower = Math.max(
           ...newData.map(c => (c.artifactData ? c.artifactData.bonusPower : 0))
