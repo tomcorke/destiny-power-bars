@@ -22,7 +22,6 @@
 .header {
   position: relative;
   font-weight: 600;
-  letter-spacing: 0.22ch;
   width: 100%;
 
   .emblemBackground {
@@ -63,11 +62,12 @@
   .title {
     position: absolute;
     top: 43px;
-    left: 57px;
+    left: 65px;
     color: $titleColor;
     font-weight: normal;
-    padding: 0 30px 2px 30px;
+    padding: 0 50px 2px 50px;
     //border-top: 1px solid $titleColor;
+    letter-spacing: 0px;
     background: linear-gradient(
       to right,
       transparent 0,
@@ -81,6 +81,7 @@
     left: 85px;
     font-size: 30px;
     color: white;
+    letter-spacing: 0.1ch;
 
     &.withTitle {
       top: -10px;
