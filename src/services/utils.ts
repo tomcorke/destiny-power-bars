@@ -325,6 +325,12 @@ const getDataForCharacterId = (
 
   const emblemData = getEmblemData(character, manifest);
 
+  const titleDefinition =
+    manifest.DestinyRecordDefinition[character.titleRecordHash || ""];
+  const title =
+    titleDefinition &&
+    titleDefinition.titleInfo.titlesByGenderHash[character.genderHash];
+
   const resultData: CharacterData = {
     character,
     className,
@@ -333,7 +339,8 @@ const getDataForCharacterId = (
     potentialOverallPower,
     topItemBySlot,
     artifactData,
-    emblemData
+    emblemData,
+    title
   };
 
   return resultData;
@@ -400,6 +407,7 @@ export const getCharacterData = async (
     setIsFetchingCharacterData(false);
 
     if (
+      !fullProfile ||
       !fullProfile?.Response?.characters?.data ||
       !fullProfile?.Response?.characterEquipment?.data ||
       !fullProfile?.Response?.characterInventories?.data ||

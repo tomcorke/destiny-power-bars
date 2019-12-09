@@ -58,10 +58,33 @@
     text-shadow: 0 0 20px black, 0 0 5px black;
   }
 
+  $titleColor: #e490dc;
+
+  .title {
+    position: absolute;
+    top: 43px;
+    left: 57px;
+    color: $titleColor;
+    font-weight: normal;
+    padding: 0 30px 2px 30px;
+    //border-top: 1px solid $titleColor;
+    background: linear-gradient(
+      to right,
+      transparent 0,
+      rgba($titleColor, 0.2) 25%,
+      rgba($titleColor, 0.2) 75%,
+      transparent 100%
+    );
+  }
+
   .name {
     left: 85px;
     font-size: 30px;
     color: white;
+
+    &.withTitle {
+      top: -10px;
+    }
   }
 
   .power {

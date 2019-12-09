@@ -1,3 +1,4 @@
+import classnames from "classnames";
 import React from "react";
 
 import { CharacterData } from "../types";
@@ -49,7 +50,14 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
           src={`https://www.bungie.net${data.character.emblemBackgroundPath}`}
           alt=""
         />
-        <div className={STYLES.name}>{titleCase(data.className)}</div>
+        <div
+          className={classnames(STYLES.name, {
+            [STYLES.withTitle]: !!data.title
+          })}
+        >
+          {titleCase(data.className)}
+        </div>
+        {data.title && <div className={STYLES.title}>{data.title}</div>}
         <div className={STYLES.power}>
           {roundedPower + summableArtifactBonusPower}
         </div>

@@ -1,6 +1,7 @@
 import {
   DestinyInventoryItemDefinition,
   DestinyManifest,
+  DestinyRecordDefinition,
   DestinyVendorDefinition,
   getDestinyManifest,
   getProfile
@@ -62,10 +63,14 @@ export interface ManifestData {
   DestinyVendorDefinition: {
     [key: string]: DestinyVendorDefinition | undefined;
   };
+  DestinyRecordDefinition: {
+    [key: string]: DestinyRecordDefinition | undefined;
+  };
 }
 const manifestPropertyWhitelist = [
   "DestinyInventoryItemDefinition",
-  "DestinyVendorDefinition"
+  "DestinyVendorDefinition",
+  "DestinyRecordDefinition"
 ];
 
 let getCachedManifestDataPromise: Promise<ManifestData> | undefined;
