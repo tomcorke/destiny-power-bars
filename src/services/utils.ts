@@ -25,9 +25,9 @@ import {
   ITEM_TYPE_WEAPON
 } from "../constants";
 import {
-  CharacterData,
   ItemBySlot,
   JoinedItemDefinition,
+  PowerBarsCharacterData,
   PowerBySlot,
   SeasonalArtifactData
 } from "../types";
@@ -96,10 +96,10 @@ const getBasicCharacterData = async (
   const characters = profile.Response.characters.data;
 
   if (characters) {
-    const getBasicDataForCharacterId = (id: string): CharacterData => {
+    const getBasicDataForCharacterId = (id: string): PowerBarsCharacterData => {
       const character = characters[id];
       const className = CLASS_NAMES[character.classType];
-      const result: CharacterData = {
+      const result: PowerBarsCharacterData = {
         character,
         className,
         overallPowerExact: character.light,
@@ -174,15 +174,15 @@ const getItemScore = (item?: JoinedItemDefinition) => {
 const getEquipLabel = (item?: JoinedItemDefinition) =>
   item?.itemDefinition.equippingBlock.uniqueLabel;
 
-const getEmblemData = (
-  character: DestinyCharacterComponent,
-  manifest: ManifestData
-) => {
-  if (!manifest) {
-    return;
-  }
-  return manifest.DestinyInventoryItemDefinition[character.emblemHash];
-};
+// const getEmblemData = (
+//   character: DestinyCharacterComponent,
+//   manifest: ManifestData
+// ) => {
+//   if (!manifest) {
+//     return;
+//   }
+//   return manifest.DestinyInventoryItemDefinition[character.emblemHash];
+// };
 
 const getDataForCharacterId = (
   characterId: string,
@@ -194,7 +194,7 @@ const getDataForCharacterId = (
   allCharacterWeapons: DestinyItemComponent[],
   profileInventories: DestinyInventoryComponent,
   profileProgression: DestinyProfileProgressionComponent
-): CharacterData => {
+): PowerBarsCharacterData => {
   const character = characters[characterId];
   const className = CLASS_NAMES[character.classType];
 
@@ -323,15 +323,13 @@ const getDataForCharacterId = (
   }
   const potentialOverallPower = getOverallPower(potentialPowerBySlot);
 
-  const emblemData = getEmblemData(character, manifest);
-
   const titleDefinition =
     manifest.DestinyRecordDefinition[character.titleRecordHash || ""];
   const title =
     titleDefinition &&
     titleDefinition.titleInfo.titlesByGenderHash[character.genderHash];
 
-  const resultData: CharacterData = {
+  const resultData: PowerBarsCharacterData = {
     character,
     className,
     overallPowerExact,
@@ -339,7 +337,6 @@ const getDataForCharacterId = (
     potentialOverallPower,
     topItemBySlot,
     artifactData,
-    emblemData,
     title
   };
 
@@ -347,8 +344,8 @@ const getDataForCharacterId = (
 };
 
 export const getCharacterData = async (
-  currentCharacterData: CharacterData[] | undefined,
-  setCharacterData: (state: CharacterData[]) => any,
+  currentCharacterData: PowerBarsCharacterData[] | undefined,
+  setCharacterData: (state: PowerBarsCharacterData[]) => any,
   setIsFetchingCharacterData: (state: boolean) => any,
   returnBasicCharacterData: boolean = false
 ) => {

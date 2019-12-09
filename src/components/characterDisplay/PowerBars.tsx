@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ITEM_POWER_POWERFUL_CAP, ORDERED_ITEM_SLOTS } from "../../constants";
-import { CharacterData, PowerBySlot } from "../../types";
+import { PowerBarsCharacterData, PowerBySlot } from "../../types";
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
 
@@ -21,7 +21,7 @@ const slotFullNames = (className: string): { [key: string]: string } => ({
   power: "Power Weapon"
 });
 
-type PowerBarsProps = CharacterData;
+type PowerBarsProps = PowerBarsCharacterData;
 
 export const PowerBars = (data: PowerBarsProps) => {
   // Get power by slot, using overall power if slot data does not exist
@@ -29,7 +29,7 @@ export const PowerBars = (data: PowerBarsProps) => {
     (slots, slotName) => ({
       ...slots,
       [slotName]:
-        data.topItemBySlot?.[slotName]?.instanceData.primaryStat.value ||
+        data.topItemBySlot?.[slotName]?.instanceData?.primaryStat?.value ||
         data.overallPower
     }),
     {} as PowerBySlot
@@ -70,11 +70,7 @@ export const PowerBars = (data: PowerBarsProps) => {
               value={power}
               avgValue={roundedPower}
               label={slotFullNames(data.className)[slotName] || slotName}
-              icon={
-                bestItem &&
-                bestItem.itemDefinition &&
-                bestItem.itemDefinition.displayProperties.icon
-              }
+              icon={bestItem?.itemDefinition?.displayProperties.icon}
             />
           );
         })}

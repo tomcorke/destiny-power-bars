@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import React from "react";
 
-import { CharacterData } from "../types";
+import { PowerBarsCharacterData } from "../types";
 import STYLES from "./CharacterDisplay.module.scss";
 import { CharacterLinks } from "./characterDisplay/CharacterLinks";
 import { PowerBars } from "./characterDisplay/PowerBars";
@@ -9,7 +9,7 @@ import { PowerDetails } from "./characterDisplay/PowerDetails";
 import { PowerHints } from "./characterDisplay/PowerHints";
 
 interface CharacterDisplayProps {
-  data: CharacterData;
+  data: PowerBarsCharacterData;
 }
 
 const titleCase = (text: string) =>
