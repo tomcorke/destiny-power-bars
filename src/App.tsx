@@ -273,8 +273,6 @@ const App = () => {
   >(loadCharacterDisplayOrder());
   const dropOnCharacterId = useCallback(
     (dropCharacterId: string) => {
-      console.log("Swapping", draggingCharacterId, dropCharacterId);
-
       if (!draggingCharacterId || draggingCharacterId === dropCharacterId) {
         return;
       }
@@ -283,7 +281,6 @@ const App = () => {
           ? characterDisplayOrder
           : getDefaultCharacterDisplayOrder();
 
-      console.log("Using to swap:", currentCharacterOrder);
       const swappedOrder = currentCharacterOrder.slice();
       swappedOrder.splice(
         currentCharacterOrder.indexOf(draggingCharacterId),
@@ -296,7 +293,6 @@ const App = () => {
         draggingCharacterId
       );
 
-      console.log("Setting new character order", swappedOrder);
       saveCharacterDisplayOrder(swappedOrder);
       setCharacterDisplayOrder(swappedOrder);
     },
