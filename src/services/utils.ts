@@ -356,7 +356,6 @@ export const getCharacterData = async (
         destinyMembership.membershipType,
         destinyMembership.membershipId
       );
-      console.log(fullProfile);
       if (fullProfile.ErrorStatus === "SystemDisabled") {
         throw new BungieSystemDisabledError();
       }

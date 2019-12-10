@@ -187,15 +187,17 @@ const App = () => {
     setBungieSystemDisabled
   ]);
 
+  const throttledDoGetCharacterData = throttle(doGetCharacterData, 500);
+
   useInterval(() => {
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
-      doGetCharacterData();
+      throttledDoGetCharacterData();
     }
   }, CHARACTER_DATA_REFRESH_TIMER);
 
   useEffect(() => {
     if (!characterData && !isFetchingCharacterData && !isBungieSystemDisabled) {
-      throttle(() => doGetCharacterData(), 500);
+      throttledDoGetCharacterData();
     }
   }, [
     characterData,
