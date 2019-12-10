@@ -1,5 +1,6 @@
 import useInterval from "@use-it/interval";
 import { UserInfoCard } from "bungie-api-ts/user";
+import throttle from "lodash/throttle";
 import React, { useCallback, useEffect, useState } from "react";
 
 import {
@@ -49,26 +50,25 @@ const App = () => {
   const [disableManualLogin, setDisableManualLogin] = useState(
     hasManuallyAuthed()
   );
-  const [isAuthed, setIsAuthed] = useState<boolean>(hasValidAuth());
-  const [hasAuthError, setAuthError] = useState<boolean>(false);
-  const [hasSelectedMembership, setHasMembership] = useState<boolean>(
+  const [isAuthed, setIsAuthed] = useState(hasValidAuth());
+  const [hasAuthError, setAuthError] = useState(false);
+  const [hasSelectedMembership, setHasMembership] = useState(
     hasSelectedDestinyMembership()
   );
   const [manifestData, setManifestData] = useState<ManifestData | undefined>(
     undefined
   );
-  const [hasManifestError, setManifestError] = useState<boolean>(false);
-  const [isBungieSystemDisabled, setBungieSystemDisabled] = useState<boolean>(
+  const [hasManifestError, setManifestError] = useState(false);
+  const [isBungieSystemDisabled, setBungieSystemDisabled] = useState(false);
+  const [isBungieServiceUnavailable, setBungieServiceUnavailable] = useState(
     false
   );
-  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState<
-    boolean
-  >(false);
+  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState(false);
   const [characterData, setCharacterData] = useState<
     PowerBarsCharacterData[] | undefined
   >(undefined);
 
-  const [manifestState, setManifestState] = useState<string>("Unknown");
+  const [manifestState, setManifestState] = useState("Unknown");
   useEvent(EVENTS.GET_MANIFEST, () => {
     setManifestError(false);
     setManifestState("Checking manifest version");
@@ -117,10 +117,16 @@ const App = () => {
       try {
         const manifestResult = await getManifest();
         if (manifestResult.error) {
-          console.error(manifestResult.error.message);
+          console.error(
+            `Error fetching manifest:`,
+            manifestResult.error.message
+          );
           setManifestError(true);
           if (manifestResult.error instanceof BungieSystemDisabledError) {
             setBungieSystemDisabled(true);
+          }
+          if (manifestResult.error.message === "503") {
+            setBungieServiceUnavailable(true);
           }
           return;
         }
@@ -134,47 +140,52 @@ const App = () => {
 
   useEffect(() => doGetManifest(), [doGetManifest]);
 
+  const throttledDoGetManifest = throttle(doGetManifest, 2000);
+
   useEvent(EVENTS.MANIFEST_FETCH_ERROR, () => {
-    doGetManifest();
+    throttledDoGetManifest();
   });
 
-  const doGetCharacterData = useCallback(
-    (returnBasicCharacterData: boolean = false) => {
-      const updateCharacterData = (newData: PowerBarsCharacterData[]) => {
-        const newOverallPower = Math.max(...newData.map(c => c.overallPower));
-        const newArtifactPower = Math.max(
-          ...newData.map(c => (c.artifactData ? c.artifactData.bonusPower : 0))
-        );
-        const newTotalPower = newOverallPower + newArtifactPower;
-        ga.set({
-          dimension1: `${newOverallPower}`,
-          dimension2: `${newArtifactPower}`,
-          dimension3: `${newTotalPower}`
-        });
-        setCharacterData(newData);
-      };
+  const doGetCharacterData = useCallback(() => {
+    const updateCharacterData = (newData: PowerBarsCharacterData[]) => {
+      const newOverallPower = Math.max(...newData.map(c => c.overallPower));
+      const newArtifactPower = Math.max(
+        ...newData.map(c => (c.artifactData ? c.artifactData.bonusPower : 0))
+      );
+      const newTotalPower = newOverallPower + newArtifactPower;
+      ga.set({
+        dimension1: `${newOverallPower}`,
+        dimension2: `${newArtifactPower}`,
+        dimension3: `${newTotalPower}`
+      });
+      setCharacterData(newData);
+    };
 
+    (async () => {
       if (!isFetchingCharacterData) {
         try {
           setIsFetchingCharacterData(true);
-          getCharacterData(
-            characterData,
+          await getCharacterData(
             updateCharacterData,
-            setIsFetchingCharacterData,
-            returnBasicCharacterData
+            setIsFetchingCharacterData
           );
-        } catch (e) {
-          console.error("Error fetching character data:", e);
+        } catch (error) {
+          if (error instanceof BungieSystemDisabledError) {
+            setBungieSystemDisabled(true);
+          }
+          if (error.message === "503") {
+            setBungieServiceUnavailable(true);
+          }
+          console.error("Error fetching character data:", error);
         }
       }
-    },
-    [
-      characterData,
-      setCharacterData,
-      isFetchingCharacterData,
-      setIsFetchingCharacterData
-    ]
-  );
+    })();
+  }, [
+    setCharacterData,
+    isFetchingCharacterData,
+    setIsFetchingCharacterData,
+    setBungieSystemDisabled
+  ]);
 
   useInterval(() => {
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
@@ -183,10 +194,15 @@ const App = () => {
   }, CHARACTER_DATA_REFRESH_TIMER);
 
   useEffect(() => {
-    if (!characterData && !isFetchingCharacterData) {
-      doGetCharacterData();
+    if (!characterData && !isFetchingCharacterData && !isBungieSystemDisabled) {
+      throttle(() => doGetCharacterData(), 2000);
     }
-  }, [characterData, isFetchingCharacterData, doGetCharacterData]);
+  }, [
+    characterData,
+    isFetchingCharacterData,
+    doGetCharacterData,
+    isBungieSystemDisabled
+  ]);
 
   const onSelectMembership = useCallback(
     (membership: UserInfoCard) => {
@@ -206,6 +222,22 @@ const App = () => {
     status = (
       <span>
         Bungie API disabled.
+        <br />
+        Check{" "}
+        <a
+          href="https://www.bungie.net/en/Help/Article/13125"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Bungie's server and update status page
+        </a>{" "}
+        for more information
+      </span>
+    );
+  } else if (isBungieServiceUnavailable) {
+    status = (
+      <span>
+        Bungie API unavailable.
         <br />
         Check{" "}
         <a

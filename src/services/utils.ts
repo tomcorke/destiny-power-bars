@@ -32,7 +32,7 @@ import {
   SeasonalArtifactData
 } from "../types";
 import {
-  getBasicProfile,
+  BungieSystemDisabledError,
   getFullProfile,
   getManifest,
   GetManifestResult,
@@ -102,36 +102,6 @@ const isItemEquippableByCharacter = (
   }
   // Let's ignore the rest for now
   return true;
-};
-
-const getBasicCharacterData = async (
-  pendingBasicProfile: ReturnType<typeof getBasicProfile>
-) => {
-  const profile = await pendingBasicProfile;
-  if (!profile || !profile.Response || !profile.Response.characters) {
-    return;
-  }
-  const characters = profile.Response.characters.data;
-
-  if (characters) {
-    const getBasicDataForCharacterId = (id: string): PowerBarsCharacterData => {
-      const character = characters[id];
-      const className = CLASS_NAMES[character.classType];
-      const result: PowerBarsCharacterData = {
-        character,
-        className,
-        overallPowerExact: character.light,
-        overallPower: character.light
-      };
-      return result;
-    };
-
-    const characterIds = Object.keys(characters);
-    const characterData = characterIds.map(id =>
-      getBasicDataForCharacterId(id)
-    );
-    return characterData;
-  }
 };
 
 interface ObjectOf<T> {
@@ -362,10 +332,8 @@ const getDataForCharacterId = (
 };
 
 export const getCharacterData = async (
-  currentCharacterData: PowerBarsCharacterData[] | undefined,
   setCharacterData: (state: PowerBarsCharacterData[]) => any,
-  setIsFetchingCharacterData: (state: boolean) => any,
-  returnBasicCharacterData: boolean = false
+  setIsFetchingCharacterData: (state: boolean) => any
 ) => {
   try {
     const isAuthed = await auth();
@@ -382,44 +350,27 @@ export const getCharacterData = async (
       return;
     }
 
-    let pendingBasicProfile: ReturnType<typeof getBasicProfile> | undefined;
-
-    // Flag lets this be disabled to prevent setting after full profile is returned
-    let shouldSetBasicCharacterData = true;
-    // Produce basic data if flag is set
-    if (returnBasicCharacterData) {
-      pendingBasicProfile = getBasicProfile(
-        destinyMembership.membershipType,
-        destinyMembership.membershipId
-      );
-      pendingBasicProfile.catch(() => {
-        /* Do nothing */
-      });
-      const pendingBasicCharacterData = getBasicCharacterData(
-        pendingBasicProfile
-      ).catch(e => {
-        /* Do nothing */
-      });
-      (async () => {
-        const basicCharacterData = await pendingBasicCharacterData;
-        if (basicCharacterData && shouldSetBasicCharacterData) {
-          setCharacterData(basicCharacterData);
-        }
-      })();
-    }
-
     let fullProfile: ServerResponse<DestinyProfileResponse> | undefined;
     try {
       fullProfile = await getFullProfile(
         destinyMembership.membershipType,
         destinyMembership.membershipId
       );
+      console.log(fullProfile);
+      if (fullProfile.ErrorStatus === "SystemDisabled") {
+        throw new BungieSystemDisabledError();
+      }
     } catch (e) {
       if (e.message === "401") {
         await auth();
+        fullProfile = await getFullProfile(
+          destinyMembership.membershipType,
+          destinyMembership.membershipId
+        );
+      } else {
+        throw e;
       }
     }
-    setIsFetchingCharacterData(false);
 
     if (
       !fullProfile ||
@@ -477,11 +428,10 @@ export const getCharacterData = async (
         profileProgression
       )
     );
-    shouldSetBasicCharacterData = false;
     setCharacterData(characterData);
   } catch (e) {
-    console.error(`Error fetching manifest and character data`, e);
+    throw e;
+  } finally {
     setIsFetchingCharacterData(false);
-    return;
   }
 };
