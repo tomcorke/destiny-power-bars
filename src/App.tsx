@@ -261,7 +261,8 @@ const App = () => {
       characterData.length === characterIds.length &&
       characterIds.every(id =>
         characterData.some(c => c.character.characterId === id)
-      ),
+      ) &&
+      characterData.every(c => characterIds.includes(c.character.characterId)),
     [characterData]
   );
 
