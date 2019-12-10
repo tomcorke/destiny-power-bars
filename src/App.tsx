@@ -28,7 +28,11 @@ import {
   ManifestData
 } from "./services/bungie-api";
 import { EVENTS, useEvent } from "./services/events";
-import { getCharacterData } from "./services/utils";
+import {
+  getCharacterData,
+  loadCharacterDisplayOrder,
+  saveCharacterDisplayOrder
+} from "./services/utils";
 
 import "normalize.css";
 import "./index.css";
@@ -184,15 +188,18 @@ const App = () => {
     }
   }, [characterData, isFetchingCharacterData, doGetCharacterData]);
 
-  const onSelectMembership = (membership: UserInfoCard) => {
-    ga.event({
-      category: "Platform",
-      action: "Select platform",
-      label: `Membership type: ${membership.membershipType}`
-    });
-    setSelectedDestinyMembership(membership);
-    setHasMembership(true);
-  };
+  const onSelectMembership = useCallback(
+    (membership: UserInfoCard) => {
+      ga.event({
+        category: "Platform",
+        action: "Select platform",
+        label: `Membership type: ${membership.membershipType}`
+      });
+      setSelectedDestinyMembership(membership);
+      setHasMembership(true);
+    },
+    [setHasMembership]
+  );
 
   let status: string | JSX.Element = "";
   if (isBungieSystemDisabled) {
@@ -242,15 +249,101 @@ const App = () => {
 
   (window as any).characterData = characterData;
 
+  const getDefaultCharacterDisplayOrder = useCallback(
+    () =>
+      characterData ? characterData.map(c => c.character.characterId) : [],
+    [characterData]
+  );
+
+  const isValidCharacterDisplayOrder = useCallback(
+    (characterIds: string[]) =>
+      characterData &&
+      characterData.length === characterIds.length &&
+      characterIds.every(id =>
+        characterData.some(c => c.character.characterId === id)
+      ),
+    [characterData]
+  );
+
+  const [draggingCharacterId, setDraggingCharacterId] = useState<
+    string | undefined
+  >(undefined);
+  const [characterDisplayOrder, setCharacterDisplayOrder] = useState<
+    string[] | undefined
+  >(loadCharacterDisplayOrder());
+  const dropOnCharacterId = useCallback(
+    (dropCharacterId: string) => {
+      console.log("Swapping", draggingCharacterId, dropCharacterId);
+
+      if (!draggingCharacterId || draggingCharacterId === dropCharacterId) {
+        return;
+      }
+      const currentCharacterOrder =
+        characterDisplayOrder && characterDisplayOrder.length > 0
+          ? characterDisplayOrder
+          : getDefaultCharacterDisplayOrder();
+
+      console.log("Using to swap:", currentCharacterOrder);
+      const swappedOrder = currentCharacterOrder.slice();
+      swappedOrder.splice(
+        currentCharacterOrder.indexOf(draggingCharacterId),
+        1,
+        dropCharacterId
+      );
+      swappedOrder.splice(
+        currentCharacterOrder.indexOf(dropCharacterId),
+        1,
+        draggingCharacterId
+      );
+
+      console.log("Setting new character order", swappedOrder);
+      saveCharacterDisplayOrder(swappedOrder);
+      setCharacterDisplayOrder(swappedOrder);
+    },
+    [
+      draggingCharacterId,
+      characterDisplayOrder,
+      setCharacterDisplayOrder,
+      getDefaultCharacterDisplayOrder
+    ]
+  );
+
+  let useCharacterOrder = getDefaultCharacterDisplayOrder();
+  if (
+    characterData &&
+    characterData.length > 0 &&
+    characterDisplayOrder &&
+    characterDisplayOrder.length > 0
+  ) {
+    // Validate that character IDs in display order match
+    if (isValidCharacterDisplayOrder(characterDisplayOrder)) {
+      useCharacterOrder = characterDisplayOrder;
+    } else {
+      setCharacterDisplayOrder(undefined);
+    }
+  }
+
   if (isAuthed && characterData && characterData.length > 0) {
     return (
       <div className={STYLES.App}>
         <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
         <div className={STYLES.charactersContainer}>
           <div className={STYLES.characters}>
-            {characterData.map(c => (
-              <CharacterDisplay key={c.character.characterId} data={c} />
-            ))}
+            {useCharacterOrder
+              .map(characterId =>
+                characterData.find(c => c.character.characterId === characterId)
+              )
+              .map(c => (
+                <CharacterDisplay
+                  key={c!.character.characterId}
+                  data={c!}
+                  onDragStart={characterId =>
+                    setDraggingCharacterId(characterId)
+                  }
+                  onDragEnd={() => setDraggingCharacterId(undefined)}
+                  onDragDrop={characterId => dropOnCharacterId(characterId)}
+                />
+              ))}
           </div>
         </div>
         <VendorDisplay manifestData={manifestData} />

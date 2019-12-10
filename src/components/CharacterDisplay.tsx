@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 
 import { PowerBarsCharacterData } from "../types";
 import STYLES from "./CharacterDisplay.module.scss";
@@ -7,10 +7,6 @@ import { CharacterLinks } from "./characterDisplay/CharacterLinks";
 import { PowerBars } from "./characterDisplay/PowerBars";
 import { PowerDetails } from "./characterDisplay/PowerDetails";
 import { PowerHints } from "./characterDisplay/PowerHints";
-
-interface CharacterDisplayProps {
-  data: PowerBarsCharacterData;
-}
 
 const titleCase = (text: string) =>
   text.substr(0, 1).toUpperCase() + text.substr(1);
@@ -27,14 +23,62 @@ const rgbString = ({
 
 export const CharacterDisplayBodyWrapper = (
   backgroundColor: string,
-  children: JSX.Element
-) => (
-  <div className={STYLES.characterDisplay} style={{ backgroundColor }}>
-    {children}
-  </div>
-);
+  children: JSX.Element,
+  onDragStart?: () => void,
+  onDragEnd?: () => void,
+  onDragDrop?: () => void
+) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [isDraggingOver, setIsDraggingOver] = useState(0);
 
-const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
+  return (
+    <div
+      className={classnames(STYLES.characterDisplayWrapper, {
+        [STYLES.dragging]: isDragging,
+        [STYLES.dragOver]: isDraggingOver > 0
+      })}
+      style={{ backgroundColor }}
+      onDragStart={() => {
+        setIsDragging(true);
+        onDragStart?.();
+      }}
+      onDragEnd={() => {
+        setIsDragging(false);
+        onDragEnd?.();
+      }}
+      onDragEnter={() => setIsDraggingOver(isDraggingOver + 1)}
+      onDragOver={e => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+      onDragLeave={() => setIsDraggingOver(Math.max(isDraggingOver - 1, 0))}
+      onDrop={() => {
+        setIsDraggingOver(0);
+        onDragDrop?.();
+      }}
+      draggable={true}
+    >
+      {children}
+      <div className={STYLES.dragOverlay}>
+        <span>Drag to reorder</span>
+      </div>
+    </div>
+  );
+};
+
+interface CharacterDisplayProps {
+  data: PowerBarsCharacterData;
+  onDragStart?: (characterId: string) => void;
+  onDragEnd?: (characterId: string) => void;
+  onDragDrop?: (characterId: string) => void;
+}
+
+const CharacterDisplay = ({
+  data,
+  onDragStart,
+  onDragEnd,
+  onDragDrop
+}: CharacterDisplayProps) => {
   const roundedPower = Math.floor(data.overallPower);
 
   const summableArtifactBonusPower = data.artifactData
@@ -43,7 +87,7 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
 
   return CharacterDisplayBodyWrapper(
     rgbString(data.character.emblemColor),
-    <>
+    <div className={STYLES.characterDisplay}>
       <div className={STYLES.header}>
         <img
           className={STYLES.emblemBackground}
@@ -75,7 +119,10 @@ const CharacterDisplay = ({ data }: CharacterDisplayProps) => {
         membershipId={data.character.membershipId}
         characterId={data.character.characterId}
       />
-    </>
+    </div>,
+    () => onDragStart?.(data.character.characterId),
+    () => onDragEnd?.(data.character.characterId),
+    () => onDragDrop?.(data.character.characterId)
   );
 };
 

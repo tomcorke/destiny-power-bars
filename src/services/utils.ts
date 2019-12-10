@@ -40,6 +40,24 @@ import {
 } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 
+const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
+
+export const loadCharacterDisplayOrder = () => {
+  const storedValue = localStorage.getItem(CHARACTER_DISPLAY_ORDER_STORAGE_KEY);
+  try {
+    return storedValue ? JSON.parse(storedValue) : undefined;
+  } catch (e) {
+    return undefined;
+  }
+};
+
+export const saveCharacterDisplayOrder = (characterOrder: string[]) => {
+  localStorage.setItem(
+    CHARACTER_DISPLAY_ORDER_STORAGE_KEY,
+    JSON.stringify(characterOrder)
+  );
+};
+
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
   mapValues(itemsBySlot, item => item?.instanceData?.primaryStat?.value || 0);
 
