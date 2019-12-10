@@ -71,10 +71,7 @@ export const manualStartAuth = () => {
   redirectToAuth();
 };
 
-const handleTokenResponse = async (
-  tokenResponse: Response,
-  redirect: boolean = false
-) => {
+const handleTokenResponse = async (tokenResponse: Response) => {
   console.log("handleTokenResponse");
   clearStorage();
   if (tokenResponse.status === 200) {
@@ -340,7 +337,6 @@ export const auth = async (): Promise<boolean> => {
       `${window.location.origin}${window.location.pathname}`
     );
   }
-  return true;
 
   if (hasValidAuth() && hasDestinyMemberships()) {
     return true;
