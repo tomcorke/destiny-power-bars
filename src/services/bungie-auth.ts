@@ -72,7 +72,6 @@ export const manualStartAuth = () => {
 };
 
 const handleTokenResponse = async (tokenResponse: Response) => {
-  console.log("handleTokenResponse");
   clearStorage();
   if (tokenResponse.status === 200) {
     const data = await tokenResponse.json();
@@ -177,7 +176,7 @@ const handleTokenResponse = async (tokenResponse: Response) => {
 };
 
 const fetchAccessToken = async (authCode: string) => {
-  console.log("fetchAccessToken", authCode);
+  console.log("Fetching Bungie API access token for authentication code");
   clearStorage();
   ga.event({
     category: "Auth",
@@ -204,7 +203,7 @@ const fetchAccessToken = async (authCode: string) => {
 };
 
 const refreshAccessToken = async () => {
-  console.log("refreshAccessToken");
+  console.log("Refreshing Bungie API access token");
   const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
   ga.event({
     category: "Auth",
