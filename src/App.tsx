@@ -140,7 +140,7 @@ const App = () => {
 
   useEffect(() => doGetManifest(), [doGetManifest]);
 
-  const throttledDoGetManifest = throttle(doGetManifest, 2000);
+  const throttledDoGetManifest = throttle(doGetManifest, 1000);
 
   useEvent(EVENTS.MANIFEST_FETCH_ERROR, () => {
     throttledDoGetManifest();
@@ -195,7 +195,7 @@ const App = () => {
 
   useEffect(() => {
     if (!characterData && !isFetchingCharacterData && !isBungieSystemDisabled) {
-      throttle(() => doGetCharacterData(), 2000);
+      throttle(() => doGetCharacterData(), 500);
     }
   }, [
     characterData,
