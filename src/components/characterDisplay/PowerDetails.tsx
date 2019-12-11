@@ -6,6 +6,9 @@ import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
 
 const ProgressBar = ({ value, max }: { value: number; max: number }) => {
+  if (value === undefined || max === undefined) {
+    return null;
+  }
   const perc = Math.floor((value / max) * 1000) / 10;
   const withThousands = (n: number) =>
     n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
