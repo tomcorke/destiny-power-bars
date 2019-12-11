@@ -290,7 +290,6 @@ const getDataForCharacterId = (
       nextLevelAt:
         profileProgression.seasonalArtifact?.powerBonusProgression?.nextLevelAt
     };
-    console.log(artifactData);
   }
 
   const potentialPowerBySlot = { ...powerBySlot };
