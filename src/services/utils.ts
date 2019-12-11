@@ -285,11 +285,12 @@ const getDataForCharacterId = (
       iconPath: artifactDefinition.displayProperties.icon,
       name: artifactDefinition.displayProperties.name,
       progressToNextLevel:
-        profileProgression.seasonalArtifact.powerBonusProgression
-          .progressToNextLevel,
+        profileProgression.seasonalArtifact?.powerBonusProgression
+          ?.progressToNextLevel,
       nextLevelAt:
-        profileProgression.seasonalArtifact.powerBonusProgression.nextLevelAt
+        profileProgression.seasonalArtifact?.powerBonusProgression?.nextLevelAt
     };
+    console.log(artifactData);
   }
 
   const potentialPowerBySlot = { ...powerBySlot };

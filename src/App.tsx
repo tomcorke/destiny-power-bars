@@ -202,8 +202,8 @@ const App = () => {
   }, [
     characterData,
     isFetchingCharacterData,
-    doGetCharacterData,
-    isBungieSystemDisabled
+    isBungieSystemDisabled,
+    throttledDoGetCharacterData
   ]);
 
   const onSelectMembership = useCallback(
