@@ -272,16 +272,23 @@ const getDataForCharacterId = (
     .flatMap(i => i.items)
     .find(i => i.bucketHash === ARTIFACT_INVENTORY_BUCKET_HASH);
 
-  // Old method to find artifact by specific item hash
-  // .find(i => i.itemHash === UNDYING_ARTIFACT_ITEM_HASH);
+  const artifactInstance =
+    artifactItemComponent?.itemInstanceId &&
+    itemInstances[artifactItemComponent.itemInstanceId];
 
   let artifactData: SeasonalArtifactData | undefined;
-  if (artifactItemComponent && profileProgression.seasonalArtifact) {
+  if (
+    artifactItemComponent &&
+    profileProgression.seasonalArtifact &&
+    artifactInstance
+  ) {
     const artifactDefinition = manifest.DestinyInventoryItemDefinition[
       artifactItemComponent.itemHash
     ]!;
     artifactData = {
-      bonusPower: profileProgression.seasonalArtifact.powerBonus,
+      bonusPower:
+        profileProgression.seasonalArtifact.powerBonus ||
+        artifactInstance.primaryStat.value,
       iconPath: artifactDefinition.displayProperties.icon,
       name: artifactDefinition.displayProperties.name,
       progressToNextLevel:
