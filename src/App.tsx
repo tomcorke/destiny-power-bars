@@ -42,10 +42,6 @@ import STYLES from "./App.module.scss";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
-export const AppWrapper = ({ children }: { children: JSX.Element }) => {
-  return <div className={STYLES.App}>{children}</div>;
-};
-
 const doAuth = throttle(
   (
     setIsAuthed: (value: boolean) => void,
@@ -149,6 +145,18 @@ const doGetCharacterData = throttle(
   },
   500
 );
+
+export const AppWrapper = ({
+  children
+}: {
+  children: JSX.Element | Array<JSX.Element | null>;
+}) => {
+  return (
+    <div className={STYLES.App}>
+      <div className={STYLES.AppInner}>{children}</div>
+    </div>
+  );
+};
 
 const App = () => {
   const [disableManualLogin, setDisableManualLogin] = useState(
@@ -415,7 +423,7 @@ const App = () => {
 
   if (isAuthed && characterData && characterData.length > 0) {
     return (
-      <div className={STYLES.App}>
+      <AppWrapper>
         <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
         <div className={STYLES.charactersContainer}>
           <div className={STYLES.characters}>
@@ -440,26 +448,26 @@ const App = () => {
         {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
         {isFetchingCharacterData ? <FetchSpinner /> : null}
         <Footer />
-      </div>
+      </AppWrapper>
     );
   }
 
   if (hasAuthError && !disableManualLogin) {
     return (
-      <div className={STYLES.App}>
+      <AppWrapper>
         <Header />
         <LoginPrompt />
         <Footer />
-      </div>
+      </AppWrapper>
     );
   }
 
   return (
-    <div className={STYLES.App}>
+    <AppWrapper>
       <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
       <LoadingSpinner>{status}</LoadingSpinner>
       <Footer />
-    </div>
+    </AppWrapper>
   );
 };
 
