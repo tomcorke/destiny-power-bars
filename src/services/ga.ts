@@ -1,6 +1,6 @@
 import ReactGA from "react-ga";
 
-const ENABLED = false;
+const ENABLED = true;
 
 interface AnalyticsInterface {
   set: (props: { [key: string]: string | boolean }) => void;
