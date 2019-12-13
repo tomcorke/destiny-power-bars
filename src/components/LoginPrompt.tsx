@@ -1,6 +1,6 @@
 import React from "react";
 
-import { manualStartAuth } from "../services/bungie-auth";
+import { getAuthUrl, manualStartAuth } from "../services/bungie-auth";
 import { LazyImage } from "./LazyImage";
 
 import ExampleTitanCharacterDisplayImageLowRes from "../images/screenshots/example-titan-character-display-with-info-blur.jpg";
@@ -31,9 +31,12 @@ export const LoginPrompt = ({
           determine your maximum power per slot and character. Please log in to
           Bungie.net to authorize this application.
         </div>
-        <button className={STYLES.loginButton} onClick={onLoginClick}>
+        {/* <button className={STYLES.loginButton} onClick={onLoginClick}>
           Log in with Bungie.net
-        </button>
+        </button> */}
+        <a className={STYLES.loginButton} href={getAuthUrl()}>
+          Log in with Bungie.net
+        </a>
       </div>
     </div>
   );

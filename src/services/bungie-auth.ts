@@ -49,7 +49,7 @@ export const hasManuallyAuthed = () => {
   return !!localStorage.getItem(MANUAL_AUTHED_STORAGE_KEY);
 };
 
-const getAuthUrl = () =>
+export const getAuthUrl = () =>
   `${BUNGIE_OAUTH_AUTHORIZE_URL}?${stringify({
     response_type: "code",
     client_id: BUNGIE_OAUTH_CLIENT_ID,
@@ -63,12 +63,34 @@ const redirectToAuth = () => {
     action: "Redirect for Bungie authentication",
     nonInteraction: true
   });
-  window.location.replace(getAuthUrl());
+  window.location.assign(getAuthUrl());
 };
 
 export const manualStartAuth = () => {
   localStorage.setItem(MANUAL_AUTHED_STORAGE_KEY, "TRUE");
   redirectToAuth();
+};
+
+const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
+  // If there is only one membership, select it automatically
+  if (destinyMemberships.length === 1) {
+    setSelectedDestinyMembership(destinyMemberships[0]);
+    return destinyMemberships[0];
+  }
+
+  const crossSavePrimaryMemberships = destinyMemberships.filter(
+    m => m.crossSaveOverride === m.membershipType
+  );
+  const nonCrossSaveMemberships = destinyMemberships.filter(
+    m => m.crossSaveOverride === 0
+  );
+  if (
+    crossSavePrimaryMemberships.length === 1 &&
+    nonCrossSaveMemberships.length === 0
+  ) {
+    setSelectedDestinyMembership(crossSavePrimaryMemberships[0]);
+    return crossSavePrimaryMemberships[0];
+  }
 };
 
 const handleTokenResponse = async (tokenResponse: Response) => {
@@ -141,23 +163,7 @@ const handleTokenResponse = async (tokenResponse: Response) => {
       clearSelectedMembership();
     }
 
-    // If there is only one membership, select it automatically
-    if (destinyMemberships.length === 1) {
-      setSelectedDestinyMembership(destinyMemberships[0]);
-    }
-
-    const crossSavePrimaryMemberships = destinyMemberships.filter(
-      m => m.crossSaveOverride === m.membershipType
-    );
-    const nonCrossSaveMemberships = destinyMemberships.filter(
-      m => m.crossSaveOverride === 0
-    );
-    if (
-      crossSavePrimaryMemberships.length === 1 &&
-      nonCrossSaveMemberships.length === 0
-    ) {
-      setSelectedDestinyMembership(crossSavePrimaryMemberships[0]);
-    }
+    autoSelectDestinyMembership(destinyMemberships);
 
     return { accessToken, authSuccess: true };
   } else {
@@ -259,7 +265,8 @@ export const hasValidAuth = () => {
   const bungieMembershipId = localStorage.getItem(
     BUNGIE_MEMBERSHIP_ID_STORAGE_KEY
   );
-  if (!accessTokenIsValid || !bungieMembershipId) {
+  const destinyMemberships = getDestinyMemberships();
+  if (!accessTokenIsValid || !bungieMembershipId || !destinyMemberships) {
     return false;
   }
   return true;
@@ -295,6 +302,11 @@ export const getSelectedDestinyMembership = () => {
   try {
     if (destinyMembershipString) {
       return JSON.parse(destinyMembershipString) as UserInfoCard;
+    }
+    const memberships = getDestinyMemberships();
+    if (memberships) {
+      const autoSelectedMembership = autoSelectDestinyMembership(memberships);
+      return autoSelectedMembership;
     }
   } catch (e) {
     ga.event({
@@ -355,6 +367,7 @@ export const auth = async (): Promise<boolean> => {
     );
     redirectToAuth();
   }
+
   return false;
 };
 
