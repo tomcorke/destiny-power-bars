@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e0651421d064d50248930ce253b3694d",
+    "revision": "ad820e07b7ed414364ca4d2f410bae12",
     "url": "/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "59d9aac101b22125ff98",
-    "url": "/static/css/main.7f9d437a.chunk.css"
+    "revision": "00d921f6bc5d0487dbbe",
+    "url": "/static/css/main.59080693.chunk.css"
   },
   {
     "revision": "11b107b92560295a4099",
@@ -20,12 +20,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.e6f71735.chunk.js.LICENSE"
   },
   {
-    "revision": "59d9aac101b22125ff98",
-    "url": "/static/js/main.03cb5342.chunk.js"
+    "revision": "00d921f6bc5d0487dbbe",
+    "url": "/static/js/main.4780f2da.chunk.js"
   },
   {
     "revision": "3ed811b9664a0d2fc876",
     "url": "/static/js/runtime-main.bf6019ff.js"
+  },
+  {
+    "revision": "89db5e259f1d123bd3c1b99e30fa1d3c",
+    "url": "/static/media/2019_Season_of_Dawn_Story_04.89db5e25.jpg"
   },
   {
     "revision": "bddf127ba5513d62a943fff86e3400c7",
@@ -62,10 +66,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "85c964c1c8d853bf74d5d8075cf0c2fb",
     "url": "/static/media/guardianstats.85c964c1.ico"
-  },
-  {
-    "revision": "433c10f4942161b173254686a58407ff",
-    "url": "/static/media/season_of_dawn_bg_blur.433c10f4.jpg"
   },
   {
     "revision": "be06689853aec102607f5e54e6fd2dfa",
