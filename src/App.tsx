@@ -1,7 +1,7 @@
 import useInterval from "@use-it/interval";
 import { UserInfoCard } from "bungie-api-ts/user";
 import throttle from "lodash/throttle";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   auth,
@@ -46,113 +46,108 @@ export const AppWrapper = ({ children }: { children: JSX.Element }) => {
   return <div className={STYLES.App}>{children}</div>;
 };
 
-const doAuth = useRef(
-  throttle(
-    (
-      localSetIsAuthed: (value: boolean) => void,
-      localSetAuthError: (value: boolean) => void
-    ) => {
-      (async () => {
-        try {
-          const authResult = await auth();
-          if (authResult) {
-            localSetIsAuthed(true);
-            localSetAuthError(false);
-          } else {
-            localSetIsAuthed(false);
-            localSetAuthError(true);
-          }
-        } catch (e) {
-          console.error(e);
-          localSetIsAuthed(false);
-          localSetAuthError(true);
-        }
-      })();
-    },
-    100
-  )
-);
-
-const doGetManifest = useRef(
+const doAuth = throttle(
   (
-    localSetBungieSystemDisabled: (value: boolean) => void,
-    localSetBungieServiceUnavailable: (value: boolean) => void,
-    localSetManifestData: (value: ManifestData) => void,
-    localSetManifestError: (value: boolean) => void
+    setIsAuthed: (value: boolean) => void,
+    setAuthError: (value: boolean) => void
   ) => {
-    return throttle(() => {
-      (async () => {
-        try {
-          const manifestResult = await getManifest();
-          if (manifestResult.error) {
-            console.error(
-              `Error fetching manifest:`,
-              manifestResult.error.message
-            );
-            localSetManifestError(true);
-            if (manifestResult.error instanceof BungieSystemDisabledError) {
-              localSetBungieSystemDisabled(true);
-            }
-            if (manifestResult.error.message === "503") {
-              localSetBungieServiceUnavailable(true);
-            }
-            return;
-          }
-          localSetManifestData(manifestResult.manifest);
-        } catch (e) {
-          console.error(e);
-          localSetManifestError(true);
+    (async () => {
+      try {
+        const authResult = await auth();
+        if (authResult) {
+          setIsAuthed(true);
+          setAuthError(false);
+        } else {
+          setIsAuthed(false);
+          setAuthError(true);
         }
-      })();
-    }, 500);
-  }
+      } catch (e) {
+        console.error(e);
+        setIsAuthed(false);
+        setAuthError(true);
+      }
+    })();
+  },
+  100
 );
 
-const doGetCharacterData = useRef(
-  throttle(
-    (
-      isFetchingCharacterData: boolean,
-      setCharacterData: (value: PowerBarsCharacterData[]) => void,
-      setIsFetchingCharacterData: (value: boolean) => void,
-      setBungieSystemDisabled: (value: boolean) => void,
-      setBungieServiceUnavailable: (value: boolean) => void
-    ) => {
-      const updateCharacterData = (newData: PowerBarsCharacterData[]) => {
-        const newOverallPower = Math.max(...newData.map(c => c.overallPower));
-        const newArtifactPower = Math.max(
-          ...newData.map(c => (c.artifactData ? c.artifactData.bonusPower : 0))
-        );
-        const newTotalPower = newOverallPower + newArtifactPower;
-        ga.set({
-          dimension1: `${newOverallPower}`,
-          dimension2: `${newArtifactPower}`,
-          dimension3: `${newTotalPower}`
-        });
-        setCharacterData(newData);
-      };
-
-      (async () => {
-        if (!isFetchingCharacterData) {
-          try {
-            setIsFetchingCharacterData(true);
-            await getCharacterData(
-              updateCharacterData,
-              setIsFetchingCharacterData
-            );
-          } catch (error) {
-            if (error instanceof BungieSystemDisabledError) {
-              setBungieSystemDisabled(true);
-            }
-            if (error.message === "503") {
-              setBungieServiceUnavailable(true);
-            }
-            console.error("Error fetching character data:", error);
+const doGetManifest = throttle(
+  (
+    setBungieSystemDisabled: (value: boolean) => void,
+    setBungieServiceUnavailable: (value: boolean) => void,
+    setManifestData: (value: ManifestData) => void,
+    setManifestError: (value: boolean) => void
+  ) => {
+    (async () => {
+      try {
+        const manifestResult = await getManifest();
+        if (manifestResult.error) {
+          console.error(
+            `Error fetching manifest:`,
+            manifestResult.error.message
+          );
+          setManifestError(true);
+          if (manifestResult.error instanceof BungieSystemDisabledError) {
+            setBungieSystemDisabled(true);
           }
+          if (manifestResult.error.message === "503") {
+            setBungieServiceUnavailable(true);
+          }
+          return;
         }
-      })();
-    },
-    500
-  )
+        setManifestData(manifestResult.manifest);
+      } catch (e) {
+        console.error(e);
+        setManifestError(true);
+      }
+    })();
+  },
+  500
+);
+
+const doGetCharacterData = throttle(
+  (
+    isFetchingCharacterData: boolean,
+    setCharacterData: (value: PowerBarsCharacterData[]) => void,
+    setIsFetchingCharacterData: (value: boolean) => void,
+    setBungieSystemDisabled: (value: boolean) => void,
+    setBungieServiceUnavailable: (value: boolean) => void
+  ) => {
+    const updateCharacterData = (newData: PowerBarsCharacterData[]) => {
+      const newOverallPower = Math.max(...newData.map(c => c.overallPower));
+      const newArtifactPower = Math.max(
+        ...newData.map(c => (c.artifactData ? c.artifactData.bonusPower : 0))
+      );
+      const newTotalPower = newOverallPower + newArtifactPower;
+      ga.set({
+        dimension1: `${newOverallPower}`,
+        dimension2: `${newArtifactPower}`,
+        dimension3: `${newTotalPower}`
+      });
+      setCharacterData(newData);
+    };
+
+    (async () => {
+      if (!isFetchingCharacterData) {
+        try {
+          setIsFetchingCharacterData(true);
+          await getCharacterData(
+            updateCharacterData,
+            setIsFetchingCharacterData
+          );
+        } catch (error) {
+          if (error instanceof BungieSystemDisabledError) {
+            setBungieSystemDisabled(true);
+          }
+          if (error.message === "503") {
+            setBungieServiceUnavailable(true);
+          }
+          console.error("Error fetching character data:", error);
+        }
+      }
+    })();
+  },
+  500
 );
 
 const App = () => {
@@ -207,13 +202,13 @@ const App = () => {
 
   useEffect(() => {
     if (!isAuthed) {
-      doAuth.current(setIsAuthed, setAuthError);
+      doAuth(setIsAuthed, setAuthError);
     }
   }, [isAuthed, setIsAuthed, setAuthError]);
 
   useEffect(
     () =>
-      doGetManifest.current(
+      doGetManifest(
         setBungieSystemDisabled,
         setBungieServiceUnavailable,
         setManifestData,
@@ -228,7 +223,7 @@ const App = () => {
   );
 
   useEvent(EVENTS.MANIFEST_FETCH_ERROR, () => {
-    doGetManifest.current(
+    doGetManifest(
       setBungieSystemDisabled,
       setBungieServiceUnavailable,
       setManifestData,
@@ -238,7 +233,7 @@ const App = () => {
 
   useInterval(() => {
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
-      doGetCharacterData.current(
+      doGetCharacterData(
         isFetchingCharacterData,
         setCharacterData,
         setIsFetchingCharacterData,
@@ -249,8 +244,13 @@ const App = () => {
   }, CHARACTER_DATA_REFRESH_TIMER);
 
   useEffect(() => {
-    if (!characterData && !isFetchingCharacterData && !isBungieSystemDisabled) {
-      doGetCharacterData.current(
+    if (
+      isAuthed &&
+      !characterData &&
+      !isFetchingCharacterData &&
+      !isBungieSystemDisabled
+    ) {
+      doGetCharacterData(
         isFetchingCharacterData,
         setCharacterData,
         setIsFetchingCharacterData,
@@ -258,7 +258,12 @@ const App = () => {
         setBungieServiceUnavailable
       );
     }
-  }, [characterData, isFetchingCharacterData, isBungieSystemDisabled]);
+  }, [
+    isAuthed,
+    characterData,
+    isFetchingCharacterData,
+    isBungieSystemDisabled
+  ]);
 
   const onSelectMembership = useCallback(
     (membership: UserInfoCard) => {
