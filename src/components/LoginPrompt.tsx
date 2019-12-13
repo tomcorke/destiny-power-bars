@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getAuthUrl, manualStartAuth } from "../services/bungie-auth";
+import { manualStartAuth } from "../services/bungie-auth";
 import { LazyImage } from "./LazyImage";
 
 import ExampleTitanCharacterDisplayImageLowRes from "../images/screenshots/example-titan-character-display-with-info-blur.jpg";

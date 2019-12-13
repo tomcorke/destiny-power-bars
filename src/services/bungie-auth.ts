@@ -68,6 +68,9 @@ const redirectToAuth = () => {
   try {
     if (!hasNavigated) {
       window.location.assign(getAuthUrl());
+    } else {
+      console.log("Re-navigation prevented!");
+      throw Error("Re-navigation prevented!");
     }
     hasNavigated = true;
   } catch (e) {
