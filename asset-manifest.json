@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.0ec3eec3.chunk.css",
-    "main.js": "/static/js/main.e166bf5e.chunk.js",
-    "main.js.map": "/static/js/main.e166bf5e.chunk.js.map",
+    "main.js": "/static/js/main.87594dad.chunk.js",
+    "main.js.map": "/static/js/main.87594dad.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.bf6019ff.js",
     "runtime-main.js.map": "/static/js/runtime-main.bf6019ff.js.map",
     "static/css/2.764ccc25.chunk.css": "/static/css/2.764ccc25.chunk.css",
-    "static/js/2.e6f71735.chunk.js": "/static/js/2.e6f71735.chunk.js",
-    "static/js/2.e6f71735.chunk.js.map": "/static/js/2.e6f71735.chunk.js.map",
+    "static/js/2.a9156a0e.chunk.js": "/static/js/2.a9156a0e.chunk.js",
+    "static/js/2.a9156a0e.chunk.js.map": "/static/js/2.a9156a0e.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.20cd41cea3855d23f8a0ecc0e9752f00.js": "/precache-manifest.20cd41cea3855d23f8a0ecc0e9752f00.js",
+    "precache-manifest.af53f9310ae8e93505fcad70d2a8ed40.js": "/precache-manifest.af53f9310ae8e93505fcad70d2a8ed40.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.764ccc25.chunk.css.map": "/static/css/2.764ccc25.chunk.css.map",
     "static/css/main.0ec3eec3.chunk.css.map": "/static/css/main.0ec3eec3.chunk.css.map",
-    "static/js/2.e6f71735.chunk.js.LICENSE": "/static/js/2.e6f71735.chunk.js.LICENSE",
+    "static/js/2.a9156a0e.chunk.js.LICENSE": "/static/js/2.a9156a0e.chunk.js.LICENSE",
     "static/media/App.module.scss": "/static/media/2019_Season_of_Dawn_Story_04.89db5e25.jpg",
     "static/media/CharacterLinks.module.scss": "/static/media/guardianstats.85c964c1.ico",
     "static/media/MembershipSelect.module.scss": "/static/media/blizzard-icon.fe754cd7.png",
@@ -25,8 +25,8 @@
   "entrypoints": [
     "static/js/runtime-main.bf6019ff.js",
     "static/css/2.764ccc25.chunk.css",
-    "static/js/2.e6f71735.chunk.js",
+    "static/js/2.a9156a0e.chunk.js",
     "static/css/main.0ec3eec3.chunk.css",
-    "static/js/main.e166bf5e.chunk.js"
+    "static/js/main.87594dad.chunk.js"
   ]
 }
