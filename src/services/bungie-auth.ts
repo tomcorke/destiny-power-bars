@@ -56,6 +56,8 @@ export const getAuthUrl = () =>
     client_secret: BUNGIE_OAUTH_CLIENT_SECRET
   })}`;
 
+// Attempt to prevent infinite navigation events
+let hasNavigated = false;
 const redirectToAuth = () => {
   clearStorage();
   ga.event({
@@ -63,7 +65,14 @@ const redirectToAuth = () => {
     action: "Redirect for Bungie authentication",
     nonInteraction: true
   });
-  window.location.assign(getAuthUrl());
+  try {
+    if (!hasNavigated) {
+      window.location.assign(getAuthUrl());
+    }
+    hasNavigated = true;
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const manualStartAuth = () => {
@@ -94,7 +103,6 @@ const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
 };
 
 const handleTokenResponse = async (tokenResponse: Response) => {
-  clearStorage();
   if (tokenResponse.status === 200) {
     const data = await tokenResponse.json();
 
@@ -183,7 +191,6 @@ const handleTokenResponse = async (tokenResponse: Response) => {
 
 const fetchAccessToken = async (authCode: string) => {
   console.log("Fetching Bungie API access token for authentication code");
-  clearStorage();
   ga.event({
     category: "Auth",
     action: "Oauth token request",

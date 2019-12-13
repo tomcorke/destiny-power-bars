@@ -31,12 +31,12 @@ export const LoginPrompt = ({
           determine your maximum power per slot and character. Please log in to
           Bungie.net to authorize this application.
         </div>
-        {/* <button className={STYLES.loginButton} onClick={onLoginClick}>
+        <button className={STYLES.loginButton} onClick={onLoginClick}>
           Log in with Bungie.net
-        </button> */}
-        <a className={STYLES.loginButton} href={getAuthUrl()}>
+        </button>
+        {/* <a className={STYLES.loginButton} href={getAuthUrl()}>
           Log in with Bungie.net
-        </a>
+        </a> */}
       </div>
     </div>
   );
