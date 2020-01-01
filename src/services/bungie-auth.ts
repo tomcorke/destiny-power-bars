@@ -242,7 +242,12 @@ const refreshAccessToken = async () => {
     redirect: "follow",
     referrer: "no-referrer"
   });
-  return await handleTokenResponse(tokenResponse);
+  const handleResult = await handleTokenResponse(tokenResponse);
+  if (!handleResult || !handleResult.authSuccess) {
+    // If refreshing failed, clear all auth details so we don't attempt repeated refreshes
+    clearStorage();
+  }
+  return handleResult;
 };
 
 export const getAccessToken = () => {
