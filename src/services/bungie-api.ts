@@ -9,7 +9,8 @@ import {
 import { HttpClientConfig } from "bungie-api-ts/http";
 import { get, set } from "idb-keyval";
 
-import { BUNGIE_API_KEY, getAccessToken } from "./bungie-auth";
+import { getAccessToken } from "./bungie-auth";
+import { BUNGIE_API_KEY } from "./config";
 import eventEmitter, { EVENTS } from "./events";
 import ga from "./ga";
 

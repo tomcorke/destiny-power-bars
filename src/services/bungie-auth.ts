@@ -2,20 +2,14 @@ import { getMembershipDataById, UserInfoCard } from "bungie-api-ts/user";
 import { stringify } from "simple-query-string";
 
 import { bungieAuthedFetch } from "./bungie-api";
+import {
+  BUNGIE_OAUTH_AUTHORIZE_URL,
+  BUNGIE_OAUTH_CLIENT_ID,
+  BUNGIE_OAUTH_CLIENT_SECRET,
+  BUNGIE_OAUTH_TOKEN_URL
+} from "./config";
 import eventEmitter, { EVENTS } from "./events";
 import ga from "./ga";
-
-const isDev = process.env.NODE_ENV === "development";
-export const BUNGIE_API_KEY = isDev
-  ? "5b209e9ffcfb4cd69df4c4591199ec54"
-  : "d216f4575ce8407781070ce5579340ae";
-const BUNGIE_OAUTH_AUTHORIZE_URL = "https://www.bungie.net/en/OAuth/Authorize";
-const BUNGIE_OAUTH_CLIENT_ID = isDev ? "31115" : "31116";
-const BUNGIE_OAUTH_CLIENT_SECRET = isDev
-  ? "eq5UdbxDmEHcPjqLFPMrlJCVJi0cCgWFWKDPYUnZPWs"
-  : "TgX91i4g22hBjysd4tffoiOoZRbkox5xH0p2x7mSC4I";
-const BUNGIE_OAUTH_TOKEN_URL =
-  "https://www.bungie.net/platform/app/oauth/token/";
 
 const ACCESS_TOKEN_STORAGE_KEY = "bungieAccessToken";
 const ACCESS_TOKEN_EXPIRY_STORAGE_KEY = "bungieAccessTokenExpiryTime";
