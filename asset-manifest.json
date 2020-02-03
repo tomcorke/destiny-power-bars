@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.14772b39.chunk.css",
-    "main.js": "/static/js/main.51301616.chunk.js",
-    "main.js.map": "/static/js/main.51301616.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.bf6019ff.js",
-    "runtime-main.js.map": "/static/js/runtime-main.bf6019ff.js.map",
+    "main.css": "/static/css/main.8ed13cfd.chunk.css",
+    "main.js": "/static/js/main.d4c01d1f.chunk.js",
+    "main.js.map": "/static/js/main.d4c01d1f.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.7b3b273f.js",
+    "runtime-main.js.map": "/static/js/runtime-main.7b3b273f.js.map",
     "static/css/2.764ccc25.chunk.css": "/static/css/2.764ccc25.chunk.css",
-    "static/js/2.2ca5bae7.chunk.js": "/static/js/2.2ca5bae7.chunk.js",
-    "static/js/2.2ca5bae7.chunk.js.map": "/static/js/2.2ca5bae7.chunk.js.map",
+    "static/js/2.20ddad45.chunk.js": "/static/js/2.20ddad45.chunk.js",
+    "static/js/2.20ddad45.chunk.js.map": "/static/js/2.20ddad45.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.1e7178355096979943e92109f961c16e.js": "/precache-manifest.1e7178355096979943e92109f961c16e.js",
+    "precache-manifest.9d5b7c6224b5ff926ab0ae6f1532900d.js": "/precache-manifest.9d5b7c6224b5ff926ab0ae6f1532900d.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.764ccc25.chunk.css.map": "/static/css/2.764ccc25.chunk.css.map",
-    "static/css/main.14772b39.chunk.css.map": "/static/css/main.14772b39.chunk.css.map",
-    "static/js/2.2ca5bae7.chunk.js.LICENSE": "/static/js/2.2ca5bae7.chunk.js.LICENSE",
+    "static/css/main.8ed13cfd.chunk.css.map": "/static/css/main.8ed13cfd.chunk.css.map",
+    "static/js/2.20ddad45.chunk.js.LICENSE.txt": "/static/js/2.20ddad45.chunk.js.LICENSE.txt",
     "static/media/App.module.scss": "/static/media/2019_Season_of_Dawn_Story_04.89db5e25.jpg",
     "static/media/CharacterLinks.module.scss": "/static/media/guardianstats.85c964c1.ico",
     "static/media/MembershipSelect.module.scss": "/static/media/blizzard-icon.fe754cd7.png",
@@ -23,10 +23,10 @@
     "static/media/twitter.be066898.svg": "/static/media/twitter.be066898.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.bf6019ff.js",
+    "static/js/runtime-main.7b3b273f.js",
     "static/css/2.764ccc25.chunk.css",
-    "static/js/2.2ca5bae7.chunk.js",
-    "static/css/main.14772b39.chunk.css",
-    "static/js/main.51301616.chunk.js"
+    "static/js/2.20ddad45.chunk.js",
+    "static/css/main.8ed13cfd.chunk.css",
+    "static/js/main.d4c01d1f.chunk.js"
   ]
 }
