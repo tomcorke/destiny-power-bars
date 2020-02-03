@@ -10,6 +10,7 @@ interface BarProps {
   avgValue: number;
   label: string;
   icon?: string;
+  isMasterworked?: boolean;
 }
 
 export const PowerBar = ({
@@ -18,7 +19,8 @@ export const PowerBar = ({
   value,
   avgValue,
   label,
-  icon
+  icon,
+  isMasterworked
 }: BarProps) => {
   const range = max - min;
   const perc = Math.floor(((value - min) / range) * 1000) / 10;
@@ -48,6 +50,9 @@ export const PowerBar = ({
             src={`https://www.bungie.net${icon}`}
             alt={fullLabelText}
           />
+        ) : null}
+        {icon && isMasterworked ? (
+          <div className={STYLES.masterworkOverlay} />
         ) : null}
       </div>
       <div className={STYLES.barContainer}>

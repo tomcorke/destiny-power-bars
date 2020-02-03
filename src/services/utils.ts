@@ -39,6 +39,7 @@ import {
   ManifestData
 } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
+import { isMasterwork } from "./masterwork";
 
 const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
 
@@ -156,6 +157,12 @@ const getItemScore = (item?: JoinedItemDefinition) => {
   if (item.location === 1) {
     score += 0.05;
   }
+  if (item.instanceData.isEquipped) {
+    score += 0.025;
+  }
+  if (isMasterwork(item)) {
+    score += 0.0125;
+  }
   return score;
 };
 
@@ -256,9 +263,6 @@ const getDataForCharacterId = (
       topItemBySlot = bestCombination;
     }
   });
-
-  // Mock lower kinetic weapon power level to test display of world drop hints
-  // (topItemBySlot.kinetic.instanceData.primaryStat as any).value = 940;
 
   const powerBySlot = getPowerBySlot(topItemBySlot);
   const overallPowerExact = getAveragePower(powerBySlot);

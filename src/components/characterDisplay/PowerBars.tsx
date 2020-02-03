@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ITEM_POWER_POWERFUL_CAP, ORDERED_ITEM_SLOTS } from "../../constants";
+import { isMasterwork } from "../../services/masterwork";
 import { PowerBarsCharacterData, PowerBySlot } from "../../types";
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
@@ -71,6 +72,7 @@ export const PowerBars = (data: PowerBarsProps) => {
               avgValue={roundedPower}
               label={slotFullNames(data.className)[slotName] || slotName}
               icon={bestItem?.itemDefinition?.displayProperties.icon}
+              isMasterworked={bestItem && isMasterwork(bestItem)}
             />
           );
         })}
