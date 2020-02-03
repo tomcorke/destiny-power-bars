@@ -146,22 +146,27 @@ const mapAndFilterItems = (
     .filter(i => i.instanceData.primaryStat && i.instanceData.primaryStat.value)
     .filter(i => isItemEquippableByCharacter(i, character));
 
-const getItemScore = (item?: JoinedItemDefinition) => {
+const getItemScore = (
+  item?: JoinedItemDefinition,
+  priorityItems?: DestinyItemComponent[]
+) => {
   if (!item || !item.instanceData || !item.instanceData.primaryStat) {
     return 0;
   }
   let score = item.instanceData.primaryStat.value;
-  if (item.instanceData.isEquipped) {
-    score += 0.1;
-  }
-  if (item.location === 1) {
-    score += 0.05;
-  }
-  if (item.instanceData.isEquipped) {
-    score += 0.025;
+  if (
+    priorityItems &&
+    priorityItems.some(pi => pi.itemInstanceId === item.itemInstanceId)
+  ) {
+    // Prefer items currently equipped on character over items of equal level elsewhere
+    score += 0.5;
   }
   if (isMasterwork(item)) {
-    score += 0.0125;
+    score += 0.25;
+  }
+  if (item.location === 1) {
+    // In inventory
+    score += 0.125;
   }
   return score;
 };
@@ -184,6 +189,7 @@ const getDataForCharacterId = (
   characters: ObjectOf<DestinyCharacterComponent>,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
   manifest: ManifestData,
+  equippedCharacterItems: DestinyItemComponent[],
   allCharacterItems: DestinyItemComponent[],
   profileInventories: DestinyInventoryComponent,
   profileProgression: DestinyProfileProgressionComponent
@@ -215,7 +221,7 @@ const getDataForCharacterId = (
   // Get max power items per slot
   let topItemBySlot: ItemBySlot = mapValues(
     itemsBySlot,
-    items => maxBy(items, getItemScore)!
+    items => maxBy(items, item => getItemScore(item, equippedCharacterItems))!
   );
   // Get overlaps by equip label
   const uniqueEquippedGroups = groupBy(
@@ -244,7 +250,9 @@ const getDataForCharacterId = (
         );
         if (nonExotics.length > 0) {
           // Select max power from non-exotics
-          combination[otherItem.slotName] = maxBy(nonExotics, getItemScore)!;
+          combination[otherItem.slotName] = maxBy(nonExotics, i =>
+            getItemScore(i, equippedCharacterItems)
+          )!;
         } else {
           // No non-exotic options for this slot, so whole combination is invalidaa
           isCombinationValid = false;
@@ -422,6 +430,7 @@ export const getCharacterData = async (
         characters,
         itemInstances,
         manifest,
+        characterEquipments[id].items,
         allCharacterItems,
         profileInventories,
         profileProgression
