@@ -85,12 +85,6 @@ const isItemEquippableByCharacter = (
   if (!item.instanceData) {
     return false;
   }
-  if (item.instanceData.canEquip) {
-    return true;
-  } // If the game says we can equip it, let's believe it
-  if (item.instanceData.cannotEquipReason === 16) {
-    return true;
-  } // Only reason is that it's in your vault
   if (item.instanceData.equipRequiredLevel > character.baseCharacterLevel) {
     return false;
   }
@@ -100,6 +94,12 @@ const isItemEquippableByCharacter = (
   ) {
     return false;
   }
+  if (item.instanceData.cannotEquipReason === 16) {
+    return true;
+  } // Only reason is that it's in your vault
+  if (item.instanceData.canEquip) {
+    return true;
+  } // If the game says we can equip it, let's believe it
   // Let's ignore the rest for now
   return true;
 };
@@ -177,9 +177,7 @@ const getDataForCharacterId = (
   characters: ObjectOf<DestinyCharacterComponent>,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
   manifest: ManifestData,
-  characterInventories: ObjectOf<DestinyInventoryComponent>,
-  characterEquipments: ObjectOf<DestinyInventoryComponent>,
-  allCharacterWeapons: DestinyItemComponent[],
+  allCharacterItems: DestinyItemComponent[],
   profileInventories: DestinyInventoryComponent,
   profileProgression: DestinyProfileProgressionComponent
 ): PowerBarsCharacterData => {
@@ -187,9 +185,7 @@ const getDataForCharacterId = (
   const className = CLASS_NAMES[character.classType];
 
   const characterItems = mapAndFilterItems(
-    characterInventories[characterId].items
-      .concat(characterEquipments[characterId].items)
-      .concat(allCharacterWeapons),
+    allCharacterItems,
     manifest,
     itemInstances,
     character
@@ -268,9 +264,9 @@ const getDataForCharacterId = (
   const overallPowerExact = getAveragePower(powerBySlot);
   const overallPower = getOverallPower(powerBySlot);
 
-  const artifactItemComponent = Object.values(characterEquipments)
-    .flatMap(i => i.items)
-    .find(i => i.bucketHash === ARTIFACT_INVENTORY_BUCKET_HASH);
+  const artifactItemComponent = allCharacterItems.find(
+    i => i.bucketHash === ARTIFACT_INVENTORY_BUCKET_HASH
+  );
 
   const artifactInstance =
     artifactItemComponent?.itemInstanceId &&
@@ -414,11 +410,6 @@ export const getCharacterData = async (
     const allCharacterItems = mergeItems(characterInventories)
       .concat(mergeItems(characterEquipments))
       .concat(profileInventories.items);
-    const allCharacterWeapons = allCharacterItems.filter(i => {
-      const itemDefinition =
-        i.itemHash && manifest.DestinyInventoryItemDefinition[i.itemHash];
-      return itemDefinition && itemDefinition.itemType === ITEM_TYPE_WEAPON;
-    });
 
     const characterIds = Object.keys(characters);
     const characterData = characterIds.map(id =>
@@ -427,9 +418,7 @@ export const getCharacterData = async (
         characters,
         itemInstances,
         manifest,
-        characterInventories,
-        characterEquipments,
-        allCharacterWeapons,
+        allCharacterItems,
         profileInventories,
         profileProgression
       )
