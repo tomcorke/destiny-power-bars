@@ -435,11 +435,11 @@ const App = () => {
                 <CharacterDisplay
                   key={c!.character.characterId}
                   data={c!}
-                  onDragStart={characterId =>
-                    setDraggingCharacterId(characterId)
+                  onDragStart={() =>
+                    setDraggingCharacterId(c!.character.characterId)
                   }
                   onDragEnd={() => setDraggingCharacterId(undefined)}
-                  onDragDrop={characterId => dropOnCharacterId(characterId)}
+                  onDragDrop={() => dropOnCharacterId(c!.character.characterId)}
                 />
               ))}
           </div>

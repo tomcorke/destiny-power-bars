@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 
 import STYLES from "./CharacterLinks.module.scss";
 
@@ -7,6 +7,7 @@ interface CharacterLinksProps {
   membershipType: number;
   membershipId: string;
   characterId: string;
+  onImageExportClick?: () => Promise<any>;
 }
 
 interface LinkOptions {
@@ -42,36 +43,57 @@ const RAID_REPORT_PLATFORMS: { [key: number]: string } = {
 export const CharacterLinks = ({
   membershipType,
   membershipId,
-  characterId
-}: CharacterLinksProps) => (
-  <div className={STYLES.characterLinks}>
-    <div className={STYLES.content}>
-      <ul>
-        {link("https://www.destinyitemmanager.com", {
-          text: "Destiny Item Manager",
-          tags: ["dim"]
-        })}
-        {link(
-          `https://braytech.org/${membershipType}/${membershipId}/${characterId}/now`,
-          { text: "Braytech", tags: ["braytech"] }
-        )}
-        {link("https://destinysets.com/", {
-          text: "Destiny Sets",
-          tags: ["destinysets"]
-        })}
-        {link(
-          `https://www.d2checklist.com/${membershipType}/${membershipId}/milestones`,
-          { text: "D2 Checklist", tags: ["d2checklist"] }
-        )}
-        {link(
-          `https://guardianstats.com/inspect/${membershipType}/${membershipId}`,
-          { text: "Guardianstats", tags: ["guardianstats"] }
-        )}
-        {link(
-          `https://raid.report/${RAID_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
-          { text: "Raid Report", tags: ["raidreport"] }
-        )}
-      </ul>
+  characterId,
+  onImageExportClick
+}: CharacterLinksProps) => {
+  const [isHidden, setHidden] = useState(false);
+
+  return (
+    <div
+      className={classnames(STYLES.characterLinks, { [STYLES.hide]: isHidden })}
+    >
+      <div className={STYLES.content}>
+        <ul>
+          {link("https://www.destinyitemmanager.com", {
+            text: "Destiny Item Manager",
+            tags: ["dim"]
+          })}
+          {link(
+            `https://braytech.org/${membershipType}/${membershipId}/${characterId}/now`,
+            { text: "Braytech", tags: ["braytech"] }
+          )}
+          {link("https://destinysets.com/", {
+            text: "Destiny Sets",
+            tags: ["destinysets"]
+          })}
+          {link(
+            `https://www.d2checklist.com/${membershipType}/${membershipId}/milestones`,
+            { text: "D2 Checklist", tags: ["d2checklist"] }
+          )}
+          {link(
+            `https://guardianstats.com/inspect/${membershipType}/${membershipId}`,
+            { text: "Guardianstats", tags: ["guardianstats"] }
+          )}
+          {link(
+            `https://raid.report/${RAID_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
+            { text: "Raid Report", tags: ["raidreport"] }
+          )}
+          {onImageExportClick && (
+            <li>
+              <span
+                className={STYLES.link}
+                onClick={async () => {
+                  setHidden(true);
+                  await onImageExportClick();
+                  setHidden(false);
+                }}
+              >
+                <span className={STYLES.linkText}>Export image</span>
+              </span>
+            </li>
+          )}
+        </ul>
+      </div>
     </div>
-  </div>
-);
+  );
+};

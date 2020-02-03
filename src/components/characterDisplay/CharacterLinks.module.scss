@@ -68,13 +68,15 @@
       justify-content: stretch;
       align-items: center;
 
-      a {
+      a,
+      .link {
         padding: 0.5em;
         flex-grow: 1;
         display: flex;
         flex-flow: row nowrap;
         justify-content: flex-start;
         align-items: center;
+        cursor: pointer;
 
         .linkText {
           flex-grow: 1;
@@ -110,4 +112,8 @@
 }
 .link_tag_raidreport {
   @include icon-before("../../images/icons/raidreport.png");
+}
+
+.hide {
+  display: none !important;
 }

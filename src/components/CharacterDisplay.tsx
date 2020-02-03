@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { PowerBarsCharacterData } from "../types";
 import STYLES from "./CharacterDisplay.module.scss";
@@ -21,9 +21,31 @@ const rgbString = ({
   blue: number;
 }) => `rgb(${red},${green},${blue})`;
 
+const useRenderElementImage = (className: string) => {
+  const elementRef = useRef(null);
+  const renderElementImage = async () => {
+    if (elementRef.current) {
+      try {
+        const domToImage = (await import(
+          /* webpackChunkName: "dom-to-image" */ "dom-to-image"
+        )) as any;
+        const { saveAs } = await import(
+          /* webpackChunkName: "file-saver" */ "file-saver"
+        );
+        const blob = await domToImage.toBlob(elementRef.current);
+        saveAs(blob, `destiny-power-bars-${className}.png`);
+      } catch (e) {
+        console.error("Error capturing image of character display", e);
+      }
+    }
+  };
+  return [elementRef, renderElementImage] as const;
+};
+
 export const CharacterDisplayBodyWrapper = (
   backgroundColor: string,
   children: JSX.Element,
+  ref?: React.MutableRefObject<null>,
   onDragStart?: () => void,
   onDragEnd?: () => void,
   onDragDrop?: () => void
@@ -57,6 +79,7 @@ export const CharacterDisplayBodyWrapper = (
         onDragDrop?.();
       }}
       draggable={true}
+      ref={ref}
     >
       {children}
       <div className={STYLES.dragOverlay}>
@@ -68,9 +91,9 @@ export const CharacterDisplayBodyWrapper = (
 
 interface CharacterDisplayProps {
   data: PowerBarsCharacterData;
-  onDragStart?: (characterId: string) => void;
-  onDragEnd?: (characterId: string) => void;
-  onDragDrop?: (characterId: string) => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
+  onDragDrop?: () => void;
 }
 
 const CharacterDisplay = ({
@@ -84,6 +107,8 @@ const CharacterDisplay = ({
   const summableArtifactBonusPower = data.artifactData
     ? data.artifactData.bonusPower
     : 0;
+
+  const [elementRef, renderImage] = useRenderElementImage(data.className);
 
   return CharacterDisplayBodyWrapper(
     rgbString(data.character.emblemColor),
@@ -118,11 +143,13 @@ const CharacterDisplay = ({
         membershipType={data.character.membershipType}
         membershipId={data.character.membershipId}
         characterId={data.character.characterId}
+        onImageExportClick={renderImage}
       />
     </div>,
-    () => onDragStart?.(data.character.characterId),
-    () => onDragEnd?.(data.character.characterId),
-    () => onDragDrop?.(data.character.characterId)
+    elementRef,
+    onDragStart,
+    onDragEnd,
+    onDragDrop
   );
 };
 
