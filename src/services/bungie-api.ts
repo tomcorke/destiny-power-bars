@@ -126,6 +126,9 @@ export const getManifest = async (): Promise<GetManifestResult> => {
   if (!getManifestPromise) {
     getManifestPromise = Promise.resolve()
       .then(async () => {
+        // Start loading cached manifest data early
+        const pendingGetCachedManifestData = getCachedManifestData();
+
         ga.event({
           category: "Data",
           action: "Attempt load manifest",
@@ -144,7 +147,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         ) {
           if (!cachedManifestData) {
             eventEmitter.emit(EVENTS.LOAD_MANIFEST_DATA);
-            cachedManifestData = await getCachedManifestData();
+            cachedManifestData = await pendingGetCachedManifestData;
           }
           if (
             cachedManifestData &&

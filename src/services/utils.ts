@@ -42,6 +42,7 @@ import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 import { isMasterwork } from "./masterwork";
 
 const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
+const CACHED_CHARACTER_DATA_STORAGE_KEY = "cachedCharacterData";
 
 export const loadCharacterDisplayOrder = () => {
   const storedValue = localStorage.getItem(CHARACTER_DISPLAY_ORDER_STORAGE_KEY);
@@ -346,6 +347,24 @@ const getDataForCharacterId = (
   return resultData;
 };
 
+export const getCachedCharacterData = async (
+  setCharacterData: (state: PowerBarsCharacterData[]) => any
+) => {
+  const dataString = localStorage.getItem(CACHED_CHARACTER_DATA_STORAGE_KEY);
+  if (dataString) {
+    try {
+      const parsedData = JSON.parse(dataString) as PowerBarsCharacterData[];
+      setCharacterData(parsedData);
+    } catch (e) {
+      console.error(`Error parsing cached character data`, e);
+    }
+  }
+};
+
+const setCachedCharacterData = (data: PowerBarsCharacterData[]) => {
+  localStorage.setItem(CACHED_CHARACTER_DATA_STORAGE_KEY, JSON.stringify(data));
+};
+
 export const getCharacterData = async (
   setCharacterData: (state: PowerBarsCharacterData[]) => any,
   setIsFetchingCharacterData: (state: boolean) => any
@@ -436,6 +455,7 @@ export const getCharacterData = async (
         profileProgression
       )
     );
+    setCachedCharacterData(characterData);
     setCharacterData(characterData);
   } catch (e) {
     throw e;

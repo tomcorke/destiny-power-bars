@@ -1,5 +1,6 @@
 import useInterval from "@use-it/interval";
 import { UserInfoCard } from "bungie-api-ts/user";
+import classnames from "classnames";
 import throttle from "lodash/throttle";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -30,6 +31,7 @@ import {
 } from "./services/bungie-api";
 import { EVENTS, useEvent } from "./services/events";
 import {
+  getCachedCharacterData,
   getCharacterData,
   loadCharacterDisplayOrder,
   saveCharacterDisplayOrder
@@ -39,6 +41,10 @@ import "normalize.css";
 import "./index.css";
 
 import STYLES from "./App.module.scss";
+import {
+  LoadingChecklist,
+  LoadingChecklistItem
+} from "./components/LoadingChecklist";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -147,13 +153,17 @@ const doGetCharacterData = throttle(
 );
 
 export const AppWrapper = ({
-  children
+  children,
+  top = false
 }: {
   children: JSX.Element | Array<JSX.Element | null>;
+  top?: boolean;
 }) => {
   return (
     <div className={STYLES.App}>
-      <div className={STYLES.AppInner}>{children}</div>
+      <div className={classnames(STYLES.AppInner, { [STYLES.top]: top })}>
+        {children}
+      </div>
     </div>
   );
 };
@@ -238,6 +248,23 @@ const App = () => {
       setManifestError
     );
   });
+
+  const [
+    hasLoadedCachedCharacterData,
+    setHasLoadedCachedCharacterData
+  ] = useState(false);
+
+  useEffect(() => {
+    if (isAuthed && hasSelectedMembership && !hasLoadedCachedCharacterData) {
+      setHasLoadedCachedCharacterData(true);
+      getCachedCharacterData(setCharacterData);
+    }
+  }, [
+    isAuthed,
+    hasSelectedMembership,
+    hasLoadedCachedCharacterData,
+    setHasLoadedCachedCharacterData
+  ]);
 
   useInterval(() => {
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
@@ -423,7 +450,7 @@ const App = () => {
 
   if (isAuthed && characterData && characterData.length > 0) {
     return (
-      <AppWrapper>
+      <AppWrapper top>
         <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
         <div className={STYLES.charactersContainer}>
           <div className={STYLES.characters}>
@@ -462,9 +489,28 @@ const App = () => {
     );
   }
 
+  const loadingChecklistItems: LoadingChecklistItem[] = [];
+  const addToChecklist = (
+    label: string,
+    isComplete: boolean,
+    isFailed?: boolean
+  ) =>
+    loadingChecklistItems.push({
+      label,
+      status: isComplete ? "complete" : isFailed ? "failed" : "pending"
+    });
+  addToChecklist("Authenticated", isAuthed, hasAuthError);
+  addToChecklist("Loaded Character Data", !!characterData);
+  addToChecklist(
+    "Loaded Destiny Manifest Defintions",
+    hasManifestData,
+    hasManifestError
+  );
+
   return (
     <AppWrapper>
       <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
+      <LoadingChecklist withTopMargin items={loadingChecklistItems} />
       <LoadingSpinner>{status}</LoadingSpinner>
       <Footer />
     </AppWrapper>

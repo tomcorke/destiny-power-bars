@@ -1,0 +1,53 @@
+.LoadingChecklist {
+  background: rgba(black, 0.8);
+  border-radius: 5px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: -2px 5px 10px rgba(black, 0.5), 2px 5px 10px rgba(black, 0.5);
+  color: white;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li:not(:last-of-type) {
+      margin-bottom: 0.5em;
+    }
+  }
+}
+
+.topMargin {
+  margin-top: 2em;
+}
+
+.item {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.status {
+  margin-right: 0.5em;
+  &:after {
+    content: "⬗";
+    font-size: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    bottom: 0.1em;
+  }
+}
+
+.complete {
+  color: greenyellow;
+}
+
+.pending {
+  color: orange;
+}
+
+.failed {
+  color: red;
+}
