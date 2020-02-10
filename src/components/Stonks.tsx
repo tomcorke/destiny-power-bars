@@ -29,13 +29,13 @@ export const Stonks = () => {
   const seed = seasonOfDawnEnd * new Date().getUTCDate();
   const rand = gen.create(`${seed}`);
 
-  const stonkLevel = 10 / Math.max(28, daysUntilEnd);
+  const stonkLevel = 15 / Math.max(28, daysUntilEnd);
 
   const numToCreate = (rand(10) + 10) * stonkLevel;
 
   const stonks: JSX.Element[] = [];
   for (let i = 0; i < numToCreate; i++) {
-    const x = rand(40 + 15 * stonkLevel) - 60;
+    const x = rand(40 + 20 * stonkLevel) - 60;
     const y = rand(110) - 10;
     const side: StonkSide = rand(100) < 50 ? "left" : "right";
     const rot = rand(360);
