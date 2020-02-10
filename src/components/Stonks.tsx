@@ -33,6 +33,27 @@ interface StonksProps {
   overrideStonkLevel?: number;
 }
 
+const getQueryStringNumber = (parameterName: string) => {
+  const qs = window.location.search
+    .substr(1)
+    .split("&")
+    .map(q => q.split("="));
+  const match = qs.find(
+    ([name]) => name.toLowerCase() === parameterName.toLowerCase()
+  );
+  if (match) {
+    try {
+      const value = parseInt(match[1], 10);
+      return value;
+    } catch (e) {
+      console.error(
+        `Error parsing number value from query parameter ${match[0]}: "${match[1]}"`
+      );
+    }
+  }
+  return undefined;
+};
+
 export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
   const now = new Date().getTime();
   const seasonOfDawnEnd = new Date(2020, 2, 10, 17, 0, 0).getTime();
@@ -41,6 +62,9 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
 
   const seed = overrideSeed || seasonOfDawnEnd * new Date().getUTCDate();
   const rand = gen.create(`${seed}`);
+
+  overrideStonkLevel =
+    overrideStonkLevel || getQueryStringNumber("overrideStonkLevel");
 
   const MAX_STONK_LEVEL = 15;
   const stonkLevel = Math.max(
@@ -51,12 +75,13 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
     1
   );
 
-  const numToCreate = (rand(20) + 20) * stonkLevel;
+  const numScalar = 10 * (stonkLevel / MAX_STONK_LEVEL);
+  const numToCreate = (rand(10 + numScalar) + 10 + numScalar) * stonkLevel;
 
   const stonks: Array<{ element: JSX.Element; y: number }> = [];
   for (let i = 0; i < numToCreate; i++) {
     const minY = -5 + (100 / numToCreate) * i;
-    const y = rand.floatBetween(minY, 95);
+    const y = rand.floatBetween(minY, 98);
     const yClamp = Math.max(1, y);
     const x =
       rand.floatBetween(
@@ -87,9 +112,7 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
           See how investing your Fractaline today could yield massive returns in
           the future at{" "}
           {/* tslint-disable-next-line react/jsx-no-target-blank */}
-          <a href="https://destiny-stonks.corke.dev" target="_blank">
-            destiny-stonks.corke.dev
-          </a>
+          <span className={STYLES.link}>destiny-stonks.corke.dev</span>
         </div>
         <div
           className={STYLES.closeButton}
