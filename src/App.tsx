@@ -455,7 +455,7 @@ const App = () => {
     return now < seasonOfDawnEnd;
   };
   const [showStonks, setShowStonks] = useState(shouldShowStonks());
-  useInterval(() => setShowStonks(shouldShowStonks()), 1000 * 60);
+  useInterval(() => setShowStonks(shouldShowStonks()), 1000 * 60 * 10);
 
   if (isAuthed && characterData && characterData.length > 0) {
     return (
