@@ -488,9 +488,9 @@ const App = () => {
           <VendorDisplay manifestData={manifestData} />
           {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
           {isFetchingCharacterData ? <FetchSpinner /> : null}
-          <Footer />
         </AppWrapper>
         {showStonks ? <Stonks /> : null}
+        <Footer />
       </>
     );
   }

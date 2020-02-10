@@ -86,10 +86,10 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
     const x =
       rand.floatBetween(
         -30,
-        stonkLevel + stonkLevel * (Math.pow(yClamp / 4, 2) / MAX_STONK_LEVEL)
+        -30 + stonkLevel * (Math.pow(yClamp / 8, 2.7) / MAX_STONK_LEVEL)
       ) - 30;
     const side: StonkSide = rand(100) < 50 ? "left" : "right";
-    const rot = rand.floatBetween(0, 360);
+    const rot = rand.floatBetween(-60, 10);
     stonks.push(createStonk(i, x, y, side, rot));
   }
 

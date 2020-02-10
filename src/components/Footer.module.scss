@@ -3,15 +3,22 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.5em;
+  padding: 5px;
   box-sizing: border-box;
   z-index: 2000;
 
   display: flex;
   flex-flow: row-reverse wrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 
+  background: linear-gradient(
+    to right,
+    rgba(black, 0.5),
+    transparent 20%,
+    transparent 80%,
+    rgba(black, 0.5)
+  );
   @media (max-width: 500px) {
     position: relative;
     margin-top: 1em;
