@@ -1,5 +1,6 @@
+import classnames from "classnames";
 import gen from "random-seed";
-import React from "react";
+import React, { useState } from "react";
 
 import STYLES from "./Stonks.module.scss";
 
@@ -24,23 +25,6 @@ const createStonk = (
 interface StonksProps {
   overrideSeed?: string;
   overrideStonkLevel?: number;
-}
-
-function randn_bm(rand: gen.RandomSeed, to: number): number {
-  let u = 0;
-  let v = 0;
-  while (u === 0) {
-    u = rand.random();
-  }
-  while (v === 0) {
-    v = rand.random();
-  }
-  let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-  num = num / 10.0 + 0.5; // Translate to 0 -> 1
-  if (num > 1 || num < 0) {
-    return randn_bm(rand, to); // resample between 0 and 1
-  }
-  return num * to;
 }
 
 export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
@@ -78,9 +62,36 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
 
   const sortedStonks = stonks.sort((a, b) => a.y - b.y).map(s => s.element);
 
+  const [hideStonksMessage, setHideStonksMessage] = useState(false);
+
   return (
     <div className={STYLES.Stonks}>
       <div className={STYLES.stonkContainer}>{sortedStonks}</div>
+      <a
+        href="https://destiny-stonks.corke.dev"
+        target="_blank"
+        className={classnames(STYLES.stonksMessage, {
+          [STYLES.hidden]: hideStonksMessage
+        })}
+      >
+        <div className={STYLES.header}>Got Fractaline?</div>
+        <div className={STYLES.message}>
+          See how investing your Fractaline today could yield massive returns in
+          the future at{" "}
+          {/* tslint-disable-next-line react/jsx-no-target-blank */}
+          <a href="https://destiny-stonks.corke.dev" target="_blank">
+            destiny-stonks.corke.dev
+          </a>
+        </div>
+        <div
+          className={STYLES.closeButton}
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            setHideStonksMessage(true);
+          }}
+        />
+      </a>
     </div>
   );
 };
