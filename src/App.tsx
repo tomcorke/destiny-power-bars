@@ -45,6 +45,7 @@ import {
   LoadingChecklist,
   LoadingChecklistItem
 } from "./components/LoadingChecklist";
+import { Stonks } from "./components/Stonks";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -448,6 +449,14 @@ const App = () => {
     }
   }
 
+  const shouldShowStonks = () => {
+    const now = new Date();
+    const seasonOfDawnEnd = new Date(2020, 2, 10, 17, 0, 0);
+    return now < seasonOfDawnEnd;
+  };
+  const [showStonks, setShowStonks] = useState(shouldShowStonks());
+  useInterval(() => setShowStonks(shouldShowStonks()), 1000 * 60);
+
   if (isAuthed && characterData && characterData.length > 0) {
     return (
       <AppWrapper top>
@@ -474,6 +483,7 @@ const App = () => {
         <VendorDisplay manifestData={manifestData} />
         {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
         {isFetchingCharacterData ? <FetchSpinner /> : null}
+        {showStonks ? <Stonks /> : null}
         <Footer />
       </AppWrapper>
     );
