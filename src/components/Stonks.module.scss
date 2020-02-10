@@ -77,7 +77,10 @@
     }
 
     &:after {
-      content: "X";
+      content: "×";
+      font-size: 30px;
+      position: relative;
+      top: -3px;
       display: block;
     }
   }
