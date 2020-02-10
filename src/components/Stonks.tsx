@@ -29,7 +29,7 @@ export const Stonks = () => {
   const seed = seasonOfDawnEnd * new Date().getUTCDate();
   const rand = gen.create(`${seed}`);
 
-  const stonkLevel = 10 / Math.max(21, daysUntilEnd);
+  const stonkLevel = 10 / Math.max(28, daysUntilEnd);
 
   const numToCreate = (rand(10) + 10) * stonkLevel;
 
