@@ -16,7 +16,13 @@ const createStonk = (
     <div
       key={`stonk_${index}`}
       className={STYLES.stonk}
-      style={{ top: `${y}%`, [side]: `${x}px`, transform: `rotate(${rot}deg)` }}
+      style={
+        {
+          top: `${y}%`,
+          [side]: `${x}px`,
+          transform: `rotate(${rot}deg)`
+        } as any
+      }
     ></div>
   );
   return { element, y };
@@ -45,16 +51,18 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
     1
   );
 
-  const numToCreate = (rand(10) + 10) * stonkLevel;
+  const numToCreate = (rand(20) + 20) * stonkLevel;
 
   const stonks: Array<{ element: JSX.Element; y: number }> = [];
   for (let i = 0; i < numToCreate; i++) {
-    const y = rand.floatBetween(-5, 100);
-    const maxY = Math.max(1, y);
-    const x = rand.floatBetween(
-      -60,
-      20 * stonkLevel + Math.pow(maxY, maxY / 65)
-    );
+    const minY = -5 + (100 / numToCreate) * i;
+    const y = rand.floatBetween(minY, 95);
+    const yClamp = Math.max(1, y);
+    const x =
+      rand.floatBetween(
+        -30,
+        stonkLevel + stonkLevel * (Math.pow(yClamp / 4, 2) / MAX_STONK_LEVEL)
+      ) - 30;
     const side: StonkSide = rand(100) < 50 ? "left" : "right";
     const rot = rand.floatBetween(0, 360);
     stonks.push(createStonk(i, x, y, side, rot));

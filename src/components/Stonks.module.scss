@@ -19,6 +19,18 @@
   width: 96px;
   height: 96px;
   background: url("../images/fractaline_trans_2.png") center center no-repeat;
+
+  /*
+  animation: drop var(--drop-time) linear var(--drop-delay) forwards;
+  @keyframes drop {
+    from {
+      top: var(--drop-start-y);
+    }
+    to {
+      top: var(--drop-end-y);
+    }
+  }
+  */
 }
 
 .stonksMessage {
@@ -41,10 +53,11 @@
 
   overflow: hidden;
 
-  background: rgba(black, 0.8);
+  background: rgba(black, 0.85);
   background: url("../images/fractaline_trans_2.png") -50px no-repeat,
     url("../images/fractaline_trans_2.png") 105% -40px no-repeat,
-    url("../images/fractaline_trans_2.png") 80% 95px no-repeat, rgba(black, 0.8);
+    url("../images/fractaline_trans_2.png") 80% 95px no-repeat,
+    rgba(black, 0.85);
   box-shadow: 0 0 2px 1px black, 0 5px 5px 0 rgba(black, 0.8);
 
   .header {
