@@ -459,33 +459,39 @@ const App = () => {
 
   if (isAuthed && characterData && characterData.length > 0) {
     return (
-      <AppWrapper top>
-        <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
-        <div className={STYLES.charactersContainer}>
-          <div className={STYLES.characters}>
-            {useCharacterOrder
-              .map(characterId =>
-                characterData.find(c => c.character.characterId === characterId)
-              )
-              .map(c => (
-                <CharacterDisplay
-                  key={c!.character.characterId}
-                  data={c!}
-                  onDragStart={() =>
-                    setDraggingCharacterId(c!.character.characterId)
-                  }
-                  onDragEnd={() => setDraggingCharacterId(undefined)}
-                  onDragDrop={() => dropOnCharacterId(c!.character.characterId)}
-                />
-              ))}
+      <>
+        <AppWrapper top>
+          <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
+          <div className={STYLES.charactersContainer}>
+            <div className={STYLES.characters}>
+              {useCharacterOrder
+                .map(characterId =>
+                  characterData.find(
+                    c => c.character.characterId === characterId
+                  )
+                )
+                .map(c => (
+                  <CharacterDisplay
+                    key={c!.character.characterId}
+                    data={c!}
+                    onDragStart={() =>
+                      setDraggingCharacterId(c!.character.characterId)
+                    }
+                    onDragEnd={() => setDraggingCharacterId(undefined)}
+                    onDragDrop={() =>
+                      dropOnCharacterId(c!.character.characterId)
+                    }
+                  />
+                ))}
+            </div>
           </div>
-        </div>
-        <VendorDisplay manifestData={manifestData} />
-        {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
-        {isFetchingCharacterData ? <FetchSpinner /> : null}
+          <VendorDisplay manifestData={manifestData} />
+          {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
+          {isFetchingCharacterData ? <FetchSpinner /> : null}
+          <Footer />
+        </AppWrapper>
         {showStonks ? <Stonks /> : null}
-        <Footer />
-      </AppWrapper>
+      </>
     );
   }
 

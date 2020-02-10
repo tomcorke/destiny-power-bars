@@ -114,9 +114,9 @@
     background-color: #1d2c40;
     background: linear-gradient(270deg, #1d2c40 0, #29435a);
 
-    font-family: "Destiny Keys", "Noto Sans HK", -apple-system,
-      BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-      "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Destiny Keys", "Noto Sans", -apple-system, BlinkMacSystemFont,
+      "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+      "Droid Sans", "Helvetica Neue", sans-serif;
 
     @include icon-before(
       "https://www.bungie.net/7/ca/bungie/icons/logos/steam/icon.png"
