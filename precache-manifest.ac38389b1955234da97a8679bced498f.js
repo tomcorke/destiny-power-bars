@@ -1,39 +1,39 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d1e01a0b932857b223bb8a8698192952",
+    "revision": "77f63f0173bc077da515f5c3a274939c",
     "url": "/index.html"
   },
   {
-    "revision": "702095a884f159c3fafe",
+    "revision": "0580e2a50261d858a7fe",
     "url": "/static/css/4.764ccc25.chunk.css"
   },
   {
-    "revision": "d78bf3ef53f35ea40e26",
-    "url": "/static/css/main.3b621eae.chunk.css"
+    "revision": "7ce735a2dfc152f327f8",
+    "url": "/static/css/main.884bcbb6.chunk.css"
   },
   {
-    "revision": "702095a884f159c3fafe",
-    "url": "/static/js/4.5fbe0025.chunk.js"
+    "revision": "0580e2a50261d858a7fe",
+    "url": "/static/js/4.b57b9b94.chunk.js"
   },
   {
     "revision": "32dd742212dd5e25b0847c5d8a5d8bc1",
-    "url": "/static/js/4.5fbe0025.chunk.js.LICENSE.txt"
+    "url": "/static/js/4.b57b9b94.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "25631bb0332a06953751",
-    "url": "/static/js/dom-to-image.13db2bc5.chunk.js"
+    "revision": "1951f20f30e550fbc9b1",
+    "url": "/static/js/dom-to-image.d7efe8b8.chunk.js"
   },
   {
-    "revision": "4568a0b279b35dd8784a",
-    "url": "/static/js/file-saver.297bd811.chunk.js"
+    "revision": "0b0462166e50f9eebac4",
+    "url": "/static/js/file-saver.aa593036.chunk.js"
   },
   {
-    "revision": "d78bf3ef53f35ea40e26",
-    "url": "/static/js/main.2ada3bc1.chunk.js"
+    "revision": "7ce735a2dfc152f327f8",
+    "url": "/static/js/main.0ad86f1d.chunk.js"
   },
   {
-    "revision": "a8fd157950f75fcba8e6",
-    "url": "/static/js/runtime-main.46c4cf4e.js"
+    "revision": "df1a9383797502a173ea",
+    "url": "/static/js/runtime-main.737a3940.js"
   },
   {
     "revision": "89db5e259f1d123bd3c1b99e30fa1d3c",
@@ -66,6 +66,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "92b10b76cc0ce69eaf1bc4850e13dacf",
     "url": "/static/media/example-titan-character-display-with-info.92b10b76.png"
+  },
+  {
+    "revision": "1e715212de01d2242b87894df8b0fda5",
+    "url": "/static/media/fractaline_trans_2.1e715212.png"
   },
   {
     "revision": "617870e422d4b75087cdcf9ff298032e",
