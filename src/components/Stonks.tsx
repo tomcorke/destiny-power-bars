@@ -70,7 +70,8 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
   const stonkLevel = Math.max(
     Math.min(
       MAX_STONK_LEVEL,
-      overrideStonkLevel || MAX_STONK_LEVEL / Math.min(28, daysUntilEnd)
+      overrideStonkLevel ||
+        MAX_STONK_LEVEL / Math.max(Math.min(14, daysUntilEnd - 7), 1)
     ),
     1
   );
