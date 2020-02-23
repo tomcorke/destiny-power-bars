@@ -110,9 +110,8 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
       >
         <div className={STYLES.header}>Got Fractaline?</div>
         <div className={STYLES.message}>
-          See how investing your Fractaline today could yield massive returns in
-          the future at{" "}
-          {/* tslint-disable-next-line react/jsx-no-target-blank */}
+          Donate, donate, donate!
+          <br />
           <span className={STYLES.link}>destiny-stonks.corke.dev</span>
         </div>
         <div
