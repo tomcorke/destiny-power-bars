@@ -75,7 +75,6 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
     ),
     1
   );
-  console.log("stonkLevel", stonkLevel);
 
   const numScalar = 10 * (stonkLevel / MAX_STONK_LEVEL);
   const numToCreate = (rand(10 + numScalar) + 10 + numScalar) * stonkLevel;
