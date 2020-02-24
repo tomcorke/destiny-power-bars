@@ -66,15 +66,16 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
   overrideStonkLevel =
     overrideStonkLevel || getQueryStringNumber("overrideStonkLevel");
 
-  const MAX_STONK_LEVEL = 15;
+  const MAX_STONK_LEVEL = 20;
   const stonkLevel = Math.max(
     Math.min(
       MAX_STONK_LEVEL,
       overrideStonkLevel ||
-        MAX_STONK_LEVEL / Math.max(Math.min(14, daysUntilEnd - 7), 1)
+        MAX_STONK_LEVEL - Math.max(Math.min(14, daysUntilEnd - 10), 0)
     ),
     1
   );
+  console.log("stonkLevel", stonkLevel);
 
   const numScalar = 10 * (stonkLevel / MAX_STONK_LEVEL);
   const numToCreate = (rand(10 + numScalar) + 10 + numScalar) * stonkLevel;
