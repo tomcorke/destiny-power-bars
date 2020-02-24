@@ -33,6 +33,7 @@ import { EVENTS, useEvent } from "./services/events";
 import {
   getCachedCharacterData,
   getCharacterData,
+  getIsFetchingCharacterData,
   loadCharacterDisplayOrder,
   saveCharacterDisplayOrder
 } from "./services/utils";
@@ -110,9 +111,7 @@ const doGetManifest = throttle(
 
 const doGetCharacterData = throttle(
   (
-    isFetchingCharacterData: boolean,
     setCharacterData: (value: PowerBarsCharacterData[]) => void,
-    setIsFetchingCharacterData: (value: boolean) => void,
     setBungieSystemDisabled: (value: boolean) => void,
     setBungieServiceUnavailable: (value: boolean) => void
   ) => {
@@ -130,14 +129,12 @@ const doGetCharacterData = throttle(
       setCharacterData(newData);
     };
 
+    const isFetchingCharacterData = getIsFetchingCharacterData();
+
     (async () => {
       if (!isFetchingCharacterData) {
         try {
-          setIsFetchingCharacterData(true);
-          await getCharacterData(
-            updateCharacterData,
-            setIsFetchingCharacterData
-          );
+          await getCharacterData(updateCharacterData);
         } catch (error) {
           if (error instanceof BungieSystemDisabledError) {
             setBungieSystemDisabled(true);
@@ -175,9 +172,7 @@ const App = () => {
   );
   const [isAuthed, setIsAuthed] = useState(hasValidAuth());
   const [hasAuthError, setAuthError] = useState(false);
-  const [hasSelectedMembership, setHasMembership] = useState(
-    hasSelectedDestinyMembership()
-  );
+
   const [manifestData, setManifestData] = useState<ManifestData | undefined>(
     undefined
   );
@@ -191,7 +186,7 @@ const App = () => {
     PowerBarsCharacterData[] | undefined
   >(undefined);
 
-  const [manifestState, setManifestState] = useState("Unknown");
+  const [manifestState, setManifestState] = useState("Initialising...");
   useEvent(EVENTS.GET_MANIFEST, () => {
     setManifestError(false);
     setManifestState("Checking manifest version");
@@ -255,6 +250,8 @@ const App = () => {
     setHasLoadedCachedCharacterData
   ] = useState(false);
 
+  const hasSelectedMembership = hasSelectedDestinyMembership();
+
   useEffect(() => {
     if (isAuthed && hasSelectedMembership && !hasLoadedCachedCharacterData) {
       setHasLoadedCachedCharacterData(true);
@@ -270,9 +267,7 @@ const App = () => {
   useInterval(() => {
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {
       doGetCharacterData(
-        isFetchingCharacterData,
         setCharacterData,
-        setIsFetchingCharacterData,
         setBungieSystemDisabled,
         setBungieServiceUnavailable
       );
@@ -287,9 +282,7 @@ const App = () => {
       !isBungieSystemDisabled
     ) {
       doGetCharacterData(
-        isFetchingCharacterData,
         setCharacterData,
-        setIsFetchingCharacterData,
         setBungieSystemDisabled,
         setBungieServiceUnavailable
       );
@@ -301,18 +294,14 @@ const App = () => {
     isBungieSystemDisabled
   ]);
 
-  const onSelectMembership = useCallback(
-    (membership: UserInfoCard) => {
-      ga.event({
-        category: "Platform",
-        action: "Select platform",
-        label: `Membership type: ${membership.membershipType}`
-      });
-      setSelectedDestinyMembership(membership);
-      setHasMembership(true);
-    },
-    [setHasMembership]
-  );
+  const onSelectMembership = useCallback((membership: UserInfoCard) => {
+    ga.event({
+      category: "Platform",
+      action: "Select platform",
+      label: `Membership type: ${membership.membershipType}`
+    });
+    setSelectedDestinyMembership(membership);
+  }, []);
 
   let status: string | JSX.Element = "";
   if (isBungieSystemDisabled) {

@@ -8,6 +8,7 @@ import {
   BUNGIE_OAUTH_CLIENT_SECRET,
   BUNGIE_OAUTH_TOKEN_URL
 } from "./config";
+import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
 import ga from "./ga";
 
@@ -27,6 +28,7 @@ eventEmitter.on(EVENTS.UNAUTHED_FETCH_ERROR, () => {
 });
 
 const clearStorage = () => {
+  debug("clearStorage");
   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
   localStorage.removeItem(ACCESS_TOKEN_EXPIRY_STORAGE_KEY);
   localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
@@ -36,6 +38,7 @@ const clearStorage = () => {
 };
 
 const clearSelectedMembership = () => {
+  debug("clearSelectedMembership");
   localStorage.removeItem(DESTINY_MEMBERSHIP_STORAGE_KEY);
 };
 
@@ -53,6 +56,7 @@ export const getAuthUrl = () =>
 // Attempt to prevent infinite navigation events
 let hasNavigated = false;
 const redirectToAuth = () => {
+  debug("redirectToAuth");
   clearStorage();
   ga.event({
     category: "Auth",
@@ -73,11 +77,13 @@ const redirectToAuth = () => {
 };
 
 export const manualStartAuth = () => {
+  debug("manualStartAuth");
   localStorage.setItem(MANUAL_AUTHED_STORAGE_KEY, "TRUE");
   redirectToAuth();
 };
 
 const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
+  debug("autoSelectMembership");
   // If there is only one membership, select it automatically
   if (destinyMemberships.length === 1) {
     setSelectedDestinyMembership(destinyMemberships[0]);
@@ -100,6 +106,7 @@ const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
 };
 
 const handleTokenResponse = async (tokenResponse: Response) => {
+  debug("handleTokenResponse");
   if (tokenResponse.status === 200) {
     const data = await tokenResponse.json();
 
@@ -187,6 +194,7 @@ const handleTokenResponse = async (tokenResponse: Response) => {
 };
 
 const fetchAccessToken = async (authCode: string) => {
+  debug("fetchAccessToken");
   console.log("Fetching Bungie API access token for authentication code");
   ga.event({
     category: "Auth",
@@ -213,6 +221,7 @@ const fetchAccessToken = async (authCode: string) => {
 };
 
 const refreshAccessToken = async () => {
+  debug("refreshAccessToken");
   console.log("Refreshing Bungie API access token");
   const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
   ga.event({
@@ -245,6 +254,7 @@ const refreshAccessToken = async () => {
 };
 
 export const getAccessToken = () => {
+  debug("getAccessToken");
   return localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
 };
 
@@ -282,6 +292,7 @@ export const hasValidAuth = () => {
 };
 
 export const getDestinyMemberships = () => {
+  debug("getDestinyMemberships");
   const destinyMembershipsString = localStorage.getItem(
     DESTINY_MEMBERSHIPS_STORAGE_KEY
   );
@@ -305,6 +316,7 @@ export const hasDestinyMemberships = () => {
 };
 
 export const getSelectedDestinyMembership = () => {
+  debug("getSelectedDestinyMembership");
   const destinyMembershipString = localStorage.getItem(
     DESTINY_MEMBERSHIP_STORAGE_KEY
   );
@@ -333,6 +345,7 @@ export const hasSelectedDestinyMembership = () => {
 };
 
 export const setSelectedDestinyMembership = (membership: UserInfoCard) => {
+  debug("setSelectedDestinyMembership");
   localStorage.setItem(
     DESTINY_MEMBERSHIP_STORAGE_KEY,
     JSON.stringify(membership)
@@ -340,6 +353,7 @@ export const setSelectedDestinyMembership = (membership: UserInfoCard) => {
 };
 
 export const auth = async (): Promise<boolean> => {
+  debug("auth");
   const queryParams = new URLSearchParams(window.location.search);
   const authCode = queryParams.get("code");
 
@@ -353,7 +367,9 @@ export const auth = async (): Promise<boolean> => {
   }
 
   if (authCode) {
-    window.location.replace(
+    window.history.replaceState(
+      {},
+      document.title,
       `${window.location.origin}${window.location.pathname}`
     );
   }
@@ -381,6 +397,7 @@ export const auth = async (): Promise<boolean> => {
 };
 
 export const logOut = async () => {
+  debug("logOut");
   localStorage.removeItem(MANUAL_AUTHED_STORAGE_KEY);
   clearStorage();
   eventEmitter.emit(EVENTS.LOG_OUT);

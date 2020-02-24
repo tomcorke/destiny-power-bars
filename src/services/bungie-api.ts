@@ -11,6 +11,7 @@ import { get, set } from "idb-keyval";
 
 import { getAccessToken } from "./bungie-auth";
 import { BUNGIE_API_KEY } from "./config";
+import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
 import ga from "./ga";
 
@@ -91,6 +92,7 @@ const getCachedManifestData = async () => {
 };
 
 const getRemoteManifestData = async (manifest: DestinyManifest) => {
+  debug("getRemoteManifestData");
   if (!manifest) {
     throw Error("No manifest!");
   }
@@ -107,7 +109,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     }
   });
   eventEmitter.emit(EVENTS.STORE_MANIFEST_DATA);
-  await set(MANIFEST_IDB_KEY, manifestData);
+  set(MANIFEST_IDB_KEY, manifestData); // Do not await
   localStorage.setItem(MANIFEST_VERSION_KEY, version);
   return manifestData;
 };
@@ -123,7 +125,9 @@ let cachedManifestData: ManifestData | undefined;
 let getManifestPromise: Promise<GetManifestResult> | undefined;
 
 export const getManifest = async (): Promise<GetManifestResult> => {
+  debug("getManifest");
   if (!getManifestPromise) {
+    debug("getManifest", "create new getManifestPromise");
     getManifestPromise = Promise.resolve()
       .then(async () => {
         // Start loading cached manifest data early
@@ -219,6 +223,7 @@ export const getBasicProfile = (
   membershipType: number,
   membershipId: string
 ) => {
+  debug("getBasicProfile");
   ga.event({
     category: "Character Data",
     action: "Fetch minimal profile",
@@ -238,6 +243,7 @@ export const getFullProfile = (
   membershipType: number,
   membershipId: string
 ) => {
+  debug("getFullProfile");
   ga.event({
     category: "Character Data",
     action: "Fetch full profile",

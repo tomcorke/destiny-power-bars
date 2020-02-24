@@ -39,12 +39,14 @@ import {
   ManifestData
 } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
+import { debug } from "./debug";
 import { isMasterwork } from "./masterwork";
 
 const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
 const CACHED_CHARACTER_DATA_STORAGE_KEY = "cachedCharacterData";
 
 export const loadCharacterDisplayOrder = () => {
+  debug("loadCharacterDisplayOrder");
   const storedValue = localStorage.getItem(CHARACTER_DISPLAY_ORDER_STORAGE_KEY);
   try {
     return storedValue ? JSON.parse(storedValue) : undefined;
@@ -54,6 +56,7 @@ export const loadCharacterDisplayOrder = () => {
 };
 
 export const saveCharacterDisplayOrder = (characterOrder: string[]) => {
+  debug("saveCharacterDisplayOrder");
   localStorage.setItem(
     CHARACTER_DISPLAY_ORDER_STORAGE_KEY,
     JSON.stringify(characterOrder)
@@ -195,6 +198,7 @@ const getDataForCharacterId = (
   profileInventories: DestinyInventoryComponent,
   profileProgression: DestinyProfileProgressionComponent
 ): PowerBarsCharacterData => {
+  debug("getDataForCharacterId", characterId);
   const character = characters[characterId];
   const className = CLASS_NAMES[character.classType];
 
@@ -350,6 +354,7 @@ const getDataForCharacterId = (
 export const getCachedCharacterData = async (
   setCharacterData: (state: PowerBarsCharacterData[]) => any
 ) => {
+  debug("getCachedCharacterData");
   const dataString = localStorage.getItem(CACHED_CHARACTER_DATA_STORAGE_KEY);
   if (dataString) {
     try {
@@ -365,10 +370,15 @@ const setCachedCharacterData = (data: PowerBarsCharacterData[]) => {
   localStorage.setItem(CACHED_CHARACTER_DATA_STORAGE_KEY, JSON.stringify(data));
 };
 
+let isFetchingCharacterData = false;
+export const getIsFetchingCharacterData = () => {
+  return isFetchingCharacterData;
+};
+
 export const getCharacterData = async (
-  setCharacterData: (state: PowerBarsCharacterData[]) => any,
-  setIsFetchingCharacterData: (state: boolean) => any
+  setCharacterData: (state: PowerBarsCharacterData[]) => any
 ) => {
+  debug("getCharacterData");
   try {
     const isAuthed = await auth();
     if (!isAuthed) {
@@ -377,7 +387,7 @@ export const getCharacterData = async (
 
     const pendingManifest = getManifest();
 
-    setIsFetchingCharacterData(true);
+    isFetchingCharacterData = true;
 
     const destinyMembership = getSelectedDestinyMembership();
     if (!destinyMembership) {
@@ -460,6 +470,6 @@ export const getCharacterData = async (
   } catch (e) {
     throw e;
   } finally {
-    setIsFetchingCharacterData(false);
+    isFetchingCharacterData = false;
   }
 };
