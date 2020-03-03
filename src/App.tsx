@@ -181,7 +181,9 @@ const App = () => {
   const [isBungieServiceUnavailable, setBungieServiceUnavailable] = useState(
     false
   );
-  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState(false);
+
+  const isFetchingCharacterData = getIsFetchingCharacterData();
+
   const [characterData, setCharacterData] = useState<
     PowerBarsCharacterData[] | undefined
   >(undefined);
