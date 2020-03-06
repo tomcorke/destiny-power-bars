@@ -19,9 +19,14 @@ import CharacterDisplay from "./components/CharacterDisplay";
 import FetchSpinner from "./components/FetchSpinner";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import {
+  LoadingChecklist,
+  LoadingChecklistItem
+} from "./components/LoadingChecklist";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { LoginPrompt } from "./components/LoginPrompt";
 import MembershipSelect from "./components/MembershipSelect";
+import { S10Overlay } from "./components/S10Overlay";
 import { VendorDisplay } from "./components/VendorDisplay";
 import api from "./services/api";
 import {
@@ -42,10 +47,6 @@ import "normalize.css";
 import "./index.css";
 
 import STYLES from "./App.module.scss";
-import {
-  LoadingChecklist,
-  LoadingChecklistItem
-} from "./components/LoadingChecklist";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -471,6 +472,7 @@ const App = () => {
           {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
           {isFetchingCharacterData ? <FetchSpinner /> : null}
         </AppWrapper>
+        <S10Overlay />
         <Footer />
       </>
     );
