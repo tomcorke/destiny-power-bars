@@ -40,6 +40,7 @@ import {
 } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 import { debug } from "./debug";
+import eventEmitter, { EVENTS } from "./events";
 import { isMasterwork } from "./masterwork";
 
 const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
@@ -388,6 +389,7 @@ export const getCharacterData = async (
     const pendingManifest = getManifest();
 
     isFetchingCharacterData = true;
+    eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE);
 
     const destinyMembership = getSelectedDestinyMembership();
     if (!destinyMembership) {
@@ -471,5 +473,6 @@ export const getCharacterData = async (
     throw e;
   } finally {
     isFetchingCharacterData = false;
+    eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE);
   }
 };

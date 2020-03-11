@@ -182,7 +182,12 @@ const App = () => {
     false
   );
 
-  const isFetchingCharacterData = getIsFetchingCharacterData();
+  const [isFetchingCharacterData, setIsFetchingCharacterData] = useState(
+    getIsFetchingCharacterData()
+  );
+  useEvent(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, () =>
+    setIsFetchingCharacterData(getIsFetchingCharacterData())
+  );
 
   const [characterData, setCharacterData] = useState<
     PowerBarsCharacterData[] | undefined
