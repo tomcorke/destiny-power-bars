@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d26236846178dcf32c9819be12da9b73",
+    "revision": "3de82c01f004d3d69d0911785d2163a8",
     "url": "/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/4.764ccc25.chunk.css"
   },
   {
-    "revision": "0396b47b10da62d7bde1",
-    "url": "/static/css/main.fc3381ab.chunk.css"
+    "revision": "d1721ed7e12cc90a4589",
+    "url": "/static/css/main.768b193d.chunk.css"
   },
   {
     "revision": "ae2740ce5d487f54f777",
@@ -28,8 +28,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/file-saver.53ab645a.chunk.js"
   },
   {
-    "revision": "0396b47b10da62d7bde1",
-    "url": "/static/js/main.e4b35fd0.chunk.js"
+    "revision": "d1721ed7e12cc90a4589",
+    "url": "/static/js/main.cdb3e059.chunk.js"
   },
   {
     "revision": "62c3a986a452052e8507",
@@ -76,15 +76,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/season_comp.c2f5f6b3.png"
   },
   {
+    "revision": "8da38d9bbdceca490613bfa94a73d9bd",
+    "url": "/static/media/story_low.8da38d9b.jpg"
+  },
+  {
     "revision": "0fd0bdbf858bb1d5845ee921f68a9ef4",
     "url": "/static/media/trials_comp.0fd0bdbf.png"
   },
   {
     "revision": "be06689853aec102607f5e54e6fd2dfa",
     "url": "/static/media/twitter.be066898.svg"
-  },
-  {
-    "revision": "7452d9b7abf9f3b4782c294510e3fa21",
-    "url": "/static/media/warmind_entrance_1_low.7452d9b7.jpg"
   }
 ]);
