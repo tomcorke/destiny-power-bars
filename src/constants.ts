@@ -66,9 +66,9 @@ export const BUNGIE_COLOUR_VOID = "b085df";
 // Do not export, in an attempt to not need to hard-code a specific artifact.
 // export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;
 
-export const ITEM_POWER_SOFT_CAP = 950;
-export const ITEM_POWER_POWERFUL_CAP = 1000;
-export const ITEM_POWER_PINNACLE_CAP = 1010;
+export const ITEM_POWER_SOFT_CAP = 1000;
+export const ITEM_POWER_POWERFUL_CAP = 1050;
+export const ITEM_POWER_PINNACLE_CAP = 1060;
 
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET = 2;
