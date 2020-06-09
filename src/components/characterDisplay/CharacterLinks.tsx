@@ -71,7 +71,7 @@ export const CharacterLinks = ({
             { text: "D2 Checklist", tags: ["d2checklist"] }
           )}
           {link(
-            `https://guardianstats.com/inspect/${membershipType}/${membershipId}`,
+            `https://guardianstats.com/profile/${membershipId}`,
             { text: "Guardianstats", tags: ["guardianstats"] }
           )}
           {link(
