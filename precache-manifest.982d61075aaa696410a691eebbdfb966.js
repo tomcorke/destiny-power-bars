@@ -1,39 +1,39 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3de82c01f004d3d69d0911785d2163a8",
+    "revision": "cc1d8bc09ce1fc8d04453ef4c35b63c0",
     "url": "/index.html"
   },
   {
-    "revision": "ae2740ce5d487f54f777",
+    "revision": "347c20a15e42326cf1c7",
     "url": "/static/css/4.764ccc25.chunk.css"
   },
   {
-    "revision": "d1721ed7e12cc90a4589",
-    "url": "/static/css/main.768b193d.chunk.css"
+    "revision": "b28f605980df223c496a",
+    "url": "/static/css/main.d7bf849b.chunk.css"
   },
   {
-    "revision": "ae2740ce5d487f54f777",
-    "url": "/static/js/4.845460d9.chunk.js"
+    "revision": "347c20a15e42326cf1c7",
+    "url": "/static/js/4.0774496d.chunk.js"
   },
   {
     "revision": "32dd742212dd5e25b0847c5d8a5d8bc1",
-    "url": "/static/js/4.845460d9.chunk.js.LICENSE.txt"
+    "url": "/static/js/4.0774496d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1951f20f30e550fbc9b1",
-    "url": "/static/js/dom-to-image.d7efe8b8.chunk.js"
+    "revision": "25631bb0332a06953751",
+    "url": "/static/js/dom-to-image.13db2bc5.chunk.js"
   },
   {
-    "revision": "47d803b1ac4a0e87b91f",
-    "url": "/static/js/file-saver.53ab645a.chunk.js"
+    "revision": "4568a0b279b35dd8784a",
+    "url": "/static/js/file-saver.297bd811.chunk.js"
   },
   {
-    "revision": "d1721ed7e12cc90a4589",
-    "url": "/static/js/main.cdb3e059.chunk.js"
+    "revision": "b28f605980df223c496a",
+    "url": "/static/js/main.594a0d49.chunk.js"
   },
   {
-    "revision": "62c3a986a452052e8507",
-    "url": "/static/js/runtime-main.42af581d.js"
+    "revision": "a8fd157950f75fcba8e6",
+    "url": "/static/js/runtime-main.46c4cf4e.js"
   },
   {
     "revision": "bddf127ba5513d62a943fff86e3400c7",
@@ -72,16 +72,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/guardianstats.85c964c1.ico"
   },
   {
-    "revision": "c2f5f6b32f2634f3f339521c0dae0554",
-    "url": "/static/media/season_comp.c2f5f6b3.png"
-  },
-  {
     "revision": "8da38d9bbdceca490613bfa94a73d9bd",
     "url": "/static/media/story_low.8da38d9b.jpg"
-  },
-  {
-    "revision": "0fd0bdbf858bb1d5845ee921f68a9ef4",
-    "url": "/static/media/trials_comp.0fd0bdbf.png"
   },
   {
     "revision": "be06689853aec102607f5e54e6fd2dfa",
