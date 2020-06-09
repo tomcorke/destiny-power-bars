@@ -26,7 +26,7 @@ import {
 import LoadingSpinner from "./components/LoadingSpinner";
 import { LoginPrompt } from "./components/LoginPrompt";
 import MembershipSelect from "./components/MembershipSelect";
-import { S10Overlay } from "./components/S10Overlay";
+// import { S10Overlay } from "./components/S10Overlay";
 import { VendorDisplay } from "./components/VendorDisplay";
 import api from "./services/api";
 import {
@@ -477,7 +477,7 @@ const App = () => {
           {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
           {isFetchingCharacterData ? <FetchSpinner /> : null}
         </AppWrapper>
-        <S10Overlay />
+        {/* <S10Overlay /> */}
         <Footer />
       </>
     );
