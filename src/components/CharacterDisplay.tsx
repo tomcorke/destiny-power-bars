@@ -11,6 +11,7 @@ import { PowerHints } from "./characterDisplay/PowerHints";
 const titleCase = (text: string) =>
   text.substr(0, 1).toUpperCase() + text.substr(1);
 
+const BLACK_RGB = { red: 0, green: 0, blue: 0 };
 const rgbString = ({
   red,
   green,
@@ -19,7 +20,7 @@ const rgbString = ({
   red: number;
   green: number;
   blue: number;
-}) => `rgb(${red},${green},${blue})`;
+} = BLACK_RGB) => `rgb(${red},${green},${blue})`;
 
 const useRenderElementImage = (className: string) => {
   const elementRef = useRef(null);
