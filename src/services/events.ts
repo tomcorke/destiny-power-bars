@@ -1,4 +1,4 @@
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 import { useEffect, useRef } from "react";
 
 export enum EVENTS {
@@ -14,7 +14,7 @@ export enum EVENTS {
 
   FETCHING_CHARACTER_DATA_CHANGE = "FETCHING_CHARACTER_DATA_CHANGE",
 
-  LOG_OUT = "LOG_OUT"
+  LOG_OUT = "LOG_OUT",
 }
 
 const eventEmitter = new EventEmitter();
