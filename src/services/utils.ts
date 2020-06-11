@@ -302,21 +302,18 @@ const getDataForCharacterId = (
     const artifactDefinition = manifest.DestinyInventoryItemDefinition[
       artifactItemComponent.itemHash
     ]!;
-    if (artifactDefinition && artifactDefinition.displayProperties) {
-      artifactData = {
-        bonusPower:
-          profileProgression.seasonalArtifact.powerBonus ||
-          artifactInstance.primaryStat.value,
-        iconPath: artifactDefinition.displayProperties.icon,
-        name: artifactDefinition.displayProperties.name,
-        progressToNextLevel:
-          profileProgression.seasonalArtifact?.powerBonusProgression
-            ?.progressToNextLevel,
-        nextLevelAt:
-          profileProgression.seasonalArtifact?.powerBonusProgression
-            ?.nextLevelAt,
-      };
-    }
+    artifactData = {
+      bonusPower:
+        profileProgression.seasonalArtifact.powerBonus ||
+        artifactInstance.primaryStat.value,
+      iconPath: artifactDefinition.displayProperties?.icon,
+      name: artifactDefinition.displayProperties?.name || "Artifact",
+      progressToNextLevel:
+        profileProgression.seasonalArtifact?.powerBonusProgression
+          ?.progressToNextLevel,
+      nextLevelAt:
+        profileProgression.seasonalArtifact?.powerBonusProgression?.nextLevelAt,
+    };
   }
 
   const potentialPowerBySlot = { ...powerBySlot };
