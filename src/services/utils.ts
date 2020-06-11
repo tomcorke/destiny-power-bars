@@ -5,7 +5,7 @@ import {
   DestinyItemInstanceComponent,
   DestinyProfileProgressionComponent,
   DestinyProfileResponse,
-  ServerResponse
+  ServerResponse,
 } from "bungie-api-ts/destiny2";
 
 import forIn from "lodash/forIn";
@@ -22,21 +22,21 @@ import {
   ITEM_POWER_SOFT_CAP,
   ITEM_SLOT_BUCKETS,
   ITEM_TYPE_ARMOR,
-  ITEM_TYPE_WEAPON
+  ITEM_TYPE_WEAPON,
 } from "../constants";
 import {
   ItemBySlot,
   JoinedItemDefinition,
   PowerBarsCharacterData,
   PowerBySlot,
-  SeasonalArtifactData
+  SeasonalArtifactData,
 } from "../types";
 import {
   BungieSystemDisabledError,
   getFullProfile,
   getManifest,
   GetManifestResult,
-  ManifestData
+  ManifestData,
 } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 import { debug } from "./debug";
@@ -65,7 +65,7 @@ export const saveCharacterDisplayOrder = (characterOrder: string[]) => {
 };
 
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
-  mapValues(itemsBySlot, item => item?.instanceData?.primaryStat?.value || 0);
+  mapValues(itemsBySlot, (item) => item?.instanceData?.primaryStat?.value || 0);
 
 const getAveragePower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
@@ -121,7 +121,7 @@ const mapAndFilterItems = (
   character: DestinyCharacterComponent
 ): JoinedItemDefinition[] =>
   items
-    .map(item => {
+    .map((item) => {
       const instanceData = item.itemInstanceId
         ? itemInstances[item.itemInstanceId]
         : undefined;
@@ -130,26 +130,28 @@ const mapAndFilterItems = (
       return {
         ...item,
         instanceData,
-        itemDefinition
+        itemDefinition,
       };
     })
     .filter(
-      i =>
+      (i) =>
         i.instanceData &&
         i.itemDefinition &&
         [ITEM_TYPE_ARMOR, ITEM_TYPE_WEAPON].includes(i.itemDefinition.itemType)
     )
-    .map(i => ({
+    .map((i) => ({
       ...i,
       instanceData: i.instanceData!,
-      itemDefinition: i.itemDefinition!
+      itemDefinition: i.itemDefinition!,
     }))
-    .map(i => ({
+    .map((i) => ({
       ...i,
-      slotName: ITEM_BUCKET_SLOTS[i.itemDefinition.inventory.bucketTypeHash]
+      slotName: ITEM_BUCKET_SLOTS[i.itemDefinition.inventory.bucketTypeHash],
     }))
-    .filter(i => i.instanceData.primaryStat && i.instanceData.primaryStat.value)
-    .filter(i => isItemEquippableByCharacter(i, character));
+    .filter(
+      (i) => i.instanceData.primaryStat && i.instanceData.primaryStat.value
+    )
+    .filter((i) => isItemEquippableByCharacter(i, character));
 
 const getItemScore = (
   item?: JoinedItemDefinition,
@@ -161,7 +163,7 @@ const getItemScore = (
   let score = item.instanceData.primaryStat.value;
   if (
     priorityItems &&
-    priorityItems.some(pi => pi.itemInstanceId === item.itemInstanceId)
+    priorityItems.some((pi) => pi.itemInstanceId === item.itemInstanceId)
   ) {
     // Prefer items currently equipped on character over items of equal level elsewhere
     score += 0.5;
@@ -215,7 +217,7 @@ const getDataForCharacterId = (
     itemInstances,
     character
   ).filter(
-    i =>
+    (i) =>
       i.itemDefinition.classType === CLASS_TYPE_ALL ||
       i.itemDefinition.classType === character.classType
   );
@@ -223,11 +225,12 @@ const getDataForCharacterId = (
   const allItems = characterItems.concat(relevantProfileItems);
 
   // Group by slot
-  const itemsBySlot = groupBy(allItems, i => i.slotName);
+  const itemsBySlot = groupBy(allItems, (i) => i.slotName);
   // Get max power items per slot
   let topItemBySlot: ItemBySlot = mapValues(
     itemsBySlot,
-    items => maxBy(items, item => getItemScore(item, equippedCharacterItems))!
+    (items) =>
+      maxBy(items, (item) => getItemScore(item, equippedCharacterItems))!
   );
   // Get overlaps by equip label
   const uniqueEquippedGroups = groupBy(
@@ -235,28 +238,28 @@ const getDataForCharacterId = (
     getEquipLabel
   );
   // For overlaps with more than one item, generate valid options where all-but-one item is swapped for the next best non-exotic
-  forIn(uniqueEquippedGroups, uniqueEquippedGroup => {
+  forIn(uniqueEquippedGroups, (uniqueEquippedGroup) => {
     if (uniqueEquippedGroup.length <= 1) {
       return;
     }
 
     const validItemCombinations: ItemBySlot[] = [];
 
-    uniqueEquippedGroup.forEach(item => {
+    uniqueEquippedGroup.forEach((item) => {
       const otherItems: JoinedItemDefinition[] = uniqueEquippedGroup
-        .filter(otherItem => otherItem !== item)
-        .filter(otherItem => !!otherItem)
-        .map(otherItem => otherItem!);
+        .filter((otherItem) => otherItem !== item)
+        .filter((otherItem) => !!otherItem)
+        .map((otherItem) => otherItem!);
       let isCombinationValid = true;
       const combination = { ...topItemBySlot };
-      otherItems.forEach(otherItem => {
+      otherItems.forEach((otherItem) => {
         // Find non-exotics for this slot
         const nonExotics = itemsBySlot[otherItem.slotName].filter(
-          i => !getEquipLabel(i)
+          (i) => !getEquipLabel(i)
         );
         if (nonExotics.length > 0) {
           // Select max power from non-exotics
-          combination[otherItem.slotName] = maxBy(nonExotics, i =>
+          combination[otherItem.slotName] = maxBy(nonExotics, (i) =>
             getItemScore(i, equippedCharacterItems)
           )!;
         } else {
@@ -271,7 +274,7 @@ const getDataForCharacterId = (
 
     // Select highest total scoring valid combination, if alternative item combinations have been generated
     if (validItemCombinations.length > 0) {
-      const bestCombination = maxBy(validItemCombinations, combination =>
+      const bestCombination = maxBy(validItemCombinations, (combination) =>
         sumBy(Object.values(combination), getItemScore)
       )!;
       topItemBySlot = bestCombination;
@@ -283,7 +286,7 @@ const getDataForCharacterId = (
   const overallPower = getOverallPower(powerBySlot);
 
   const artifactItemComponent = allCharacterItems.find(
-    i => i.bucketHash === ARTIFACT_INVENTORY_BUCKET_HASH
+    (i) => i.bucketHash === ARTIFACT_INVENTORY_BUCKET_HASH
   );
 
   const artifactInstance =
@@ -299,31 +302,34 @@ const getDataForCharacterId = (
     const artifactDefinition = manifest.DestinyInventoryItemDefinition[
       artifactItemComponent.itemHash
     ]!;
-    artifactData = {
-      bonusPower:
-        profileProgression.seasonalArtifact.powerBonus ||
-        artifactInstance.primaryStat.value,
-      iconPath: artifactDefinition.displayProperties.icon,
-      name: artifactDefinition.displayProperties.name,
-      progressToNextLevel:
-        profileProgression.seasonalArtifact?.powerBonusProgression
-          ?.progressToNextLevel,
-      nextLevelAt:
-        profileProgression.seasonalArtifact?.powerBonusProgression?.nextLevelAt
-    };
+    if (artifactDefinition && artifactDefinition.displayProperties) {
+      artifactData = {
+        bonusPower:
+          profileProgression.seasonalArtifact.powerBonus ||
+          artifactInstance.primaryStat.value,
+        iconPath: artifactDefinition.displayProperties.icon,
+        name: artifactDefinition.displayProperties.name,
+        progressToNextLevel:
+          profileProgression.seasonalArtifact?.powerBonusProgression
+            ?.progressToNextLevel,
+        nextLevelAt:
+          profileProgression.seasonalArtifact?.powerBonusProgression
+            ?.nextLevelAt,
+      };
+    }
   }
 
   const potentialPowerBySlot = { ...powerBySlot };
   while (
     Object.values(potentialPowerBySlot).some(
-      power =>
+      (power) =>
         power < getOverallPower(potentialPowerBySlot) ||
         power < ITEM_POWER_SOFT_CAP
     )
   ) {
     const tempPotentialOverallPower = getOverallPower(potentialPowerBySlot);
     Object.keys(potentialPowerBySlot).forEach(
-      slot =>
+      (slot) =>
         (potentialPowerBySlot[slot] = Math.max(
           ITEM_POWER_SOFT_CAP,
           Math.max(tempPotentialOverallPower, potentialPowerBySlot[slot])
@@ -346,7 +352,7 @@ const getDataForCharacterId = (
     potentialOverallPower,
     topItemBySlot,
     artifactData,
-    title
+    title,
   };
 
   return resultData;
@@ -455,7 +461,7 @@ export const getCharacterData = async (
       .concat(profileInventories.items);
 
     const characterIds = Object.keys(characters);
-    const characterData = characterIds.map(id =>
+    const characterData = characterIds.map((id) =>
       getDataForCharacterId(
         id,
         characters,
