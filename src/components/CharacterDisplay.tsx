@@ -12,10 +12,13 @@ const titleCase = (text: string) =>
   text.substr(0, 1).toUpperCase() + text.substr(1);
 
 const BLACK_RGB = { red: 0, green: 0, blue: 0 };
+const FALLBACK_EMBLEM_RGB = { red: 0, green: 4, blue: 15 };
+const FALLBACK_EMBLEM_PATH =
+  "/common/destiny2_content/icons/9dc4f3283ee9f9fc3d3499e9f9f1756c.jpg";
 const rgbString = ({
   red,
   green,
-  blue
+  blue,
 }: {
   red: number;
   green: number;
@@ -58,7 +61,7 @@ export const CharacterDisplayBodyWrapper = (
     <div
       className={classnames(STYLES.characterDisplayWrapper, {
         [STYLES.dragging]: isDragging,
-        [STYLES.dragOver]: isDraggingOver > 0
+        [STYLES.dragOver]: isDraggingOver > 0,
       })}
       style={{ backgroundColor }}
       onDragStart={() => {
@@ -70,7 +73,7 @@ export const CharacterDisplayBodyWrapper = (
         onDragEnd?.();
       }}
       onDragEnter={() => setIsDraggingOver(isDraggingOver + 1)}
-      onDragOver={e => {
+      onDragOver={(e) => {
         e.stopPropagation();
         e.preventDefault();
       }}
@@ -101,7 +104,7 @@ const CharacterDisplay = ({
   data,
   onDragStart,
   onDragEnd,
-  onDragDrop
+  onDragDrop,
 }: CharacterDisplayProps) => {
   const roundedPower = Math.floor(data.overallPower);
 
@@ -112,17 +115,19 @@ const CharacterDisplay = ({
   const [elementRef, renderImage] = useRenderElementImage(data.className);
 
   return CharacterDisplayBodyWrapper(
-    rgbString(data.character.emblemColor),
+    rgbString(data.character.emblemColor || FALLBACK_EMBLEM_RGB),
     <div className={STYLES.characterDisplay}>
       <div className={STYLES.header}>
         <img
           className={STYLES.emblemBackground}
-          src={`https://www.bungie.net${data.character.emblemBackgroundPath}`}
+          src={`https://www.bungie.net${
+            data.character.emblemBackgroundPath || FALLBACK_EMBLEM_PATH
+          }`}
           alt=""
         />
         <div
           className={classnames(STYLES.name, {
-            [STYLES.withTitle]: !!data.title
+            [STYLES.withTitle]: !!data.title,
           })}
         >
           {titleCase(data.className)}
