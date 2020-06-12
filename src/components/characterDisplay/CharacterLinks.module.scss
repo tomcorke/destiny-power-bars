@@ -113,6 +113,9 @@
 .link_tag_raidreport {
   @include icon-before("../../images/icons/raidreport.png");
 }
+.link_tag_dungeonreport {
+  @include icon-before("../../images/icons/dungeonreport.png");
+}
 
 .hide {
   display: none !important;
