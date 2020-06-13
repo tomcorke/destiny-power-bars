@@ -32,7 +32,7 @@ const link = (url: string, { text, tags = [] }: LinkOptions = {}) => {
   );
 };
 
-const RAID_REPORT_PLATFORMS: { [key: number]: string } = {
+const RAID_AND_DUNGEON_REPORT_PLATFORMS: { [key: number]: string } = {
   1: "xb",
   2: "ps",
   3: "pc",
@@ -75,8 +75,12 @@ export const CharacterLinks = ({
             { text: "Guardianstats", tags: ["guardianstats"] }
           )}
           {link(
-            `https://raid.report/${RAID_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
+            `https://raid.report/${RAID_AND_DUNGEON_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
             { text: "Raid Report", tags: ["raidreport"] }
+          )}
+          {link(
+            `https://dungeon.report/${RAID_AND_DUNGEON_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
+            { text: "Dungeon Report", tags: ["dungeonreport"] }
           )}
           {onImageExportClick && (
             <li>
