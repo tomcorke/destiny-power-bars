@@ -340,20 +340,12 @@ const App = () => {
   }, []);
 
   const onRefreshClick = () => {
-    setIsFetchingCharacterData(true);
-
-    try {
-      doHardRefresh(
-        setCharacterData,
-        setBungieSystemDisabled,
-        setBungieServiceUnavailable,
-        characterData
-      );
-    } catch (e) {
-      throw e;
-    } finally {
-      setIsFetchingCharacterData(false);
-    }
+    doHardRefresh(
+      setCharacterData,
+      setBungieSystemDisabled,
+      setBungieServiceUnavailable,
+      characterData
+    );
   };
 
   let status: string | JSX.Element = "";

@@ -409,7 +409,17 @@ export const bustProfileCache = async (
     membershipType: character?.character.membershipType,
   };
 
-  return setItemLockState(payload);
+  isFetchingCharacterData = true;
+  eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE);
+
+  try {
+    await setItemLockState(payload);
+  } catch (err) {
+    throw err;
+  } finally {
+    isFetchingCharacterData = false;
+    eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE);
+  }
 };
 
 export const getCharacterData = async (
