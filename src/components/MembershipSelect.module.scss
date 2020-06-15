@@ -1,7 +1,6 @@
 .membershipSelect {
   display: flex;
   flex-flow: row wrap;
-  margin-top: 1em;
   align-items: center;
   justify-content: center;
 
@@ -20,7 +19,7 @@
   background: transparent;
   border: none;
   color: white;
-  opacity: 0.3;
+  opacity: 0.75;
   cursor: pointer;
   transition: opacity 0.5s ease-out;
   display: flex;
