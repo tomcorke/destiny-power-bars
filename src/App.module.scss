@@ -82,5 +82,18 @@
   line-height: 0;
   color: rgba(0, 0, 0, 0);
   margin-right: 5px;
+  cursor: pointer;
+  text-decoration: underline;
   opacity: 0.75;
+  transition: opacity 0.5s ease-out;
+
+  &:hover {
+    opacity: 1;
+    transition: opacity 0s linear;
+  }
+
+  &.disabled {
+    opacity: 0.25;
+    transition: opacity 0s linear;
+  }
 }

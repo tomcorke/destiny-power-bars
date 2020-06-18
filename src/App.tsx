@@ -491,7 +491,9 @@ const App = () => {
         <AppWrapper top>
           <div className={STYLES.header}>
             <button
-              className={STYLES.hardRefreshButton}
+              className={classnames(STYLES.hardRefreshButton, {
+                [STYLES.disabled]: isFetchingCharacterData,
+              })}
               onClick={onRefreshClick}
             >
               Refresh
