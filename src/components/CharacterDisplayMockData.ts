@@ -16,7 +16,7 @@ export const characterDataSnapshot: FullCharacterData = ({
       "1935470627": 969,
       "1943323491": 60,
       "2996146975": 37,
-      "4244567218": 36
+      "4244567218": 36,
     },
     raceHash: 898834093,
     genderHash: 3111576190,
@@ -41,11 +41,11 @@ export const characterDataSnapshot: FullCharacterData = ({
       levelCap: 50,
       stepIndex: 50,
       progressToNextLevel: 0,
-      nextLevelAt: 0
+      nextLevelAt: 0,
     },
     baseCharacterLevel: 50,
     percentToNextLevel: 0,
-    titleRecordHash: 2254764897
+    titleRecordHash: 2254764897,
   },
   className: "titan",
   overallPowerExact: 956.125,
@@ -74,7 +74,7 @@ export const characterDataSnapshot: FullCharacterData = ({
         canEquip: false,
         equipRequiredLevel: 50,
         unlockHashesRequiredToEquip: [2452843494],
-        cannotEquipReason: 16
+        cannotEquipReason: 16,
       },
       itemDefinition: {
         displayProperties: {
@@ -82,7 +82,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "Ten Paces",
           icon:
             "/common/destiny2_content/icons/1fdfd3b6e8ea55023232c63422bb44a4.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         collectibleHash: 1279318100,
@@ -107,7 +107,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -121,7 +121,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -131,89 +131,89 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 155624089,
               value: 48,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "943549884": {
               statHash: 943549884,
               value: 38,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1240592695": {
               statHash: 1240592695,
               value: 40,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1345609583": {
               statHash: 1345609583,
               value: 71,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1480404414": {
               statHash: 1480404414,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1885944937": {
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1931675084": {
               statHash: 1931675084,
               value: 50,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "2715839340": {
               statHash: 2715839340,
               value: 87,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3555269338": {
               statHash: 3555269338,
               value: 14,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3871231066": {
               statHash: 3871231066,
               value: 60,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "4043523819": {
               statHash: 4043523819,
               value: 40,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "4188031367": {
               statHash: 4188031367,
               value: 40,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "4284893193": {
               statHash: 4284893193,
               value: 60,
               minimum: 0,
-              maximum: 0
-            }
+              maximum: 0,
+            },
           },
           hasDisplayableStats: true,
-          primaryBaseStatHash: 1480404414
+          primaryBaseStatHash: 1480404414,
         },
         equippingBlock: {
           uniqueLabelHash: 0,
@@ -222,24 +222,24 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 1,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 3052560879,
           defaultDyes: [
             { channelHash: 1667433279, dyeHash: 3386274125 },
             { channelHash: 1667433278, dyeHash: 3386274124 },
-            { channelHash: 1667433277, dyeHash: 3386274127 }
+            { channelHash: 1667433277, dyeHash: 3386274127 },
           ],
           lockedDyes: [],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 2112909415 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -247,7 +247,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "2601628231",
           infusionCategoryHash: 2601628231,
           infusionCategoryHashes: [2601628231],
-          progressionLevelRequirementHash: 3157915980
+          progressionLevelRequirementHash: 3157915980,
         },
         sourceData: { exclusive: 0, vendorSources: [] },
         acquireRewardSiteHash: 0,
@@ -265,14 +265,14 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 228,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1283453667,
               singleInitialItemHash: 1926090093,
               reusablePlugItems: [
                 { plugItemHash: 1926090093 },
-                { plugItemHash: 1926090095 }
+                { plugItemHash: 1926090095 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -280,14 +280,14 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               randomizedPlugSetHash: 2849697470,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 3815406785,
               singleInitialItemHash: 3177308360,
               reusablePlugItems: [
                 { plugItemHash: 3177308360 },
-                { plugItemHash: 1885400500 }
+                { plugItemHash: 1885400500 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -295,14 +295,14 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               randomizedPlugSetHash: 3964805173,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2614797986,
               singleInitialItemHash: 47981717,
               reusablePlugItems: [
                 { plugItemHash: 47981717 },
-                { plugItemHash: 957782887 }
+                { plugItemHash: 957782887 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -310,7 +310,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               randomizedPlugSetHash: 2508925801,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2614797986,
@@ -322,7 +322,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 0,
               randomizedPlugSetHash: 1275291405,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1288200359,
@@ -334,7 +334,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 711121010,
@@ -346,7 +346,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 285741517,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2218962841,
@@ -451,7 +451,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 892374257 },
                 { plugItemHash: 892374270 },
                 { plugItemHash: 892374271 },
-                { plugItemHash: 2993547493 }
+                { plugItemHash: 2993547493 },
               ],
               preventInitializationOnVendorPurchase: true,
               preventInitializationWhenVersioning: false,
@@ -459,7 +459,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 1117738936,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 0,
@@ -470,7 +470,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1282012138,
@@ -482,29 +482,29 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 1057,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 3690882495,
               socketTypeHash: 3379883377,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             {
               socketCategoryHash: 4241085061,
-              socketIndexes: [0, 1, 2, 3, 4, 9]
+              socketIndexes: [0, 1, 2, 3, 4, 9],
             },
             { socketCategoryHash: 2048875504, socketIndexes: [5] },
-            { socketCategoryHash: 2685412949, socketIndexes: [6, 7] }
-          ]
+            { socketCategoryHash: 2685412949, socketIndexes: [6, 7] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 1480404414, value: 0, isConditionallyActive: false },
@@ -520,7 +520,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           { statTypeHash: 1931675084, value: 50, isConditionallyActive: false },
           { statTypeHash: 943549884, value: 38, isConditionallyActive: false },
           { statTypeHash: 1345609583, value: 71, isConditionallyActive: false },
-          { statTypeHash: 2715839340, value: 87, isConditionallyActive: false }
+          { statTypeHash: 2715839340, value: 87, isConditionallyActive: false },
         ],
         perks: [],
         summaryItemHash: 3520001075,
@@ -542,9 +542,9 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 2112909415,
         index: 5951,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "kinetic"
+      slotName: "kinetic",
     },
     energy: {
       itemHash: 3354242550,
@@ -570,7 +570,7 @@ export const characterDataSnapshot: FullCharacterData = ({
         unlockHashesRequiredToEquip: [2166136261],
         cannotEquipReason: 0,
         breakerType: 1,
-        breakerTypeHash: 485622768
+        breakerTypeHash: 485622768,
       },
       itemDefinition: {
         displayProperties: {
@@ -578,7 +578,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "The Recluse",
           icon:
             "/common/destiny2_content/icons/8f5bedcac2559d153f6df266d9f4d04b.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         collectibleHash: 2335550020,
@@ -606,7 +606,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -620,7 +620,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -630,83 +630,83 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 155624089,
               value: 52,
               minimum: 70,
-              maximum: 70
+              maximum: 70,
             },
             "943549884": {
               statHash: 943549884,
               value: 67,
               minimum: 67,
-              maximum: 67
+              maximum: 67,
             },
             "1240592695": {
               statHash: 1240592695,
               value: 41,
               minimum: 45,
-              maximum: 45
+              maximum: 45,
             },
             "1345609583": {
               statHash: 1345609583,
               value: 55,
               minimum: 55,
-              maximum: 55
+              maximum: 55,
             },
             "1885944937": {
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1931675084": {
               statHash: 1931675084,
               value: 67,
               minimum: 67,
-              maximum: 67
+              maximum: 67,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "2715839340": {
               statHash: 2715839340,
               value: 100,
               minimum: 100,
-              maximum: 100
+              maximum: 100,
             },
             "3555269338": {
               statHash: 3555269338,
               value: 13,
               minimum: 13,
-              maximum: 13
+              maximum: 13,
             },
             "3871231066": {
               statHash: 3871231066,
               value: 36,
               minimum: 36,
-              maximum: 36
+              maximum: 36,
             },
             "4043523819": {
               statHash: 4043523819,
               value: 15,
               minimum: 15,
-              maximum: 15
+              maximum: 15,
             },
             "4188031367": {
               statHash: 4188031367,
               value: 35,
               minimum: 35,
-              maximum: 35
+              maximum: 35,
             },
             "4284893193": {
               statHash: 4284893193,
               value: 900,
               minimum: 900,
-              maximum: 900
-            }
+              maximum: 900,
+            },
           },
           hasDisplayableStats: true,
-          primaryBaseStatHash: 1480404414
+          primaryBaseStatHash: 1480404414,
         },
         equippingBlock: {
           uniqueLabelHash: 0,
@@ -715,24 +715,24 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 1,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 320465095,
           defaultDyes: [
             { channelHash: 1667433279, dyeHash: 1562512262 },
             { channelHash: 1667433278, dyeHash: 1562512263 },
-            { channelHash: 1667433277, dyeHash: 1562512260 }
+            { channelHash: 1667433277, dyeHash: 1562512260 },
           ],
           lockedDyes: [],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 3354242550 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -740,7 +740,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "2806069436",
           infusionCategoryHash: 2806069436,
           infusionCategoryHashes: [2806069436],
-          progressionLevelRequirementHash: 3157915980
+          progressionLevelRequirementHash: 3157915980,
         },
         sourceData: {
           sourceHashes: [],
@@ -757,94 +757,94 @@ export const characterDataSnapshot: FullCharacterData = ({
                   statHash: 155624089,
                   value: 52,
                   minimum: 70,
-                  maximum: 70
+                  maximum: 70,
                 },
                 "943549884": {
                   statHash: 943549884,
                   value: 67,
                   minimum: 67,
-                  maximum: 67
+                  maximum: 67,
                 },
                 "1240592695": {
                   statHash: 1240592695,
                   value: 41,
                   minimum: 45,
-                  maximum: 45
+                  maximum: 45,
                 },
                 "1345609583": {
                   statHash: 1345609583,
                   value: 55,
                   minimum: 55,
-                  maximum: 55
+                  maximum: 55,
                 },
                 "1480404414": {
                   statHash: 1480404414,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
+                  maximum: 0,
                 },
                 "1885944937": {
                   statHash: 1885944937,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
+                  maximum: 0,
                 },
                 "1931675084": {
                   statHash: 1931675084,
                   value: 67,
                   minimum: 67,
-                  maximum: 67
+                  maximum: 67,
                 },
                 "1935470627": {
                   statHash: 1935470627,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
+                  maximum: 0,
                 },
                 "2715839340": {
                   statHash: 2715839340,
                   value: 100,
                   minimum: 100,
-                  maximum: 100
+                  maximum: 100,
                 },
                 "3555269338": {
                   statHash: 3555269338,
                   value: 13,
                   minimum: 13,
-                  maximum: 13
+                  maximum: 13,
                 },
                 "3871231066": {
                   statHash: 3871231066,
                   value: 36,
                   minimum: 36,
-                  maximum: 36
+                  maximum: 36,
                 },
                 "4043523819": {
                   statHash: 4043523819,
                   value: 15,
                   minimum: 15,
-                  maximum: 15
+                  maximum: 15,
                 },
                 "4188031367": {
                   statHash: 4188031367,
                   value: 35,
                   minimum: 35,
-                  maximum: 35
+                  maximum: 35,
                 },
                 "4284893193": {
                   statHash: 4284893193,
                   value: 900,
                   minimum: 900,
-                  maximum: 900
-                }
+                  maximum: 900,
+                },
               },
-              sourceHashes: []
-            }
+              sourceHashes: [],
+            },
           ],
           exclusive: 0,
           vendorSources: [
-            { vendorHash: 3603221665, vendorItemIndexes: [142, 143, 144] }
-          ]
+            { vendorHash: 3603221665, vendorItemIndexes: [142, 143, 144] },
+          ],
         },
         acquireRewardSiteHash: 0,
         acquireUnlockHash: 0,
@@ -861,7 +861,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 261,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 3362409147,
@@ -873,7 +873,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 459,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 3815406785,
@@ -885,7 +885,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 643,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2614797986,
@@ -897,7 +897,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 1137,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2614797986,
@@ -909,7 +909,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 1203,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1288200359,
@@ -921,7 +921,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 3611144110,
@@ -933,7 +933,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 1179945069,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2218962841,
@@ -944,7 +944,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1282012138,
@@ -956,7 +956,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 1072,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2076580779,
@@ -968,29 +968,29 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 1204,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 3690882495,
               socketTypeHash: 2160514589,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             {
               socketCategoryHash: 4241085061,
-              socketIndexes: [0, 1, 2, 3, 4, 8]
+              socketIndexes: [0, 1, 2, 3, 4, 8],
             },
             { socketCategoryHash: 2048875504, socketIndexes: [5, 9] },
-            { socketCategoryHash: 2685412949, socketIndexes: [6, 7] }
-          ]
+            { socketCategoryHash: 2685412949, socketIndexes: [6, 7] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 1480404414, value: 0, isConditionallyActive: false },
@@ -1000,7 +1000,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           {
             statTypeHash: 4284893193,
             value: 100,
-            isConditionallyActive: false
+            isConditionallyActive: false,
           },
           { statTypeHash: 4043523819, value: 0, isConditionallyActive: false },
           { statTypeHash: 1240592695, value: 34, isConditionallyActive: false },
@@ -1010,14 +1010,18 @@ export const characterDataSnapshot: FullCharacterData = ({
           { statTypeHash: 1931675084, value: 67, isConditionallyActive: false },
           { statTypeHash: 943549884, value: 63, isConditionallyActive: false },
           { statTypeHash: 1345609583, value: 55, isConditionallyActive: false },
-          { statTypeHash: 2715839340, value: 100, isConditionallyActive: false }
+          {
+            statTypeHash: 2715839340,
+            value: 100,
+            isConditionallyActive: false,
+          },
         ],
         perks: [
           {
             requirementDisplayString: "",
             perkHash: 1335332156,
-            perkVisibility: 0
-          }
+            perkVisibility: 0,
+          },
         ],
         loreHash: 1503191375,
         summaryItemHash: 3520001075,
@@ -1039,9 +1043,9 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 3354242550,
         index: 7426,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "energy"
+      slotName: "energy",
     },
     power: {
       itemHash: 2376481550,
@@ -1065,7 +1069,7 @@ export const characterDataSnapshot: FullCharacterData = ({
         canEquip: true,
         equipRequiredLevel: 50,
         unlockHashesRequiredToEquip: [2166136261],
-        cannotEquipReason: 0
+        cannotEquipReason: 0,
       },
       itemDefinition: {
         displayProperties: {
@@ -1074,7 +1078,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "Anarchy",
           icon:
             "/common/destiny2_content/icons/474558c3e58e56b9a351c4064a74c5ca.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         collectibleHash: 2220014607,
@@ -1098,7 +1102,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -1112,7 +1116,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -1122,89 +1126,89 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 155624089,
               value: 60,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "943549884": {
               statHash: 943549884,
               value: 59,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1345609583": {
               statHash: 1345609583,
               value: 69,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1480404414": {
               statHash: 1480404414,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1885944937": {
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1931675084": {
               statHash: 1931675084,
               value: 100,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "2523465841": {
               statHash: 2523465841,
               value: 100,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "2715839340": {
               statHash: 2715839340,
               value: 50,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3555269338": {
               statHash: 3555269338,
               value: 13,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3614673599": {
               statHash: 3614673599,
               value: 70,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3871231066": {
               statHash: 3871231066,
               value: 70,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "4188031367": {
               statHash: 4188031367,
               value: 63,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "4284893193": {
               statHash: 4284893193,
               value: 80,
               minimum: 0,
-              maximum: 0
-            }
+              maximum: 0,
+            },
           },
           hasDisplayableStats: true,
-          primaryBaseStatHash: 1480404414
+          primaryBaseStatHash: 1480404414,
         },
         equippingBlock: {
           uniqueLabel: "exotic_weapon",
@@ -1214,7 +1218,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 3,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 2376481550,
@@ -1222,16 +1226,16 @@ export const characterDataSnapshot: FullCharacterData = ({
           lockedDyes: [
             { channelHash: 1667433279, dyeHash: 454930806 },
             { channelHash: 1667433278, dyeHash: 301503517 },
-            { channelHash: 1667433277, dyeHash: 1806455952 }
+            { channelHash: 1667433277, dyeHash: 1806455952 },
           ],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 2376481550 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -1239,7 +1243,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "2865487836",
           infusionCategoryHash: 2865487836,
           infusionCategoryHashes: [2865487836],
-          progressionLevelRequirementHash: 492032699
+          progressionLevelRequirementHash: 492032699,
         },
         sourceData: { exclusive: 0, vendorSources: [] },
         acquireRewardSiteHash: 0,
@@ -1257,7 +1261,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 1148,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1656112293,
@@ -1269,7 +1273,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 1149,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 4246926293,
@@ -1281,7 +1285,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 635,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2614797986,
@@ -1293,7 +1297,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 254,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2575784089,
@@ -1305,7 +1309,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 462,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 0,
@@ -1316,7 +1320,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 0,
@@ -1327,7 +1331,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 0,
@@ -1338,7 +1342,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 0,
@@ -1349,7 +1353,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1282012138,
@@ -1361,7 +1365,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 1079,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1002755676,
@@ -1372,28 +1376,28 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 2589185654,
               socketTypeHash: 2417061929,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             {
               socketCategoryHash: 4241085061,
-              socketIndexes: [0, 1, 2, 3, 4, 9]
+              socketIndexes: [0, 1, 2, 3, 4, 9],
             },
-            { socketCategoryHash: 2685412949, socketIndexes: [10] }
-          ]
+            { socketCategoryHash: 2685412949, socketIndexes: [10] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 1480404414, value: 0, isConditionallyActive: false },
@@ -1405,7 +1409,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           {
             statTypeHash: 2523465841,
             value: 100,
-            isConditionallyActive: false
+            isConditionallyActive: false,
           },
           { statTypeHash: 155624089, value: 60, isConditionallyActive: false },
           { statTypeHash: 3871231066, value: 70, isConditionallyActive: false },
@@ -1413,18 +1417,18 @@ export const characterDataSnapshot: FullCharacterData = ({
           {
             statTypeHash: 1931675084,
             value: 100,
-            isConditionallyActive: false
+            isConditionallyActive: false,
           },
           { statTypeHash: 943549884, value: 59, isConditionallyActive: false },
           { statTypeHash: 1345609583, value: 69, isConditionallyActive: false },
-          { statTypeHash: 2715839340, value: 50, isConditionallyActive: false }
+          { statTypeHash: 2715839340, value: 50, isConditionallyActive: false },
         ],
         perks: [
           {
             requirementDisplayString: "",
             perkHash: 2965563642,
-            perkVisibility: 0
-          }
+            perkVisibility: 0,
+          },
         ],
         loreHash: 2376481550,
         summaryItemHash: 2673424576,
@@ -1446,9 +1450,9 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 2376481550,
         index: 6833,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "power"
+      slotName: "power",
     },
     head: {
       itemHash: 3375632008,
@@ -1477,8 +1481,8 @@ export const characterDataSnapshot: FullCharacterData = ({
           energyType: 1,
           energyCapacity: 2,
           energyUsed: 0,
-          energyUnused: 2
-        }
+          energyUnused: 2,
+        },
       },
       itemDefinition: {
         displayProperties: {
@@ -1487,7 +1491,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "The Shelter in Place",
           icon:
             "/common/destiny2_content/icons/30f9c387a481d015176083a46e7d1275.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         backgroundColor: { colorHash: 0, red: 0, green: 0, blue: 0, alpha: 0 },
@@ -1510,7 +1514,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -1524,7 +1528,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -1534,17 +1538,17 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
-            }
+              maximum: 0,
+            },
           },
           hasDisplayableStats: false,
-          primaryBaseStatHash: 3897883278
+          primaryBaseStatHash: 3897883278,
         },
         equippingBlock: {
           uniqueLabelHash: 0,
@@ -1553,24 +1557,24 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 0,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 0,
           defaultDyes: [
             { channelHash: 662199250, dyeHash: 3362953091 },
             { channelHash: 1367384683, dyeHash: 122384750 },
-            { channelHash: 218592586, dyeHash: 3270533205 }
+            { channelHash: 218592586, dyeHash: 3270533205 },
           ],
           lockedDyes: [],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 3873435116 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -1578,7 +1582,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "3548569221",
           infusionCategoryHash: 3548569221,
           infusionCategoryHashes: [3548569221],
-          progressionLevelRequirementHash: 3768955166
+          progressionLevelRequirementHash: 3768955166,
         },
         sourceData: {
           sourceHashes: [],
@@ -1595,26 +1599,26 @@ export const characterDataSnapshot: FullCharacterData = ({
                   statHash: 1885944937,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
+                  maximum: 0,
                 },
                 "1935470627": {
                   statHash: 1935470627,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
+                  maximum: 0,
                 },
                 "3897883278": {
                   statHash: 3897883278,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
-                }
+                  maximum: 0,
+                },
               },
-              sourceHashes: []
-            }
+              sourceHashes: [],
+            },
           ],
           exclusive: 0,
-          vendorSources: [{ vendorHash: 69482069, vendorItemIndexes: [23] }]
+          vendorSources: [{ vendorHash: 69482069, vendorItemIndexes: [23] }],
         },
         acquireRewardSiteHash: 0,
         acquireUnlockHash: 0,
@@ -1631,7 +1635,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 3559124992,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 968742181,
@@ -1643,7 +1647,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 2844132982,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 968742181,
@@ -1655,7 +1659,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 2844132982,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 4127539203,
@@ -1667,7 +1671,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 764967870,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2321980680,
@@ -1679,7 +1683,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1843767421,
@@ -1714,7 +1718,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 3003114970 },
                 { plugItemHash: 3003114965 },
                 { plugItemHash: 3003114964 },
-                { plugItemHash: 2765543780 }
+                { plugItemHash: 2765543780 },
               ],
               preventInitializationOnVendorPurchase: true,
               preventInitializationWhenVersioning: false,
@@ -1722,7 +1726,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 736994026,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1489351422,
@@ -1733,7 +1737,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -1744,7 +1748,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -1755,7 +1759,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -1766,7 +1770,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 2937296293,
@@ -1779,7 +1783,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 2908316342 },
                 { plugItemHash: 1217364045 },
                 { plugItemHash: 3389066870 },
-                { plugItemHash: 3389066871 }
+                { plugItemHash: 3389066871 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -1787,32 +1791,32 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 7,
               reusablePlugSetHash: 1742798175,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 3690882495,
               socketTypeHash: 1049510759,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             { socketCategoryHash: 590099826, socketIndexes: [0, 1, 2, 3] },
             { socketCategoryHash: 1926152773, socketIndexes: [4, 10] },
             { socketCategoryHash: 760375309, socketIndexes: [5] },
-            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] }
-          ]
+            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 3897883278, value: 0, isConditionallyActive: false },
           { statTypeHash: 1935470627, value: 0, isConditionallyActive: false },
-          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false }
+          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false },
         ],
         perks: [],
         summaryItemHash: 3407672161,
@@ -1831,9 +1835,9 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 3375632008,
         index: 9815,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "head"
+      slotName: "head",
     },
     gloves: {
       itemHash: 925079356,
@@ -1863,8 +1867,8 @@ export const characterDataSnapshot: FullCharacterData = ({
           energyType: 2,
           energyCapacity: 10,
           energyUsed: 9,
-          energyUnused: 1
-        }
+          energyUnused: 1,
+        },
       },
       itemDefinition: {
         displayProperties: {
@@ -1873,7 +1877,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "Dreambane Gauntlets",
           icon:
             "/common/destiny2_content/icons/687ebd26eab04203bf86720f1c9c4009.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         collectibleHash: 3519397513,
@@ -1898,7 +1902,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -1912,7 +1916,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -1922,17 +1926,17 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
-            }
+              maximum: 0,
+            },
           },
           hasDisplayableStats: false,
-          primaryBaseStatHash: 3897883278
+          primaryBaseStatHash: 3897883278,
         },
         equippingBlock: {
           uniqueLabelHash: 0,
@@ -1941,24 +1945,24 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 0,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 0,
           defaultDyes: [
             { channelHash: 662199250, dyeHash: 1260631802 },
             { channelHash: 1367384683, dyeHash: 2932892035 },
-            { channelHash: 218592586, dyeHash: 1385591026 }
+            { channelHash: 218592586, dyeHash: 1385591026 },
           ],
           lockedDyes: [],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 925079356 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -1966,7 +1970,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "3647016162",
           infusionCategoryHash: 3647016162,
           infusionCategoryHashes: [3647016162],
-          progressionLevelRequirementHash: 3768955166
+          progressionLevelRequirementHash: 3768955166,
         },
         sourceData: {
           sourceHashes: [],
@@ -1983,26 +1987,26 @@ export const characterDataSnapshot: FullCharacterData = ({
                   statHash: 1885944937,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
+                  maximum: 0,
                 },
                 "1935470627": {
                   statHash: 1935470627,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
+                  maximum: 0,
                 },
                 "3897883278": {
                   statHash: 3897883278,
                   value: 0,
                   minimum: 0,
-                  maximum: 0
-                }
+                  maximum: 0,
+                },
               },
-              sourceHashes: []
-            }
+              sourceHashes: [],
+            },
           ],
           exclusive: 0,
-          vendorSources: [{ vendorHash: 1616085565, vendorItemIndexes: [22] }]
+          vendorSources: [{ vendorHash: 1616085565, vendorItemIndexes: [22] }],
         },
         acquireRewardSiteHash: 0,
         acquireUnlockHash: 0,
@@ -2019,7 +2023,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 3559124992,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1108765570,
@@ -2031,7 +2035,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 451325587,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1108765570,
@@ -2043,7 +2047,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 451325587,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 4127539203,
@@ -2055,7 +2059,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 764967870,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2321980680,
@@ -2067,7 +2071,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1843767421,
@@ -2102,7 +2106,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 3003114970 },
                 { plugItemHash: 3003114965 },
                 { plugItemHash: 3003114964 },
-                { plugItemHash: 2765543780 }
+                { plugItemHash: 2765543780 },
               ],
               preventInitializationOnVendorPurchase: true,
               preventInitializationWhenVersioning: false,
@@ -2110,7 +2114,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 736994026,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1489351422,
@@ -2121,7 +2125,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2132,7 +2136,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2143,7 +2147,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2154,7 +2158,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 3077319682,
@@ -2167,7 +2171,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 3955222467 },
                 { plugItemHash: 1870029884 },
                 { plugItemHash: 298089927 },
-                { plugItemHash: 298089926 }
+                { plugItemHash: 298089926 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -2175,32 +2179,32 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 7,
               reusablePlugSetHash: 2425516788,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 3690882495,
               socketTypeHash: 1153257820,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             { socketCategoryHash: 590099826, socketIndexes: [0, 1, 2, 3] },
             { socketCategoryHash: 1926152773, socketIndexes: [4, 10] },
             { socketCategoryHash: 760375309, socketIndexes: [5] },
-            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] }
-          ]
+            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 3897883278, value: 0, isConditionallyActive: false },
           { statTypeHash: 1935470627, value: 0, isConditionallyActive: false },
-          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false }
+          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false },
         ],
         perks: [],
         summaryItemHash: 3407672161,
@@ -2219,9 +2223,9 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 925079356,
         index: 9482,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "gloves"
+      slotName: "gloves",
     },
     chest: {
       itemHash: 2468603405,
@@ -2251,8 +2255,8 @@ export const characterDataSnapshot: FullCharacterData = ({
           energyType: 1,
           energyCapacity: 7,
           energyUsed: 6,
-          energyUnused: 1
-        }
+          energyUnused: 1,
+        },
       },
       itemDefinition: {
         displayProperties: {
@@ -2260,7 +2264,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "Substitutional Alloy Plate",
           icon:
             "/common/destiny2_content/icons/8dc16c650e8bc5cf468843613d1fc375.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         backgroundColor: { colorHash: 0, red: 0, green: 0, blue: 0, alpha: 0 },
@@ -2284,7 +2288,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -2298,7 +2302,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -2308,23 +2312,23 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3897883278": {
               statHash: 3897883278,
               value: 0,
               minimum: 0,
-              maximum: 0
-            }
+              maximum: 0,
+            },
           },
           hasDisplayableStats: false,
-          primaryBaseStatHash: 3897883278
+          primaryBaseStatHash: 3897883278,
         },
         equippingBlock: {
           uniqueLabelHash: 0,
@@ -2333,24 +2337,24 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 0,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 0,
           defaultDyes: [
             { channelHash: 662199250, dyeHash: 3412043071 },
             { channelHash: 1367384683, dyeHash: 1276716050 },
-            { channelHash: 218592586, dyeHash: 855324953 }
+            { channelHash: 218592586, dyeHash: 855324953 },
           ],
           lockedDyes: [],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 2468603407 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -2358,7 +2362,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "2858080654",
           infusionCategoryHash: 2858080654,
           infusionCategoryHashes: [2858080654],
-          progressionLevelRequirementHash: 3768955166
+          progressionLevelRequirementHash: 3768955166,
         },
         sourceData: { exclusive: 0, vendorSources: [] },
         acquireRewardSiteHash: 0,
@@ -2376,7 +2380,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 3559124992,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 959256494,
@@ -2388,7 +2392,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 1540648609,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 959256494,
@@ -2400,7 +2404,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 1540648609,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 4127539203,
@@ -2412,7 +2416,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 764967870,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2321980680,
@@ -2424,7 +2428,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1843767421,
@@ -2459,7 +2463,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 3003114970 },
                 { plugItemHash: 3003114965 },
                 { plugItemHash: 3003114964 },
-                { plugItemHash: 2765543780 }
+                { plugItemHash: 2765543780 },
               ],
               preventInitializationOnVendorPurchase: true,
               preventInitializationWhenVersioning: false,
@@ -2467,7 +2471,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 736994026,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1489351422,
@@ -2478,7 +2482,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2489,7 +2493,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2500,7 +2504,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2511,7 +2515,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1865097518,
@@ -2524,7 +2528,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 3440657549 },
                 { plugItemHash: 1131512228 },
                 { plugItemHash: 2047844849 },
-                { plugItemHash: 2047844848 }
+                { plugItemHash: 2047844848 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -2532,32 +2536,32 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 7,
               reusablePlugSetHash: 1323117612,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 3690882495,
               socketTypeHash: 1290627812,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             { socketCategoryHash: 590099826, socketIndexes: [0, 1, 2, 3] },
             { socketCategoryHash: 1926152773, socketIndexes: [4, 10] },
             { socketCategoryHash: 760375309, socketIndexes: [5] },
-            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] }
-          ]
+            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 3897883278, value: 0, isConditionallyActive: false },
           { statTypeHash: 1935470627, value: 0, isConditionallyActive: false },
-          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false }
+          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false },
         ],
         perks: [],
         summaryItemHash: 3407672161,
@@ -2576,9 +2580,9 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 2468603405,
         index: 9583,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "chest"
+      slotName: "chest",
     },
     legs: {
       itemHash: 3192738009,
@@ -2608,8 +2612,8 @@ export const characterDataSnapshot: FullCharacterData = ({
           energyType: 1,
           energyCapacity: 5,
           energyUsed: 5,
-          energyUnused: 0
-        }
+          energyUnused: 0,
+        },
       },
       itemDefinition: {
         displayProperties: {
@@ -2617,7 +2621,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "Substitutional Alloy Greaves",
           icon:
             "/common/destiny2_content/icons/3bf9dbb014d3aade6a953d18da827fe7.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         backgroundColor: { colorHash: 0, red: 0, green: 0, blue: 0, alpha: 0 },
@@ -2641,7 +2645,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -2655,7 +2659,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -2665,23 +2669,23 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3897883278": {
               statHash: 3897883278,
               value: 0,
               minimum: 0,
-              maximum: 0
-            }
+              maximum: 0,
+            },
           },
           hasDisplayableStats: false,
-          primaryBaseStatHash: 3897883278
+          primaryBaseStatHash: 3897883278,
         },
         equippingBlock: {
           uniqueLabelHash: 0,
@@ -2690,24 +2694,24 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 0,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 0,
           defaultDyes: [
             { channelHash: 662199250, dyeHash: 3412043071 },
             { channelHash: 1367384683, dyeHash: 1276716050 },
-            { channelHash: 218592586, dyeHash: 855324953 }
+            { channelHash: 218592586, dyeHash: 855324953 },
           ],
           lockedDyes: [],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 3192738011 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -2715,7 +2719,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "1462658336",
           infusionCategoryHash: 1462658336,
           infusionCategoryHashes: [1462658336],
-          progressionLevelRequirementHash: 3768955166
+          progressionLevelRequirementHash: 3768955166,
         },
         sourceData: { exclusive: 0, vendorSources: [] },
         acquireRewardSiteHash: 0,
@@ -2733,7 +2737,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 3559124992,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 3219375296,
@@ -2745,7 +2749,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 2888702569,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 3219375296,
@@ -2757,7 +2761,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 2888702569,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 4127539203,
@@ -2769,7 +2773,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 5,
               reusablePlugSetHash: 764967870,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2321980680,
@@ -2781,7 +2785,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1843767421,
@@ -2816,7 +2820,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 3003114970 },
                 { plugItemHash: 3003114965 },
                 { plugItemHash: 3003114964 },
-                { plugItemHash: 2765543780 }
+                { plugItemHash: 2765543780 },
               ],
               preventInitializationOnVendorPurchase: true,
               preventInitializationWhenVersioning: false,
@@ -2824,7 +2828,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 736994026,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1489351422,
@@ -2835,7 +2839,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2846,7 +2850,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2857,7 +2861,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 1489351422,
@@ -2868,7 +2872,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 892962112,
@@ -2881,7 +2885,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 2685752725 },
                 { plugItemHash: 1255838534 },
                 { plugItemHash: 3345862921 },
-                { plugItemHash: 3345862920 }
+                { plugItemHash: 3345862920 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -2889,32 +2893,32 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 7,
               reusablePlugSetHash: 2568801218,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 3690882495,
               socketTypeHash: 1917090314,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             { socketCategoryHash: 590099826, socketIndexes: [0, 1, 2, 3] },
             { socketCategoryHash: 1926152773, socketIndexes: [4, 10] },
             { socketCategoryHash: 760375309, socketIndexes: [5] },
-            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] }
-          ]
+            { socketCategoryHash: 3154740035, socketIndexes: [6, 7, 8, 9] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 3897883278, value: 0, isConditionallyActive: false },
           { statTypeHash: 1935470627, value: 0, isConditionallyActive: false },
-          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false }
+          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false },
         ],
         perks: [],
         summaryItemHash: 3407672161,
@@ -2933,9 +2937,9 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 3192738009,
         index: 9586,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "legs"
+      slotName: "legs",
     },
     classItem: {
       itemHash: 545134223,
@@ -2964,8 +2968,8 @@ export const characterDataSnapshot: FullCharacterData = ({
           energyType: 1,
           energyCapacity: 1,
           energyUsed: 0,
-          energyUnused: 1
-        }
+          energyUnused: 1,
+        },
       },
       itemDefinition: {
         displayProperties: {
@@ -2973,7 +2977,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           name: "Tangled Web Mark",
           icon:
             "/common/destiny2_content/icons/33f6071983a0d5d83e64905adf44ee67.jpg",
-          hasIcon: true
+          hasIcon: true,
         },
         tooltipNotifications: [],
         backgroundColor: { colorHash: 0, red: 0, green: 0, blue: 0, alpha: 0 },
@@ -2997,7 +3001,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           requiredCooldownHash: 0,
           deleteOnAction: true,
           consumeEntireStack: false,
-          useOnAcquire: false
+          useOnAcquire: false,
         },
         inventory: {
           maxStackSize: 1,
@@ -3011,7 +3015,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           expirationTooltip: "",
           expiredInActivityMessage: "",
           expiredInOrbitMessage: "",
-          suppressExpirationWhenObjectivesComplete: true
+          suppressExpirationWhenObjectivesComplete: true,
         },
         stats: {
           disablePrimaryStatDisplay: false,
@@ -3021,23 +3025,23 @@ export const characterDataSnapshot: FullCharacterData = ({
               statHash: 1885944937,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "1935470627": {
               statHash: 1935470627,
               value: 0,
               minimum: 0,
-              maximum: 0
+              maximum: 0,
             },
             "3897883278": {
               statHash: 3897883278,
               value: 0,
               minimum: 0,
-              maximum: 0
-            }
+              maximum: 0,
+            },
           },
           hasDisplayableStats: false,
-          primaryBaseStatHash: 3897883278
+          primaryBaseStatHash: 3897883278,
         },
         equippingBlock: {
           uniqueLabelHash: 0,
@@ -3046,24 +3050,24 @@ export const characterDataSnapshot: FullCharacterData = ({
           equippingSoundHash: 0,
           hornSoundHash: 0,
           ammoType: 0,
-          displayStrings: [""]
+          displayStrings: [""],
         },
         translationBlock: {
           weaponPatternHash: 0,
           defaultDyes: [
             { channelHash: 662199250, dyeHash: 377771635 },
             { channelHash: 1367384683, dyeHash: 3568237886 },
-            { channelHash: 218592586, dyeHash: 1029683269 }
+            { channelHash: 218592586, dyeHash: 1029683269 },
           ],
           lockedDyes: [],
           customDyes: [],
           arrangements: [{ classHash: 0, artArrangementHash: 919186882 }],
-          hasGeometry: true
+          hasGeometry: true,
         },
         preview: {
           screenStyle: "screen_style_sockets",
           previewVendorHash: 0,
-          previewActionString: ""
+          previewActionString: "",
         },
         quality: {
           itemLevels: [],
@@ -3071,7 +3075,7 @@ export const characterDataSnapshot: FullCharacterData = ({
           infusionCategoryName: "4159907129",
           infusionCategoryHash: 4159907129,
           infusionCategoryHashes: [4159907129],
-          progressionLevelRequirementHash: 3768955166
+          progressionLevelRequirementHash: 3768955166,
         },
         sourceData: { exclusive: 0, vendorSources: [] },
         acquireRewardSiteHash: 0,
@@ -3089,7 +3093,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 3559124992,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2512726577,
@@ -3101,7 +3105,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 1767726746,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 2512726577,
@@ -3113,7 +3117,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 13,
               reusablePlugSetHash: 1767726746,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 0,
@@ -3124,7 +3128,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               hidePerksInItemTooltip: false,
               plugSources: 1,
               overridesUiAppearance: false,
-              defaultVisible: false
+              defaultVisible: false,
             },
             {
               socketTypeHash: 2321980680,
@@ -3136,7 +3140,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 3,
               reusablePlugSetHash: 3,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 1843767421,
@@ -3171,7 +3175,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 3003114970 },
                 { plugItemHash: 3003114965 },
                 { plugItemHash: 3003114964 },
-                { plugItemHash: 2765543780 }
+                { plugItemHash: 2765543780 },
               ],
               preventInitializationOnVendorPurchase: true,
               preventInitializationWhenVersioning: false,
@@ -3179,7 +3183,7 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 2,
               reusablePlugSetHash: 736994026,
               overridesUiAppearance: false,
-              defaultVisible: true
+              defaultVisible: true,
             },
             {
               socketTypeHash: 3125347289,
@@ -3192,7 +3196,7 @@ export const characterDataSnapshot: FullCharacterData = ({
                 { plugItemHash: 1617637028 },
                 { plugItemHash: 1875342329 },
                 { plugItemHash: 4201697932 },
-                { plugItemHash: 4201697933 }
+                { plugItemHash: 4201697933 },
               ],
               preventInitializationOnVendorPurchase: false,
               preventInitializationWhenVersioning: false,
@@ -3200,31 +3204,31 @@ export const characterDataSnapshot: FullCharacterData = ({
               plugSources: 7,
               reusablePlugSetHash: 4178224051,
               overridesUiAppearance: false,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           intrinsicSockets: [
             {
               plugItemHash: 3690882495,
               socketTypeHash: 2862175931,
-              defaultVisible: true
-            }
+              defaultVisible: true,
+            },
           ],
           socketCategories: [
             { socketCategoryHash: 590099826, socketIndexes: [0, 1, 2] },
             { socketCategoryHash: 1926152773, socketIndexes: [4, 6] },
-            { socketCategoryHash: 760375309, socketIndexes: [5] }
-          ]
+            { socketCategoryHash: 760375309, socketIndexes: [5] },
+          ],
         },
         talentGrid: {
           talentGridHash: 521135891,
           itemDetailString: "Details",
-          hudDamageType: 1
+          hudDamageType: 1,
         },
         investmentStats: [
           { statTypeHash: 3897883278, value: 0, isConditionallyActive: false },
           { statTypeHash: 1935470627, value: 0, isConditionallyActive: false },
-          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false }
+          { statTypeHash: 1885944937, value: 0, isConditionallyActive: false },
         ],
         perks: [],
         summaryItemHash: 3407672161,
@@ -3243,10 +3247,10 @@ export const characterDataSnapshot: FullCharacterData = ({
         hash: 545134223,
         index: 9764,
         redacted: false,
-        blacklisted: false
+        blacklisted: false,
       },
-      slotName: "classItem"
-    }
+      slotName: "classItem",
+    },
   },
   artifactData: {
     bonusPower: 19,
@@ -3254,7 +3258,7 @@ export const characterDataSnapshot: FullCharacterData = ({
       "/common/destiny2_content/icons/ea70febf637a93c0b224ce91d563ac18.jpg",
     name: "The Gate Lord's Eye",
     progressToNextLevel: 780177,
-    nextLevelAt: 2000000
+    nextLevelAt: 2000000,
   },
   emblemData: {
     displayProperties: {
@@ -3262,7 +3266,7 @@ export const characterDataSnapshot: FullCharacterData = ({
       name: "True Colors",
       icon:
         "/common/destiny2_content/icons/486c1483be15aabd1ef7adb7a87c7a72.jpg",
-      hasIcon: true
+      hasIcon: true,
     },
     tooltipNotifications: [],
     collectibleHash: 2994358320,
@@ -3290,7 +3294,7 @@ export const characterDataSnapshot: FullCharacterData = ({
       requiredCooldownHash: 0,
       deleteOnAction: true,
       consumeEntireStack: false,
-      useOnAcquire: false
+      useOnAcquire: false,
     },
     inventory: {
       stackUniqueLabel: "v400.emblems.crm.emblem24",
@@ -3305,13 +3309,13 @@ export const characterDataSnapshot: FullCharacterData = ({
       expirationTooltip: "",
       expiredInActivityMessage: "",
       expiredInOrbitMessage: "",
-      suppressExpirationWhenObjectivesComplete: true
+      suppressExpirationWhenObjectivesComplete: true,
     },
     stats: {
       disablePrimaryStatDisplay: false,
       stats: {},
       hasDisplayableStats: false,
-      primaryBaseStatHash: 0
+      primaryBaseStatHash: 0,
     },
     equippingBlock: {
       uniqueLabel: "v400.emblems.crm.emblem24",
@@ -3321,7 +3325,7 @@ export const characterDataSnapshot: FullCharacterData = ({
       equippingSoundHash: 0,
       hornSoundHash: 0,
       ammoType: 0,
-      displayStrings: []
+      displayStrings: [],
     },
     sourceData: { exclusive: 0, vendorSources: [] },
     acquireRewardSiteHash: 0,
@@ -3343,6 +3347,6 @@ export const characterDataSnapshot: FullCharacterData = ({
     hash: 3961503936,
     index: 5795,
     redacted: false,
-    blacklisted: false
-  }
+    blacklisted: false,
+  },
 } as any) as FullCharacterData;

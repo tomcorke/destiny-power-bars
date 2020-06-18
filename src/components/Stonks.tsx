@@ -20,7 +20,7 @@ const createStonk = (
         {
           top: `${y}%`,
           [side]: `${x}px`,
-          transform: `rotate(${rot}deg)`
+          transform: `rotate(${rot}deg)`,
         } as any
       }
     ></div>
@@ -37,7 +37,7 @@ const getQueryStringNumber = (parameterName: string) => {
   const qs = window.location.search
     .substr(1)
     .split("&")
-    .map(q => q.split("="));
+    .map((q) => q.split("="));
   const match = qs.find(
     ([name]) => name.toLowerCase() === parameterName.toLowerCase()
   );
@@ -79,7 +79,7 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
   const numScalar = 10 * (stonkLevel / MAX_STONK_LEVEL);
   const numToCreate = (rand(10 + numScalar) + 10 + numScalar) * stonkLevel;
 
-  const stonks: Array<{ element: JSX.Element; y: number }> = [];
+  const stonks: { element: JSX.Element; y: number }[] = [];
   for (let i = 0; i < numToCreate; i++) {
     const minY = -5 + (100 / numToCreate) * i;
     const y = rand.floatBetween(minY, 98);
@@ -94,7 +94,7 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
     stonks.push(createStonk(i, x, y, side, rot));
   }
 
-  const sortedStonks = stonks.sort((a, b) => a.y - b.y).map(s => s.element);
+  const sortedStonks = stonks.sort((a, b) => a.y - b.y).map((s) => s.element);
 
   const [hideStonksMessage, setHideStonksMessage] = useState(false);
 
@@ -105,7 +105,7 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
         href="https://destiny-stonks.corke.dev"
         target="_blank"
         className={classnames(STYLES.stonksMessage, {
-          [STYLES.hidden]: hideStonksMessage
+          [STYLES.hidden]: hideStonksMessage,
         })}
       >
         <div className={STYLES.header}>Got Fractaline?</div>
@@ -116,7 +116,7 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
         </div>
         <div
           className={STYLES.closeButton}
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             setHideStonksMessage(true);

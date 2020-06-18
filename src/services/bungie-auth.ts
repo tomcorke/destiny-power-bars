@@ -6,7 +6,7 @@ import {
   BUNGIE_OAUTH_AUTHORIZE_URL,
   BUNGIE_OAUTH_CLIENT_ID,
   BUNGIE_OAUTH_CLIENT_SECRET,
-  BUNGIE_OAUTH_TOKEN_URL
+  BUNGIE_OAUTH_TOKEN_URL,
 } from "./config";
 import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
@@ -50,7 +50,7 @@ export const getAuthUrl = () =>
   `${BUNGIE_OAUTH_AUTHORIZE_URL}?${stringify({
     response_type: "code",
     client_id: BUNGIE_OAUTH_CLIENT_ID,
-    client_secret: BUNGIE_OAUTH_CLIENT_SECRET
+    client_secret: BUNGIE_OAUTH_CLIENT_SECRET,
   })}`;
 
 // Attempt to prevent infinite navigation events
@@ -61,7 +61,7 @@ const redirectToAuth = () => {
   ga.event({
     category: "Auth",
     action: "Redirect for Bungie authentication",
-    nonInteraction: true
+    nonInteraction: true,
   });
   try {
     if (!hasNavigated) {
@@ -91,10 +91,10 @@ const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
   }
 
   const crossSavePrimaryMemberships = destinyMemberships.filter(
-    m => m.crossSaveOverride === m.membershipType
+    (m) => m.crossSaveOverride === m.membershipType
   );
   const nonCrossSaveMemberships = destinyMemberships.filter(
-    m => m.crossSaveOverride === 0
+    (m) => m.crossSaveOverride === 0
   );
   if (
     crossSavePrimaryMemberships.length === 1 &&
@@ -148,11 +148,11 @@ const handleTokenResponse = async (tokenResponse: Response) => {
       ga.event({
         category: "Errors",
         action: `Destiny membership fetch error, status: ${destinyMembershipsResponse.ErrorStatus}`,
-        nonInteraction: true
+        nonInteraction: true,
       });
       return {
         authSuccess: false,
-        error: `Status code ${destinyMembershipsResponse.ErrorStatus} from memberships endpoint`
+        error: `Status code ${destinyMembershipsResponse.ErrorStatus} from memberships endpoint`,
       };
     }
 
@@ -169,7 +169,7 @@ const handleTokenResponse = async (tokenResponse: Response) => {
     if (
       selectedMembership &&
       !destinyMemberships.some(
-        m => m.membershipId === selectedMembership.membershipId
+        (m) => m.membershipId === selectedMembership.membershipId
       )
     ) {
       clearSelectedMembership();
@@ -183,11 +183,11 @@ const handleTokenResponse = async (tokenResponse: Response) => {
       ga.event({
         category: "Auth",
         action: `Status code ${tokenResponse.status} from authentication request`,
-        nonInteraction: true
+        nonInteraction: true,
       });
       return {
         authSuccess: false,
-        error: `Status code ${tokenResponse.status} from authentication request`
+        error: `Status code ${tokenResponse.status} from authentication request`,
       };
     }
   }
@@ -199,23 +199,23 @@ const fetchAccessToken = async (authCode: string) => {
   ga.event({
     category: "Auth",
     action: "Oauth token request",
-    nonInteraction: true
+    nonInteraction: true,
   });
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: stringify({
       grant_type: "authorization_code",
       code: authCode,
       client_id: BUNGIE_OAUTH_CLIENT_ID,
-      client_secret: BUNGIE_OAUTH_CLIENT_SECRET
+      client_secret: BUNGIE_OAUTH_CLIENT_SECRET,
     }),
     cache: "no-cache",
     credentials: "include",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     method: "POST",
     redirect: "follow",
-    referrer: "no-referrer"
+    referrer: "no-referrer",
   });
   return await handleTokenResponse(tokenResponse);
 };
@@ -227,23 +227,23 @@ const refreshAccessToken = async () => {
   ga.event({
     category: "Auth",
     action: "Oauth token refresh",
-    nonInteraction: true
+    nonInteraction: true,
   });
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: stringify({
       grant_type: "refresh_token",
       refresh_token: refreshToken,
       client_id: BUNGIE_OAUTH_CLIENT_ID,
-      client_secret: BUNGIE_OAUTH_CLIENT_SECRET
+      client_secret: BUNGIE_OAUTH_CLIENT_SECRET,
     }),
     cache: "no-cache",
     credentials: "include",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     method: "POST",
     redirect: "follow",
-    referrer: "no-referrer"
+    referrer: "no-referrer",
   });
   const handleResult = await handleTokenResponse(tokenResponse);
   if (!handleResult || !handleResult.authSuccess) {
@@ -304,7 +304,7 @@ export const getDestinyMemberships = () => {
     ga.event({
       category: "Data",
       action: "Error loading destiny memberships from local storage",
-      nonInteraction: true
+      nonInteraction: true,
     });
     console.error(`Error loading destiny memberships`, e.message);
   }
@@ -333,7 +333,7 @@ export const getSelectedDestinyMembership = () => {
     ga.event({
       category: "Data",
       action: "Error loading destiny membership from local storage",
-      nonInteraction: true
+      nonInteraction: true,
     });
     console.error("Error loading destiny membership", e.message);
   }

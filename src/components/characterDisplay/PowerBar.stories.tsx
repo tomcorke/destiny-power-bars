@@ -3,7 +3,7 @@ import React from "react";
 import { PowerBar } from "./PowerBar";
 
 export default {
-  title: "Power Bar"
+  title: "Power Bar",
 };
 
 const Container = ({ children }: { children: JSX.Element }) => (
@@ -12,7 +12,7 @@ const Container = ({ children }: { children: JSX.Element }) => (
       width: "100%",
       maxWidth: "500px",
       background: "#333",
-      padding: "1em"
+      padding: "1em",
     }}
   >
     {children}

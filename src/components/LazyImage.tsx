@@ -13,7 +13,7 @@ interface LazyImageProps {
 export const LazyImage = ({
   lowResImage,
   highResImage,
-  alt = ""
+  alt = "",
 }: LazyImageProps) => {
   const [highResImageLoaded, setHighResImageLoaded] = useState(false);
 
@@ -28,7 +28,7 @@ export const LazyImage = ({
         alt={alt}
         className={classnames({
           [STYLES.hidden]: !highResImageLoaded,
-          [STYLES.overlay]: !highResImageLoaded
+          [STYLES.overlay]: !highResImageLoaded,
         })}
         onLoad={onHighResImageLoad}
       />
@@ -37,7 +37,7 @@ export const LazyImage = ({
         alt={alt}
         className={classnames({
           [STYLES.hidden]: highResImageLoaded,
-          [STYLES.overlay]: highResImageLoaded
+          [STYLES.overlay]: highResImageLoaded,
         })}
       />
     </div>

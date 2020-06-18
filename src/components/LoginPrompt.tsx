@@ -14,7 +14,7 @@ interface LoginPromptProps {
 const DEFAULT_ON_LOGIN_CLICK = () => manualStartAuth();
 
 export const LoginPrompt = ({
-  onLoginClick = DEFAULT_ON_LOGIN_CLICK
+  onLoginClick = DEFAULT_ON_LOGIN_CLICK,
 }: LoginPromptProps) => {
   return (
     <div className={STYLES.loginContainer}>

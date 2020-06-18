@@ -5,7 +5,7 @@ import {
   ITEM_POWER_PINNACLE_CAP,
   ITEM_POWER_PINNACLE_DROP_OFFSET,
   ITEM_POWER_POWERFUL_CAP,
-  ITEM_POWER_SOFT_CAP
+  ITEM_POWER_SOFT_CAP,
 } from "../../constants";
 import { Power } from "./Power";
 
@@ -20,7 +20,7 @@ interface PowerHintsProps {
 export const PowerHints = ({
   overallPowerExact,
   overallPower,
-  potentialOverallPower
+  potentialOverallPower,
 }: PowerHintsProps) => {
   potentialOverallPower =
     potentialOverallPower || Math.min(ITEM_POWER_SOFT_CAP, overallPower);

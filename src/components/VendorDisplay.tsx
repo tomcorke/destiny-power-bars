@@ -12,7 +12,7 @@ import {
   VENDOR_ENGRAMS_DROP_LOW,
   VENDOR_ENGRAMS_DROP_NO_DATA,
   VendorEngramsData,
-  VendorEngramsVendorData
+  VendorEngramsVendorData,
 } from "../services/vendor-engrams";
 import { Power } from "./characterDisplay/Power";
 
@@ -47,7 +47,7 @@ export const Vendor = ({ vendor, manifestData }: VendorProps) => {
       className={classnames(STYLES.vendor, {
         [STYLES.high]: vendor.drop === VENDOR_ENGRAMS_DROP_HIGH,
         [STYLES.low]: vendor.drop === VENDOR_ENGRAMS_DROP_LOW,
-        [STYLES.noData]: vendor.drop === VENDOR_ENGRAMS_DROP_NO_DATA
+        [STYLES.noData]: vendor.drop === VENDOR_ENGRAMS_DROP_NO_DATA,
       })}
     >
       {vendorInner}
@@ -61,7 +61,7 @@ const vendorListDisplay = (
 ) => {
   return (
     <ul className={STYLES.vendorList}>
-      {vendors.map(v => (
+      {vendors.map((v) => (
         <li className={STYLES.vendorListItem} key={v.shorthand}>
           <Vendor manifestData={manifestData} vendor={v} />
         </li>
@@ -81,8 +81,8 @@ export const VendorDisplay = ({ manifestData }: VendorDisplayProps) => {
 
   const attemptRefreshVendorData = () => {
     getVendorEngramsData()
-      .then(data => setVendorData(data))
-      .catch(e => console.warn(`Error fetching vendor engrams data:`, e));
+      .then((data) => setVendorData(data))
+      .catch((e) => console.warn(`Error fetching vendor engrams data:`, e));
   };
   useInterval(attemptRefreshVendorData, VENDOR_DATA_REFRESH_ATTEMPT_DELAY);
   useEffect(attemptRefreshVendorData, []);
@@ -101,7 +101,7 @@ export const VendorDisplay = ({ manifestData }: VendorDisplayProps) => {
       vendorData.updateTimestamp - Date.now(),
       {
         round: true,
-        largest: 1
+        largest: 1,
       }
     );
     setVendorsLastCheckedString(newString);
@@ -114,14 +114,14 @@ export const VendorDisplay = ({ manifestData }: VendorDisplayProps) => {
   const highVendors =
     (vendorData &&
       vendorData.data.filter(
-        v => v.drop === VENDOR_ENGRAMS_DROP_HIGH && v.display === "1"
+        (v) => v.drop === VENDOR_ENGRAMS_DROP_HIGH && v.display === "1"
       )) ||
     [];
 
   const noDataVendors =
     (vendorData &&
       vendorData.data.filter(
-        v => v.drop === VENDOR_ENGRAMS_DROP_NO_DATA && v.display === "1"
+        (v) => v.drop === VENDOR_ENGRAMS_DROP_NO_DATA && v.display === "1"
       )) ||
     [];
 

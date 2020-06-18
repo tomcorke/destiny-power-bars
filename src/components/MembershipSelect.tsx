@@ -19,7 +19,7 @@ const PLATFORMS: { [key: number]: string } = {
   2: "psn",
   3: "steam",
   4: "blizzard",
-  5: "stadia"
+  5: "stadia",
 };
 
 const isCrossSavePrimary = (membership: UserInfoCard) => {
@@ -53,11 +53,11 @@ const CrossSaveDisplay = ({ membership }: CrossSaveDisplayProps) => {
       <div
         className={STYLES.crossSaveDisplay}
         title={`Cross-save enabled for: ${membership.applicableMembershipTypes
-          .map(t => titleCase(PLATFORMS[t]))
+          .map((t) => titleCase(PLATFORMS[t]))
           .join(", ")}`}
       >
         <div className={STYLES.crossSaveIcon} />
-        {membership.applicableMembershipTypes.map(m => {
+        {membership.applicableMembershipTypes.map((m) => {
           return (
             <div
               key={m}
@@ -82,7 +82,7 @@ interface MembershipSelectProps {
 const MembershipSelect = ({
   onMembershipSelect,
   api,
-  onLogout = defaultOnLogout
+  onLogout = defaultOnLogout,
 }: MembershipSelectProps) => {
   const destinyMemberships = api.bungieAuth.getDestinyMemberships();
 
@@ -97,9 +97,9 @@ const MembershipSelect = ({
   return (
     <div className={STYLES.membershipSelect}>
       {destinyMemberships
-        .filter(m => !isCrossSaveSecondary(m))
-        .filter(m => m.membershipType !== 4)
-        .map(m => {
+        .filter((m) => !isCrossSaveSecondary(m))
+        .filter((m) => m.membershipType !== 4)
+        .map((m) => {
           return (
             <div
               key={m.membershipId}
@@ -108,7 +108,7 @@ const MembershipSelect = ({
                 STYLES[`platform_${PLATFORMS[m.membershipType]}`],
                 {
                   [STYLES.crossSaveActive]: isCrossSavePrimary(m),
-                  [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m)
+                  [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m),
                 }
               )}
               onClick={() => onMembershipSelect(m)}

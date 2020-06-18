@@ -9,7 +9,7 @@ import STYLES from "./PowerBars.module.scss";
 const classItemNames: { [key: string]: string } = {
   hunter: "Hunter Cloak",
   titan: "Titan Mark",
-  warlock: "Warlock Bond"
+  warlock: "Warlock Bond",
 };
 const slotFullNames = (className: string): { [key: string]: string } => ({
   chest: "Chest Armor",
@@ -19,7 +19,7 @@ const slotFullNames = (className: string): { [key: string]: string } => ({
   head: "Helmet",
   kinetic: "Kinetic Weapon",
   legs: "Leg Armor",
-  power: "Power Weapon"
+  power: "Power Weapon",
 });
 
 type PowerBarsProps = PowerBarsCharacterData;
@@ -31,7 +31,7 @@ export const PowerBars = (data: PowerBarsProps) => {
       ...slots,
       [slotName]:
         data.topItemBySlot?.[slotName]?.instanceData?.primaryStat?.value ||
-        data.overallPower
+        data.overallPower,
     }),
     {} as PowerBySlot
   );

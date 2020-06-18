@@ -17,16 +17,16 @@ interface LoadingChecklistProps {
 
 export const LoadingChecklist = ({
   items,
-  withTopMargin
+  withTopMargin,
 }: LoadingChecklistProps) => {
   return (
     <div
       className={classnames(STYLES.LoadingChecklist, {
-        [STYLES.topMargin]: withTopMargin
+        [STYLES.topMargin]: withTopMargin,
       })}
     >
       <ul>
-        {items.map(item => (
+        {items.map((item) => (
           <li key={item.label}>
             <div className={STYLES.item}>
               <div className={classnames(STYLES.status, STYLES[item.status])} />

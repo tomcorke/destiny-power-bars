@@ -3,7 +3,7 @@ import React from "react";
 import {
   ITEM_POWER_PINNACLE_CAP,
   ITEM_POWER_POWERFUL_CAP,
-  ITEM_POWER_SOFT_CAP
+  ITEM_POWER_SOFT_CAP,
 } from "../../constants";
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
 import { InterPowerBar } from "./InterPowerBar";
@@ -12,8 +12,8 @@ export default {
   title: "Inter-Power Bar Display",
   decorators: [
     (storyFn: () => JSX.Element) =>
-      CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn())
-  ]
+      CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn()),
+  ],
 };
 
 const withMaxSize = (size: number, element: JSX.Element) => (
@@ -22,7 +22,7 @@ const withMaxSize = (size: number, element: JSX.Element) => (
       width: "100%",
       maxWidth: `${size}px`,
       padding: "2px 5px",
-      boxSizing: "border-box"
+      boxSizing: "border-box",
     }}
   >
     {element}

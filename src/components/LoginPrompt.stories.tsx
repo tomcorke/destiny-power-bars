@@ -4,7 +4,7 @@ import React from "react";
 import { LoginPrompt } from "./LoginPrompt";
 
 export default {
-  title: "Login Prompt"
+  title: "Login Prompt",
 };
 
 export const display = () => (

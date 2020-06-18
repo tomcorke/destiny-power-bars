@@ -6,7 +6,7 @@ import MembershipSelect from "./MembershipSelect";
 import { RequiredApi } from "./MembershipSelect";
 
 export default {
-  title: "Membership Select"
+  title: "Membership Select",
 };
 
 const mockApi: RequiredApi = {
@@ -18,38 +18,38 @@ const mockApi: RequiredApi = {
           membershipType: 1,
           displayName: "Test Xbox Membership",
           crossSaveOverride: 0,
-          applicableMembershipTypes: [1]
+          applicableMembershipTypes: [1],
         },
         {
           membershipId: 2,
           membershipType: 2,
           displayName: "Test PS Membership",
           crossSaveOverride: 0,
-          applicableMembershipTypes: [2]
+          applicableMembershipTypes: [2],
         },
         {
           membershipId: 3,
           membershipType: 3,
           displayName: "Test Steam Membership",
           crossSaveOverride: 0,
-          applicableMembershipTypes: [3]
+          applicableMembershipTypes: [3],
         },
         {
           membershipId: 4,
           membershipType: 4,
           displayName: "Test Battle.net Membership",
           crossSaveOverride: 0,
-          applicableMembershipTypes: [4]
+          applicableMembershipTypes: [4],
         },
         {
           membershipId: 5,
           membershipType: 5,
           displayName: "Test Stadia Membership",
           crossSaveOverride: 0,
-          applicableMembershipTypes: [5]
-        }
-      ] as any) as UserInfoCard[]
-  }
+          applicableMembershipTypes: [5],
+        },
+      ] as any) as UserInfoCard[],
+  },
 };
 
 const mockApiWithMembershipType = (membershipType: number) => ({
@@ -59,10 +59,10 @@ const mockApiWithMembershipType = (membershipType: number) => ({
         {
           membershipId: 111,
           membershipType,
-          displayName: "Test Membership"
-        }
-      ] as any) as UserInfoCard[]
-  }
+          displayName: "Test Membership",
+        },
+      ] as any) as UserInfoCard[],
+  },
 });
 
 const mockApiWithCrossSave = (
@@ -78,18 +78,18 @@ const mockApiWithCrossSave = (
           crossSaveOverride: activeMembershipType,
           applicableMembershipTypes: [
             activeMembershipType,
-            ...secondaryMembershipTypes
+            ...secondaryMembershipTypes,
           ],
-          displayName: "Test Cross Save Membership"
+          displayName: "Test Cross Save Membership",
         },
-        ...secondaryMembershipTypes.map(m => ({
+        ...secondaryMembershipTypes.map((m) => ({
           membershipId: 111,
           membershipType: m,
           crossSaveOverride: activeMembershipType,
-          displayName: "Test Membership"
-        }))
-      ] as any) as UserInfoCard[]
-  }
+          displayName: "Test Membership",
+        })),
+      ] as any) as UserInfoCard[],
+  },
 });
 
 export const allMemberships = () => (
@@ -130,13 +130,13 @@ export const membershipsWithCrossSave = () => {
       style={{
         display: "flex",
         flexFlow: "row wrap",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
       <div
         style={{
           display: "flex",
-          flexFlow: "column nowrap"
+          flexFlow: "column nowrap",
         }}
       >
         <div
@@ -144,7 +144,7 @@ export const membershipsWithCrossSave = () => {
             background: "white",
             padding: "10px 20px 20px",
             display: "flex",
-            flexFlow: "column nowrap"
+            flexFlow: "column nowrap",
           }}
         >
           {membershipDisplays()}
@@ -154,7 +154,7 @@ export const membershipsWithCrossSave = () => {
             background: "#999",
             padding: "10px 20px 20px",
             display: "flex",
-            flexFlow: "column nowrap"
+            flexFlow: "column nowrap",
           }}
         >
           {membershipDisplays()}
@@ -163,7 +163,7 @@ export const membershipsWithCrossSave = () => {
       <div
         style={{
           display: "flex",
-          flexFlow: "column nowrap"
+          flexFlow: "column nowrap",
         }}
       >
         <div
@@ -171,7 +171,7 @@ export const membershipsWithCrossSave = () => {
             background: "linear-gradient(to right, #444, #eee)",
             padding: "10px 20px 20px",
             display: "flex",
-            flexFlow: "column nowrap"
+            flexFlow: "column nowrap",
           }}
         >
           {membershipDisplays()}
@@ -181,7 +181,7 @@ export const membershipsWithCrossSave = () => {
             background: "black",
             padding: "10px 20px 20px",
             display: "flex",
-            flexFlow: "column nowrap"
+            flexFlow: "column nowrap",
           }}
         >
           {membershipDisplays()}

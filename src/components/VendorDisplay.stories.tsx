@@ -10,7 +10,7 @@ export default { title: "Vendor" };
 const mockEmptyManifest: ManifestData = {
   DestinyInventoryItemDefinition: {},
   DestinyVendorDefinition: {},
-  DestinyRecordDefinition: {}
+  DestinyRecordDefinition: {},
 };
 
 const mockManifestWithData: ManifestData = ({
@@ -36,10 +36,10 @@ const mockManifestWithData: ManifestData = ({
         smallTransparentIcon:
           "/common/destiny2_content/icons/a24735c49623caf24079d0e3e7dfb249.png",
         highResIcon: undefined,
-        subtitle: "Dead Zone Scout"
-      }
-    }
-  }
+        subtitle: "Dead Zone Scout",
+      },
+    },
+  },
 } as any) as ManifestData;
 
 const mockVendor: VendorEngramsVendorData = {
@@ -48,7 +48,7 @@ const mockVendor: VendorEngramsVendorData = {
   drop: "2",
   interval: "",
   nextRefresh: "",
-  vendorID: "777"
+  vendorID: "777",
 };
 
 export const vendorWithNoManifestData = () => (

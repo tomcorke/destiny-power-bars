@@ -20,7 +20,7 @@ export const PowerBar = ({
   avgValue,
   label,
   icon,
-  isMasterworked
+  isMasterworked,
 }: BarProps) => {
   const range = max - min;
   const perc = Math.floor(((value - min) / range) * 1000) / 10;
@@ -33,7 +33,7 @@ export const PowerBar = ({
       <span
         className={classnames(STYLES.power, {
           [STYLES.max]: value >= max,
-          [STYLES.belowAverage]: value < avgValue
+          [STYLES.belowAverage]: value < avgValue,
         })}
       >
         {value}

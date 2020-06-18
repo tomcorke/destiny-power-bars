@@ -24,7 +24,7 @@ const link = (url: string, { text, tags = [] }: LinkOptions = {}) => {
         href={url}
         target="_blank"
         rel="noopener"
-        className={classnames(...tags.map(tag => STYLES[`link_tag_${tag}`]))}
+        className={classnames(...tags.map((tag) => STYLES[`link_tag_${tag}`]))}
       >
         <span className={STYLES.linkText}>{linkText}</span>
       </a>
@@ -37,14 +37,14 @@ const RAID_AND_DUNGEON_REPORT_PLATFORMS: { [key: number]: string } = {
   2: "ps",
   3: "pc",
   4: "pc",
-  5: "stadia"
+  5: "stadia",
 };
 
 export const CharacterLinks = ({
   membershipType,
   membershipId,
   characterId,
-  onImageExportClick
+  onImageExportClick,
 }: CharacterLinksProps) => {
   const [isHidden, setHidden] = useState(false);
 
@@ -56,7 +56,7 @@ export const CharacterLinks = ({
         <ul>
           {link("https://www.destinyitemmanager.com", {
             text: "Destiny Item Manager",
-            tags: ["dim"]
+            tags: ["dim"],
           })}
           {link(
             `https://braytech.org/${membershipType}/${membershipId}/${characterId}/now`,
@@ -64,16 +64,16 @@ export const CharacterLinks = ({
           )}
           {link("https://destinysets.com/", {
             text: "Destiny Sets",
-            tags: ["destinysets"]
+            tags: ["destinysets"],
           })}
           {link(
             `https://www.d2checklist.com/${membershipType}/${membershipId}/milestones`,
             { text: "D2 Checklist", tags: ["d2checklist"] }
           )}
-          {link(
-            `https://guardianstats.com/profile/${membershipId}`,
-            { text: "Guardianstats", tags: ["guardianstats"] }
-          )}
+          {link(`https://guardianstats.com/profile/${membershipId}`, {
+            text: "Guardianstats",
+            tags: ["guardianstats"],
+          })}
           {link(
             `https://raid.report/${RAID_AND_DUNGEON_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
             { text: "Raid Report", tags: ["raidreport"] }

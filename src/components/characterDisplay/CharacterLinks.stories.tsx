@@ -13,8 +13,8 @@ export default {
           {storyFn()}
           <div>&nbsp;</div>
         </>
-      )
-  ]
+      ),
+  ],
 };
 
 export const display = () => (

@@ -38,7 +38,7 @@ interface PowerDetailsProps {
 export const PowerDetails = ({
   overallPowerExact,
   overallPower,
-  artifactData
+  artifactData,
 }: PowerDetailsProps) => {
   const roundedPower = Math.floor(overallPower);
 

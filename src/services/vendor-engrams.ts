@@ -31,7 +31,7 @@ const VENDOR_DISPLAY_NAMES: { [shorthand: string]: string } = {
   // saladin: "Lord Saladin (Iron Banner, Tower)",
   fanboy: "Brother Vance (Mercury)",
   bray: "Ana Bray (Mars)",
-  werner: "Werner 99-40 (Tower, Nessus Barge)"
+  werner: "Werner 99-40 (Tower, Nessus Barge)",
 };
 export const getVendorDisplayName = (shorthand: string) => {
   return VENDOR_DISPLAY_NAMES[shorthand] || shorthand;
@@ -61,7 +61,7 @@ export const getVendorEngramsData = async () => {
   }
   if (!vendorEngramsRefreshTimer) {
     vendorEngramsRefreshTimer = setInterval(() => {
-      refreshVendorEngramsData().catch(e =>
+      refreshVendorEngramsData().catch((e) =>
         console.warn("Error refreshing vendorengrams.xyz data", e)
       );
     }, VENDOR_ENGRAMS_REFRESH_DELAY);

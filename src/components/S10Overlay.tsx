@@ -17,14 +17,14 @@ export const S10Overlay = () => {
       <div className={STYLES.overlayContainer}>
         <img
           className={classnames(STYLES.seasonComp, {
-            [STYLES.hidden]: hideSeason
+            [STYLES.hidden]: hideSeason,
           })}
           src={SEASON_COMP_IMAGE}
           onLoad={() => setHideSeason(false)}
         />
         <img
           className={classnames(STYLES.trialsComp, {
-            [STYLES.hidden]: hideTrials
+            [STYLES.hidden]: hideTrials,
           })}
           src={TRIALS_COMP_IMAGE}
           onLoad={() => setHideTrials(false)}

@@ -7,8 +7,8 @@ export default {
   title: "Power Details",
   decorators: [
     (storyFn: () => JSX.Element) =>
-      CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn())
-  ]
+      CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn()),
+  ],
 };
 
 export const withFullData = () => (
@@ -21,7 +21,7 @@ export const withFullData = () => (
       iconPath:
         "/common/destiny2_content/icons/ea70febf637a93c0b224ce91d563ac18.jpg",
       progressToNextLevel: 100,
-      nextLevelAt: 120
+      nextLevelAt: 120,
     }}
   />
 );

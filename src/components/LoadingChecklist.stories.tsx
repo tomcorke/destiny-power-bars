@@ -3,7 +3,7 @@ import React from "react";
 import { LoadingChecklist } from "./LoadingChecklist";
 
 export default {
-  title: "Loading Checklist"
+  title: "Loading Checklist",
 };
 
 export const display = () => (
@@ -11,7 +11,7 @@ export const display = () => (
     items={[
       { label: "Complete item", status: "complete" },
       { label: "A pending item", status: "pending" },
-      { label: "A failed item", status: "failed" }
+      { label: "A failed item", status: "failed" },
     ]}
   />
 );

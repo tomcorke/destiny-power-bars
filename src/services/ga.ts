@@ -30,7 +30,7 @@ if (ENABLED) {
     initialize: () => undefined,
     pageview: () => undefined,
     set: (...args: any[]) => undefined,
-    event: (...args: any[]) => undefined
+    event: (...args: any[]) => undefined,
   };
 }
 
