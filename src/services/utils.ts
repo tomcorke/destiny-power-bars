@@ -37,6 +37,7 @@ import {
   getManifest,
   GetManifestResult,
   ManifestData,
+  setItemLockState,
 } from "./bungie-api";
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 import { debug } from "./debug";
@@ -377,6 +378,48 @@ const setCachedCharacterData = (data: PowerBarsCharacterData[]) => {
 let isFetchingCharacterData = false;
 export const getIsFetchingCharacterData = () => {
   return isFetchingCharacterData;
+};
+
+export const bustProfileCache = async (
+  characterData: PowerBarsCharacterData[]
+) => {
+  // find a character with a valid item somewhere (just to be safe)
+  const character = characterData.find(
+    (char) =>
+      char.topItemBySlot &&
+      Object.values(char.topItemBySlot).find((v) => v?.itemInstanceId)
+  );
+
+  // find a valid item on our character
+  const item = Object.values(character?.topItemBySlot ?? {}).find(
+    (v) => v?.itemInstanceId
+  );
+
+  if (!item?.itemInstanceId || !character) return;
+
+  // to bust the profile cache, we set the locked state on an item to its *current lock state*.
+  // This might be weird and confusing but it works and it busts the profile cache without
+  // actually changing anything on the user's inventory
+
+  const isLocked = (item.state && item.state & 1) === 1; // ItemState.Locked
+  const payload = {
+    state: isLocked,
+    itemId: item.itemInstanceId,
+    characterId: character?.character.characterId,
+    membershipType: character?.character.membershipType,
+  };
+
+  isFetchingCharacterData = true;
+  eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE);
+
+  try {
+    await setItemLockState(payload);
+  } catch (err) {
+    throw err;
+  } finally {
+    isFetchingCharacterData = false;
+    eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE);
+  }
 };
 
 export const getCharacterData = async (

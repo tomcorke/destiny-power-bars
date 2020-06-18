@@ -4,7 +4,9 @@ import {
   DestinyRecordDefinition,
   DestinyVendorDefinition,
   getDestinyManifest,
-  getProfile
+  getProfile,
+  setItemLockState as setItemLockStateApi,
+  DestinyItemStateRequest,
 } from "bungie-api-ts/destiny2";
 import { HttpClientConfig } from "bungie-api-ts/http";
 import { get, set } from "idb-keyval";
@@ -24,11 +26,13 @@ export class BungieSystemDisabledError extends Error {
 export const bungieAuthedFetch = async (config: HttpClientConfig) => {
   const accessToken = getAccessToken();
   const headers: { [key: string]: string } = {
-    "x-api-key": BUNGIE_API_KEY
+    "x-api-key": BUNGIE_API_KEY,
   };
+
   if (accessToken) {
     headers.Authorization = `Bearer ${accessToken}`;
   }
+
   const url = `${config.url}${
     config.params
       ? "?" +
@@ -38,7 +42,18 @@ export const bungieAuthedFetch = async (config: HttpClientConfig) => {
         )
       : ""
   }`;
-  const response = await fetch(url, { headers, credentials: "include" });
+
+  const requestConfig: RequestInit = {
+    method: config.method,
+    headers,
+    credentials: "include" as const,
+  };
+
+  if (config.body) {
+    requestConfig.body = JSON.stringify(config.body);
+  }
+
+  const response = await fetch(url, requestConfig);
   if (response.status !== 200) {
     if (response.status === 401) {
       eventEmitter.emit(EVENTS.UNAUTHED_FETCH_ERROR);
@@ -75,7 +90,7 @@ export interface ManifestData {
 const manifestPropertyWhitelist = [
   "DestinyInventoryItemDefinition",
   "DestinyVendorDefinition",
-  "DestinyRecordDefinition"
+  "DestinyRecordDefinition",
 ];
 
 let getCachedManifestDataPromise: Promise<ManifestData> | undefined;
@@ -103,7 +118,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   );
   const manifestData: ManifestData = await manifestDataResponse.json();
   eventEmitter.emit(EVENTS.PARSE_MANIFEST_DATA);
-  Object.keys(manifestData).forEach(key => {
+  Object.keys(manifestData).forEach((key) => {
     if (!manifestPropertyWhitelist.includes(key)) {
       delete manifestData[key];
     }
@@ -136,7 +151,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         ga.event({
           category: "Data",
           action: "Attempt load manifest",
-          nonInteraction: true
+          nonInteraction: true,
         });
         eventEmitter.emit(EVENTS.GET_MANIFEST);
         const manifest = await getDestinyManifest(bungieAuthedFetch);
@@ -156,7 +171,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
           if (
             cachedManifestData &&
             manifestPropertyWhitelist.every(
-              key => cachedManifestData && !!cachedManifestData[key]
+              (key) => cachedManifestData && !!cachedManifestData[key]
             )
           ) {
             return { manifest: cachedManifestData };
@@ -170,19 +185,19 @@ export const getManifest = async (): Promise<GetManifestResult> => {
           ga.event({
             category: "Errors",
             action: `Error status "${manifest.ErrorStatus}" returned from manifest request`,
-            nonInteraction: true
+            nonInteraction: true,
           });
           if (manifest.ErrorStatus === "SystemDisabled") {
             return {
               manifest: null,
-              error: new BungieSystemDisabledError()
+              error: new BungieSystemDisabledError(),
             };
           }
           return {
             manifest: null,
             error: Error(
               `Error status "${manifest.ErrorStatus}" returned from manifest request`
-            )
+            ),
           };
         }
         if (!manifest || !manifest.Response) {
@@ -192,7 +207,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         ga.event({
           category: "Data",
           action: "Fetch remote manifest",
-          nonInteraction: true
+          nonInteraction: true,
         });
         const freshManifestData = await getRemoteManifestData(
           manifest.Response
@@ -200,7 +215,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         cachedManifestData = freshManifestData;
         return { manifest: freshManifestData };
       })
-      .then(result => {
+      .then((result) => {
         if (result.manifest && !result.error) {
           eventEmitter.emit(EVENTS.MANIFEST_DATA_READY);
           return result;
@@ -208,7 +223,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
           throw result.error;
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         // Clear manifest promise so it can be re-fetched
         eventEmitter.emit(EVENTS.MANIFEST_FETCH_ERROR);
@@ -227,15 +242,15 @@ export const getBasicProfile = (
   ga.event({
     category: "Character Data",
     action: "Fetch minimal profile",
-    nonInteraction: true
+    nonInteraction: true,
   });
   return getProfile(bungieAuthedFetch, {
     components: [
       200, // DestinyComponentType.Characters,
-      205 // DestinyComponentType.CharacterEquipment,
+      205, // DestinyComponentType.CharacterEquipment,
     ],
     destinyMembershipId: membershipId,
-    membershipType
+    membershipType,
   });
 };
 
@@ -247,7 +262,7 @@ export const getFullProfile = (
   ga.event({
     category: "Character Data",
     action: "Fetch full profile",
-    nonInteraction: true
+    nonInteraction: true,
   });
   return getProfile(bungieAuthedFetch, {
     components: [
@@ -256,9 +271,14 @@ export const getFullProfile = (
       205, // DestinyComponentType.CharacterEquipment,
       102, // DestinyComponentType.ProfileInventories,
       300, // DestinyComponentType.ItemInstances,
-      104 // DestinyComponentType.ProfileProgression
+      104, // DestinyComponentType.ProfileProgression
     ],
     destinyMembershipId: membershipId,
-    membershipType
+    membershipType,
   });
+};
+
+export const setItemLockState = (payload: DestinyItemStateRequest) => {
+  debug("setItemLockState");
+  return setItemLockStateApi(bungieAuthedFetch, payload);
 };

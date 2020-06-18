@@ -10,7 +10,7 @@ import {
   hasSelectedDestinyMembership,
   hasValidAuth,
   manualStartAuth,
-  setSelectedDestinyMembership
+  setSelectedDestinyMembership,
 } from "./services/bungie-auth";
 import ga from "./services/ga";
 import { PowerBarsCharacterData } from "./types";
@@ -21,7 +21,7 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import {
   LoadingChecklist,
-  LoadingChecklistItem
+  LoadingChecklistItem,
 } from "./components/LoadingChecklist";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { LoginPrompt } from "./components/LoginPrompt";
@@ -32,7 +32,7 @@ import api from "./services/api";
 import {
   BungieSystemDisabledError,
   getManifest,
-  ManifestData
+  ManifestData,
 } from "./services/bungie-api";
 import { EVENTS, useEvent } from "./services/events";
 import {
@@ -40,7 +40,8 @@ import {
   getCharacterData,
   getIsFetchingCharacterData,
   loadCharacterDisplayOrder,
-  saveCharacterDisplayOrder
+  saveCharacterDisplayOrder,
+  bustProfileCache,
 } from "./services/utils";
 
 import "normalize.css";
@@ -116,15 +117,15 @@ const doGetCharacterData = throttle(
     setBungieServiceUnavailable: (value: boolean) => void
   ) => {
     const updateCharacterData = (newData: PowerBarsCharacterData[]) => {
-      const newOverallPower = Math.max(...newData.map(c => c.overallPower));
+      const newOverallPower = Math.max(...newData.map((c) => c.overallPower));
       const newArtifactPower = Math.max(
-        ...newData.map(c => (c.artifactData ? c.artifactData.bonusPower : 0))
+        ...newData.map((c) => (c.artifactData ? c.artifactData.bonusPower : 0))
       );
       const newTotalPower = newOverallPower + newArtifactPower;
       ga.set({
         dimension1: `${newOverallPower}`,
         dimension2: `${newArtifactPower}`,
-        dimension3: `${newTotalPower}`
+        dimension3: `${newTotalPower}`,
       });
       setCharacterData(newData);
     };
@@ -132,29 +133,56 @@ const doGetCharacterData = throttle(
     const isFetchingCharacterData = getIsFetchingCharacterData();
 
     (async () => {
-      if (!isFetchingCharacterData) {
-        try {
-          await getCharacterData(updateCharacterData);
-        } catch (error) {
-          if (error instanceof BungieSystemDisabledError) {
-            setBungieSystemDisabled(true);
-          }
-          if (error.message === "503") {
-            setBungieServiceUnavailable(true);
-          }
-          console.error("Error fetching character data:", error);
+      if (isFetchingCharacterData) return;
+
+      try {
+        await getCharacterData(updateCharacterData);
+      } catch (error) {
+        if (error instanceof BungieSystemDisabledError) {
+          setBungieSystemDisabled(true);
         }
+        if (error.message === "503") {
+          setBungieServiceUnavailable(true);
+        }
+        console.error("Error fetching character data:", error);
       }
     })();
   },
   500
 );
 
+const doHardRefresh = throttle(
+  async (
+    setCharacterData: (value: PowerBarsCharacterData[]) => void,
+    setBungieSystemDisabled: (value: boolean) => void,
+    setBungieServiceUnavailable: (value: boolean) => void,
+    characterData: PowerBarsCharacterData[] | undefined
+  ) => {
+    if (characterData) {
+      try {
+        await bustProfileCache(characterData);
+      } catch (error) {
+        console.error(
+          "Error busting profile cache, but silently ignoring",
+          error
+        );
+      }
+    }
+
+    return doGetCharacterData(
+      setCharacterData,
+      setBungieSystemDisabled,
+      setBungieServiceUnavailable
+    );
+  },
+  500
+);
+
 export const AppWrapper = ({
   children,
-  top = false
+  top = false,
 }: {
-  children: JSX.Element | Array<JSX.Element | null>;
+  children: JSX.Element | (JSX.Element | null)[];
   top?: boolean;
 }) => {
   return (
@@ -185,6 +213,7 @@ const App = () => {
   const [isFetchingCharacterData, setIsFetchingCharacterData] = useState(
     getIsFetchingCharacterData()
   );
+
   useEvent(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, () =>
     setIsFetchingCharacterData(getIsFetchingCharacterData())
   );
@@ -239,7 +268,7 @@ const App = () => {
       setBungieSystemDisabled,
       setBungieServiceUnavailable,
       setManifestData,
-      setManifestError
+      setManifestError,
     ]
   );
 
@@ -254,7 +283,7 @@ const App = () => {
 
   const [
     hasLoadedCachedCharacterData,
-    setHasLoadedCachedCharacterData
+    setHasLoadedCachedCharacterData,
   ] = useState(false);
 
   const hasSelectedMembership = hasSelectedDestinyMembership();
@@ -268,7 +297,7 @@ const App = () => {
     isAuthed,
     hasSelectedMembership,
     hasLoadedCachedCharacterData,
-    setHasLoadedCachedCharacterData
+    setHasLoadedCachedCharacterData,
   ]);
 
   useInterval(() => {
@@ -298,17 +327,26 @@ const App = () => {
     isAuthed,
     characterData,
     isFetchingCharacterData,
-    isBungieSystemDisabled
+    isBungieSystemDisabled,
   ]);
 
   const onSelectMembership = useCallback((membership: UserInfoCard) => {
     ga.event({
       category: "Platform",
       action: "Select platform",
-      label: `Membership type: ${membership.membershipType}`
+      label: `Membership type: ${membership.membershipType}`,
     });
     setSelectedDestinyMembership(membership);
   }, []);
+
+  const onRefreshClick = () => {
+    doHardRefresh(
+      setCharacterData,
+      setBungieSystemDisabled,
+      setBungieServiceUnavailable,
+      characterData
+    );
+  };
 
   let status: string | JSX.Element = "";
   if (isBungieSystemDisabled) {
@@ -376,7 +414,7 @@ const App = () => {
 
   const getDefaultCharacterDisplayOrder = useCallback(
     () =>
-      characterData ? characterData.map(c => c.character.characterId) : [],
+      characterData ? characterData.map((c) => c.character.characterId) : [],
     [characterData]
   );
 
@@ -384,10 +422,12 @@ const App = () => {
     (characterIds: string[]) =>
       characterData &&
       characterData.length === characterIds.length &&
-      characterIds.every(id =>
-        characterData.some(c => c.character.characterId === id)
+      characterIds.every((id) =>
+        characterData.some((c) => c.character.characterId === id)
       ) &&
-      characterData.every(c => characterIds.includes(c.character.characterId)),
+      characterData.every((c) =>
+        characterIds.includes(c.character.characterId)
+      ),
     [characterData]
   );
 
@@ -426,7 +466,7 @@ const App = () => {
       draggingCharacterId,
       characterDisplayOrder,
       setCharacterDisplayOrder,
-      getDefaultCharacterDisplayOrder
+      getDefaultCharacterDisplayOrder,
     ]
   );
 
@@ -449,16 +489,27 @@ const App = () => {
     return (
       <>
         <AppWrapper top>
-          <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
+          <div className={STYLES.header}>
+            <button
+              className={STYLES.hardRefreshButton}
+              onClick={onRefreshClick}
+            >
+              Refresh
+            </button>
+            <MembershipSelect
+              api={api}
+              onMembershipSelect={onSelectMembership}
+            />
+          </div>
           <div className={STYLES.charactersContainer}>
             <div className={STYLES.characters}>
               {useCharacterOrder
-                .map(characterId =>
+                .map((characterId) =>
                   characterData.find(
-                    c => c.character.characterId === characterId
+                    (c) => c.character.characterId === characterId
                   )
                 )
-                .map(c => (
+                .map((c) => (
                   <CharacterDisplay
                     key={c!.character.characterId}
                     data={c!}
@@ -501,7 +552,7 @@ const App = () => {
   ) =>
     loadingChecklistItems.push({
       label,
-      status: isComplete ? "complete" : isFailed ? "failed" : "pending"
+      status: isComplete ? "complete" : isFailed ? "failed" : "pending",
     });
   addToChecklist("Authenticated", isAuthed, hasAuthError);
   addToChecklist("Loaded Character Data", !!characterData);

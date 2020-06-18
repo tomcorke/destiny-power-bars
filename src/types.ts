@@ -7,7 +7,6 @@ import {
   DestinyItemComponent,
   DestinyItemInstanceComponent,
   DestinyStat,
-  ItemState
 } from "bungie-api-ts/destiny2";
 
 export interface JoinedItemDefinition extends DestinyItemComponent {
@@ -63,11 +62,10 @@ interface SelectedDestinyInventoryItemDefinition {
   displayProperties: SelectedDisplayProperties;
 }
 
-export interface SelectedJoinedItemDefinition {
-  itemHash: number;
+export interface SelectedJoinedItemDefinition
+  extends Partial<DestinyItemComponent> {
   instanceData?: SelectedDestinyItemInstanceComponent;
   itemDefinition?: SelectedDestinyInventoryItemDefinition;
-  state?: ItemState;
 }
 
 export interface SelectedItemBySlot {
