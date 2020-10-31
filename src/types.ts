@@ -1,12 +1,10 @@
 import {
-  DamageType,
   DestinyCharacterComponent,
   DestinyColor,
   DestinyDisplayPropertiesDefinition,
   DestinyInventoryItemDefinition,
   DestinyItemComponent,
   DestinyItemInstanceComponent,
-  DestinyStat,
 } from "bungie-api-ts/destiny2";
 
 export interface JoinedItemDefinition extends DestinyItemComponent {

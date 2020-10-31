@@ -3,7 +3,7 @@ import React from "react";
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
 import { CharacterLinks } from "./CharacterLinks";
 
-export default {
+const story = {
   title: "Character Links",
   decorators: [
     (storyFn: () => JSX.Element) =>
@@ -16,6 +16,7 @@ export default {
       ),
   ],
 };
+export default story;
 
 export const display = () => (
   <CharacterLinks

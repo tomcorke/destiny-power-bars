@@ -2,6 +2,7 @@ import React from "react";
 
 import { SocialLinks } from "./SocialLinks";
 
-export default { title: "Social Links" };
+const story = { title: "Social Links" };
+export default story;
 
 export const display = () => <SocialLinks />;

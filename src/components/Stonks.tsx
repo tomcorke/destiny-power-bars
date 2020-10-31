@@ -104,6 +104,7 @@ export const Stonks = ({ overrideSeed, overrideStonkLevel }: StonksProps) => {
       <a
         href="https://destiny-stonks.corke.dev"
         target="_blank"
+        rel="noreferrer"
         className={classnames(STYLES.stonksMessage, {
           [STYLES.hidden]: hideStonksMessage,
         })}

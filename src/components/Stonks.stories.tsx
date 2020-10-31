@@ -3,7 +3,8 @@ import React, { useState } from "react";
 
 import { Stonks } from "./Stonks";
 
-export default { title: "Stonks", component: Stonks };
+const story = { title: "Stonks", component: Stonks };
+export default story;
 
 export const display = () => <Stonks />;
 

@@ -2,9 +2,10 @@ import React from "react";
 
 import { PowerBar } from "./PowerBar";
 
-export default {
+const story = {
   title: "Power Bar",
 };
+export default story;
 
 const Container = ({ children }: { children: JSX.Element }) => (
   <div

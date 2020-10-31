@@ -26,10 +26,12 @@ export interface PartialApi {
   vendors?: Partial<Vendors>;
 }
 
-export default {
+const exports = {
   bungieApi,
   bungieAuth,
   ga,
   utils,
   vendors,
 };
+
+export default exports;

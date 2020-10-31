@@ -8,13 +8,14 @@ import {
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
 import { PowerHints } from "./PowerHints";
 
-export default {
+const story = {
   title: "Power Hints",
   decorators: [
     (storyFn: () => JSX.Element) =>
       CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn()),
   ],
 };
+export default story;
 
 export const display = () => (
   <>

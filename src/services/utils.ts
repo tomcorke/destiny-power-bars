@@ -147,7 +147,7 @@ const mapAndFilterItems = (
     }))
     .map((i) => ({
       ...i,
-      slotName: ITEM_BUCKET_SLOTS[i.itemDefinition.inventory.bucketTypeHash],
+      slotName: ITEM_BUCKET_SLOTS[i.itemDefinition.inventory!.bucketTypeHash],
     }))
     .filter(
       (i) => i.instanceData.primaryStat && i.instanceData.primaryStat.value
@@ -180,7 +180,7 @@ const getItemScore = (
 };
 
 const getEquipLabel = (item?: JoinedItemDefinition) =>
-  item?.itemDefinition.equippingBlock.uniqueLabel;
+  item?.itemDefinition.equippingBlock?.uniqueLabel;
 
 // const getEmblemData = (
 //   character: DestinyCharacterComponent,

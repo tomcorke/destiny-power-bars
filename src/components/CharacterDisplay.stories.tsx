@@ -3,9 +3,10 @@ import React from "react";
 import { PowerBarsCharacterData } from "../types";
 import CharacterDisplay from "./CharacterDisplay";
 import { characterDataSnapshot } from "./CharacterDisplayMockData";
-import { DestinyItemComponent } from "bungie-api-ts/destiny2";
+// import { DestinyItemComponent } from "bungie-api-ts/destiny2";
 
-export default { title: "Character Display" };
+const story = { title: "Character Display" };
+export default story;
 
 export const realisticTitan = () => (
   <CharacterDisplay data={characterDataSnapshot} />

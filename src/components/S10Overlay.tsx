@@ -21,6 +21,7 @@ export const S10Overlay = () => {
           })}
           src={SEASON_COMP_IMAGE}
           onLoad={() => setHideSeason(false)}
+          alt=""
         />
         <img
           className={classnames(STYLES.trialsComp, {
@@ -28,6 +29,7 @@ export const S10Overlay = () => {
           })}
           src={TRIALS_COMP_IMAGE}
           onLoad={() => setHideTrials(false)}
+          alt=""
         />
       </div>
     </div>

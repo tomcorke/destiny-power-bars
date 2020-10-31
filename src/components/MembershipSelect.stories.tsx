@@ -5,9 +5,10 @@ import React from "react";
 import MembershipSelect from "./MembershipSelect";
 import { RequiredApi } from "./MembershipSelect";
 
-export default {
+const story = {
   title: "Membership Select",
 };
+export default story;
 
 const mockApi: RequiredApi = {
   bungieAuth: {

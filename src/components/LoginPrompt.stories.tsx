@@ -3,9 +3,10 @@ import React from "react";
 
 import { LoginPrompt } from "./LoginPrompt";
 
-export default {
+const story = {
   title: "Login Prompt",
 };
+export default story;
 
 export const display = () => (
   <LoginPrompt onLoginClick={action("login button click")} />

@@ -8,13 +8,14 @@ import {
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
 import { InterPowerBar } from "./InterPowerBar";
 
-export default {
+const story = {
   title: "Inter-Power Bar Display",
   decorators: [
     (storyFn: () => JSX.Element) =>
       CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn()),
   ],
 };
+export default story;
 
 const withMaxSize = (size: number, element: JSX.Element) => (
   <div

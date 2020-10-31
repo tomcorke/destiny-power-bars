@@ -2,6 +2,7 @@ import React from "react";
 
 import { Kofi } from "./KoFi";
 
-export default { title: "KoFi" };
+const story = { title: "KoFi" };
+export default story;
 
 export const display = () => <Kofi />;

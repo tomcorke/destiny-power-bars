@@ -5,7 +5,8 @@ import { VendorEngramsVendorData } from "../services/vendor-engrams";
 
 import { Vendor } from "./VendorDisplay";
 
-export default { title: "Vendor" };
+const story = { title: "Vendor" };
+export default story;
 
 const mockEmptyManifest: ManifestData = {
   DestinyInventoryItemDefinition: {},
