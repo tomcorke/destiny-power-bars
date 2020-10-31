@@ -63,12 +63,14 @@ export const BUNGIE_COLOUR_SOLAR = "ef621d";
 export const BUNGIE_COLOUR_ARC = "7abce9";
 export const BUNGIE_COLOUR_VOID = "b085df";
 
-// Do not export, in an attempt to not need to hard-code a specific artifact.
-// export const UNDYING_ARTIFACT_ITEM_HASH = 1387688628;
+const beyondLightReleaseDate = new Date(2020, 10, 10); // 10th November 2020
+console.log(beyondLightReleaseDate.toLocaleDateString());
+const currentDate = new Date();
+const isBeyondLight = currentDate >= beyondLightReleaseDate;
 
-export const ITEM_POWER_SOFT_CAP = 1000;
-export const ITEM_POWER_POWERFUL_CAP = 1050;
-export const ITEM_POWER_PINNACLE_CAP = 1060;
+export const ITEM_POWER_SOFT_CAP = isBeyondLight ? 1200 : 1000;
+export const ITEM_POWER_POWERFUL_CAP = isBeyondLight ? 1250 : 1050;
+export const ITEM_POWER_PINNACLE_CAP = isBeyondLight ? 1260 : 1060;
 
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET = 2;
