@@ -27,7 +27,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import { LoginPrompt } from "./components/LoginPrompt";
 import MembershipSelect from "./components/MembershipSelect";
 // import { S10Overlay } from "./components/S10Overlay";
-import { VendorDisplay } from "./components/VendorDisplay";
+// import { VendorDisplay } from "./components/VendorDisplay";
 import api from "./services/api";
 import {
   BungieSystemDisabledError,
@@ -526,7 +526,7 @@ const App = () => {
                 ))}
             </div>
           </div>
-          <VendorDisplay manifestData={manifestData} />
+          {/* <VendorDisplay manifestData={manifestData} /> */}
           {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
           {isFetchingCharacterData ? <FetchSpinner /> : null}
         </AppWrapper>
