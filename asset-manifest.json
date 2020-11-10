@@ -1,21 +1,21 @@
 {
   "files": {
-    "dom-to-image.js": "/static/js/dom-to-image.ddf97011.chunk.js",
-    "dom-to-image.js.map": "/static/js/dom-to-image.ddf97011.chunk.js.map",
-    "file-saver.js": "/static/js/file-saver.c50018fe.chunk.js",
-    "file-saver.js.map": "/static/js/file-saver.c50018fe.chunk.js.map",
-    "main.css": "/static/css/main.ab095274.chunk.css",
-    "main.js": "/static/js/main.58621213.chunk.js",
-    "main.js.map": "/static/js/main.58621213.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.f297d470.js",
-    "runtime-main.js.map": "/static/js/runtime-main.f297d470.js.map",
+    "dom-to-image.js": "/static/js/dom-to-image.5432e977.chunk.js",
+    "dom-to-image.js.map": "/static/js/dom-to-image.5432e977.chunk.js.map",
+    "file-saver.js": "/static/js/file-saver.426fd5e2.chunk.js",
+    "file-saver.js.map": "/static/js/file-saver.426fd5e2.chunk.js.map",
+    "main.css": "/static/css/main.efed50a5.chunk.css",
+    "main.js": "/static/js/main.dadf76d7.chunk.js",
+    "main.js.map": "/static/js/main.dadf76d7.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.ec6a5789.js",
+    "runtime-main.js.map": "/static/js/runtime-main.ec6a5789.js.map",
     "static/css/4.679831fc.chunk.css": "/static/css/4.679831fc.chunk.css",
-    "static/js/4.985a430e.chunk.js": "/static/js/4.985a430e.chunk.js",
-    "static/js/4.985a430e.chunk.js.map": "/static/js/4.985a430e.chunk.js.map",
+    "static/js/4.67a2e7ef.chunk.js": "/static/js/4.67a2e7ef.chunk.js",
+    "static/js/4.67a2e7ef.chunk.js.map": "/static/js/4.67a2e7ef.chunk.js.map",
     "index.html": "/index.html",
     "static/css/4.679831fc.chunk.css.map": "/static/css/4.679831fc.chunk.css.map",
-    "static/css/main.ab095274.chunk.css.map": "/static/css/main.ab095274.chunk.css.map",
-    "static/js/4.985a430e.chunk.js.LICENSE.txt": "/static/js/4.985a430e.chunk.js.LICENSE.txt",
+    "static/css/main.efed50a5.chunk.css.map": "/static/css/main.efed50a5.chunk.css.map",
+    "static/js/4.67a2e7ef.chunk.js.LICENSE.txt": "/static/js/4.67a2e7ef.chunk.js.LICENSE.txt",
     "static/media/CharacterLinks.module.scss": "/static/media/guardianstats.aaf3d6d5.ico",
     "static/media/MembershipSelect.module.scss": "/static/media/blizzard-icon.09752d26.png",
     "static/media/App.module.scss": "/static/media/europa-12.7f50fc41.jpg",
@@ -25,10 +25,10 @@
     "static/media/twitter.774c4536.svg": "/static/media/twitter.774c4536.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.f297d470.js",
+    "static/js/runtime-main.ec6a5789.js",
     "static/css/4.679831fc.chunk.css",
-    "static/js/4.985a430e.chunk.js",
-    "static/css/main.ab095274.chunk.css",
-    "static/js/main.58621213.chunk.js"
+    "static/js/4.67a2e7ef.chunk.js",
+    "static/css/main.efed50a5.chunk.css",
+    "static/js/main.dadf76d7.chunk.js"
   ]
 }
