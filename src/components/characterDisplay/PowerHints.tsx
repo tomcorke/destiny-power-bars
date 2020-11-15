@@ -205,7 +205,7 @@ export const PowerHints = ({
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <div>
-                  Pinnacle reward sources (Some weekly challenges, Year 3 raids)
+                  Pinnacle reward sources (Some weekly challenges, Year 4 raids)
                   will give you items at{" "}
                   <Power>
                     {Math.min(
