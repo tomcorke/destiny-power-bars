@@ -49,6 +49,7 @@ interface SelectedDestinyStat {
 
 interface SelectedDestinyItemInstanceComponent {
   primaryStat?: SelectedDestinyStat;
+  isEquipped?: boolean;
 }
 
 interface SelectedDisplayProperties

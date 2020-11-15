@@ -73,6 +73,9 @@ export const PowerBars = (data: PowerBarsProps) => {
               label={slotFullNames(data.className)[slotName] || slotName}
               icon={bestItem?.itemDefinition?.displayProperties.icon}
               isMasterworked={bestItem && isMasterwork(bestItem)}
+              itemName={bestItem?.itemDefinition?.displayProperties.name}
+              location={bestItem?.location}
+              isEquipped={bestItem?.instanceData?.isEquipped}
             />
           );
         })}
