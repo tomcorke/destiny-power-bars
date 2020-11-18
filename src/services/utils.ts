@@ -282,6 +282,14 @@ const getDataForCharacterId = (
     }
   });
 
+  const LOST_ITEMS_BUCKET = 215593132;
+  Object.values(topItemBySlot).forEach((item) => {
+    if (item && item.bucketHash === LOST_ITEMS_BUCKET) {
+      // Override normally read-only property
+      (item as any).location = 4; // ItemLocation.Postmaster
+    }
+  });
+
   const powerBySlot = getPowerBySlot(topItemBySlot);
   const overallPowerExact = getAveragePower(powerBySlot);
   const overallPower = getOverallPower(powerBySlot);
