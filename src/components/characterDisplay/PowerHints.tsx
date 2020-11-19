@@ -167,7 +167,7 @@ export const PowerHints = ({
               <div className={STYLES.hintExtraInner}>
                 <div>
                   Powerful and pinnacle reward sources (Weekly challenges, Year
-                  3 raids) will give you items above your overall gear power,
+                  4 raids) will give you items above your overall gear power,
                   with powerful rewards capped at{" "}
                   <Power>{ITEM_POWER_POWERFUL_CAP}</Power>.
                 </div>
