@@ -1,9 +1,9 @@
 .redactedWarning {
   color: white;
-  background: rgba(100, 0, 0, 1);
-  padding: 5px 10px;
-  margin: -10px -10px 0;
-  font-size: 14px;
+  background: rgba(100, 0, 0, 0.85);
+  padding: 1em;
+  border-radius: 5px;
+  max-width: 800px;
 
   button {
     margin: 0;

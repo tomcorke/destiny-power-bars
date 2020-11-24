@@ -43,6 +43,7 @@ import {
   saveCharacterDisplayOrder,
   bustProfileCache,
 } from "./services/utils";
+import RedactedWarning from "./components/RedactedWarning";
 
 import "normalize.css";
 import "./index.css";
@@ -486,6 +487,10 @@ const App = () => {
   }
 
   if (isAuthed && characterData && characterData.length > 0) {
+    const showRedactedWarning = characterData.some(
+      (c) => c.hasRedactedEquippableItems
+    );
+
     return (
       <>
         <AppWrapper top>
@@ -526,6 +531,7 @@ const App = () => {
                 ))}
             </div>
           </div>
+          {showRedactedWarning ? <RedactedWarning /> : null}
           {/* <VendorDisplay manifestData={manifestData} /> */}
           {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
           {isFetchingCharacterData ? <FetchSpinner /> : null}
