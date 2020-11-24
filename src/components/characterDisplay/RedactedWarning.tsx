@@ -23,12 +23,12 @@ const RedactedWarning = () => {
   const redactedWarningMessage = showMore ? (
     <div>
       <p>
-        Redacted equippable items were found on this character or another
-        character on your account.
+        Redacted equippable items were found in your character or account
+        inventories.
       </p>
       <p>
-        Redacted items do not display their power level or item type properly in
-        data returned by the API, so we can not use them to calculate your
+        Redacted items do not display their power level or item type in the data
+        returned by the API, so we can not use them to calculate your
         character's maximum equippable power.
       </p>
       <p>
