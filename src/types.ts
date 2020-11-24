@@ -81,6 +81,7 @@ export interface PowerBarsCharacterData {
   potentialOverallPower?: number;
   title?: string;
   other?: unknown;
+  hasRedactedEquippableItems?: boolean;
 }
 
 export interface FullCharacterData extends PowerBarsCharacterData {

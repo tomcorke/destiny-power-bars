@@ -223,10 +223,25 @@ const getDataForCharacterId = (
       i.itemDefinition.classType === character.classType
   );
 
+  const hasRedactedEquippableItems = allCharacterItems.some((item) => {
+    const itemDefinition =
+      manifest.DestinyInventoryItemDefinition[item.itemHash];
+    return itemDefinition?.redacted && itemDefinition?.equippable;
+  });
+
   const allItems = characterItems.concat(relevantProfileItems);
 
   // Group by slot
   const itemsBySlot = groupBy(allItems, (i) => i.slotName);
+
+  /*
+  const redactedItemsBySlot = groupBy(
+    allItems.filter((i) => i.itemDefinition?.redacted),
+    (i) => i.slotName
+  );
+  console.log({ character, redactedItemsBySlot });
+  */
+
   // Get max power items per slot
   let topItemBySlot: ItemBySlot = mapValues(
     itemsBySlot,
@@ -359,6 +374,7 @@ const getDataForCharacterId = (
     topItemBySlot,
     artifactData,
     title,
+    hasRedactedEquippableItems,
   };
 
   return resultData;

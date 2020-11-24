@@ -7,6 +7,7 @@ import { CharacterLinks } from "./characterDisplay/CharacterLinks";
 import { PowerBars } from "./characterDisplay/PowerBars";
 import { PowerDetails } from "./characterDisplay/PowerDetails";
 import { PowerHints } from "./characterDisplay/PowerHints";
+import RedactedWarning from "./characterDisplay/RedactedWarning";
 
 const titleCase = (text: string) =>
   text.substr(0, 1).toUpperCase() + text.substr(1);
@@ -133,13 +134,18 @@ const CharacterDisplay = ({
           {titleCase(data.className)}
         </div>
         {data.title && <div className={STYLES.title}>{data.title}</div>}
-        <div className={STYLES.power}>
+        <div
+          className={classnames(STYLES.power, {
+            [STYLES.hasRedacted]: !!data.hasRedactedEquippableItems,
+          })}
+        >
           {roundedPower + summableArtifactBonusPower}
         </div>
         <div className={STYLES.headerOverlayBar} />
       </div>
 
       <div className={STYLES.content}>
+        {data.hasRedactedEquippableItems ? <RedactedWarning /> : null}
         <PowerDetails {...data} />
         <PowerBars {...data} />
         <PowerHints {...data} />
