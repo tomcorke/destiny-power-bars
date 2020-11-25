@@ -9,7 +9,7 @@ import {
   DestinyItemStateRequest,
 } from "bungie-api-ts/destiny2";
 import { HttpClientConfig } from "bungie-api-ts/http";
-import { get, set } from "idb-keyval";
+import { get, set, del } from "idb-keyval";
 
 import { getAccessToken } from "./bungie-auth";
 import { BUNGIE_API_KEY } from "./config";
@@ -124,9 +124,19 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     }
   });
   eventEmitter.emit(EVENTS.STORE_MANIFEST_DATA);
-  set(MANIFEST_IDB_KEY, manifestData); // Do not await
+  await set(MANIFEST_IDB_KEY, manifestData); // Do not await
   localStorage.setItem(MANIFEST_VERSION_KEY, version);
   return manifestData;
+};
+
+export const clearStoredManifest = async () => {
+  // Remove stored data
+  localStorage.removeItem(MANIFEST_VERSION_KEY);
+  await del(MANIFEST_IDB_KEY);
+  // Clear cached manifest promise so it can re-fetch
+  getManifestPromise = undefined;
+  // Trigger re-fetch by emitting error
+  eventEmitter.emit(EVENTS.MANIFEST_FETCH_ERROR);
 };
 
 export type GetManifestResult =

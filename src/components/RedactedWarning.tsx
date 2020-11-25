@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { clearStoredManifest } from "../services/bungie-api";
+
 import STYLES from "./RedactedWarning.module.scss";
 
 const RedactedWarning = () => {
@@ -38,6 +40,14 @@ const RedactedWarning = () => {
       </p>
       <p>
         There is nothing we can do to make this data visible quicker, sorry!
+      </p>
+      <p>
+        If you believe this to be an error (or your data seems "stuck"), you can
+        try deleting and re-downloading your cached Destiny manifest by{" "}
+        <button onClick={() => clearStoredManifest()}>
+          clicking here to clear it
+        </button>
+        .
       </p>
       <div className={STYLES.links}>
         {redactedLessLink}

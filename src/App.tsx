@@ -49,6 +49,7 @@ import "normalize.css";
 import "./index.css";
 
 import STYLES from "./App.module.scss";
+import { debug } from "./services/debug";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -274,6 +275,7 @@ const App = () => {
   );
 
   useEvent(EVENTS.MANIFEST_FETCH_ERROR, () => {
+    debug("doGetManifest on MANIFEST_FETCH_ERROR");
     doGetManifest(
       setBungieSystemDisabled,
       setBungieServiceUnavailable,
@@ -394,7 +396,8 @@ const App = () => {
   } else if (hasManifestError) {
     status = (
       <span>
-        Error fetching manifest, <a href="/">refresh page</a> to try again!
+        Error loading manifest, if this persists try{" "}
+        <a href="/">refreshing the page</a>!
       </span>
     );
   } else if (!isAuthed) {
@@ -531,7 +534,7 @@ const App = () => {
                 ))}
             </div>
           </div>
-          {showRedactedWarning ? <RedactedWarning /> : null}
+          {showRedactedWarning || true ? <RedactedWarning /> : null}
           {/* <VendorDisplay manifestData={manifestData} /> */}
           {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
           {isFetchingCharacterData ? <FetchSpinner /> : null}
