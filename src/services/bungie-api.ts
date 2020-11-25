@@ -124,7 +124,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     }
   });
   eventEmitter.emit(EVENTS.STORE_MANIFEST_DATA);
-  await set(MANIFEST_IDB_KEY, manifestData); // Do not await
+  await set(MANIFEST_IDB_KEY, manifestData);
   localStorage.setItem(MANIFEST_VERSION_KEY, version);
   return manifestData;
 };
