@@ -534,7 +534,7 @@ const App = () => {
                 ))}
             </div>
           </div>
-          {showRedactedWarning || true ? <RedactedWarning /> : null}
+          {showRedactedWarning ? <RedactedWarning /> : null}
           {/* <VendorDisplay manifestData={manifestData} /> */}
           {status ? <LoadingSpinner>{status}</LoadingSpinner> : null}
           {isFetchingCharacterData ? <FetchSpinner /> : null}
