@@ -3,56 +3,11 @@
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-
-  @media (max-width: 500px) {
-    flex-flow: column nowrap;
-    align-items: center;
-  }
 }
 
 @font-face {
   font-family: "Destiny Keys";
   src: url("../fonts/DestinyKeys.woff2") format("woff2");
-}
-
-.logOut {
-  background: transparent;
-  border: none;
-  color: white;
-  opacity: 0.75;
-  cursor: pointer;
-  transition: opacity 0.5s ease-out;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-
-  .logOutIcon {
-    background-image: url("../images/icons/logout.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 25px;
-    height: 25px;
-  }
-
-  .logOutText {
-    margin-left: 0.25em;
-    display: none;
-  }
-
-  @media (max-width: 500px) {
-    margin-top: 1em;
-
-    .logOutText {
-      display: block;
-    }
-  }
-
-  &:hover {
-    opacity: 1;
-    text-decoration: underline;
-    transition: opacity 0s linear;
-  }
 }
 
 .membership {
@@ -75,7 +30,8 @@
   }
 
   @media (max-width: 500px) {
-    width: 100%;
+    // width: 100%;
+    margin-bottom: 20px;
   }
 
   @mixin icon-before($iconPath) {

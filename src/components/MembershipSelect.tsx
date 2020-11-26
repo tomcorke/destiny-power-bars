@@ -3,7 +3,6 @@ import classnames from "classnames";
 import React from "react";
 
 import { PartialApi } from "../services/api";
-import { logOut } from "../services/bungie-auth";
 import STYLES from "./MembershipSelect.module.scss";
 
 export interface RequiredApi extends PartialApi {
@@ -11,8 +10,6 @@ export interface RequiredApi extends PartialApi {
     getDestinyMemberships: () => UserInfoCard[] | undefined;
   };
 }
-
-const defaultOnLogout = () => logOut();
 
 const PLATFORMS: { [key: number]: string } = {
   1: "xbox",
@@ -73,16 +70,14 @@ const CrossSaveDisplay = ({ membership }: CrossSaveDisplayProps) => {
   );
 };
 
-interface MembershipSelectProps {
+export interface MembershipSelectProps {
   onMembershipSelect: (membership: UserInfoCard) => any;
   api: RequiredApi;
-  onLogout?: () => void;
 }
 
 const MembershipSelect = ({
   onMembershipSelect,
   api,
-  onLogout = defaultOnLogout,
 }: MembershipSelectProps) => {
   const destinyMemberships = api.bungieAuth.getDestinyMemberships();
 
@@ -122,14 +117,6 @@ const MembershipSelect = ({
             </div>
           );
         })}
-      <button
-        className={STYLES.logOut}
-        onClick={() => onLogout()}
-        title="Log out"
-      >
-        <div className={STYLES.logOutIcon} />
-        <div className={STYLES.logOutText}>Log out</div>
-      </button>
     </div>
   );
 };

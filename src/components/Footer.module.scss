@@ -12,6 +12,8 @@
   justify-content: space-between;
   align-items: center;
 
+  color: white;
+
   background: linear-gradient(
     to right,
     rgba(black, 0.5),
@@ -19,10 +21,22 @@
     transparent 80%,
     rgba(black, 0.5)
   );
+
+  .copy {
+    display: none;
+    margin-bottom: 1em;
+    text-align: center;
+  }
+
   @media (max-width: 500px) {
+    .copy {
+      display: block;
+    }
+
     position: relative;
-    margin-top: 1em;
+    padding-top: 1em;
     justify-content: center;
     z-index: unset;
+    background: linear-gradient(to bottom, rgb(0, 0, 40), black);
   }
 }

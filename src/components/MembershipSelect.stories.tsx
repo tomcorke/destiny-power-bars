@@ -97,7 +97,6 @@ export const allMemberships = () => (
   <MembershipSelect
     api={mockApi}
     onMembershipSelect={action("membership selected")}
-    onLogout={action("Logout")}
   />
 );
 
@@ -107,22 +106,18 @@ export const membershipsWithCrossSave = () => {
       <MembershipSelect
         api={mockApiWithCrossSave(1, 2, 3, 5)}
         onMembershipSelect={action("membership selected")}
-        onLogout={action("Logout")}
       />
       <MembershipSelect
         api={mockApiWithCrossSave(2, 1, 3, 5)}
         onMembershipSelect={action("membership selected")}
-        onLogout={action("Logout")}
       />
       <MembershipSelect
         api={mockApiWithCrossSave(3, 1, 2, 5)}
         onMembershipSelect={action("membership selected")}
-        onLogout={action("Logout")}
       />
       <MembershipSelect
         api={mockApiWithCrossSave(5, 1, 2, 3)}
         onMembershipSelect={action("membership selected")}
-        onLogout={action("Logout")}
       />
     </>
   );
@@ -196,7 +191,6 @@ export const xboxMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(1)}
     onMembershipSelect={action("membership selected")}
-    onLogout={action("Logout")}
   />
 );
 
@@ -204,7 +198,6 @@ export const psMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(2)}
     onMembershipSelect={action("membership selected")}
-    onLogout={action("Logout")}
   />
 );
 
@@ -212,7 +205,6 @@ export const steamMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(3)}
     onMembershipSelect={action("membership selected")}
-    onLogout={action("Logout")}
   />
 );
 
@@ -220,7 +212,6 @@ export const battleNetMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(4)}
     onMembershipSelect={action("membership selected")}
-    onLogout={action("Logout")}
   />
 );
 
@@ -228,6 +219,5 @@ export const stadiaMembership = () => (
   <MembershipSelect
     api={mockApiWithMembershipType(5)}
     onMembershipSelect={action("membership selected")}
-    onLogout={action("Logout")}
   />
 );

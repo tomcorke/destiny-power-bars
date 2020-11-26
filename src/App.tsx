@@ -29,11 +29,7 @@ import MembershipSelect from "./components/MembershipSelect";
 // import { S10Overlay } from "./components/S10Overlay";
 // import { VendorDisplay } from "./components/VendorDisplay";
 import api from "./services/api";
-import {
-  BungieSystemDisabledError,
-  getManifest,
-  ManifestData,
-} from "./services/bungie-api";
+import { BungieSystemDisabledError, getManifest } from "./services/bungie-api";
 import { EVENTS, useEvent } from "./services/events";
 import {
   getCachedCharacterData,
@@ -50,6 +46,7 @@ import "./index.css";
 
 import STYLES from "./App.module.scss";
 import { debug } from "./services/debug";
+import MembershipHeader from "./components/MembershipHeader";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -82,7 +79,6 @@ const doGetManifest = throttle(
   (
     setBungieSystemDisabled: (value: boolean) => void,
     setBungieServiceUnavailable: (value: boolean) => void,
-    setManifestData: (value: ManifestData) => void,
     setManifestError: (value: boolean) => void
   ) => {
     (async () => {
@@ -102,7 +98,6 @@ const doGetManifest = throttle(
           }
           return;
         }
-        setManifestData(manifestResult.manifest);
       } catch (e) {
         console.error(e);
         setManifestError(true);
@@ -203,9 +198,6 @@ const App = () => {
   const [isAuthed, setIsAuthed] = useState(hasValidAuth());
   const [hasAuthError, setAuthError] = useState(false);
 
-  const [manifestData, setManifestData] = useState<ManifestData | undefined>(
-    undefined
-  );
   const [hasManifestError, setManifestError] = useState(false);
   const [isBungieSystemDisabled, setBungieSystemDisabled] = useState(false);
   const [isBungieServiceUnavailable, setBungieServiceUnavailable] = useState(
@@ -263,15 +255,9 @@ const App = () => {
       doGetManifest(
         setBungieSystemDisabled,
         setBungieServiceUnavailable,
-        setManifestData,
         setManifestError
       ),
-    [
-      setBungieSystemDisabled,
-      setBungieServiceUnavailable,
-      setManifestData,
-      setManifestError,
-    ]
+    [setBungieSystemDisabled, setBungieServiceUnavailable, setManifestError]
   );
 
   useEvent(EVENTS.MANIFEST_FETCH_ERROR, () => {
@@ -279,7 +265,6 @@ const App = () => {
     doGetManifest(
       setBungieSystemDisabled,
       setBungieServiceUnavailable,
-      setManifestData,
       setManifestError
     );
   });
@@ -497,20 +482,12 @@ const App = () => {
     return (
       <>
         <AppWrapper top>
-          <div className={STYLES.header}>
-            <button
-              className={classnames(STYLES.hardRefreshButton, {
-                [STYLES.disabled]: isFetchingCharacterData,
-              })}
-              onClick={onRefreshClick}
-            >
-              Refresh
-            </button>
-            <MembershipSelect
-              api={api}
-              onMembershipSelect={onSelectMembership}
-            />
-          </div>
+          <MembershipHeader
+            api={api}
+            onMembershipSelect={onSelectMembership}
+            isFetchingCharacterData={isFetchingCharacterData}
+            onRefreshClick={onRefreshClick}
+          />
           <div className={STYLES.charactersContainer}>
             <div className={STYLES.characters}>
               {useCharacterOrder
