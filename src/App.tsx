@@ -399,7 +399,7 @@ const App = () => {
     }
   }
 
-  (window as any).characterData = characterData;
+  window.characterData = characterData;
 
   const getDefaultCharacterDisplayOrder = useCallback(
     () =>

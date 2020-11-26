@@ -88,3 +88,10 @@ export interface FullCharacterData extends PowerBarsCharacterData {
   character: DestinyCharacterComponent;
   topItemBySlot?: ItemBySlot;
 }
+
+declare global {
+  interface Window {
+    characterData: PowerBarsCharacterData[] | undefined;
+    clearDestinyManifest: () => void;
+  }
+}

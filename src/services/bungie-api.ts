@@ -106,6 +106,31 @@ const getCachedManifestData = async () => {
   return getCachedManifestDataPromise;
 };
 
+const asBoolean = (value: string) => value && value.toLowerCase() === "true";
+
+const getUserLanguage = () => {
+  const LANG_PATTERN = /^[a-z]{2}$/;
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const queryLang = queryParams.get("lang");
+
+  if (queryLang && LANG_PATTERN.test(queryLang)) {
+    return queryLang;
+  }
+
+  const queryUseUserLang = queryParams.get("useLang") || "";
+  const useUserLang = asBoolean(queryUseUserLang);
+
+  if (useUserLang && navigator && navigator.language) {
+    const navLanguage = navigator.language.substr(0, 2);
+    if (LANG_PATTERN.test(navLanguage)) {
+      return navLanguage;
+    }
+  }
+
+  return undefined;
+};
+
 const getRemoteManifestData = async (manifest: DestinyManifest) => {
   debug("getRemoteManifestData");
   if (!manifest) {
@@ -113,8 +138,12 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   }
   const version = manifest.version;
   eventEmitter.emit(EVENTS.FETCH_MANIFEST_DATA);
+  const language = getUserLanguage() || "en";
+  const manifestUrl =
+    manifest.jsonWorldContentPaths[language] ||
+    manifest.jsonWorldContentPaths.en;
   const manifestDataResponse = await fetch(
-    `https://www.bungie.net${manifest.jsonWorldContentPaths.en}`
+    `https://www.bungie.net${manifestUrl}`
   );
   const manifestData: ManifestData = await manifestDataResponse.json();
   eventEmitter.emit(EVENTS.PARSE_MANIFEST_DATA);
@@ -138,6 +167,9 @@ export const clearStoredManifest = async () => {
   // Trigger re-fetch by emitting error
   eventEmitter.emit(EVENTS.MANIFEST_FETCH_ERROR);
 };
+
+window.clearDestinyManifest = () =>
+  clearStoredManifest().then(() => console.log("Cleared Destiny manifest"));
 
 export type GetManifestResult =
   | {
