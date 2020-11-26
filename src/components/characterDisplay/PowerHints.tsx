@@ -4,6 +4,7 @@ import React from "react";
 import {
   ITEM_POWER_PINNACLE_CAP,
   ITEM_POWER_PINNACLE_DROP_OFFSET,
+  ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK,
   ITEM_POWER_POWERFUL_CAP,
   ITEM_POWER_SOFT_CAP,
 } from "../../constants";
@@ -33,6 +34,33 @@ export const PowerHints = ({
   const powerRequiredToReachNext = (nextPower - overallPowerExact) * 8;
   const powerRequiredToReachPotential =
     (potentialOverallPower - overallPowerExact) * 8;
+
+  const pinnacleDropPowerDisplay =
+    ITEM_POWER_PINNACLE_CAP - overallPower >
+    ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK ? (
+      <>
+        <Power>
+          {Math.min(
+            overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK,
+            ITEM_POWER_PINNACLE_CAP
+          )}
+        </Power>{" "}
+        or{" "}
+        <Power>
+          {Math.min(
+            overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET,
+            ITEM_POWER_PINNACLE_CAP
+          )}
+        </Power>
+      </>
+    ) : (
+      <Power>
+        {Math.min(
+          overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET,
+          ITEM_POWER_PINNACLE_CAP
+        )}
+      </Power>
+    );
 
   return (
     <div className={STYLES.hints}>
@@ -206,14 +234,7 @@ export const PowerHints = ({
               <div className={STYLES.hintExtraInner}>
                 <div>
                   Pinnacle reward sources (Some weekly challenges, Year 4 raids)
-                  will give you items at{" "}
-                  <Power>
-                    {Math.min(
-                      overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET,
-                      ITEM_POWER_PINNACLE_CAP
-                    )}
-                  </Power>{" "}
-                  power.
+                  will give you items at {pinnacleDropPowerDisplay} power.
                 </div>
                 {powerRequiredToReachNext && (
                   <div>
