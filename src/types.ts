@@ -74,9 +74,15 @@ export interface SelectedItemBySlot {
 export interface PowerBarsCharacterData {
   character: SelectedDestinyCharacterComponent;
   className: string;
+
   overallPowerExact: number;
   overallPower: number;
   topItemBySlot?: SelectedItemBySlot;
+
+  unrestrictedOverallPowerExact?: number;
+  unrestrictedOverallPower?: number;
+  topUnrestrictedItemBySlot?: SelectedItemBySlot;
+
   artifactData?: SeasonalArtifactData;
   potentialOverallPower?: number;
   title?: string;

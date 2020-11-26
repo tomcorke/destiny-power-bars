@@ -33,14 +33,21 @@ interface PowerDetailsProps {
     progressToNextLevel: number;
     nextLevelAt: number;
   };
+  unrestrictedOverallPower?: number;
+  unrestrictedOverallPowerExact?: number;
+  useUnrestrictedPower?: boolean;
 }
 
 export const PowerDetails = ({
   overallPowerExact,
   overallPower,
   artifactData,
+  unrestrictedOverallPower,
+  unrestrictedOverallPowerExact,
+  useUnrestrictedPower = true,
 }: PowerDetailsProps) => {
-  const roundedPower = Math.floor(overallPower);
+  const powerToDisplay =
+    (useUnrestrictedPower && unrestrictedOverallPower) || overallPower;
 
   if (!artifactData || artifactData.bonusPower === 0) {
     return (
@@ -56,14 +63,24 @@ export const PowerDetails = ({
     <div className={STYLES.details}>
       <div className={STYLES.detailsRow}>
         <div className={STYLES.detailsLabel}>
-          Maximum equippable gear power:
+          {useUnrestrictedPower &&
+          unrestrictedOverallPower &&
+          unrestrictedOverallPower > overallPower
+            ? "Maximum gear power (with exotics)"
+            : "Maximum equippable gear power"}
+          :
         </div>
-        <div className={STYLES.defailsValue}>
-          <Power>{roundedPower}</Power>
+        <div className={STYLES.detailsValue}>
+          <Power>{powerToDisplay}</Power>
         </div>
       </div>
       <div className={STYLES.detailsRow}>
-        <InterPowerBar value={overallPowerExact} />
+        <InterPowerBar
+          value={overallPowerExact}
+          extraValue={
+            useUnrestrictedPower ? unrestrictedOverallPowerExact : undefined
+          }
+        />
       </div>
       {artifactData ? (
         <>

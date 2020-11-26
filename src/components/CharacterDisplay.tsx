@@ -106,13 +106,18 @@ const CharacterDisplay = ({
   onDragEnd,
   onDragDrop,
 }: CharacterDisplayProps) => {
-  const roundedPower = Math.floor(data.overallPower);
+  const [elementRef, renderImage] = useRenderElementImage(data.className);
+
+  const [useUnrestrictedPower, setUseUnrestrictedPower] = useState(true);
+
+  const roundedPower =
+    useUnrestrictedPower && data.unrestrictedOverallPower
+      ? data.unrestrictedOverallPower
+      : data.overallPower;
 
   const summableArtifactBonusPower = data.artifactData
     ? data.artifactData.bonusPower
     : 0;
-
-  const [elementRef, renderImage] = useRenderElementImage(data.className);
 
   return CharacterDisplayBodyWrapper(
     rgbString(data.character.emblemColor || FALLBACK_EMBLEM_RGB),
@@ -144,9 +149,15 @@ const CharacterDisplay = ({
       </div>
 
       <div className={STYLES.content}>
-        <PowerDetails {...data} />
-        <PowerBars {...data} />
-        <PowerHints {...data} />
+        <PowerDetails {...data} useUnrestrictedPower={useUnrestrictedPower} />
+        <PowerBars {...data} useUnrestrictedPower={useUnrestrictedPower} />
+        <PowerHints
+          {...data}
+          useUnrestrictedPower={useUnrestrictedPower}
+          onChangeUseUnrestrictedPower={(newValue) =>
+            setUseUnrestrictedPower(newValue)
+          }
+        />
       </div>
 
       <CharacterLinks

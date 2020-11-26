@@ -74,6 +74,14 @@ const getAveragePower = (powerBySlot: PowerBySlot) =>
 const getOverallPower = (powerBySlot: PowerBySlot) =>
   Math.floor(getAveragePower(powerBySlot));
 
+export const getPower = (itemsBySlot: ItemBySlot) => {
+  const powerBySlot = getPowerBySlot(itemsBySlot);
+  return {
+    averagePower: getAveragePower(powerBySlot),
+    overallPower: getOverallPower(powerBySlot),
+  };
+};
+
 const mergeItems = <
   T extends { [key: string]: { items: DestinyItemComponent[] } }
 >(
@@ -239,7 +247,24 @@ const getDataForCharacterId = (
     allItems.filter((i) => i.itemDefinition?.redacted),
     (i) => i.slotName
   );
-  console.log({ character, redactedItemsBySlot });
+  debug({ character, redactedItemsBySlot });
+  */
+
+  /*
+  const helm = itemsBySlot.head?.find(
+    (i) => i.itemDefinition?.displayProperties?.name === "Crown of Tempests"
+  );
+  if (helm) {
+    debug("Crown of Tempests", helm);
+    (helm.instanceData.primaryStat as any).value = 1260;
+  }
+  const legs = itemsBySlot.legs?.find(
+    (i) => i.itemDefinition?.displayProperties?.name === "Transversive Steps"
+  );
+  if (legs) {
+    debug("Transversive Steps", legs);
+    (legs.instanceData.primaryStat as any).value = 1259;
+  }
   */
 
   // Get max power items per slot
@@ -248,6 +273,9 @@ const getDataForCharacterId = (
     (items) =>
       maxBy(items, (item) => getItemScore(item, equippedCharacterItems))!
   );
+
+  const topUnrestrictedItemBySlot: ItemBySlot = topItemBySlot;
+
   // Get overlaps by equip label
   const uniqueEquippedGroups = groupBy(
     Object.values(topItemBySlot).filter(getEquipLabel),
@@ -259,7 +287,10 @@ const getDataForCharacterId = (
       return;
     }
 
-    const validItemCombinations: ItemBySlot[] = [];
+    // Create a list of valid _equippable_ item combinations
+    // by excluding those which have more than one item included in the same
+    // "equip label" - Destiny's groupings that limit exotics to 1 armour, 1 weapon
+    const validEquippableItemCombinations: ItemBySlot[] = [];
 
     uniqueEquippedGroup.forEach((item) => {
       const otherItems: JoinedItemDefinition[] = uniqueEquippedGroup
@@ -279,19 +310,23 @@ const getDataForCharacterId = (
             getItemScore(i, equippedCharacterItems)
           )!;
         } else {
-          // No non-exotic options for this slot, so whole combination is invalidaa
+          // No non-exotic options for this slot, so whole combination is invalid
           isCombinationValid = false;
         }
       });
       if (isCombinationValid) {
-        validItemCombinations.push(combination);
+        validEquippableItemCombinations.push(combination);
       }
     });
 
+    const getCombinationScore = (combination: ItemBySlot) =>
+      sumBy(Object.values(combination), getItemScore);
+
     // Select highest total scoring valid combination, if alternative item combinations have been generated
-    if (validItemCombinations.length > 0) {
-      const bestCombination = maxBy(validItemCombinations, (combination) =>
-        sumBy(Object.values(combination), getItemScore)
+    if (validEquippableItemCombinations.length > 0) {
+      const bestCombination = maxBy(
+        validEquippableItemCombinations,
+        getCombinationScore
       )!;
       topItemBySlot = bestCombination;
     }
@@ -305,9 +340,15 @@ const getDataForCharacterId = (
     }
   });
 
-  const powerBySlot = getPowerBySlot(topItemBySlot);
-  const overallPowerExact = getAveragePower(powerBySlot);
-  const overallPower = getOverallPower(powerBySlot);
+  const powerBySlot = getPowerBySlot(topUnrestrictedItemBySlot);
+
+  const { averagePower: overallPowerExact, overallPower } = getPower(
+    topItemBySlot
+  );
+  const {
+    averagePower: unrestrictedOverallPowerExact,
+    overallPower: unrestrictedOverallPower,
+  } = getPower(topUnrestrictedItemBySlot);
 
   const artifactItemComponent = allCharacterItems.find(
     (i) => i.bucketHash === ARTIFACT_INVENTORY_BUCKET_HASH
@@ -368,10 +409,17 @@ const getDataForCharacterId = (
   const resultData: PowerBarsCharacterData = {
     character,
     className,
-    overallPowerExact,
+
     overallPower,
-    potentialOverallPower,
+    overallPowerExact,
     topItemBySlot,
+
+    unrestrictedOverallPower,
+    unrestrictedOverallPowerExact,
+    topUnrestrictedItemBySlot,
+
+    potentialOverallPower,
+
     artifactData,
     title,
     hasRedactedEquippableItems,

@@ -97,9 +97,9 @@ let getCachedManifestDataPromise: Promise<ManifestData> | undefined;
 const getCachedManifestData = async () => {
   if (!getCachedManifestDataPromise) {
     getCachedManifestDataPromise = (async () => {
-      console.log("Loading manifest data from IDB");
+      debug("Loading manifest data from IDB");
       const manifestData = await get(MANIFEST_IDB_KEY);
-      console.log("Finished loading manifest data from IDB");
+      debug("Finished loading manifest data from IDB");
       return manifestData as ManifestData;
     })();
   }

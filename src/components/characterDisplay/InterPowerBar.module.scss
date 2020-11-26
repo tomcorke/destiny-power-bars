@@ -26,12 +26,17 @@
   border: 1px solid black;
 }
 
-.fillBar {
+.fillBar,
+.extraFillBar {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   background-color: cyan;
+}
+
+.extraFillBar {
+  background-color: yellow;
 }
 
 .barOverlay {

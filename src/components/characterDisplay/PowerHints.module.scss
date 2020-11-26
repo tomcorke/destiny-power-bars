@@ -118,3 +118,66 @@
     }
   }
 }
+
+.testCheckbox {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: 1em;
+
+  .switch {
+    margin-left: 0.5em;
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: 1px solid black;
+    background-color: #666;
+    box-shadow: inset 0 0 2px black;
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease-out;
+
+    &:before {
+      display: block;
+      content: "ON";
+      font-size: 11px;
+      font-weight: bold;
+      color: black;
+      position: absolute;
+      left: 2px;
+      top: 3px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    &:after {
+      box-sizing: border-box;
+      width: 14px;
+      height: 14px;
+      content: "";
+      border-radius: 10px;
+      border: 1px solid black;
+      background-color: #ddd;
+      box-shadow: 0 0 3px black;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: 0.2s;
+    }
+  }
+  input {
+    display: none;
+    &:checked + .switch {
+      background-color: goldenrod;
+      &:before {
+        opacity: 1;
+      }
+      &:after {
+        transform: translateX(20px);
+      }
+    }
+  }
+}

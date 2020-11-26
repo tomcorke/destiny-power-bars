@@ -23,7 +23,7 @@ const MANUAL_AUTHED_STORAGE_KEY = "manualAuthed";
 
 eventEmitter.on(EVENTS.UNAUTHED_FETCH_ERROR, () => {
   // If we get 401 from an "authenticated" request, assume the access token is invalid
-  console.log("Clearing invalid access token");
+  debug("Clearing invalid access token");
   localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
 });
 
@@ -67,7 +67,7 @@ const redirectToAuth = () => {
     if (!hasNavigated) {
       window.location.assign(getAuthUrl());
     } else {
-      console.log("Prevented re-navigation");
+      debug("Prevented re-navigation");
       throw Error("Re-navigation attempt");
     }
     hasNavigated = true;
@@ -195,7 +195,7 @@ const handleTokenResponse = async (tokenResponse: Response) => {
 
 const fetchAccessToken = async (authCode: string) => {
   debug("fetchAccessToken");
-  console.log("Fetching Bungie API access token for authentication code");
+  debug("Fetching Bungie API access token for authentication code");
   ga.event({
     category: "Auth",
     action: "Oauth token request",
@@ -222,7 +222,7 @@ const fetchAccessToken = async (authCode: string) => {
 
 const refreshAccessToken = async () => {
   debug("refreshAccessToken");
-  console.log("Refreshing Bungie API access token");
+  debug("Refreshing Bungie API access token");
   const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
   ga.event({
     category: "Auth",
@@ -358,7 +358,7 @@ export const auth = async (): Promise<boolean> => {
   const authCode = queryParams.get("code");
 
   if (authCode && !hasValidAuth()) {
-    console.log("Fetching access token with auth code");
+    debug("Fetching access token with auth code");
     const authResponse = await fetchAccessToken(authCode);
     if (authResponse && authResponse?.authSuccess === false) {
       console.error(authResponse.error);
@@ -387,7 +387,7 @@ export const auth = async (): Promise<boolean> => {
   }
 
   if (hasManuallyAuthed()) {
-    console.log(
+    debug(
       "Redirecting to fresh authentication for missing or expired access token, or missing destiny memberships"
     );
     redirectToAuth();

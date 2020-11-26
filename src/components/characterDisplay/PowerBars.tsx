@@ -22,15 +22,21 @@ const slotFullNames = (className: string): { [key: string]: string } => ({
   power: "Power Weapon",
 });
 
-type PowerBarsProps = PowerBarsCharacterData;
+type PowerBarsProps = PowerBarsCharacterData & {
+  useUnrestrictedPower?: boolean;
+};
 
 export const PowerBars = (data: PowerBarsProps) => {
+  const itemsBySlot = data.useUnrestrictedPower
+    ? data.topUnrestrictedItemBySlot
+    : data.topItemBySlot;
+
   // Get power by slot, using overall power if slot data does not exist
   const powerBySlot = ORDERED_ITEM_SLOTS.reduce(
     (slots, slotName) => ({
       ...slots,
       [slotName]:
-        data.topItemBySlot?.[slotName]?.instanceData?.primaryStat?.value ||
+        itemsBySlot?.[slotName]?.instanceData?.primaryStat?.value ||
         data.overallPower,
     }),
     {} as PowerBySlot
@@ -62,7 +68,7 @@ export const PowerBars = (data: PowerBarsProps) => {
       </div>
       <div className={STYLES.bars}>
         {Object.entries(powerBySlot).map(([slotName, power]) => {
-          const bestItem = data.topItemBySlot?.[slotName];
+          const bestItem = itemsBySlot?.[slotName];
           return (
             <PowerBar
               key={`${data.character.characterId}_${slotName}`}

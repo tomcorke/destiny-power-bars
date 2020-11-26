@@ -15,40 +15,52 @@ import STYLES from "./PowerHints.module.scss";
 interface PowerHintsProps {
   overallPowerExact: number;
   overallPower: number;
+  unrestrictedOverallPowerExact?: number;
+  unrestrictedOverallPower?: number;
   potentialOverallPower?: number;
+  useUnrestrictedPower?: boolean;
+  onChangeUseUnrestrictedPower?: (newValue: boolean) => void;
 }
 
 export const PowerHints = ({
   overallPowerExact,
   overallPower,
+  unrestrictedOverallPowerExact,
+  unrestrictedOverallPower,
   potentialOverallPower,
+
+  useUnrestrictedPower = true,
+  onChangeUseUnrestrictedPower = () => {},
 }: PowerHintsProps) => {
+  const powerToUseExact = unrestrictedOverallPowerExact || overallPowerExact;
+  const powerToUse = unrestrictedOverallPower || overallPower;
+
   potentialOverallPower =
-    potentialOverallPower || Math.min(ITEM_POWER_SOFT_CAP, overallPower);
+    potentialOverallPower || Math.min(ITEM_POWER_SOFT_CAP, powerToUse);
 
   const nextPower =
-    overallPowerExact === overallPower
-      ? overallPower + 1
-      : Math.ceil(overallPowerExact);
+    powerToUseExact === powerToUse
+      ? powerToUse + 1
+      : Math.ceil(powerToUseExact);
 
-  const powerRequiredToReachNext = (nextPower - overallPowerExact) * 8;
+  const powerRequiredToReachNext = (nextPower - powerToUseExact) * 8;
   const powerRequiredToReachPotential =
-    (potentialOverallPower - overallPowerExact) * 8;
+    (potentialOverallPower - powerToUseExact) * 8;
 
   const pinnacleDropPowerDisplay =
-    ITEM_POWER_PINNACLE_CAP - overallPower >
+    ITEM_POWER_PINNACLE_CAP - powerToUse >
     ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK ? (
       <>
         <Power>
           {Math.min(
-            overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK,
+            powerToUse + ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK,
             ITEM_POWER_PINNACLE_CAP
           )}
         </Power>{" "}
         or{" "}
         <Power>
           {Math.min(
-            overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET,
+            powerToUse + ITEM_POWER_PINNACLE_DROP_OFFSET,
             ITEM_POWER_PINNACLE_CAP
           )}
         </Power>
@@ -56,7 +68,7 @@ export const PowerHints = ({
     ) : (
       <Power>
         {Math.min(
-          overallPower + ITEM_POWER_PINNACLE_DROP_OFFSET,
+          powerToUse + ITEM_POWER_PINNACLE_DROP_OFFSET,
           ITEM_POWER_PINNACLE_CAP
         )}
       </Power>
@@ -65,8 +77,8 @@ export const PowerHints = ({
   return (
     <div className={STYLES.hints}>
       {potentialOverallPower &&
-        potentialOverallPower > overallPower &&
-        overallPower > ITEM_POWER_POWERFUL_CAP && (
+        potentialOverallPower > powerToUse &&
+        powerToUse > ITEM_POWER_POWERFUL_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -82,14 +94,14 @@ export const PowerHints = ({
               <div className={STYLES.hintExtraInner}>
                 <div>
                   Powerful rewards from milestones or prime engrams can drop
-                  with a power level up to <Power>{overallPower}</Power> for
-                  this character.
+                  with a power level up to <Power>{powerToUse}</Power> for this
+                  character.
                 </div>
                 <div>
                   Replacing items which are below your current overall power can
                   increase your power to a higher average.
                 </div>
-                {overallPower < ITEM_POWER_PINNACLE_CAP && (
+                {powerToUse < ITEM_POWER_PINNACLE_CAP && (
                   <div>
                     Raising your overall power before collecting your next
                     pinnacle reward will give you the most efficient progress.
@@ -102,7 +114,7 @@ export const PowerHints = ({
                       You need an extra{" "}
                       <Power>{powerRequiredToReachNext}</Power> total power on
                       your items to reach an overall power of{" "}
-                      <Power>{Math.floor(overallPower + 1)}</Power>.
+                      <Power>{Math.floor(powerToUse + 1)}</Power>.
                     </div>
                   )}
                 {powerRequiredToReachPotential && (
@@ -118,8 +130,8 @@ export const PowerHints = ({
           </div>
         )}
 
-      {potentialOverallPower > overallPower &&
-        overallPower <= ITEM_POWER_POWERFUL_CAP && (
+      {potentialOverallPower > powerToUse &&
+        powerToUse <= ITEM_POWER_POWERFUL_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -135,12 +147,12 @@ export const PowerHints = ({
               <div className={STYLES.hintExtraInner}>
                 <div>
                   World drops (from strikes, public events,{" "}
-                  {overallPower <= ITEM_POWER_POWERFUL_CAP && "vendors, "}
+                  {powerToUse <= ITEM_POWER_POWERFUL_CAP && "vendors, "}
                   non-powerful rewards) can drop with a power level{" "}
-                  {overallPower >= ITEM_POWER_SOFT_CAP ? (
+                  {powerToUse >= ITEM_POWER_SOFT_CAP ? (
                     <>
-                      from <Power>{overallPower - 3}</Power> to{" "}
-                      <Power>{overallPower}</Power>
+                      from <Power>{powerToUse - 3}</Power> to{" "}
+                      <Power>{powerToUse}</Power>
                     </>
                   ) : (
                     <>
@@ -161,7 +173,7 @@ export const PowerHints = ({
                       You need an extra{" "}
                       <Power>{powerRequiredToReachNext}</Power> total power on
                       your items to reach an overall power of{" "}
-                      <Power>{Math.floor(overallPower + 1)}</Power>.
+                      <Power>{Math.floor(powerToUse + 1)}</Power>.
                     </div>
                   )}
                 {powerRequiredToReachPotential && (
@@ -177,9 +189,9 @@ export const PowerHints = ({
           </div>
         )}
 
-      {potentialOverallPower === overallPower &&
-        overallPower >= ITEM_POWER_SOFT_CAP &&
-        overallPower < ITEM_POWER_POWERFUL_CAP && (
+      {potentialOverallPower === powerToUse &&
+        powerToUse >= ITEM_POWER_SOFT_CAP &&
+        powerToUse < ITEM_POWER_POWERFUL_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -203,7 +215,7 @@ export const PowerHints = ({
                   <div>
                     You need an extra <Power>{powerRequiredToReachNext}</Power>{" "}
                     total power on your items to reach an overall power of{" "}
-                    <Power>{Math.floor(overallPower + 1)}</Power>.
+                    <Power>{Math.floor(powerToUse + 1)}</Power>.
                   </div>
                 )}
                 <div>
@@ -216,9 +228,9 @@ export const PowerHints = ({
           </div>
         )}
 
-      {potentialOverallPower === overallPower &&
-        overallPower >= ITEM_POWER_POWERFUL_CAP &&
-        overallPower < ITEM_POWER_PINNACLE_CAP && (
+      {potentialOverallPower === powerToUse &&
+        powerToUse >= ITEM_POWER_POWERFUL_CAP &&
+        powerToUse < ITEM_POWER_PINNACLE_CAP && (
           <div
             className={classnames(
               STYLES.hint,
@@ -240,13 +252,26 @@ export const PowerHints = ({
                   <div>
                     You need an extra <Power>{powerRequiredToReachNext}</Power>{" "}
                     total power on your items to reach an overall power of{" "}
-                    <Power>{Math.floor(overallPower + 1)}</Power>.
+                    <Power>{Math.floor(powerToUse + 1)}</Power>.
                   </div>
                 )}
               </div>
             </div>
           </div>
         )}
+
+      {unrestrictedOverallPowerExact &&
+      unrestrictedOverallPowerExact > overallPowerExact ? (
+        <label className={STYLES.testCheckbox}>
+          Include multiple exotics
+          <input
+            type="checkbox"
+            checked={useUnrestrictedPower}
+            onClick={() => onChangeUseUnrestrictedPower(!useUnrestrictedPower)}
+          />
+          <span className={STYLES.switch} />
+        </label>
+      ) : null}
     </div>
   );
 };
