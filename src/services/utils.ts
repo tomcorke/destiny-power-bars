@@ -380,6 +380,28 @@ const getDataForCharacterId = (
   return resultData;
 };
 
+const simpleNumericalHash = (value: string) => {
+  let hash = 0;
+  if (value.length === 0) {
+    return hash;
+  }
+  for (let i = 0; i < value.length; i++) {
+    const char = value.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
+};
+const hashObject = <T extends object>(value: T) => {
+  return simpleNumericalHash(JSON.stringify(value));
+};
+
+let lastManifestResult: GetManifestResult | undefined;
+let lastAllCharacterItemsHash: number | undefined;
+let lastItemInstancesHash: number | undefined;
+let lastProfileProgressionHash: number | undefined;
+let lastCharacterData: PowerBarsCharacterData[] | undefined;
+
 export const getCachedCharacterData = async (
   setCharacterData: (state: PowerBarsCharacterData[]) => any
 ) => {
@@ -524,6 +546,33 @@ export const getCharacterData = async (
       .concat(mergeItems(characterEquipments))
       .concat(profileInventories.items);
 
+    const newAllCharacterItemsHash = hashObject(allCharacterItems);
+    const newItemInstancesHash = hashObject(itemInstances);
+    const newProfileProgressionHash = hashObject(profileProgression);
+
+    debug({
+      lastProfileProgressionHash,
+      newProfileProgressionHash,
+    });
+
+    if (
+      newAllCharacterItemsHash === lastAllCharacterItemsHash &&
+      manifestResult === lastManifestResult &&
+      newItemInstancesHash === lastItemInstancesHash &&
+      newProfileProgressionHash === lastProfileProgressionHash &&
+      lastCharacterData
+    ) {
+      // If nothing has changed, don't waste time calculating new best items
+      // when we can return the last set unmodified
+      debug("Nothing has changed, returning last calculated character data");
+      return lastCharacterData;
+    }
+
+    lastManifestResult = manifestResult;
+    lastAllCharacterItemsHash = newAllCharacterItemsHash;
+    lastItemInstancesHash = newItemInstancesHash;
+    lastProfileProgressionHash = newProfileProgressionHash;
+
     const characterIds = Object.keys(characters);
     const characterData = characterIds.map((id) =>
       getDataForCharacterId(
@@ -537,6 +586,7 @@ export const getCharacterData = async (
         profileProgression
       )
     );
+    lastCharacterData = characterData;
     setCachedCharacterData(characterData);
     setCharacterData(characterData);
   } catch (e) {
