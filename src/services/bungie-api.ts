@@ -139,13 +139,22 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   const version = manifest.version;
   eventEmitter.emit(EVENTS.FETCH_MANIFEST_DATA);
   const language = getUserLanguage() || "en";
-  const manifestUrl =
-    manifest.jsonWorldContentPaths[language] ||
-    manifest.jsonWorldContentPaths.en;
-  const manifestDataResponse = await fetch(
-    `https://www.bungie.net${manifestUrl}`
+  const manifestUrls =
+    manifest.jsonWorldComponentContentPaths[language] ||
+    manifest.jsonWorldComponentContentPaths.en;
+  const manifestDataArray = await Promise.all(
+    manifestPropertyWhitelist.map((prop) =>
+      fetch(`https://www.bungie.net${manifestUrls[prop]}`).then((response) =>
+        response.json()
+      )
+    )
   );
-  const manifestData: ManifestData = await manifestDataResponse.json();
+  const manifestData: ManifestData = manifestPropertyWhitelist.reduce(
+    (acc, prop, i) => ({ ...acc, [prop]: manifestDataArray[i] }),
+    {} as any
+  );
+  console.log(manifestData);
+  // const manifestData: ManifestData = await manifestDataResponse.json();
   eventEmitter.emit(EVENTS.PARSE_MANIFEST_DATA);
   Object.keys(manifestData).forEach((key) => {
     if (!manifestPropertyWhitelist.includes(key)) {
