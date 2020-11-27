@@ -262,7 +262,7 @@ export const PowerHints = ({
 
       {unrestrictedOverallPowerExact &&
       unrestrictedOverallPowerExact > overallPowerExact ? (
-        <label className={STYLES.testCheckbox}>
+        <label className={STYLES.toggleCheckbox}>
           Include multiple exotics
           <input
             type="checkbox"

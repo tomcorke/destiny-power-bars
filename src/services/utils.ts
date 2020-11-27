@@ -603,7 +603,12 @@ export const getCharacterData = async (
       newProfileProgressionHash,
     });
 
+    const queryParams = new URLSearchParams(window.location.search);
+    const queryNoCache = queryParams.get("nocache");
+    const noCache = queryNoCache && queryNoCache.toLowerCase() === "true";
+
     if (
+      !noCache &&
       newAllCharacterItemsHash === lastAllCharacterItemsHash &&
       manifestResult === lastManifestResult &&
       newItemInstancesHash === lastItemInstancesHash &&
