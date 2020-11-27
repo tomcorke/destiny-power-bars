@@ -87,7 +87,7 @@ export interface ManifestData {
     [key: string]: DestinyRecordDefinition | undefined;
   };
 }
-const manifestPropertyWhitelist = [
+const manifestPropertyList = [
   "DestinyInventoryItemDefinition",
   "DestinyVendorDefinition",
   "DestinyRecordDefinition",
@@ -143,24 +143,16 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     manifest.jsonWorldComponentContentPaths[language] ||
     manifest.jsonWorldComponentContentPaths.en;
   const manifestDataArray = await Promise.all(
-    manifestPropertyWhitelist.map((prop) =>
+    manifestPropertyList.map((prop) =>
       fetch(`https://www.bungie.net${manifestUrls[prop]}`).then((response) =>
         response.json()
       )
     )
   );
-  const manifestData: ManifestData = manifestPropertyWhitelist.reduce(
+  const manifestData: ManifestData = manifestPropertyList.reduce(
     (acc, prop, i) => ({ ...acc, [prop]: manifestDataArray[i] }),
     {} as any
   );
-  console.log(manifestData);
-  // const manifestData: ManifestData = await manifestDataResponse.json();
-  eventEmitter.emit(EVENTS.PARSE_MANIFEST_DATA);
-  Object.keys(manifestData).forEach((key) => {
-    if (!manifestPropertyWhitelist.includes(key)) {
-      delete manifestData[key];
-    }
-  });
   eventEmitter.emit(EVENTS.STORE_MANIFEST_DATA);
   await set(MANIFEST_IDB_KEY, manifestData);
   localStorage.setItem(MANIFEST_VERSION_KEY, version);
@@ -221,7 +213,7 @@ export const getManifest = async (): Promise<GetManifestResult> => {
           }
           if (
             cachedManifestData &&
-            manifestPropertyWhitelist.every(
+            manifestPropertyList.every(
               (key) => cachedManifestData && !!cachedManifestData[key]
             )
           ) {
