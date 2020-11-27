@@ -256,14 +256,14 @@ const getDataForCharacterId = (
   );
   if (helm) {
     debug("Crown of Tempests", helm);
-    (helm.instanceData.primaryStat as any).value = 1260;
+    (helm.instanceData.primaryStat as any).value = 1257;
   }
   const legs = itemsBySlot.legs?.find(
     (i) => i.itemDefinition?.displayProperties?.name === "Transversive Steps"
   );
   if (legs) {
     debug("Transversive Steps", legs);
-    (legs.instanceData.primaryStat as any).value = 1259;
+    (legs.instanceData.primaryStat as any).value = 1258;
   }
   */
 

@@ -27,9 +27,12 @@ type PowerBarsProps = PowerBarsCharacterData & {
 };
 
 export const PowerBars = (data: PowerBarsProps) => {
-  const itemsBySlot = data.useUnrestrictedPower
-    ? data.topUnrestrictedItemBySlot
-    : data.topItemBySlot;
+  const itemsBySlot =
+    data.useUnrestrictedPower &&
+    data.unrestrictedOverallPowerExact &&
+    data.unrestrictedOverallPowerExact > data.overallPowerExact
+      ? data.topUnrestrictedItemBySlot
+      : data.topItemBySlot;
 
   // Get power by slot, using overall power if slot data does not exist
   const powerBySlot = ORDERED_ITEM_SLOTS.reduce(
