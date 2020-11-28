@@ -1,6 +1,7 @@
 import ReactGA from "react-ga";
 
 const ENABLED = true;
+let initialized = false;
 
 interface AnalyticsInterface {
   set: (props: { [key: string]: string | boolean }) => void;
@@ -16,22 +17,25 @@ interface AnalyticsInterface {
 
 let ga: AnalyticsInterface = ReactGA;
 
-if (ENABLED) {
-  ga.initialize("UA-149614480-1", {
-    // debug: process.env.NODE_ENV === "development"
-  });
+export const init = () => {
+  if (ENABLED && !initialized) {
+    initialized = true;
+    ga.initialize("UA-149614480-1", {
+      // debug: process.env.NODE_ENV === "development"
+    });
 
-  // Anonymize IP addresses, yay GDPR
-  ga.set({ anonymizeIp: true });
-  ga.pageview(window.location.pathname + window.location.search);
-} else {
-  // Set mock GA object to disable without removing other code
-  ga = {
-    initialize: () => undefined,
-    pageview: () => undefined,
-    set: (...args: any[]) => undefined,
-    event: (...args: any[]) => undefined,
-  };
-}
+    // Anonymize IP addresses, yay GDPR
+    ga.set({ anonymizeIp: true });
+    ga.pageview(window.location.pathname + window.location.search);
+  } else {
+    // Set mock GA object to disable without removing other code
+    ga = {
+      initialize: () => undefined,
+      pageview: () => undefined,
+      set: (...args: any[]) => undefined,
+      event: (...args: any[]) => undefined,
+    };
+  }
+};
 
 export default ga;

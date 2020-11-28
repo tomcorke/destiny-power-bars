@@ -1,0 +1,70 @@
+.getTrackingPermission {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  background: linear-gradient(to top, rgba(black, 0.6), transparent 50%);
+  padding: 1em;
+  box-sizing: border-box;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.floater {
+  max-width: 500px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  background: rgba(black, 0.8);
+  border-radius: 5px;
+  padding: 1em;
+  box-shadow: 0 0 5px white;
+  color: white;
+  pointer-events: all;
+}
+
+.text {
+}
+
+.buttons {
+  margin-left: 0.5em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  height: 100%;
+
+  @media (max-width: 500px) {
+    flex-flow: column nowrap;
+  }
+
+  button {
+    border: none;
+    border-radius: 3px;
+    padding: 0.5em 1em;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    display: inline-block;
+    height: 100%;
+  }
+
+  button + button {
+    margin: 0 0 0 0.5em;
+    @media (max-width: 500px) {
+      margin: 0.5em 0 0;
+    }
+  }
+
+  .yes {
+    background: rgb(50, 200, 50);
+  }
+  .no {
+    background: rgb(150, 50, 50);
+  }
+}
