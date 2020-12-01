@@ -558,18 +558,20 @@ const App = () => {
           {isFetchingCharacterData ? <FetchSpinner /> : null}
         </AppWrapper>
         {/* <S10Overlay /> */}
-        <Footer />
+        <Footer withMobilePadding />
       </>
     );
   }
 
   if (hasAuthError && !disableManualLogin) {
     return (
-      <AppWrapper>
-        <Header />
-        <LoginPrompt />
+      <>
+        <AppWrapper>
+          <Header />
+          <LoginPrompt />
+        </AppWrapper>
         <Footer />
-      </AppWrapper>
+      </>
     );
   }
 
@@ -592,12 +594,14 @@ const App = () => {
   );
 
   return (
-    <AppWrapper>
-      <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
-      <LoadingChecklist withTopMargin items={loadingChecklistItems} />
-      <LoadingSpinner>{status}</LoadingSpinner>
+    <>
+      <AppWrapper>
+        <MembershipSelect api={api} onMembershipSelect={onSelectMembership} />
+        <LoadingChecklist withTopMargin items={loadingChecklistItems} />
+        <LoadingSpinner>{status}</LoadingSpinner>
+      </AppWrapper>
       <Footer />
-    </AppWrapper>
+    </>
   );
 };
 
