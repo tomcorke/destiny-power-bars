@@ -7,6 +7,7 @@ import {
   getProfile,
   setItemLockState as setItemLockStateApi,
   DestinyItemStateRequest,
+  DestinyItemCategoryDefinition,
 } from "bungie-api-ts/destiny2";
 import { HttpClientConfig } from "bungie-api-ts/http";
 import { get, set, del } from "idb-keyval";
@@ -86,11 +87,15 @@ export interface ManifestData {
   DestinyRecordDefinition: {
     [key: string]: DestinyRecordDefinition | undefined;
   };
+  DestinyItemCategoryDefinition: {
+    [key: string]: DestinyItemCategoryDefinition | undefined;
+  };
 }
 const manifestPropertyList = [
   "DestinyInventoryItemDefinition",
   "DestinyVendorDefinition",
   "DestinyRecordDefinition",
+  "DestinyItemCategoryDefinition",
 ];
 
 let getCachedManifestDataPromise: Promise<ManifestData> | undefined;
@@ -128,7 +133,7 @@ const getUserLanguage = () => {
     }
   }
 
-  return undefined;
+  return "en";
 };
 
 const getRemoteManifestData = async (manifest: DestinyManifest) => {
@@ -138,7 +143,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   }
   const version = manifest.version;
   eventEmitter.emit(EVENTS.FETCH_MANIFEST_DATA);
-  const language = getUserLanguage() || "en";
+  const language = getUserLanguage();
   const manifestUrls =
     manifest.jsonWorldComponentContentPaths[language] ||
     manifest.jsonWorldComponentContentPaths.en;
@@ -155,7 +160,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   );
   eventEmitter.emit(EVENTS.STORE_MANIFEST_DATA);
   await set(MANIFEST_IDB_KEY, manifestData);
-  localStorage.setItem(MANIFEST_VERSION_KEY, version);
+  localStorage.setItem(MANIFEST_VERSION_KEY, `${version}-${language}`);
   return manifestData;
 };
 
@@ -201,10 +206,11 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         const localStorageManifestVersion = localStorage.getItem(
           MANIFEST_VERSION_KEY
         );
+        const language = getUserLanguage();
+        const manifestVersion = `${manifest?.Response?.version}-${language}`;
         if (
-          manifest &&
-          manifest.Response &&
-          manifest.Response.version === localStorageManifestVersion &&
+          manifestVersion &&
+          manifestVersion === localStorageManifestVersion &&
           !window.location.search.includes("updateManifest")
         ) {
           if (!cachedManifestData) {

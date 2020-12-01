@@ -83,6 +83,12 @@ export const PowerBars = (data: PowerBarsProps) => {
               icon={bestItem?.itemDefinition?.displayProperties.icon}
               isMasterworked={bestItem && isMasterwork(bestItem)}
               itemName={bestItem?.itemDefinition?.displayProperties.name}
+              itemType={
+                (bestItem?.itemCategories?.[0]?.parentCategoryHashes?.[0] ===
+                  1 &&
+                  bestItem?.itemCategories?.[0]?.displayProperties.name) ||
+                bestItem?.itemDefinition?.itemTypeDisplayName
+              }
               location={bestItem?.location}
               isEquipped={bestItem?.instanceData?.isEquipped}
             />

@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { useEffect, useRef } from "react";
+import { debug } from "./debug";
 
 export enum EVENTS {
   GET_MANIFEST = "GET_MANIFEST",
@@ -20,6 +21,15 @@ export enum EVENTS {
 const eventEmitter = new EventEmitter();
 
 export default eventEmitter;
+
+(() => {
+  const ee = eventEmitter as any;
+  const oldEmit = ee.emit;
+  ee.emit = (...args: any[]) => {
+    debug(args);
+    oldEmit.apply(ee, args);
+  };
+})();
 
 type EventHandler<T extends any[]> = (args: T) => void;
 

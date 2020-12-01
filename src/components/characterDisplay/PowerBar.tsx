@@ -13,6 +13,7 @@ interface BarProps {
   icon?: string;
   isMasterworked?: boolean;
   itemName?: string;
+  itemType?: string;
   location?: ItemLocation;
   isEquipped?: boolean;
 }
@@ -46,6 +47,7 @@ export const PowerBar = ({
   icon,
   isMasterworked,
   itemName,
+  itemType,
   location,
   isEquipped,
 }: BarProps) => {
@@ -71,7 +73,7 @@ export const PowerBar = ({
         {value}
       </span>
       <span className={STYLES.slotName}>
-        <span className={STYLES.generalLabel}>{label}</span>
+        <span className={STYLES.generalLabel}>{itemType}</span>
         <span className={STYLES.specificLabel}>{specificItemLabel}</span>
       </span>
     </span>

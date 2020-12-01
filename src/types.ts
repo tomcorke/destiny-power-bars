@@ -3,6 +3,7 @@ import {
   DestinyColor,
   DestinyDisplayPropertiesDefinition,
   DestinyInventoryItemDefinition,
+  DestinyItemCategoryDefinition,
   DestinyItemComponent,
   DestinyItemInstanceComponent,
 } from "bungie-api-ts/destiny2";
@@ -10,6 +11,7 @@ import {
 export interface JoinedItemDefinition extends DestinyItemComponent {
   instanceData: DestinyItemInstanceComponent;
   itemDefinition: DestinyInventoryItemDefinition;
+  itemCategories?: DestinyItemCategoryDefinition[];
   slotName: string;
 }
 
@@ -59,12 +61,14 @@ interface SelectedDisplayProperties
 
 interface SelectedDestinyInventoryItemDefinition {
   displayProperties: SelectedDisplayProperties;
+  itemTypeDisplayName: string;
 }
 
 export interface SelectedJoinedItemDefinition
   extends Partial<DestinyItemComponent> {
   instanceData?: SelectedDestinyItemInstanceComponent;
   itemDefinition?: SelectedDestinyInventoryItemDefinition;
+  itemCategories?: DestinyItemCategoryDefinition[];
 }
 
 export interface SelectedItemBySlot {

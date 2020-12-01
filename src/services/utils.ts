@@ -140,6 +140,9 @@ const mapAndFilterItems = (
         ...item,
         instanceData,
         itemDefinition,
+        itemCategories: itemDefinition?.itemCategoryHashes?.map(
+          (c) => manifest.DestinyItemCategoryDefinition[c]!
+        ),
       };
     })
     .filter(
@@ -251,11 +254,11 @@ const getDataForCharacterId = (
   */
 
   /*
-  const helm = itemsBySlot.head?.find(
-    (i) => i.itemDefinition?.displayProperties?.name === "Crown of Tempests"
+  const helm = itemsBySlot.kinetic?.find(
+    (i) => i.itemDefinition?.displayProperties?.name === "Heritage"
   );
   if (helm) {
-    debug("Crown of Tempests", helm);
+    debug(helm.itemDefinition!.displayProperties!.name, helm);
     (helm.instanceData.primaryStat as any).value = 1257;
   }
   const legs = itemsBySlot.legs?.find(

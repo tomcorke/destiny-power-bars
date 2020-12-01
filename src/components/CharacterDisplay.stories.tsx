@@ -42,6 +42,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Kinetic Weapon",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
@@ -56,6 +57,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Energy Weapon",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
@@ -70,6 +72,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Power Weapon",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
@@ -84,6 +87,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Head Armor",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
@@ -98,6 +102,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Arms Armor",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
@@ -112,6 +117,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Chest Armor",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
@@ -126,6 +132,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Leg Armor",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
@@ -140,6 +147,7 @@ const mockData: PowerBarsCharacterData = {
         },
       },
       itemDefinition: {
+        itemTypeDisplayName: "Class Armor",
         displayProperties: {
           icon:
             "/common/destiny2_content/icons/a622e55eb4a599a6b16d9b8b2f74ca73.jpg",
