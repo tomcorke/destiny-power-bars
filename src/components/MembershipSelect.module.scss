@@ -127,6 +127,8 @@
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
+
+  display: none;
 }
 
 .crossSaveMembershipIcon {
@@ -135,7 +137,7 @@
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
-  margin-left: 3px;
+  margin: 0 1px;
 }
 
 .crossSaveMembershipType {
