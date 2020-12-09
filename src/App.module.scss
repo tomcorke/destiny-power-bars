@@ -68,3 +68,55 @@
   align-items: center;
   margin-top: 1em;
 }
+
+.christmas_0 {
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -55px;
+    top: -27px;
+    width: 100px;
+    height: 113px;
+    background-image: url("images/christmas/hat-2.png");
+    pointer-events: none;
+  }
+}
+
+.christmas_1 {
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: -35px;
+    bottom: -40px;
+    width: 200px;
+    height: 90px;
+    background-image: url("images/christmas/balls.png");
+    pointer-events: none;
+  }
+}
+
+.christmas_2 {
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: -43px;
+    top: -42px;
+    width: 100px;
+    height: 94px;
+    background-image: url("images/christmas/hat-1.png");
+    pointer-events: none;
+  }
+}
+
+.christmas_0,
+.christmas_1,
+.christmas_2 {
+  &:after {
+    @media (max-width: 500px) {
+      display: none;
+    }
+  }
+}

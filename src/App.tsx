@@ -548,6 +548,7 @@ const App = () => {
                     onDragDrop={() =>
                       dropOnCharacterId(c!.character.characterId)
                     }
+                    addClasses={[STYLES[`christmas_${i}`]]}
                   />
                 ))}
             </div>
