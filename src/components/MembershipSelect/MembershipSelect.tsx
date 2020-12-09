@@ -2,7 +2,7 @@ import { UserInfoCard } from "bungie-api-ts/user";
 import classnames from "classnames";
 import React from "react";
 
-import { PartialApi } from "../services/api";
+import { PartialApi } from "../../services/api";
 import STYLES from "./MembershipSelect.module.scss";
 
 export interface RequiredApi extends PartialApi {

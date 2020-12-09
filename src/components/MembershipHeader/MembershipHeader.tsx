@@ -1,8 +1,8 @@
 import React from "react";
 import classnames from "classnames";
 
-import MembershipSelect, { MembershipSelectProps } from "./MembershipSelect";
-import { logOut } from "../services/bungie-auth";
+import MembershipSelect, { MembershipSelectProps } from "../MembershipSelect";
+import { logOut } from "../../services/bungie-auth";
 
 import STYLES from "./MembershipHeader.module.scss";
 

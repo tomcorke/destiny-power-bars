@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { clearStoredManifest } from "../services/bungie-api";
+import { clearStoredManifest } from "../../services/bungie-api";
 
 import STYLES from "./RedactedWarning.module.scss";
 

@@ -7,7 +7,7 @@
 
 @font-face {
   font-family: "Destiny Keys";
-  src: url("../fonts/DestinyKeys.woff2") format("woff2");
+  src: url("../../fonts/DestinyKeys.woff2") format("woff2");
 }
 
 .membership {
@@ -82,7 +82,7 @@
     background-color: #448bd4;
     background: linear-gradient(270deg, #012750 0, #0895df);
 
-    @include icon-before("../images/icons/blizzard-icon.png");
+    @include icon-before("../../images/icons/blizzard-icon.png");
   }
 
   &.platform_stadia {
@@ -123,7 +123,7 @@
   height: 13px;
   position: relative;
   top: -0.5px;
-  background-image: url("../images/icons/cross-save-sm-white.png");
+  background-image: url("../../images/icons/cross-save-sm-white.png");
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -151,7 +151,7 @@
     background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/steam/icon.png");
   }
   &_blizzard {
-    background-image: url("../images/icons/blizzard-icon.png");
+    background-image: url("../../images/icons/blizzard-icon.png");
   }
   &_stadia {
     background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/stadia/icon.png");

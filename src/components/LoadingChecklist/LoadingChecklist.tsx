@@ -15,10 +15,7 @@ interface LoadingChecklistProps {
   withTopMargin?: boolean;
 }
 
-export const LoadingChecklist = ({
-  items,
-  withTopMargin,
-}: LoadingChecklistProps) => {
+const LoadingChecklist = ({ items, withTopMargin }: LoadingChecklistProps) => {
   return (
     <div
       className={classnames(STYLES.LoadingChecklist, {
@@ -38,3 +35,5 @@ export const LoadingChecklist = ({
     </div>
   );
 };
+
+export default LoadingChecklist;

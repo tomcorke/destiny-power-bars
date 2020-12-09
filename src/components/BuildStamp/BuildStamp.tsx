@@ -7,8 +7,10 @@ const gitHead = (process.env.REACT_APP_NPM_PACKAGE_GITHEAD || "").substr(0, 6);
 
 const buildTimestamp = preval`module.exports = new Date().toISOString();`;
 
-export const BuildStamp = () => (
+const BuildStamp = () => (
   <div className={STYLES.buildStamp}>
     {gitHead} {buildTimestamp}
   </div>
 );
+
+export default BuildStamp;

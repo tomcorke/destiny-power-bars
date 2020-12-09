@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Kofi } from "./KoFi";
+import Kofi from "./KoFi";
 
 const story = { title: "KoFi" };
 export default story;

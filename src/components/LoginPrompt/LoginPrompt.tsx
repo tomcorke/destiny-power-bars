@@ -1,10 +1,10 @@
 import React from "react";
 
-import { manualStartAuth } from "../services/bungie-auth";
-import { LazyImage } from "./LazyImage";
+import { manualStartAuth } from "../../services/bungie-auth";
+import { LazyImage } from "../LazyImage";
 
-import ExampleTitanCharacterDisplayImageLowRes from "../images/screenshots/example-titan-character-display-with-info-blur.jpg";
-import ExampleTitanCharacterDisplayImage from "../images/screenshots/example-titan-character-display-with-info.png";
+import ExampleTitanCharacterDisplayImageLowRes from "../../images/screenshots/example-titan-character-display-with-info-blur.jpg";
+import ExampleTitanCharacterDisplayImage from "../../images/screenshots/example-titan-character-display-with-info.png";
 import STYLES from "./LoginPrompt.module.scss";
 
 interface LoginPromptProps {
@@ -13,7 +13,7 @@ interface LoginPromptProps {
 
 const DEFAULT_ON_LOGIN_CLICK = () => manualStartAuth();
 
-export const LoginPrompt = ({
+const LoginPrompt = ({
   onLoginClick = DEFAULT_ON_LOGIN_CLICK,
 }: LoginPromptProps) => {
   return (
@@ -41,3 +41,5 @@ export const LoginPrompt = ({
     </div>
   );
 };
+
+export default LoginPrompt;

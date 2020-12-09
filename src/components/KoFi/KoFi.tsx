@@ -1,10 +1,10 @@
 import React from "react";
 
-import kofiIcon from "../images/icons/Ko-fi_Icon_RGBforDarkBg_sm.png";
+import kofiIcon from "../../images/icons/Ko-fi_Icon_RGBforDarkBg_sm.png";
 
 import STYLES from "./KoFi.module.scss";
 
-export const Kofi = () => {
+const KoFi = () => {
   return (
     <div className={STYLES.kofiContainer}>
       <a
@@ -25,3 +25,5 @@ export const Kofi = () => {
     </div>
   );
 };
+
+export default KoFi;

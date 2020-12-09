@@ -98,6 +98,7 @@ interface CharacterDisplayProps {
   onDragStart?: () => void;
   onDragEnd?: () => void;
   onDragDrop?: () => void;
+  addClasses?: string[];
 }
 
 const CharacterDisplay = ({
@@ -105,6 +106,7 @@ const CharacterDisplay = ({
   onDragStart,
   onDragEnd,
   onDragDrop,
+  addClasses = [],
 }: CharacterDisplayProps) => {
   const [elementRef, renderImage] = useRenderElementImage(data.className);
 
@@ -121,7 +123,7 @@ const CharacterDisplay = ({
 
   return CharacterDisplayBodyWrapper(
     rgbString(data.character.emblemColor || FALLBACK_EMBLEM_RGB),
-    <div className={STYLES.characterDisplay}>
+    <div className={classnames(STYLES.characterDisplay, ...addClasses)}>
       <div className={STYLES.header}>
         <img
           className={STYLES.emblemBackground}

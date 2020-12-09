@@ -17,14 +17,14 @@ import { PowerBarsCharacterData } from "./types";
 
 import CharacterDisplay from "./components/CharacterDisplay";
 import FetchSpinner from "./components/FetchSpinner";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
+import Footer from "./components/Footer";
+import LoggedOutHeader from "./components/LoggedOutHeader";
 import {
   LoadingChecklist,
   LoadingChecklistItem,
 } from "./components/LoadingChecklist";
 import LoadingSpinner from "./components/LoadingSpinner";
-import { LoginPrompt } from "./components/LoginPrompt";
+import LoginPrompt from "./components/LoginPrompt";
 import MembershipSelect from "./components/MembershipSelect";
 import api from "./services/api";
 import { BungieSystemDisabledError, getManifest } from "./services/bungie-api";
@@ -537,7 +537,7 @@ const App = () => {
                     (c) => c.character.characterId === characterId
                   )
                 )
-                .map((c) => (
+                .map((c, i) => (
                   <CharacterDisplay
                     key={c!.character.characterId}
                     data={c!}
@@ -567,7 +567,7 @@ const App = () => {
     return (
       <>
         <AppWrapper>
-          <Header />
+          <LoggedOutHeader />
           <LoginPrompt />
         </AppWrapper>
         <Footer />

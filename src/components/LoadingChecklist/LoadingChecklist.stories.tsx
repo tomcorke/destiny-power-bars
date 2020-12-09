@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LoadingChecklist } from "./LoadingChecklist";
+import LoadingChecklist from "./LoadingChecklist";
 
 const story = {
   title: "Loading Checklist",

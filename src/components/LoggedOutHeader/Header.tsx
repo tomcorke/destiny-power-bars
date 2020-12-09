@@ -2,7 +2,7 @@ import React from "react";
 
 import STYLES from "./Header.module.scss";
 
-export const Header = () => (
+const Header = () => (
   <div className={STYLES.headerContainer}>
     <div className={STYLES.header}>Destiny Power Bars</div>
     <div className={STYLES.subHeader}>
@@ -18,3 +18,5 @@ export const Header = () => (
     </div>
   </div>
 );
+
+export default Header;
