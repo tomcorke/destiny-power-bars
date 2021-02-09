@@ -63,9 +63,14 @@ export const BUNGIE_COLOUR_SOLAR = "ef621d";
 export const BUNGIE_COLOUR_ARC = "7abce9";
 export const BUNGIE_COLOUR_VOID = "b085df";
 
-export const ITEM_POWER_SOFT_CAP = 1200;
-export const ITEM_POWER_POWERFUL_CAP = 1250;
-export const ITEM_POWER_PINNACLE_CAP = 1260;
+const utcDate = new Date().getTime();
+const seasonOfTheChosenDate = Date.UTC(2021, 1, 9, 17);
+const isSeasonOfTheChosen = utcDate >= seasonOfTheChosenDate;
+console.log(utcDate, seasonOfTheChosenDate, isSeasonOfTheChosen);
+
+export const ITEM_POWER_SOFT_CAP = isSeasonOfTheChosen ? 1200 : 1250;
+export const ITEM_POWER_POWERFUL_CAP = isSeasonOfTheChosen ? 1250 : 1300;
+export const ITEM_POWER_PINNACLE_CAP = isSeasonOfTheChosen ? 1260 : 1310;
 
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK = 1;
