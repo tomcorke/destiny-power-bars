@@ -66,7 +66,6 @@ export const BUNGIE_COLOUR_VOID = "b085df";
 const utcDate = new Date().getTime();
 const seasonOfTheChosenDate = Date.UTC(2021, 1, 9, 17);
 const isSeasonOfTheChosen = utcDate >= seasonOfTheChosenDate;
-console.log(utcDate, seasonOfTheChosenDate, isSeasonOfTheChosen);
 
 export const ITEM_POWER_SOFT_CAP = isSeasonOfTheChosen ? 1200 : 1250;
 export const ITEM_POWER_POWERFUL_CAP = isSeasonOfTheChosen ? 1250 : 1300;
