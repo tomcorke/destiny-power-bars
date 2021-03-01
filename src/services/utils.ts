@@ -404,10 +404,10 @@ const getDataForCharacterId = (
   const potentialOverallPower = getOverallPower(potentialPowerBySlot);
 
   const titleDefinition =
+    manifest.DestinyRecordDefinition["3298130972"] ||
     manifest.DestinyRecordDefinition[character.titleRecordHash || ""];
   const title =
-    titleDefinition &&
-    titleDefinition.titleInfo.titlesByGenderHash[character.genderHash];
+    titleDefinition?.titleInfo?.titlesByGenderHash[character.genderHash];
 
   const resultData: PowerBarsCharacterData = {
     character,
