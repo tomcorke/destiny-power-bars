@@ -16,14 +16,6 @@ const FALLBACK_EMBLEM_RGB = { red: 0, green: 4, blue: 15 };
 const FALLBACK_EMBLEM_PATH =
   "/common/destiny2_content/icons/9dc4f3283ee9f9fc3d3499e9f9f1756c.jpg";
 
-const HAKKE_EMBLEM_RGB = { red: 22, green: 20, blue: 13 };
-const HAKKE_EMBLEM_PATH =
-  "/common/destiny2_content/icons/9dd722203e4e69993dc89dca330fb7df.jpg";
-
-const TRIALS_FLAWLESS_EMBLEM_RGB = { red: 92, green: 59, blue: 20 };
-const TRIALS_FLAWLESS_EMBLEM_PATH =
-  "/common/destiny2_content/icons/041f8e2f986949994b7ca8f008b75ff4.jpg";
-
 const rgbString = ({
   red,
   green,
@@ -131,19 +123,13 @@ const CharacterDisplay = ({
     : 0;
 
   return CharacterDisplayBodyWrapper(
-    rgbString(
-      TRIALS_FLAWLESS_EMBLEM_RGB ||
-        data.character.emblemColor ||
-        FALLBACK_EMBLEM_RGB
-    ),
+    rgbString(data.character.emblemColor || FALLBACK_EMBLEM_RGB),
     <div className={classnames(STYLES.characterDisplay, ...addClasses)}>
       <div className={STYLES.header}>
         <img
           className={STYLES.emblemBackground}
           src={`https://www.bungie.net${
-            TRIALS_FLAWLESS_EMBLEM_PATH ||
-            data.character.emblemBackgroundPath ||
-            FALLBACK_EMBLEM_PATH
+            data.character.emblemBackgroundPath || FALLBACK_EMBLEM_PATH
           }`}
           alt=""
         />
