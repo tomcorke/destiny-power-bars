@@ -1,19 +1,20 @@
 .App {
+  --background-image: url("./images/season-of-the-splicer/s14_media_screenshot_8_zoom.jpg");
+
   position: relative;
   min-height: 100vh;
   height: 100%;
   width: 100%;
 
   background-color: #333;
-  background: #333 url("./images/season-of-the-chosen/media_wallaper_4_sm.jpg")
-    center center no-repeat;
+  background: #333 var(--background-image) center center no-repeat;
 
   background-image: radial-gradient(
       ellipse 800px 300px at top,
       rgba(0, 0, 0, 0.5),
       transparent
     ),
-    url("./images/season-of-the-chosen/media_wallaper_4_sm.jpg");
+    var(--background-image);
 
   background-size: cover;
   background-attachment: fixed;
