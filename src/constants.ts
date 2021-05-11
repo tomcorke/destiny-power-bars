@@ -1,3 +1,8 @@
+import {
+  D2SeasonInfo,
+  D2CalculatedSeason,
+} from "./data/d2ai-module/d2-season-info";
+
 export const ITEM_SLOT_KINETIC = "kinetic";
 export const ITEM_SLOT_ENERGY = "energy";
 export const ITEM_SLOT_POWER = "power";
@@ -63,9 +68,11 @@ export const BUNGIE_COLOUR_SOLAR = "ef621d";
 export const BUNGIE_COLOUR_ARC = "7abce9";
 export const BUNGIE_COLOUR_VOID = "b085df";
 
-export const ITEM_POWER_SOFT_CAP = 1250;
-export const ITEM_POWER_POWERFUL_CAP = 1300;
-export const ITEM_POWER_PINNACLE_CAP = 1310;
+const season = D2SeasonInfo[D2CalculatedSeason];
+
+export const ITEM_POWER_SOFT_CAP = season.softCap;
+export const ITEM_POWER_POWERFUL_CAP = season.powerfulCap;
+export const ITEM_POWER_PINNACLE_CAP = season.pinnacleCap;
 
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK = 1;

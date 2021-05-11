@@ -1,0 +1,3 @@
+[submodule "src/data/d2ai-module"]
+	path = src/data/d2ai-module
+	url = git@github.com:DestinyItemManager/d2ai-module.git
