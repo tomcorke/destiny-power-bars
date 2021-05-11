@@ -50,7 +50,7 @@
     "file-saver": "^2.0.2",
     "humanize-duration": "^3.24.0",
     "idb-keyval": "^3.2.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
     "normalize.css": "^8.0.1",
     "random-seed": "^0.3.0",
