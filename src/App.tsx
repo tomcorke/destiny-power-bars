@@ -588,7 +588,7 @@ const App = () => {
   addToChecklist("Authenticated", isAuthed, hasAuthError);
   addToChecklist("Loaded Character Data", !!characterData);
   addToChecklist(
-    "Loaded Destiny Manifest Defintions",
+    "Loaded Destiny Manifest Definitions",
     hasManifestData,
     hasManifestError
   );
