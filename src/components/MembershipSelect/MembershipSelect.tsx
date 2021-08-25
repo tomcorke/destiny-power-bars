@@ -17,12 +17,14 @@ const PLATFORMS: { [key: number]: string } = {
   3: "steam",
   4: "blizzard",
   5: "stadia",
+  254: "bungie",
 };
 
 const isCrossSavePrimary = (membership: UserInfoCard) => {
   return (
     membership.crossSaveOverride &&
-    membership.crossSaveOverride === membership.membershipType
+    membership.crossSaveOverride === membership.membershipType &&
+    membership.applicableMembershipTypes.length > 0
   );
 };
 
@@ -70,6 +72,42 @@ const CrossSaveDisplay = ({ membership }: CrossSaveDisplayProps) => {
   );
 };
 
+interface BungieNameDisplayProps {
+  name: string;
+  code: number;
+}
+
+const BungieNameDisplay = ({ name, code }: BungieNameDisplayProps) => (
+  <span className={STYLES.bungieNameDisplay}>
+    <span className={STYLES.bungieName}>{name}</span>
+    <span className={STYLES.bungieNameSeparator}>#</span>
+    <span className={STYLES.bungieCode}>{code}</span>
+  </span>
+);
+
+type UserInfoCardWithBungieName = UserInfoCard & {
+  bungieGlobalDisplayName: string;
+  bungieGlobalDisplayNameCode: number;
+};
+const isBungieMembership = (
+  m: UserInfoCard
+): m is UserInfoCardWithBungieName => {
+  const ma = m as any;
+  return ma.bungieGlobalDisplayName && ma.bungieGlobalDisplayNameCode;
+};
+
+const getDisplayName = (m: UserInfoCard) => {
+  if (isBungieMembership(m)) {
+    return (
+      <BungieNameDisplay
+        name={m.bungieGlobalDisplayName}
+        code={m.bungieGlobalDisplayNameCode}
+      />
+    );
+  }
+  return m.displayName;
+};
+
 export interface MembershipSelectProps {
   onMembershipSelect: (membership: UserInfoCard) => any;
   api: RequiredApi;
@@ -89,34 +127,49 @@ const MembershipSelect = ({
     return <div>No destiny memberships!</div>;
   }
 
+  let filteredMemberships = destinyMemberships
+    .filter((m) => !isCrossSaveSecondary(m)) // Hide cross-save secondary memberships
+    .filter((m) => m.membershipType !== 4); // Hide Blizzard memberships
+
+  const displayAsBungie =
+    filteredMemberships.length === 1 &&
+    isBungieMembership(filteredMemberships[0]);
+
+  if (displayAsBungie) {
+    // Override membership type to 254 to force display as bungie
+    // and remove cross save because it's not important any more!
+    filteredMemberships = [
+      {
+        ...filteredMemberships[0],
+        membershipType: 254,
+        applicableMembershipTypes: [],
+      },
+    ];
+  }
+
   return (
     <div className={STYLES.membershipSelect}>
-      {destinyMemberships
-        .filter((m) => !isCrossSaveSecondary(m))
-        .filter((m) => m.membershipType !== 4)
-        .map((m) => {
-          return (
-            <div
-              key={m.membershipId}
-              className={classnames(
-                STYLES.membership,
-                STYLES[`platform_${PLATFORMS[m.membershipType]}`],
-                {
-                  [STYLES.crossSaveActive]: isCrossSavePrimary(m),
-                  [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m),
-                }
-              )}
-              onClick={() => onMembershipSelect(m)}
-            >
-              <span className={STYLES.membershipDisplayName}>
-                {m.displayName}
-              </span>
-              {isCrossSavePrimary(m) ? (
-                <CrossSaveDisplay membership={m} />
-              ) : null}
-            </div>
-          );
-        })}
+      {filteredMemberships.map((m) => {
+        return (
+          <div
+            key={m.membershipId}
+            className={classnames(
+              STYLES.membership,
+              STYLES[`platform_${PLATFORMS[m.membershipType]}`],
+              {
+                [STYLES.crossSaveActive]: isCrossSavePrimary(m),
+                [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m),
+              }
+            )}
+            onClick={() => onMembershipSelect(m)}
+          >
+            <span className={STYLES.membershipDisplayName}>
+              {getDisplayName(m)}
+            </span>
+            {isCrossSavePrimary(m) ? <CrossSaveDisplay membership={m} /> : null}
+          </div>
+        );
+      })}
     </div>
   );
 };
