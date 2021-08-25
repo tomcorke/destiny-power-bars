@@ -27,6 +27,8 @@
 
   .membershipDisplayName {
     margin-left: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   @media (max-width: 500px) {
@@ -92,6 +94,28 @@
     @include icon-before(
       "https://www.bungie.net/7/ca/bungie/icons/logos/stadia/icon.png"
     );
+  }
+
+  &.platform_bungie {
+    background-color: #1d2c40;
+    background: linear-gradient(270deg, lighten(#090e12, 10%) 0, #090e12);
+
+    @include icon-before("../../images/icons/bungie_logo_blue_sm.png");
+  }
+}
+
+$bungie_color: #01b1d9;
+
+.bungieNameDisplay {
+  .bungieName {
+    font-weight: bold;
+    color: lighten($bungie_color, 30%);
+  }
+  .bungieNameSeparator {
+    color: $bungie_color;
+  }
+  .bungieCode {
+    color: $bungie_color;
   }
 }
 
