@@ -113,6 +113,10 @@ export interface MembershipSelectProps {
   api: RequiredApi;
 }
 
+type UserInfoCardWithOverrideMembership = UserInfoCard & {
+  overrideMembershipType?: number;
+};
+
 const MembershipSelect = ({
   onMembershipSelect,
   api,
@@ -127,7 +131,7 @@ const MembershipSelect = ({
     return <div>No destiny memberships!</div>;
   }
 
-  let filteredMemberships = destinyMemberships
+  let filteredMemberships: UserInfoCardWithOverrideMembership[] = destinyMemberships
     .filter((m) => !isCrossSaveSecondary(m)) // Hide cross-save secondary memberships
     .filter((m) => m.membershipType !== 4); // Hide Blizzard memberships
 
@@ -141,7 +145,7 @@ const MembershipSelect = ({
     filteredMemberships = [
       {
         ...filteredMemberships[0],
-        membershipType: 254,
+        overrideMembershipType: 254,
         applicableMembershipTypes: [],
       },
     ];
@@ -155,7 +159,11 @@ const MembershipSelect = ({
             key={m.membershipId}
             className={classnames(
               STYLES.membership,
-              STYLES[`platform_${PLATFORMS[m.membershipType]}`],
+              STYLES[
+                `platform_${
+                  PLATFORMS[m.overrideMembershipType || m.membershipType]
+                }`
+              ], // Use overridden membership type if available
               {
                 [STYLES.crossSaveActive]: isCrossSavePrimary(m),
                 [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m),
