@@ -22,6 +22,8 @@
     rgba(black, 0.5)
   );
 
+  pointer-events: none;
+
   .copy {
     display: none;
     margin-bottom: 1em;

@@ -4,6 +4,7 @@
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+  pointer-events: all;
 
   @media (max-width: 500px) {
     width: 100%;
