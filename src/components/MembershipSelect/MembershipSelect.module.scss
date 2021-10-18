@@ -32,7 +32,6 @@
   }
 
   @media (max-width: 500px) {
-    // width: 100%;
     margin-bottom: 20px;
   }
 
@@ -101,6 +100,10 @@
     background: linear-gradient(270deg, lighten(#090e12, 10%) 0, #090e12);
 
     @include icon-before("../../images/icons/bungie_logo_blue_sm.png");
+
+    @media (max-width: 500px) {
+      margin-bottom: 5px;
+    }
   }
 }
 
