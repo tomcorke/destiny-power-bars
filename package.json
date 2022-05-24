@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@use-it/interval": "^1.0.0",
-    "bungie-api-ts": "^4.9.0",
+    "bungie-api-ts": "^4.16.0",
     "classnames": "^2.2.6",
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.2",
