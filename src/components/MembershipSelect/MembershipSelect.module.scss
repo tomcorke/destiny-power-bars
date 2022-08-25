@@ -105,6 +105,19 @@
       margin-bottom: 5px;
     }
   }
+
+  &.platform_epic {
+    background-color: #1a1a1a;
+    background: linear-gradient(270deg, #1a1a1a 0, #363636);
+
+    @include icon-before(
+      "https://www.bungie.net/7/ca/bungie/icons/logos/egs/icon.png"
+    );
+
+    @media (max-width: 500px) {
+      margin-bottom: 5px;
+    }
+  }
 }
 
 $bungie_color: #01b1d9;
@@ -182,6 +195,9 @@ $bungie_color: #01b1d9;
   }
   &_stadia {
     background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/stadia/icon.png");
+  }
+  &_epic {
+    background-image: url("https://www.bungie.net/7/ca/bungie/icons/logos/egs/icon.png");
   }
 }
 

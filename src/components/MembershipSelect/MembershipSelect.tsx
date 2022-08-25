@@ -17,6 +17,7 @@ const PLATFORMS: { [key: number]: string } = {
   3: "steam",
   4: "blizzard",
   5: "stadia",
+  7: "epic",
   254: "bungie",
 };
 
