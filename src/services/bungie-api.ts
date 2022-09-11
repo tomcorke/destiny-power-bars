@@ -136,6 +136,20 @@ const getUserLanguage = () => {
   return "en";
 };
 
+const fetchWithCacheBustFallback = async (manifestJsonUrl: string) => {
+  try {
+    const response = await fetch(manifestJsonUrl);
+    if (response.status !== 200) {
+      throw Error("Non-200 status code from manifest json path");
+    }
+    return response.json();
+  } catch (error: any) {
+    const cacheBustUrl = `${manifestJsonUrl}?source=destiny-power-bars&time=${Date.now()}`;
+    const cacheBustResponse = await fetch(cacheBustUrl);
+    return cacheBustResponse.json();
+  }
+};
+
 const getRemoteManifestData = async (manifest: DestinyManifest) => {
   debug("getRemoteManifestData");
   if (!manifest) {
@@ -149,9 +163,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     manifest.jsonWorldComponentContentPaths.en;
   const manifestDataArray = await Promise.all(
     manifestPropertyList.map((prop) =>
-      fetch(`https://www.bungie.net${manifestUrls[prop]}`).then((response) =>
-        response.json()
-      )
+      fetchWithCacheBustFallback(`https://www.bungie.net${manifestUrls[prop]}`)
     )
   );
   const manifestData: ManifestData = manifestPropertyList.reduce(
