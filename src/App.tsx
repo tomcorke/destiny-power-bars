@@ -133,11 +133,11 @@ const doGetCharacterData = throttle(
 
       try {
         await getCharacterData(updateCharacterData);
-      } catch (error) {
+      } catch (error: any) {
         if (error instanceof BungieSystemDisabledError) {
           setBungieSystemDisabled(true);
         }
-        if (error.message === "503") {
+        if ("message" in error && error.message === "503") {
           setBungieServiceUnavailable(true);
         }
         console.error("Error fetching character data:", error);
@@ -241,9 +241,8 @@ const App = () => {
 
   const [hasManifestError, setManifestError] = useState(false);
   const [isBungieSystemDisabled, setBungieSystemDisabled] = useState(false);
-  const [isBungieServiceUnavailable, setBungieServiceUnavailable] = useState(
-    false
-  );
+  const [isBungieServiceUnavailable, setBungieServiceUnavailable] =
+    useState(false);
 
   const [isFetchingCharacterData, setIsFetchingCharacterData] = useState(
     getIsFetchingCharacterData()
@@ -310,10 +309,8 @@ const App = () => {
     );
   });
 
-  const [
-    hasLoadedCachedCharacterData,
-    setHasLoadedCachedCharacterData,
-  ] = useState(false);
+  const [hasLoadedCachedCharacterData, setHasLoadedCachedCharacterData] =
+    useState(false);
 
   const hasSelectedMembership = hasSelectedDestinyMembership();
 

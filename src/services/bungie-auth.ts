@@ -300,7 +300,7 @@ export const getDestinyMemberships = () => {
     if (destinyMembershipsString) {
       return JSON.parse(destinyMembershipsString) as UserInfoCard[];
     }
-  } catch (e) {
+  } catch (e: any) {
     ga.event({
       category: "Data",
       action: "Error loading destiny memberships from local storage",
@@ -329,7 +329,7 @@ export const getSelectedDestinyMembership = () => {
       const autoSelectedMembership = autoSelectDestinyMembership(memberships);
       return autoSelectedMembership;
     }
-  } catch (e) {
+  } catch (e: any) {
     ga.event({
       category: "Data",
       action: "Error loading destiny membership from local storage",

@@ -12,7 +12,7 @@ const KoFi = () => {
         href="https://ko-fi.com/tomcorke"
         /* eslint-disable-next-line react/jsx-no-target-blank */
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
       >
         <img
           height="36"

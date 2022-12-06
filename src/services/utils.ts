@@ -345,9 +345,8 @@ const getDataForCharacterId = (
 
   const powerBySlot = getPowerBySlot(topUnrestrictedItemBySlot);
 
-  const { averagePower: overallPowerExact, overallPower } = getPower(
-    topItemBySlot
-  );
+  const { averagePower: overallPowerExact, overallPower } =
+    getPower(topItemBySlot);
   const {
     averagePower: unrestrictedOverallPowerExact,
     overallPower: unrestrictedOverallPower,
@@ -367,9 +366,8 @@ const getDataForCharacterId = (
     profileProgression.seasonalArtifact &&
     artifactInstance
   ) {
-    const artifactDefinition = manifest.DestinyInventoryItemDefinition[
-      artifactItemComponent.itemHash
-    ]!;
+    const artifactDefinition =
+      manifest.DestinyInventoryItemDefinition[artifactItemComponent.itemHash]!;
     artifactData = {
       bonusPower:
         profileProgression.seasonalArtifact.powerBonus ||
@@ -547,7 +545,7 @@ export const getCharacterData = async (
       if (fullProfile.ErrorStatus === "SystemDisabled") {
         throw new BungieSystemDisabledError();
       }
-    } catch (e) {
+    } catch (e: any) {
       if (e.message === "401") {
         await auth();
         fullProfile = await getFullProfile(
