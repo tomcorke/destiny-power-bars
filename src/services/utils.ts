@@ -449,6 +449,7 @@ let lastAllCharacterItemsHash: number | undefined;
 let lastItemInstancesHash: number | undefined;
 let lastProfileProgressionHash: number | undefined;
 let lastCharacterData: PowerBarsCharacterData[] | undefined;
+let lastResponseMinted: number | undefined;
 
 export const getCachedCharacterData = async (
   setCharacterData: (state: PowerBarsCharacterData[]) => any
@@ -568,6 +569,16 @@ export const getCharacterData = async (
     ) {
       return;
     }
+
+    const minted = Number(fullProfile.Response.responseMintedTimestamp);
+    if (minted && lastResponseMinted && minted <= lastResponseMinted) {
+      debug(
+        `Response is old (${minted} vs ${lastResponseMinted}), returning last calculated character data`
+      );
+      return lastCharacterData;
+    }
+
+    lastResponseMinted = minted;
 
     const characters = fullProfile.Response.characters.data;
     const characterEquipments = fullProfile.Response.characterEquipment.data;
