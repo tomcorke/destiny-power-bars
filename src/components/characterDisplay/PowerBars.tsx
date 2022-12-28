@@ -1,6 +1,11 @@
 import React from "react";
 
-import { ITEM_POWER_POWERFUL_CAP, ORDERED_ITEM_SLOTS } from "../../constants";
+import {
+  ITEM_POWER_PINNACLE_CAP,
+  ITEM_POWER_POWERFUL_CAP,
+  ITEM_POWER_SOFT_CAP,
+  ORDERED_ITEM_SLOTS,
+} from "../../constants";
 import { isMasterwork } from "../../services/masterwork";
 import { PowerBarsCharacterData, PowerBySlot } from "../../types";
 import { PowerBar } from "./PowerBar";
@@ -48,10 +53,12 @@ export const PowerBars = (data: PowerBarsProps) => {
   const roundedPower = Math.floor(data.overallPower);
   // Round to 50s
   const minItemPower = Math.min(...Object.values(powerBySlot));
-  const minPowerToDisplay = Math.max(
-    Math.floor(minItemPower / 50) * 50 - 50,
-    0
-  );
+  let minPowerToDisplay = Math.max(Math.floor(minItemPower / 50) * 50 - 50, 0);
+  // If within 20 of pinnacle cap, use higher minimum value
+  if (minItemPower > ITEM_POWER_POWERFUL_CAP) {
+    minPowerToDisplay = ITEM_POWER_POWERFUL_CAP - 10;
+  }
+
   const maxItemPower = Math.max(...Object.values(powerBySlot));
   const maxItemPowerGrouping =
     ITEM_POWER_POWERFUL_CAP - maxItemPower < 50 ? 10 : 50;

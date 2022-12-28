@@ -267,7 +267,7 @@ export const PowerHints = ({
           <input
             type="checkbox"
             checked={useUnrestrictedPower}
-            onClick={() => onChangeUseUnrestrictedPower(!useUnrestrictedPower)}
+            onChange={() => onChangeUseUnrestrictedPower(!useUnrestrictedPower)}
           />
           <span className={STYLES.switch} />
         </label>
