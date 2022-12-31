@@ -20,8 +20,6 @@ module.exports = {
       use: ["@svgr/webpack", "url-loader"],
     });
 
-    console.log(config.module.rules);
-
     // const assetRule = config.module.rules.find(({ test }) => test.test(".svg"));
     // const assetLoader = {
     //   loader: assetRule.loader,

@@ -71,7 +71,7 @@ export const PowerDetails = ({
           :
         </div>
         <div className={STYLES.detailsValue}>
-          <Power>{powerToDisplay}</Power>
+          <Power withSymbol>{powerToDisplay}</Power>
         </div>
       </div>
       <div className={STYLES.detailsRow}>

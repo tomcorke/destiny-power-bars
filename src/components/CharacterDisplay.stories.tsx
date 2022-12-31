@@ -29,7 +29,7 @@ const mockData: PowerBarsCharacterData = {
 
   className: "warlock",
   title: "Flawless",
-  titleGildedCount: 1,
+  titleGildedCount: 2,
 
   overallPower: 929,
   overallPowerExact: 929 + 2 / 8,

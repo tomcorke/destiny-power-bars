@@ -1,4 +1,16 @@
 .inlinePowerNumber {
+  display: inline-block;
   color: cyan;
   font-weight: bold;
+  white-space: nowrap;
+
+  &.symbol {
+    &:before {
+      content: "";
+      display: inline-block;
+      margin-right: 0.05em;
+      font-family: "Destiny Keys";
+      transform: translateY(-0.3em);
+    }
+  }
 }

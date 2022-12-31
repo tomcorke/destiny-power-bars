@@ -8,3 +8,5 @@ const story = {
 export default story;
 
 export const display = () => <Power>{321}</Power>;
+
+export const withSymbol = () => <Power withSymbol>{456}</Power>;

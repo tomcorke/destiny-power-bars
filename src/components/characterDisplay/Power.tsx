@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 
 import STYLES from "./Power.module.scss";
@@ -12,9 +13,18 @@ const numberWithSign = (value: number) => {
 interface PowerProps {
   children: number;
   withSign?: boolean;
+  withSymbol?: boolean;
 }
-export const Power = ({ children: value, withSign = false }: PowerProps) => (
-  <span className={STYLES.inlinePowerNumber}>
-    {withSign ? numberWithSign(value) : value}
+export const Power = ({
+  children: value,
+  withSign = false,
+  withSymbol = false,
+}: PowerProps) => (
+  <span
+    className={classNames(STYLES.inlinePowerNumber, {
+      [STYLES.symbol]: withSymbol,
+    })}
+  >
+    <span>{withSign ? numberWithSign(value) : value}</span>
   </span>
 );
