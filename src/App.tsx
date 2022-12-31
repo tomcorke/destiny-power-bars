@@ -12,7 +12,6 @@ import {
   manualStartAuth,
   setSelectedDestinyMembership,
 } from "./services/bungie-auth";
-import ga, { init as gaInit } from "./services/ga";
 import { PowerBarsCharacterData } from "./types";
 
 import CharacterDisplay from "./components/CharacterDisplay";
@@ -45,7 +44,6 @@ import "./index.css";
 import STYLES from "./App.module.scss";
 import { debug } from "./services/debug";
 import MembershipHeader from "./components/MembershipHeader";
-import GetTrackingPermission from "./components/GetTrackingPermission";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -118,11 +116,6 @@ const doGetCharacterData = throttle(
         ...newData.map((c) => (c.artifactData ? c.artifactData.bonusPower : 0))
       );
       const newTotalPower = newOverallPower + newArtifactPower;
-      ga.set({
-        dimension1: `${newOverallPower}`,
-        dimension2: `${newArtifactPower}`,
-        dimension3: `${newTotalPower}`,
-      });
       setCharacterData(newData);
     };
 
@@ -174,60 +167,18 @@ const doHardRefresh = throttle(
   500
 );
 
-const getLocalStorageTrackingEnabled = () => {
-  const value = localStorage.getItem("tracking-permission-given");
-  return value && value.toLowerCase() === "true";
-};
-
-const setLocalStorageTrackingEnabled = (value: boolean = true) => {
-  localStorage.setItem("tracking-permission-given", value ? "true" : "false");
-};
-
-const getLocalStorageTrackingDenied = () => {
-  const value = localStorage.getItem("tracking-permission-denied");
-  return value && value.toLowerCase() === "true";
-};
-
-const setLocalStorageTrackingDenied = (value: boolean = true) => {
-  localStorage.setItem("tracking-permission-denied", value ? "true" : "false");
-};
-
 export const AppWrapper = ({
   children,
   top = false,
-  tracking = true,
 }: {
   children: JSX.Element | (JSX.Element | null)[];
   top?: boolean;
-  tracking?: boolean;
 }) => {
-  const [trackingPermissionGiven, setTrackingPermissionGiven] = useState(
-    getLocalStorageTrackingEnabled()
-  );
-  const trackingPermissionDenied = getLocalStorageTrackingDenied();
-  const trackingPermissionChoiceMade =
-    trackingPermissionGiven || trackingPermissionDenied;
-
-  if (tracking && !trackingPermissionDenied && trackingPermissionGiven) {
-    gaInit();
-  }
   return (
     <div className={STYLES.App}>
       <div className={classnames(STYLES.AppInner, { [STYLES.top]: top })}>
         {children}
       </div>
-      {tracking && !trackingPermissionChoiceMade ? (
-        <GetTrackingPermission
-          onGivePermission={() => {
-            setLocalStorageTrackingEnabled(true);
-            setTrackingPermissionGiven(true);
-          }}
-          onDenyPermission={() => {
-            setLocalStorageTrackingDenied(true);
-            setTrackingPermissionGiven(false);
-          }}
-        />
-      ) : null}
     </div>
   );
 };
@@ -357,11 +308,6 @@ const App = () => {
   ]);
 
   const onSelectMembership = useCallback((membership: UserInfoCard) => {
-    ga.event({
-      category: "Platform",
-      action: "Select platform",
-      label: `Membership type: ${membership.membershipType}`,
-    });
     setSelectedDestinyMembership(membership);
   }, []);
 

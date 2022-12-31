@@ -16,7 +16,6 @@ import { getAccessToken } from "./bungie-auth";
 import { BUNGIE_API_KEY } from "./config";
 import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
-import ga from "./ga";
 
 export class BungieSystemDisabledError extends Error {
   constructor() {
@@ -208,16 +207,10 @@ export const getManifest = async (): Promise<GetManifestResult> => {
         // Start loading cached manifest data early
         const pendingGetCachedManifestData = getCachedManifestData();
 
-        ga.event({
-          category: "Data",
-          action: "Attempt load manifest",
-          nonInteraction: true,
-        });
         eventEmitter.emit(EVENTS.GET_MANIFEST);
         const manifest = await getDestinyManifest(bungieAuthedFetch);
-        const localStorageManifestVersion = localStorage.getItem(
-          MANIFEST_VERSION_KEY
-        );
+        const localStorageManifestVersion =
+          localStorage.getItem(MANIFEST_VERSION_KEY);
         const language = getUserLanguage();
         const manifestVersion = `${manifest?.Response?.version}-${language}`;
         if (
@@ -243,11 +236,6 @@ export const getManifest = async (): Promise<GetManifestResult> => {
           manifest.ErrorStatus &&
           manifest.ErrorStatus !== "Success"
         ) {
-          ga.event({
-            category: "Errors",
-            action: `Error status "${manifest.ErrorStatus}" returned from manifest request`,
-            nonInteraction: true,
-          });
           if (manifest.ErrorStatus === "SystemDisabled") {
             return {
               manifest: null,
@@ -265,11 +253,6 @@ export const getManifest = async (): Promise<GetManifestResult> => {
           throw Error("No manifest received!");
         }
         cachedManifestData = undefined;
-        ga.event({
-          category: "Data",
-          action: "Fetch remote manifest",
-          nonInteraction: true,
-        });
         const freshManifestData = await getRemoteManifestData(
           manifest.Response
         );
@@ -300,11 +283,6 @@ export const getBasicProfile = (
   membershipId: string
 ) => {
   debug("getBasicProfile");
-  ga.event({
-    category: "Character Data",
-    action: "Fetch minimal profile",
-    nonInteraction: true,
-  });
   return getProfile(bungieAuthedFetch, {
     components: [
       200, // DestinyComponentType.Characters,
@@ -320,11 +298,6 @@ export const getFullProfile = (
   membershipId: string
 ) => {
   debug("getFullProfile");
-  ga.event({
-    category: "Character Data",
-    action: "Fetch full profile",
-    nonInteraction: true,
-  });
   return getProfile(bungieAuthedFetch, {
     components: [
       200, // DestinyComponentType.Characters,

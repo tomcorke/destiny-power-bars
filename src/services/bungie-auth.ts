@@ -10,7 +10,6 @@ import {
 } from "./config";
 import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
-import ga from "./ga";
 
 const ACCESS_TOKEN_STORAGE_KEY = "bungieAccessToken";
 const ACCESS_TOKEN_EXPIRY_STORAGE_KEY = "bungieAccessTokenExpiryTime";
@@ -58,11 +57,6 @@ let hasNavigated = false;
 const redirectToAuth = () => {
   debug("redirectToAuth");
   clearStorage();
-  ga.event({
-    category: "Auth",
-    action: "Redirect for Bungie authentication",
-    nonInteraction: true,
-  });
   try {
     if (!hasNavigated) {
       window.location.assign(getAuthUrl());
@@ -145,11 +139,6 @@ const handleTokenResponse = async (tokenResponse: Response) => {
       (destinyMembershipsResponse.ErrorStatus &&
         destinyMembershipsResponse.ErrorStatus !== "Success")
     ) {
-      ga.event({
-        category: "Errors",
-        action: `Destiny membership fetch error, status: ${destinyMembershipsResponse.ErrorStatus}`,
-        nonInteraction: true,
-      });
       return {
         authSuccess: false,
         error: `Status code ${destinyMembershipsResponse.ErrorStatus} from memberships endpoint`,
@@ -180,11 +169,6 @@ const handleTokenResponse = async (tokenResponse: Response) => {
     return { accessToken, authSuccess: true };
   } else {
     if (tokenResponse.status !== 200) {
-      ga.event({
-        category: "Auth",
-        action: `Status code ${tokenResponse.status} from authentication request`,
-        nonInteraction: true,
-      });
       return {
         authSuccess: false,
         error: `Status code ${tokenResponse.status} from authentication request`,
@@ -196,11 +180,6 @@ const handleTokenResponse = async (tokenResponse: Response) => {
 const fetchAccessToken = async (authCode: string) => {
   debug("fetchAccessToken");
   debug("Fetching Bungie API access token for authentication code");
-  ga.event({
-    category: "Auth",
-    action: "Oauth token request",
-    nonInteraction: true,
-  });
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: stringify({
       grant_type: "authorization_code",
@@ -224,11 +203,6 @@ const refreshAccessToken = async () => {
   debug("refreshAccessToken");
   debug("Refreshing Bungie API access token");
   const refreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY);
-  ga.event({
-    category: "Auth",
-    action: "Oauth token refresh",
-    nonInteraction: true,
-  });
   const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: stringify({
       grant_type: "refresh_token",
@@ -301,11 +275,6 @@ export const getDestinyMemberships = () => {
       return JSON.parse(destinyMembershipsString) as UserInfoCard[];
     }
   } catch (e: any) {
-    ga.event({
-      category: "Data",
-      action: "Error loading destiny memberships from local storage",
-      nonInteraction: true,
-    });
     console.error(`Error loading destiny memberships`, e.message);
   }
   return undefined;
@@ -330,11 +299,6 @@ export const getSelectedDestinyMembership = () => {
       return autoSelectedMembership;
     }
   } catch (e: any) {
-    ga.event({
-      category: "Data",
-      action: "Error loading destiny membership from local storage",
-      nonInteraction: true,
-    });
     console.error("Error loading destiny membership", e.message);
   }
   return undefined;

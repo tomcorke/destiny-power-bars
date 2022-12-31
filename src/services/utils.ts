@@ -24,6 +24,7 @@ import {
   ITEM_TYPE_ARMOR,
   ITEM_TYPE_WEAPON,
 } from "../constants";
+import { ItemCategoryHashes } from "../data/d2ai-module/generated-enums";
 import {
   ItemBySlot,
   JoinedItemDefinition,
@@ -405,6 +406,18 @@ const getDataForCharacterId = (
     manifest.DestinyRecordDefinition[character.titleRecordHash || ""];
   const title =
     titleDefinition?.titleInfo?.titlesByGenderHash[character.genderHash];
+
+  const engrams = allCharacterItems
+    .map((item) => {
+      const definition = manifest.DestinyInventoryItemDefinition[item.itemHash];
+      const instance = item.itemInstanceId
+        ? itemInstances[item.itemInstanceId]
+        : undefined;
+      return { item, definition, instance };
+    })
+    .filter(({ definition }) =>
+      definition?.itemCategoryHashes?.includes(ItemCategoryHashes.Engrams)
+    );
 
   const resultData: PowerBarsCharacterData = {
     character,
