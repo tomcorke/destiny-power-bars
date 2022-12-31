@@ -140,7 +140,21 @@ const CharacterDisplay = ({
         >
           {titleCase(data.className)}
         </div>
-        {data.title && <div className={STYLES.title}>{data.title}</div>}
+        {data.title && (
+          <div
+            className={classnames(STYLES.title, {
+              [STYLES.gilded]:
+                data.titleGildedCount && data.titleGildedCount > 0,
+            })}
+          >
+            {data.title}
+            {data.titleGildedCount && data.titleGildedCount > 0 ? (
+              <div className={STYLES.gildedCount}>
+                {data.titleGildedCount > 1 ? data.titleGildedCount : ""}
+              </div>
+            ) : null}
+          </div>
+        )}
         <div
           className={classnames(STYLES.power, {
             [STYLES.hasRedacted]: !!data.hasRedactedEquippableItems,

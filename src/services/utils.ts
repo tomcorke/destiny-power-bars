@@ -4,6 +4,7 @@ import {
   DestinyItemComponent,
   DestinyItemInstanceComponent,
   DestinyProfileProgressionComponent,
+  DestinyProfileRecordsComponent,
   DestinyProfileResponse,
   ServerResponse,
 } from "bungie-api-ts/destiny2";
@@ -212,7 +213,8 @@ const getDataForCharacterId = (
   equippedCharacterItems: DestinyItemComponent[],
   allCharacterItems: DestinyItemComponent[],
   profileInventories: DestinyInventoryComponent,
-  profileProgression: DestinyProfileProgressionComponent
+  profileProgression: DestinyProfileProgressionComponent,
+  records: DestinyProfileRecordsComponent | undefined
 ): PowerBarsCharacterData => {
   debug("getDataForCharacterId", characterId);
   const character = characters[characterId];
@@ -406,18 +408,23 @@ const getDataForCharacterId = (
     manifest.DestinyRecordDefinition[character.titleRecordHash || ""];
   const title =
     titleDefinition?.titleInfo?.titlesByGenderHash[character.genderHash];
+  const gildingHash = titleDefinition?.titleInfo?.gildingTrackingRecordHash;
+  // const gildingDefinition =
+  //   (gildingHash && manifest.DestinyRecordDefinition[gildingHash]) || undefined;
+  const gildingRecord = gildingHash && records && records!.records[gildingHash];
+  const titleGildedCount = (gildingRecord && gildingRecord.completedCount) || 0;
 
-  const engrams = allCharacterItems
-    .map((item) => {
-      const definition = manifest.DestinyInventoryItemDefinition[item.itemHash];
-      const instance = item.itemInstanceId
-        ? itemInstances[item.itemInstanceId]
-        : undefined;
-      return { item, definition, instance };
-    })
-    .filter(({ definition }) =>
-      definition?.itemCategoryHashes?.includes(ItemCategoryHashes.Engrams)
-    );
+  // const engrams = allCharacterItems
+  //   .map((item) => {
+  //     const definition = manifest.DestinyInventoryItemDefinition[item.itemHash];
+  //     const instance = item.itemInstanceId
+  //       ? itemInstances[item.itemInstanceId]
+  //       : undefined;
+  //     return { item, definition, instance };
+  //   })
+  //   .filter(({ definition }) =>
+  //     definition?.itemCategoryHashes?.includes(ItemCategoryHashes.Engrams)
+  //   );
 
   const resultData: PowerBarsCharacterData = {
     character,
@@ -435,6 +442,7 @@ const getDataForCharacterId = (
 
     artifactData,
     title,
+    titleGildedCount,
     hasRedactedEquippableItems,
   };
 
@@ -599,6 +607,7 @@ export const getCharacterData = async (
     const profileInventories = fullProfile.Response.profileInventory.data;
     const itemInstances = fullProfile.Response.itemComponents.instances.data;
     const profileProgression = fullProfile.Response.profileProgression.data;
+    const records = fullProfile.Response.profileRecords.data;
 
     let manifestResult: GetManifestResult | undefined;
     try {
@@ -660,7 +669,8 @@ export const getCharacterData = async (
         characterEquipments[id].items,
         allCharacterItems,
         profileInventories,
-        profileProgression
+        profileProgression,
+        records
       )
     );
     lastCharacterData = characterData;

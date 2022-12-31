@@ -133,6 +133,29 @@
     );
     text-shadow: 1px 1px 2px rgba(black, 0.5), -1px 1px 2px rgba(black, 0.5),
       0px -1px 2px rgba(black, 0.5);
+
+    &.gilded {
+      color: #ffe8b0;
+
+      .gildedCount {
+        display: inline;
+        margin-left: 25px;
+        position: relative;
+
+        &::before {
+          position: absolute;
+          display: inline-block;
+          content: "";
+          background: url("../images/icons/gilded.png");
+          background-size: contain;
+          background-repeat: no-repeat;
+          width: 16px;
+          height: 20px;
+          top: 3px;
+          left: -18px;
+        }
+      }
+    }
   }
 
   .name {

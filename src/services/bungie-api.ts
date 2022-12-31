@@ -9,6 +9,7 @@ import {
   DestinyItemStateRequest,
   DestinyItemCategoryDefinition,
 } from "bungie-api-ts/destiny2";
+import { DestinyComponentType } from "bungie-api-ts/destiny2/interfaces";
 import { HttpClientConfig } from "bungie-api-ts/http";
 import { get, set, del } from "idb-keyval";
 
@@ -306,6 +307,7 @@ export const getFullProfile = (
       102, // DestinyComponentType.ProfileInventories,
       300, // DestinyComponentType.ItemInstances,
       104, // DestinyComponentType.ProfileProgression
+      900, // DestinyComponentType.Records
     ],
     destinyMembershipId: membershipId,
     membershipType,

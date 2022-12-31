@@ -90,6 +90,7 @@ export interface PowerBarsCharacterData {
   artifactData?: SeasonalArtifactData;
   potentialOverallPower?: number;
   title?: string;
+  titleGildedCount?: number;
   other?: unknown;
   hasRedactedEquippableItems?: boolean;
 }
