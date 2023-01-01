@@ -3,18 +3,14 @@ import React, { useRef, useState } from "react";
 
 import { PowerBarsCharacterData } from "../types";
 import STYLES from "./CharacterDisplay.module.scss";
+import CharacterHeader from "./characterDisplay/CharacterHeader";
 import { CharacterLinks } from "./characterDisplay/CharacterLinks";
 import { PowerBars } from "./characterDisplay/PowerBars";
 import { PowerDetails } from "./characterDisplay/PowerDetails";
 import { PowerHints } from "./characterDisplay/PowerHints";
 
-const titleCase = (text: string) =>
-  text.substr(0, 1).toUpperCase() + text.substr(1);
-
 const BLACK_RGB = { red: 0, green: 0, blue: 0 };
 const FALLBACK_EMBLEM_RGB = { red: 0, green: 4, blue: 15 };
-const FALLBACK_EMBLEM_PATH =
-  "/common/destiny2_content/icons/9dc4f3283ee9f9fc3d3499e9f9f1756c.jpg";
 
 const rgbString = ({
   red,
@@ -125,45 +121,15 @@ const CharacterDisplay = ({
   return CharacterDisplayBodyWrapper(
     rgbString(data.character.emblemColor || FALLBACK_EMBLEM_RGB),
     <div className={classnames(STYLES.characterDisplay, ...addClasses)}>
-      <div className={STYLES.header}>
-        <img
-          className={STYLES.emblemBackground}
-          src={`https://www.bungie.net${
-            data.character.emblemBackgroundPath || FALLBACK_EMBLEM_PATH
-          }`}
-          alt=""
-        />
-        <div
-          className={classnames(STYLES.name, {
-            [STYLES.withTitle]: !!data.title,
-          })}
-        >
-          {titleCase(data.className)}
-        </div>
-        {data.title && (
-          <div
-            className={classnames(STYLES.title, {
-              [STYLES.gilded]:
-                data.titleGildedCount && data.titleGildedCount > 0,
-            })}
-          >
-            {data.title}
-            {data.titleGildedCount && data.titleGildedCount > 0 ? (
-              <div className={STYLES.gildedCount}>
-                {data.titleGildedCount > 1 ? data.titleGildedCount : ""}
-              </div>
-            ) : null}
-          </div>
-        )}
-        <div
-          className={classnames(STYLES.power, {
-            [STYLES.hasRedacted]: !!data.hasRedactedEquippableItems,
-          })}
-        >
-          {roundedPower + summableArtifactBonusPower}
-        </div>
-        <div className={STYLES.headerOverlayBar} />
-      </div>
+      <CharacterHeader
+        emblemBackgroundPath={data.character.emblemBackgroundPath}
+        className={data.className}
+        hasRedactedEquippableItems={data.hasRedactedEquippableItems}
+        roundedPower={roundedPower}
+        summableArtifactBonusPower={summableArtifactBonusPower}
+        title={data.title}
+        titleGildedCount={data.titleGildedCount}
+      />
 
       <div className={STYLES.content}>
         <PowerDetails {...data} useUnrestrictedPower={useUnrestrictedPower} />
