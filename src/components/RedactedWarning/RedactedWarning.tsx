@@ -29,9 +29,10 @@ const RedactedWarning = () => {
         inventories.
       </p>
       <p>
-        Redacted items do not display their power level or item type in the data
-        returned by the API, so we can not use them to calculate your
-        character's maximum equippable power.
+        Redacted items do not accurately report their class restrictions, or
+        display their power level or item type in the data returned by the API
+        in the same way as other items, so we make assumptions when using them
+        to calculate your character's maximum equippable power.
       </p>
       <p>
         These items are usually found within recently added content (raids,
@@ -39,7 +40,8 @@ const RedactedWarning = () => {
         weekly reset.
       </p>
       <p>
-        There is nothing we can do to make this data visible quicker, sorry!
+        Without manually adding information for each specific redacted item, we
+        cannot make this data available quicker.
       </p>
       <p>
         If you believe this to be an error (or your data seems "stuck"), you can

@@ -51,6 +51,8 @@ interface SelectedDestinyStat {
 
 interface SelectedDestinyItemInstanceComponent {
   primaryStat?: SelectedDestinyStat;
+  itemLevel?: number;
+  quality?: number;
   isEquipped?: boolean;
 }
 

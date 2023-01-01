@@ -68,7 +68,14 @@ export const saveCharacterDisplayOrder = (characterOrder: string[]) => {
 };
 
 const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
-  mapValues(itemsBySlot, (item) => item?.instanceData?.primaryStat?.value || 0);
+  mapValues(itemsBySlot, (item) => {
+    const instance = item!.instanceData!;
+    let power = instance.primaryStat?.value;
+    if (!power && item!.itemDefinition.redacted && instance.itemLevel) {
+      power = instance.itemLevel * 10 + instance.quality;
+    }
+    return power;
+  });
 
 const getAveragePower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
@@ -107,7 +114,8 @@ const isItemEquippableByCharacter = (
   }
   if (
     item.itemDefinition.classType !== CLASS_TYPE_ALL &&
-    item.itemDefinition.classType !== character.classType
+    item.itemDefinition.classType !== character.classType &&
+    !item.itemDefinition.redacted
   ) {
     return false;
   }
@@ -151,7 +159,10 @@ const mapAndFilterItems = (
       (i) =>
         i.instanceData &&
         i.itemDefinition &&
-        [ITEM_TYPE_ARMOR, ITEM_TYPE_WEAPON].includes(i.itemDefinition.itemType)
+        i.itemDefinition.inventory?.bucketTypeHash &&
+        Object.values(ITEM_SLOT_BUCKETS).includes(
+          i.itemDefinition.inventory?.bucketTypeHash
+        )
     )
     .map((i) => ({
       ...i,
@@ -163,7 +174,9 @@ const mapAndFilterItems = (
       slotName: ITEM_BUCKET_SLOTS[i.itemDefinition.inventory!.bucketTypeHash],
     }))
     .filter(
-      (i) => i.instanceData.primaryStat && i.instanceData.primaryStat.value
+      (i) =>
+        (i.instanceData.primaryStat && i.instanceData.primaryStat.value) ||
+        (i.itemDefinition.redacted && i.instanceData.itemLevel)
     )
     .filter((i) => isItemEquippableByCharacter(i, character));
 
@@ -171,10 +184,20 @@ const getItemScore = (
   item?: JoinedItemDefinition,
   priorityItems?: DestinyItemComponent[]
 ) => {
-  if (!item || !item.instanceData || !item.instanceData.primaryStat) {
+  if (!item || !item.instanceData) {
     return 0;
   }
-  let score = item.instanceData.primaryStat.value;
+
+  let score =
+    item.instanceData.primaryStat?.value ||
+    (item.itemDefinition.redacted &&
+      item.instanceData.itemLevel * 10 + item.instanceData.quality) ||
+    0;
+
+  if (!score) {
+    return 0;
+  }
+
   if (
     priorityItems &&
     priorityItems.some((pi) => pi.itemInstanceId === item.itemInstanceId)

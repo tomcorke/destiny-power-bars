@@ -40,15 +40,22 @@ export const PowerBars = (data: PowerBarsProps) => {
       : data.topItemBySlot;
 
   // Get power by slot, using overall power if slot data does not exist
-  const powerBySlot = ORDERED_ITEM_SLOTS.reduce(
-    (slots, slotName) => ({
+  const powerBySlot = ORDERED_ITEM_SLOTS.reduce((slots, slotName) => {
+    const item = itemsBySlot?.[slotName];
+    let power = item?.instanceData?.primaryStat?.value;
+    if (!power && item?.instanceData?.itemLevel) {
+      power = item.instanceData.itemLevel * 10;
+      power += item.instanceData.quality || 0;
+    }
+    if (!power) {
+      power = data.overallPower;
+    }
+
+    return {
       ...slots,
-      [slotName]:
-        itemsBySlot?.[slotName]?.instanceData?.primaryStat?.value ||
-        data.overallPower,
-    }),
-    {} as PowerBySlot
-  );
+      [slotName]: power,
+    };
+  }, {} as PowerBySlot);
 
   const roundedPower = Math.floor(data.overallPower);
   // Round to 50s
