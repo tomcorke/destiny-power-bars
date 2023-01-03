@@ -79,6 +79,8 @@ export interface SelectedJoinedItemDefinition
   sockets?: SelectedDestinyItemSocketsComponent;
   itemDefinition?: SelectedDestinyInventoryItemDefinition;
   itemCategories?: DestinyItemCategoryDefinition[];
+  overrideStyleItemHash?: number;
+  overrideStyleItemIconPath?: string;
 }
 
 export interface SelectedItemBySlot {

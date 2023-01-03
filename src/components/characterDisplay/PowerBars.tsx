@@ -8,7 +8,11 @@ import {
 } from "../../constants";
 import { isCrafted } from "../../services/crafting";
 import { isMasterwork } from "../../services/masterwork";
-import { PowerBarsCharacterData, PowerBySlot } from "../../types";
+import {
+  PowerBarsCharacterData,
+  PowerBySlot,
+  SelectedJoinedItemDefinition,
+} from "../../types";
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
 
@@ -30,6 +34,13 @@ const slotFullNames = (className: string): { [key: string]: string } => ({
 
 type PowerBarsProps = PowerBarsCharacterData & {
   useUnrestrictedPower?: boolean;
+};
+
+const getItemIconPath = (item: SelectedJoinedItemDefinition) => {
+  return (
+    item.overrideStyleItemIconPath ||
+    item.itemDefinition?.displayProperties?.icon
+  );
 };
 
 export const PowerBars = (data: PowerBarsProps) => {
@@ -95,7 +106,7 @@ export const PowerBars = (data: PowerBarsProps) => {
               value={power}
               avgValue={roundedPower}
               label={slotFullNames(data.className)[slotName] || slotName}
-              icon={bestItem?.itemDefinition?.displayProperties.icon}
+              icon={bestItem && getItemIconPath(bestItem)}
               isMasterworked={bestItem && isMasterwork(bestItem)}
               isCrafted={bestItem && isCrafted(bestItem)}
               itemName={bestItem?.itemDefinition?.displayProperties.name}
