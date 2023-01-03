@@ -96,6 +96,9 @@ export const PowerBars = (data: PowerBarsProps) => {
               label={slotFullNames(data.className)[slotName] || slotName}
               icon={bestItem?.itemDefinition?.displayProperties.icon}
               isMasterworked={bestItem && isMasterwork(bestItem)}
+              isCrafted={bestItem?.itemDefinition?.sockets?.socketCategories.some(
+                (c) => c.socketCategoryHash === 3583996951
+              )}
               itemName={bestItem?.itemDefinition?.displayProperties.name}
               itemType={
                 (bestItem?.itemCategories?.[0]?.parentCategoryHashes?.[0] ===

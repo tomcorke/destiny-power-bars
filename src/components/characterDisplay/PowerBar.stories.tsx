@@ -75,3 +75,62 @@ export const masterworked = () => (
     />
   </Container>
 );
+
+export const crafted = () => (
+  <Container>
+    <PowerBar
+      min={700}
+      max={750}
+      value={745}
+      avgValue={740}
+      label="Energy Weapon"
+      icon="/common/destiny2_content/icons/8f5bedcac2559d153f6df266d9f4d04b.jpg"
+      isCrafted={true}
+    />
+  </Container>
+);
+
+export const craftedMasterworked = () => (
+  <Container>
+    <PowerBar
+      min={700}
+      max={750}
+      value={745}
+      avgValue={740}
+      label="Energy Weapon"
+      icon="/common/destiny2_content/icons/8f5bedcac2559d153f6df266d9f4d04b.jpg"
+      isMasterworked
+      isCrafted
+    />
+  </Container>
+);
+
+export const deepsight = () => (
+  <Container>
+    <PowerBar
+      min={700}
+      max={750}
+      value={745}
+      avgValue={740}
+      label="Energy Weapon"
+      icon="/common/destiny2_content/icons/8f5bedcac2559d153f6df266d9f4d04b.jpg"
+      hasDeepsightResonance={true}
+    />
+  </Container>
+);
+
+export const everything = () => (
+  <Container>
+    <PowerBar
+      min={700}
+      max={750}
+      value={745}
+      avgValue={740}
+      label="Energy Weapon"
+      icon="/common/destiny2_content/icons/8f5bedcac2559d153f6df266d9f4d04b.jpg"
+      isMasterworked
+      isCrafted
+      hasDeepsightResonance
+    />
+  </Container>
+);

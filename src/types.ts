@@ -64,6 +64,9 @@ interface SelectedDisplayProperties
 interface SelectedDestinyInventoryItemDefinition {
   displayProperties: SelectedDisplayProperties;
   itemTypeDisplayName: string;
+  sockets?: {
+    socketCategories: { socketCategoryHash: number }[];
+  };
 }
 
 export interface SelectedJoinedItemDefinition
