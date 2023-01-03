@@ -56,6 +56,10 @@ interface SelectedDestinyItemInstanceComponent {
   isEquipped?: boolean;
 }
 
+interface SelectedDestinyItemSocketsComponent {
+  sockets: { plugHash: number; isEnabled: boolean }[];
+}
+
 interface SelectedDisplayProperties
   extends Partial<DestinyDisplayPropertiesDefinition> {
   icon: string;
@@ -65,13 +69,14 @@ interface SelectedDestinyInventoryItemDefinition {
   displayProperties: SelectedDisplayProperties;
   itemTypeDisplayName: string;
   sockets?: {
-    socketCategories: { socketCategoryHash: number }[];
+    socketCategories: { socketCategoryHash: number; socketIndexes: number[] }[];
   };
 }
 
 export interface SelectedJoinedItemDefinition
   extends Partial<DestinyItemComponent> {
   instanceData?: SelectedDestinyItemInstanceComponent;
+  sockets?: SelectedDestinyItemSocketsComponent;
   itemDefinition?: SelectedDestinyInventoryItemDefinition;
   itemCategories?: DestinyItemCategoryDefinition[];
 }

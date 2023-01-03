@@ -8,6 +8,7 @@ import {
   DestinyProfileResponse,
   ServerResponse,
 } from "bungie-api-ts/destiny2";
+import { DestinyItemSocketsComponent } from "bungie-api-ts/destiny2/interfaces";
 
 import forIn from "lodash/forIn";
 import groupBy from "lodash/groupBy";
@@ -137,12 +138,16 @@ const mapAndFilterItems = (
   items: DestinyItemComponent[],
   manifest: ManifestData,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
+  itemSockets: ObjectOf<DestinyItemSocketsComponent>,
   character: DestinyCharacterComponent
 ): JoinedItemDefinition[] =>
   items
     .map((item) => {
       const instanceData = item.itemInstanceId
         ? itemInstances[item.itemInstanceId]
+        : undefined;
+      const sockets = item.itemInstanceId
+        ? itemSockets[item.itemInstanceId]
         : undefined;
       const itemDefinition =
         manifest.DestinyInventoryItemDefinition[item.itemHash];
@@ -153,6 +158,7 @@ const mapAndFilterItems = (
         itemCategories: itemDefinition?.itemCategoryHashes?.map(
           (c) => manifest.DestinyItemCategoryDefinition[c]!
         ),
+        sockets,
       };
     })
     .filter(
@@ -232,6 +238,7 @@ const getDataForCharacterId = (
   characterId: string,
   characters: ObjectOf<DestinyCharacterComponent>,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
+  itemSockets: ObjectOf<DestinyItemSocketsComponent>,
   manifest: ManifestData,
   equippedCharacterItems: DestinyItemComponent[],
   allCharacterItems: DestinyItemComponent[],
@@ -247,12 +254,14 @@ const getDataForCharacterId = (
     allCharacterItems,
     manifest,
     itemInstances,
+    itemSockets,
     character
   );
   const relevantProfileItems = mapAndFilterItems(
     profileInventories.items,
     manifest,
     itemInstances,
+    itemSockets,
     character
   ).filter(
     (i) =>
@@ -609,7 +618,9 @@ export const getCharacterData = async (
       !fullProfile?.Response?.characterInventories?.data ||
       !fullProfile?.Response?.profileInventory?.data ||
       !fullProfile?.Response?.itemComponents?.instances?.data ||
-      !fullProfile?.Response?.profileProgression?.data
+      !fullProfile?.Response?.itemComponents?.sockets?.data ||
+      !fullProfile?.Response?.profileProgression?.data ||
+      !fullProfile?.Response?.profileRecords?.data
     ) {
       return;
     }
@@ -629,6 +640,7 @@ export const getCharacterData = async (
     const characterInventories = fullProfile.Response.characterInventories.data;
     const profileInventories = fullProfile.Response.profileInventory.data;
     const itemInstances = fullProfile.Response.itemComponents.instances.data;
+    const itemSockets = fullProfile.Response.itemComponents.sockets.data;
     const profileProgression = fullProfile.Response.profileProgression.data;
     const records = fullProfile.Response.profileRecords.data;
 
@@ -688,6 +700,7 @@ export const getCharacterData = async (
         id,
         characters,
         itemInstances,
+        itemSockets,
         manifest,
         characterEquipments[id].items,
         allCharacterItems,

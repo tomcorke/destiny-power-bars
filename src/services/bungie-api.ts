@@ -308,6 +308,7 @@ export const getFullProfile = (
       300, // DestinyComponentType.ItemInstances,
       104, // DestinyComponentType.ProfileProgression
       900, // DestinyComponentType.Records
+      305, // DestinyComponentType.ItemSockets
     ],
     destinyMembershipId: membershipId,
     membershipType,
