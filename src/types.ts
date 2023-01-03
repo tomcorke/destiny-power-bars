@@ -13,6 +13,7 @@ export interface JoinedItemDefinition extends DestinyItemComponent {
   itemDefinition: DestinyInventoryItemDefinition;
   itemCategories?: DestinyItemCategoryDefinition[];
   slotName: string;
+  overrideStyleItemIconPath?: string;
 }
 
 export interface PowerBySlot {

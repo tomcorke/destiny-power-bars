@@ -159,10 +159,10 @@ const mapAndFilterItems = (
           (c) => manifest.DestinyItemCategoryDefinition[c]!
         ),
         sockets,
-        overrideStyleItemIconPath:
-          item.overrideStyleItemHash &&
-          manifest.DestinyInventoryItemDefinition[item.overrideStyleItemHash]
-            ?.displayProperties?.icon,
+        overrideStyleItemIconPath: item.overrideStyleItemHash
+          ? manifest.DestinyInventoryItemDefinition[item.overrideStyleItemHash]
+              ?.displayProperties?.icon
+          : undefined,
       };
     })
     .filter(
