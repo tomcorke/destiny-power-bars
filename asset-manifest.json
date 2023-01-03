@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.e7f8124c.css",
-    "main.js": "/static/js/main.e06aa5d1.js",
+    "main.js": "/static/js/main.3334777c.js",
     "dom-to-image.js": "/static/js/dom-to-image.64605629.chunk.js",
     "file-saver.js": "/static/js/file-saver.7fe4e068.chunk.js",
     "static/media/s19-media-wallpaper-8-sm.jpg": "/static/media/s19-media-wallpaper-8-sm.61eda14500d38f047c14.jpg",
@@ -20,12 +20,12 @@
     "static/media/twitter.svg": "/static/media/twitter.774c453600aa079325eddd781ad373c4.svg",
     "static/media/BraytechDevice.svg": "/static/media/BraytechDevice.26784dda27d8095b53ae.svg",
     "main.e7f8124c.css.map": "/static/css/main.e7f8124c.css.map",
-    "main.e06aa5d1.js.map": "/static/js/main.e06aa5d1.js.map",
+    "main.3334777c.js.map": "/static/js/main.3334777c.js.map",
     "dom-to-image.64605629.chunk.js.map": "/static/js/dom-to-image.64605629.chunk.js.map",
     "file-saver.7fe4e068.chunk.js.map": "/static/js/file-saver.7fe4e068.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e7f8124c.css",
-    "static/js/main.e06aa5d1.js"
+    "static/js/main.3334777c.js"
   ]
 }
