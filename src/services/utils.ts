@@ -208,20 +208,24 @@ const getItemScore = (
     return 0;
   }
 
-  if (
-    priorityItems &&
-    priorityItems.some((pi) => pi.itemInstanceId === item.itemInstanceId)
-  ) {
-    // Prefer items currently equipped on character over items of equal level elsewhere
-    score += 0.5;
+  if (!item.itemDefinition.redacted) {
+    // Add score for other things to prefer non-redacted items
+    if (
+      priorityItems &&
+      priorityItems.some((pi) => pi.itemInstanceId === item.itemInstanceId)
+    ) {
+      // Prefer items currently equipped on character over items of equal level elsewhere
+      score += 0.5;
+    }
+    if (isMasterwork(item)) {
+      score += 0.25;
+    }
+    if (item.location === 1) {
+      // In inventory
+      score += 0.125;
+    }
   }
-  if (isMasterwork(item)) {
-    score += 0.25;
-  }
-  if (item.location === 1) {
-    // In inventory
-    score += 0.125;
-  }
+
   return score;
 };
 

@@ -6,7 +6,10 @@ import {
   ITEM_POWER_SOFT_CAP,
   ORDERED_ITEM_SLOTS,
 } from "../../constants";
-import { isCrafted } from "../../services/crafting";
+import {
+  hasIncompleteDeepsightResonance,
+  isCrafted,
+} from "../../services/crafting";
 import { isMasterwork } from "../../services/masterwork";
 import {
   PowerBarsCharacterData,
@@ -109,6 +112,9 @@ export const PowerBars = (data: PowerBarsProps) => {
               icon={bestItem && getItemIconPath(bestItem)}
               isMasterworked={bestItem && isMasterwork(bestItem)}
               isCrafted={bestItem && isCrafted(bestItem)}
+              hasDeepsightResonance={
+                bestItem && hasIncompleteDeepsightResonance(bestItem)
+              }
               itemName={bestItem?.itemDefinition?.displayProperties.name}
               itemType={
                 (bestItem?.itemCategories?.[0]?.parentCategoryHashes?.[0] ===
