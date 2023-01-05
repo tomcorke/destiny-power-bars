@@ -6,6 +6,7 @@ import {
   DestinyItemCategoryDefinition,
   DestinyItemComponent,
   DestinyItemInstanceComponent,
+  DestinyObjectiveProgress,
 } from "bungie-api-ts/destiny2";
 
 export interface JoinedItemDefinition extends DestinyItemComponent {
@@ -61,6 +62,15 @@ interface SelectedDestinyItemSocketsComponent {
   sockets: { plugHash: number; isEnabled: boolean }[];
 }
 
+interface SelectedJoinedDestinyItemSocketsComponent {
+  sockets: {
+    plugHash?: number;
+    isEnabled: boolean;
+    plugDef?: DestinyInventoryItemDefinition;
+    plugObjectives?: DestinyObjectiveProgress[];
+  }[];
+}
+
 interface SelectedDisplayProperties
   extends Partial<DestinyDisplayPropertiesDefinition> {
   icon: string;
@@ -77,7 +87,7 @@ interface SelectedDestinyInventoryItemDefinition {
 export interface SelectedJoinedItemDefinition
   extends Partial<DestinyItemComponent> {
   instanceData?: SelectedDestinyItemInstanceComponent;
-  sockets?: SelectedDestinyItemSocketsComponent;
+  sockets?: SelectedJoinedDestinyItemSocketsComponent;
   itemDefinition?: SelectedDestinyInventoryItemDefinition;
   itemCategories?: DestinyItemCategoryDefinition[];
   overrideStyleItemHash?: number;

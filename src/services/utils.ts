@@ -8,7 +8,10 @@ import {
   DestinyProfileResponse,
   ServerResponse,
 } from "bungie-api-ts/destiny2";
-import { DestinyItemSocketsComponent } from "bungie-api-ts/destiny2/interfaces";
+import {
+  DestinyItemPlugObjectivesComponent,
+  DestinyItemSocketsComponent,
+} from "bungie-api-ts/destiny2/interfaces";
 
 import forIn from "lodash/forIn";
 import groupBy from "lodash/groupBy";
@@ -139,6 +142,7 @@ const mapAndFilterItems = (
   manifest: ManifestData,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
   itemSockets: ObjectOf<DestinyItemSocketsComponent>,
+  itemPlugObjectives: ObjectOf<DestinyItemPlugObjectivesComponent>,
   character: DestinyCharacterComponent
 ): JoinedItemDefinition[] =>
   items
@@ -146,11 +150,26 @@ const mapAndFilterItems = (
       const instanceData = item.itemInstanceId
         ? itemInstances[item.itemInstanceId]
         : undefined;
+      const plugObjectives = item.itemInstanceId
+        ? itemPlugObjectives[item.itemInstanceId]
+        : undefined;
       const sockets = item.itemInstanceId
-        ? itemSockets[item.itemInstanceId]
+        ? {
+            sockets: itemSockets[item.itemInstanceId]?.sockets.map((s) => ({
+              ...s,
+              plugDef:
+                s.plugHash &&
+                manifest.DestinyInventoryItemDefinition[s.plugHash],
+              plugObjectives:
+                plugObjectives &&
+                s.plugHash &&
+                plugObjectives.objectivesPerPlug[s.plugHash],
+            })),
+          }
         : undefined;
       const itemDefinition =
         manifest.DestinyInventoryItemDefinition[item.itemHash];
+
       return {
         ...item,
         instanceData,
@@ -247,6 +266,7 @@ const getDataForCharacterId = (
   characters: ObjectOf<DestinyCharacterComponent>,
   itemInstances: ObjectOf<DestinyItemInstanceComponent>,
   itemSockets: ObjectOf<DestinyItemSocketsComponent>,
+  itemPlugObjectives: ObjectOf<DestinyItemPlugObjectivesComponent>,
   manifest: ManifestData,
   equippedCharacterItems: DestinyItemComponent[],
   allCharacterItems: DestinyItemComponent[],
@@ -263,6 +283,7 @@ const getDataForCharacterId = (
     manifest,
     itemInstances,
     itemSockets,
+    itemPlugObjectives,
     character
   );
   const relevantProfileItems = mapAndFilterItems(
@@ -270,6 +291,7 @@ const getDataForCharacterId = (
     manifest,
     itemInstances,
     itemSockets,
+    itemPlugObjectives,
     character
   ).filter(
     (i) =>
@@ -627,6 +649,7 @@ export const getCharacterData = async (
       !fullProfile?.Response?.profileInventory?.data ||
       !fullProfile?.Response?.itemComponents?.instances?.data ||
       !fullProfile?.Response?.itemComponents?.sockets?.data ||
+      !fullProfile?.Response?.itemComponents?.plugObjectives?.data ||
       !fullProfile?.Response?.profileProgression?.data ||
       !fullProfile?.Response?.profileRecords?.data
     ) {
@@ -649,6 +672,8 @@ export const getCharacterData = async (
     const profileInventories = fullProfile.Response.profileInventory.data;
     const itemInstances = fullProfile.Response.itemComponents.instances.data;
     const itemSockets = fullProfile.Response.itemComponents.sockets.data;
+    const itemPlugObjectives =
+      fullProfile.Response.itemComponents.plugObjectives.data;
     const profileProgression = fullProfile.Response.profileProgression.data;
     const records = fullProfile.Response.profileRecords.data;
 
@@ -709,6 +734,7 @@ export const getCharacterData = async (
         characters,
         itemInstances,
         itemSockets,
+        itemPlugObjectives,
         manifest,
         characterEquipments[id].items,
         allCharacterItems,
