@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e7f8124c.css",
-    "main.js": "/static/js/main.3334777c.js",
+    "main.css": "/static/css/main.e9999d33.css",
+    "main.js": "/static/js/main.d3e1ac2a.js",
     "dom-to-image.js": "/static/js/dom-to-image.64605629.chunk.js",
     "file-saver.js": "/static/js/file-saver.7fe4e068.chunk.js",
     "static/media/s19-media-wallpaper-8-sm.jpg": "/static/media/s19-media-wallpaper-8-sm.61eda14500d38f047c14.jpg",
@@ -19,13 +19,13 @@
     "static/media/github.svg": "/static/media/github.16a9304e38fd8167989291ab92544e14.svg",
     "static/media/twitter.svg": "/static/media/twitter.774c453600aa079325eddd781ad373c4.svg",
     "static/media/BraytechDevice.svg": "/static/media/BraytechDevice.26784dda27d8095b53ae.svg",
-    "main.e7f8124c.css.map": "/static/css/main.e7f8124c.css.map",
-    "main.3334777c.js.map": "/static/js/main.3334777c.js.map",
+    "main.e9999d33.css.map": "/static/css/main.e9999d33.css.map",
+    "main.d3e1ac2a.js.map": "/static/js/main.d3e1ac2a.js.map",
     "dom-to-image.64605629.chunk.js.map": "/static/js/dom-to-image.64605629.chunk.js.map",
     "file-saver.7fe4e068.chunk.js.map": "/static/js/file-saver.7fe4e068.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e7f8124c.css",
-    "static/js/main.3334777c.js"
+    "static/css/main.e9999d33.css",
+    "static/js/main.d3e1ac2a.js"
   ]
 }
