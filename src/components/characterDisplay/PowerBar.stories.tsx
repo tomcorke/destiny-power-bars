@@ -90,6 +90,20 @@ export const crafted = () => (
   </Container>
 );
 
+export const craftedExotic = () => (
+  <Container>
+    <PowerBar
+      min={700}
+      max={750}
+      value={745}
+      avgValue={740}
+      label="Kinetic Weapon"
+      icon="/common/destiny2_content/icons/65aa3edb229e17ab78a8bf58b9571a9d.jpg"
+      isCrafted={true}
+    />
+  </Container>
+);
+
 export const craftedMasterworked = () => (
   <Container>
     <PowerBar

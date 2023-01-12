@@ -33,9 +33,18 @@ export const isCrafted = (item: SelectedJoinedItemDefinition) => {
 
   //   return plugInSocket.isEnabled;
 
-  return item.sockets?.sockets.some(
-    (plug) => plug.plugHash === SHAPED_WEAPON_PLUG_HASH && plug.isEnabled
+  const craftingSocket = item.sockets?.sockets.find(
+    (s) =>
+      s.plugDef &&
+      s.plugDef?.plug?.plugCategoryHash ===
+        PlugCategoryHashes.CraftingPlugsFrameIdentifiers
   );
+
+  if (craftingSocket) {
+    return craftingSocket.isEnabled;
+  }
+
+  return false;
 };
 
 export const hasIncompleteDeepsightResonance = (
@@ -43,9 +52,8 @@ export const hasIncompleteDeepsightResonance = (
 ) => {
   const resonanceSocket = item.sockets?.sockets.find(
     (s) =>
-      s.plugDef &&
-      s.plugDef.plug?.plugCategoryHash ===
-        PlugCategoryHashes.CraftingPlugsWeaponsModsMemories
+      s.plugDef?.plug?.plugCategoryHash ===
+      PlugCategoryHashes.CraftingPlugsWeaponsModsMemories
   );
 
   if (resonanceSocket) {
