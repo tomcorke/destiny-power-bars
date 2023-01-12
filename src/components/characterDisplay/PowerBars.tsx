@@ -128,11 +128,13 @@ export const PowerBars = (data: PowerBarsProps) => {
           );
         })}
       </div>
-      <div className={STYLES.powerLabel}>
-        <div className={STYLES.indicator} style={{ left: `${perc}%` }}>
-          {roundedPower}
+      {roundedPower < maxPowerToDisplay ? (
+        <div className={STYLES.powerLabel}>
+          <div className={STYLES.indicator} style={{ left: `${perc}%` }}>
+            {roundedPower}
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
