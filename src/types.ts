@@ -15,6 +15,7 @@ export interface JoinedItemDefinition extends DestinyItemComponent {
   itemCategories?: DestinyItemCategoryDefinition[];
   slotName: string;
   overrideStyleItemIconPath?: string;
+  watermarkIconPath?: string;
 }
 
 export interface PowerBySlot {
@@ -85,7 +86,7 @@ interface SelectedDestinyInventoryItemDefinition {
 }
 
 export interface SelectedJoinedItemDefinition
-  extends Partial<DestinyItemComponent> {
+  extends DeepPartial<JoinedItemDefinition> {
   instanceData?: SelectedDestinyItemInstanceComponent;
   sockets?: SelectedJoinedDestinyItemSocketsComponent;
   itemDefinition?: SelectedDestinyInventoryItemDefinition;
@@ -122,6 +123,14 @@ export interface FullCharacterData extends PowerBarsCharacterData {
   character: DestinyCharacterComponent;
   topItemBySlot?: ItemBySlot;
 }
+
+export type DeepPartial<T> = Partial<{
+  [Key in keyof T]: T[Key] extends Array<infer U>
+    ? Array<DeepPartial<U>>
+    : T[Key] extends object | null | undefined
+    ? DeepPartial<T[Key]>
+    : T[Key];
+}>;
 
 declare global {
   interface Window {

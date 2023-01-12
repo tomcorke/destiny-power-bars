@@ -46,6 +46,10 @@ const getItemIconPath = (item: SelectedJoinedItemDefinition) => {
   );
 };
 
+const getItemIconWatermarkPath = (item: SelectedJoinedItemDefinition) => {
+  return item.watermarkIconPath;
+};
+
 export const PowerBars = (data: PowerBarsProps) => {
   const itemsBySlot =
     data.useUnrestrictedPower &&
@@ -101,6 +105,9 @@ export const PowerBars = (data: PowerBarsProps) => {
       <div className={STYLES.bars}>
         {Object.entries(powerBySlot).map(([slotName, power]) => {
           const bestItem = itemsBySlot?.[slotName];
+          if (!bestItem) {
+            return null;
+          }
           return (
             <PowerBar
               key={`${data.character.characterId}_${slotName}`}
@@ -109,21 +116,20 @@ export const PowerBars = (data: PowerBarsProps) => {
               value={power}
               avgValue={roundedPower}
               label={slotFullNames(data.className)[slotName] || slotName}
-              icon={bestItem && getItemIconPath(bestItem)}
-              isMasterworked={bestItem && isMasterwork(bestItem)}
-              isCrafted={bestItem && isCrafted(bestItem)}
-              hasDeepsightResonance={
-                bestItem && hasIncompleteDeepsightResonance(bestItem)
-              }
-              itemName={bestItem?.itemDefinition?.displayProperties.name}
+              icon={getItemIconPath(bestItem)}
+              iconWatermark={getItemIconWatermarkPath(bestItem)}
+              isMasterworked={isMasterwork(bestItem)}
+              isCrafted={isCrafted(bestItem)}
+              hasDeepsightResonance={hasIncompleteDeepsightResonance(bestItem)}
+              itemName={bestItem.itemDefinition?.displayProperties.name}
               itemType={
-                (bestItem?.itemCategories?.[0]?.parentCategoryHashes?.[0] ===
+                (bestItem.itemCategories?.[0]?.parentCategoryHashes?.[0] ===
                   1 &&
-                  bestItem?.itemCategories?.[0]?.displayProperties.name) ||
-                bestItem?.itemDefinition?.itemTypeDisplayName
+                  bestItem.itemCategories?.[0]?.displayProperties.name) ||
+                bestItem.itemDefinition?.itemTypeDisplayName
               }
-              location={bestItem?.location}
-              isEquipped={bestItem?.instanceData?.isEquipped}
+              location={bestItem.location}
+              isEquipped={bestItem.instanceData?.isEquipped}
             />
           );
         })}

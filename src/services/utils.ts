@@ -182,6 +182,10 @@ const mapAndFilterItems = (
           ? manifest.DestinyInventoryItemDefinition[item.overrideStyleItemHash]
               ?.displayProperties?.icon
           : undefined,
+        watermarkIconPath:
+          itemDefinition?.quality?.displayVersionWatermarkIcons?.[0] ||
+          itemDefinition?.iconWatermark ||
+          undefined,
       };
     })
     .filter(

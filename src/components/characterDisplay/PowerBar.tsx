@@ -1,5 +1,6 @@
 import { ItemLocation } from "bungie-api-ts/destiny2";
 import classnames from "classnames";
+import { url } from "inspector";
 import React from "react";
 
 import STYLES from "./PowerBar.module.scss";
@@ -11,6 +12,7 @@ interface BarProps {
   avgValue: number;
   label: string;
   icon?: string;
+  iconWatermark?: string;
   isMasterworked?: boolean;
   isCrafted?: boolean;
   hasDeepsightResonance?: boolean;
@@ -47,6 +49,7 @@ export const PowerBar = ({
   avgValue,
   label,
   icon,
+  iconWatermark,
   isMasterworked,
   isCrafted,
   hasDeepsightResonance,
@@ -90,6 +93,14 @@ export const PowerBar = ({
             className={STYLES.icon}
             src={`https://www.bungie.net${icon}`}
             alt={fullLabelText}
+          />
+        ) : null}
+        {iconWatermark ? (
+          <div
+            className={STYLES.watermark}
+            style={{
+              backgroundImage: `url('https://www.bungie.net${iconWatermark}')`,
+            }}
           />
         ) : null}
         {icon && location === 2 /*ItemLocation.Vault*/ ? (
