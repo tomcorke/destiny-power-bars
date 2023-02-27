@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.e83a99f5.css",
-    "main.js": "/static/js/main.b7cec4d5.js",
+    "main.css": "/static/css/main.5e2f988d.css",
+    "main.js": "/static/js/main.7b8d59a2.js",
     "dom-to-image.js": "/static/js/dom-to-image.64605629.chunk.js",
     "file-saver.js": "/static/js/file-saver.7fe4e068.chunk.js",
-    "static/media/s19-media-wallpaper-8-sm.jpg": "/static/media/s19-media-wallpaper-8-sm.61eda14500d38f047c14.jpg",
+    "static/media/lfl-media-shot-1-full-mq.jpg": "/static/media/lfl-media-shot-1-full-mq.6c16af6e6bc4ad23b8c4.jpg",
     "static/media/example-titan-character-display-with-info.png": "/static/media/example-titan-character-display-with-info.2daef1c3e01f616b8f38.png",
     "static/media/guardianstats.ico": "/static/media/guardianstats.aaf3d6d59da93d38c86e.ico",
     "static/media/Destiny_Keys.otf": "/static/media/Destiny_Keys.fb3c5d84fa8a34d57e73.otf",
@@ -19,13 +19,13 @@
     "static/media/github.svg": "/static/media/github.16a9304e38fd8167989291ab92544e14.svg",
     "static/media/twitter.svg": "/static/media/twitter.774c453600aa079325eddd781ad373c4.svg",
     "static/media/BraytechDevice.svg": "/static/media/BraytechDevice.26784dda27d8095b53ae.svg",
-    "main.e83a99f5.css.map": "/static/css/main.e83a99f5.css.map",
-    "main.b7cec4d5.js.map": "/static/js/main.b7cec4d5.js.map",
+    "main.5e2f988d.css.map": "/static/css/main.5e2f988d.css.map",
+    "main.7b8d59a2.js.map": "/static/js/main.7b8d59a2.js.map",
     "dom-to-image.64605629.chunk.js.map": "/static/js/dom-to-image.64605629.chunk.js.map",
     "file-saver.7fe4e068.chunk.js.map": "/static/js/file-saver.7fe4e068.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e83a99f5.css",
-    "static/js/main.b7cec4d5.js"
+    "static/css/main.5e2f988d.css",
+    "static/js/main.7b8d59a2.js"
   ]
 }
