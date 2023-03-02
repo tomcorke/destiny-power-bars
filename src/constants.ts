@@ -70,11 +70,9 @@ export const BUNGIE_COLOUR_VOID = "b085df";
 
 const season = D2SeasonInfo[D2CalculatedSeason];
 
-export const ITEM_POWER_SOFT_CAP = season.season === 20 ? 1750 : season.softCap;
-export const ITEM_POWER_POWERFUL_CAP =
-  season.season === 20 ? 1800 : season.powerfulCap;
-export const ITEM_POWER_PINNACLE_CAP =
-  season.season === 21 ? 1810 : season.pinnacleCap;
+export const ITEM_POWER_SOFT_CAP = season.softCap;
+export const ITEM_POWER_POWERFUL_CAP = season.powerfulCap;
+export const ITEM_POWER_PINNACLE_CAP = season.pinnacleCap;
 
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK = 1;
