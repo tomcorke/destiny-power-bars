@@ -103,6 +103,7 @@ export interface PowerBarsCharacterData {
   character: SelectedDestinyCharacterComponent;
   className: string;
 
+  minPower: number;
   overallPowerExact: number;
   overallPower: number;
   topItemBySlot?: SelectedItemBySlot;
@@ -117,6 +118,15 @@ export interface PowerBarsCharacterData {
   titleGildedCount?: number;
   other?: unknown;
   hasRedactedEquippableItems?: boolean;
+
+  engrams?: {
+    name: string;
+    power: number;
+    icon: string;
+    // item: DestinyItemComponent;
+    // definition: DestinyInventoryItemDefinition;
+    // instanceData: DestinyItemInstanceComponent;
+  }[];
 }
 
 export interface FullCharacterData extends PowerBarsCharacterData {

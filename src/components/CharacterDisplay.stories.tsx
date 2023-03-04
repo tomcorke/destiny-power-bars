@@ -31,6 +31,7 @@ const mockData: PowerBarsCharacterData = {
   title: "Flawless",
   titleGildedCount: 2,
 
+  minPower: 0,
   overallPower: 929,
   overallPowerExact: 929 + 2 / 8,
   potentialOverallPower: 930,

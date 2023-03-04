@@ -7,11 +7,10 @@ import {
   DestinyProfileRecordsComponent,
   DestinyProfileResponse,
   ServerResponse,
-} from "bungie-api-ts/destiny2";
-import {
+  DestinyInventoryItemDefinition,
   DestinyItemPlugObjectivesComponent,
   DestinyItemSocketsComponent,
-} from "bungie-api-ts/destiny2/interfaces";
+} from "bungie-api-ts/destiny2";
 
 import forIn from "lodash/forIn";
 import groupBy from "lodash/groupBy";
@@ -29,7 +28,10 @@ import {
   ITEM_TYPE_ARMOR,
   ITEM_TYPE_WEAPON,
 } from "../constants";
-import { ItemCategoryHashes } from "../data/d2ai-module/generated-enums";
+import {
+  BucketHashes,
+  ItemCategoryHashes,
+} from "../data/d2ai-module/generated-enums";
 import {
   ItemBySlot,
   JoinedItemDefinition,
@@ -81,6 +83,8 @@ const getPowerBySlot = (itemsBySlot: ItemBySlot): PowerBySlot =>
     return power;
   });
 
+const getMinimumPower = (powerBySlot: PowerBySlot) =>
+  Math.min(...Object.values(powerBySlot));
 const getAveragePower = (powerBySlot: PowerBySlot) =>
   Object.values(powerBySlot).reduce((sum, power) => sum + power, 0) /
   Object.keys(ITEM_SLOT_BUCKETS).length;
@@ -90,6 +94,7 @@ const getOverallPower = (powerBySlot: PowerBySlot) =>
 export const getPower = (itemsBySlot: ItemBySlot) => {
   const powerBySlot = getPowerBySlot(itemsBySlot);
   return {
+    minPower: getMinimumPower(powerBySlot),
     averagePower: getAveragePower(powerBySlot),
     overallPower: getOverallPower(powerBySlot),
   };
@@ -131,6 +136,21 @@ const isItemEquippableByCharacter = (
   } // If the game says we can equip it, let's believe it
   // Let's ignore the rest for now
   return true;
+};
+
+const isCharacterEngram = (
+  item: JoinedItemDefinition,
+  character: DestinyCharacterComponent
+) => {
+  if (!item.instanceData) {
+    return false;
+  }
+  if (
+    item.itemDefinition.itemCategoryHashes?.includes(ItemCategoryHashes.Engrams)
+  ) {
+    return true;
+  }
+  return false;
 };
 
 interface ObjectOf<T> {
@@ -273,6 +293,7 @@ const getDataForCharacterId = (
   itemPlugObjectives: ObjectOf<DestinyItemPlugObjectivesComponent>,
   manifest: ManifestData,
   equippedCharacterItems: DestinyItemComponent[],
+  thisCharacterItems: DestinyItemComponent[],
   allCharacterItems: DestinyItemComponent[],
   profileInventories: DestinyInventoryComponent,
   profileProgression: DestinyProfileProgressionComponent,
@@ -414,8 +435,11 @@ const getDataForCharacterId = (
 
   const powerBySlot = getPowerBySlot(topUnrestrictedItemBySlot);
 
-  const { averagePower: overallPowerExact, overallPower } =
-    getPower(topItemBySlot);
+  const {
+    minPower,
+    averagePower: overallPowerExact,
+    overallPower,
+  } = getPower(topItemBySlot);
   const {
     averagePower: unrestrictedOverallPowerExact,
     overallPower: unrestrictedOverallPower,
@@ -480,22 +504,60 @@ const getDataForCharacterId = (
   const gildingRecord = gildingHash && records && records!.records[gildingHash];
   const titleGildedCount = (gildingRecord && gildingRecord.completedCount) || 0;
 
-  // const engrams = allCharacterItems
-  //   .map((item) => {
-  //     const definition = manifest.DestinyInventoryItemDefinition[item.itemHash];
-  //     const instance = item.itemInstanceId
-  //       ? itemInstances[item.itemInstanceId]
-  //       : undefined;
-  //     return { item, definition, instance };
-  //   })
-  //   .filter(({ definition }) =>
-  //     definition?.itemCategoryHashes?.includes(ItemCategoryHashes.Engrams)
+  // prime engram hash: 914746494
+  // legen engram hash: 1260977951
+
+  const hasDefinition = <
+    T extends { definition?: DestinyInventoryItemDefinition }
+  >(
+    item: T
+  ): item is T & { definition: DestinyInventoryItemDefinition } =>
+    item.definition !== undefined;
+
+  const hasInstanceData = <
+    T extends { instanceData?: DestinyItemInstanceComponent }
+  >(
+    item: T
+  ): item is T & { instanceData: DestinyItemInstanceComponent } =>
+    item.instanceData !== undefined;
+
+  const engrams = thisCharacterItems
+    .map((item) => {
+      const definition = manifest.DestinyInventoryItemDefinition[item.itemHash];
+      const instanceData = item.itemInstanceId
+        ? itemInstances[item.itemInstanceId]
+        : undefined;
+      return { item, definition, instanceData };
+    })
+    .filter(hasDefinition)
+    .filter(hasInstanceData)
+    .filter(
+      ({ definition }) =>
+        definition.itemCategoryHashes?.includes(ItemCategoryHashes.Engrams) ||
+        definition.inventory?.bucketTypeHash === BucketHashes.Engrams
+    )
+    .map((engram) => ({
+      ...engram,
+      name: engram.definition.displayProperties.name,
+      power: engram.instanceData.itemLevel * 10 + engram.instanceData.quality,
+      icon: engram.definition.displayProperties.icon,
+    }));
+
+  // console.group(`${className} engrams`);
+  // engrams.forEach((engram) => {
+  //   console.log(
+  //     engram.definition.displayProperties.name,
+  //     engram.instanceData.itemLevel * 10 + engram.instanceData.quality,
+  //     engram
   //   );
+  // });
+  // console.groupEnd();
 
   const resultData: PowerBarsCharacterData = {
     character,
     className,
 
+    minPower,
     overallPower,
     overallPowerExact,
     topItemBySlot,
@@ -510,6 +572,8 @@ const getDataForCharacterId = (
     title,
     titleGildedCount,
     hasRedactedEquippableItems,
+
+    engrams,
   };
 
   return resultData;
@@ -732,8 +796,12 @@ export const getCharacterData = async (
     lastProfileProgressionHash = newProfileProgressionHash;
 
     const characterIds = Object.keys(characters);
-    const characterData = characterIds.map((id) =>
-      getDataForCharacterId(
+    const characterData = characterIds.map((id) => {
+      const thisCharacterItems = characterInventories[id].items.concat(
+        characterEquipments[id].items
+      );
+
+      return getDataForCharacterId(
         id,
         characters,
         itemInstances,
@@ -741,12 +809,13 @@ export const getCharacterData = async (
         itemPlugObjectives,
         manifest,
         characterEquipments[id].items,
+        thisCharacterItems,
         allCharacterItems,
         profileInventories,
         profileProgression,
         records
-      )
-    );
+      );
+    });
     lastCharacterData = characterData;
     setCachedCharacterData(characterData);
     setCharacterData(characterData);

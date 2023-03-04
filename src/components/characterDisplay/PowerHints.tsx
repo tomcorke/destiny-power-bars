@@ -13,6 +13,7 @@ import { Power } from "./Power";
 import STYLES from "./PowerHints.module.scss";
 
 interface PowerHintsProps {
+  minPower: number;
   overallPowerExact: number;
   overallPower: number;
   unrestrictedOverallPowerExact?: number;
@@ -20,9 +21,11 @@ interface PowerHintsProps {
   potentialOverallPower?: number;
   useUnrestrictedPower?: boolean;
   onChangeUseUnrestrictedPower?: (newValue: boolean) => void;
+  engrams?: { name: string; power: number; icon: string }[];
 }
 
 export const PowerHints = ({
+  minPower,
   overallPowerExact,
   overallPower,
   unrestrictedOverallPowerExact,
@@ -31,6 +34,8 @@ export const PowerHints = ({
 
   useUnrestrictedPower = true,
   onChangeUseUnrestrictedPower = () => {},
+
+  engrams = [],
 }: PowerHintsProps) => {
   const powerToUseExact = unrestrictedOverallPowerExact || overallPowerExact;
   const powerToUse = unrestrictedOverallPower || overallPower;
@@ -73,6 +78,41 @@ export const PowerHints = ({
         )}
       </Power>
     );
+
+  const relevantEngrams = engrams
+    .filter((engram) => engram.power > minPower)
+    .sort((a, b) => b.power - a.power);
+
+  const hasAbovePowerEngrams = relevantEngrams.some(
+    (engram) => engram.power > overallPower
+  );
+
+  const relevantEngramDisplay =
+    relevantEngrams.length > 0 ? (
+      <div className={STYLES.relevantEngrams}>
+        <div className={STYLES.engramsHeader}>Engrams:</div>
+        <div className={STYLES.engramsContainer}>
+          {relevantEngrams.map((engram, i) => (
+            <div className={STYLES.engram} key={i}>
+              <img
+                className={STYLES.engramIcon}
+                src={`https://www.bungie.net${engram.icon}`}
+                alt={`${engram.name}: ${engram.power}`}
+                title={`${engram.name}: ${engram.power}`}
+              />
+              <span className={STYLES.engramName}>{engram.name}</span>
+              <span className={STYLES.engramPower}>{engram.power}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : null;
+
+  const powerfulEngramsDisplay = hasAbovePowerEngrams ? (
+    <div className={STYLES.powerfulEngrams}>
+      You have engrams to decrypt above your average power level!
+    </div>
+  ) : null;
 
   return (
     <div className={STYLES.hints}>
@@ -272,6 +312,9 @@ export const PowerHints = ({
           <span className={STYLES.switch} />
         </label>
       ) : null}
+
+      {relevantEngramDisplay}
+      {powerfulEngramsDisplay}
     </div>
   );
 };

@@ -187,3 +187,49 @@
     }
   }
 }
+
+.relevantEngrams {
+  margin-top: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(black, 0.5);
+  border-radius: 3px;
+
+  .engramsHeader {
+  }
+
+  .engramsContainer {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .engram {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 5px;
+
+    .engramIcon {
+      width: 20px;
+    }
+
+    .engramName {
+      display: none;
+    }
+
+    .engramPower {
+      // display: none;
+      font-size: 10px;
+    }
+  }
+}
+
+.powerfulEngrams {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(black, 0.5);
+  border-radius: 3px;
+}
