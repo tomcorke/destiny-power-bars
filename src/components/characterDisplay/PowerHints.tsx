@@ -101,7 +101,13 @@ export const PowerHints = ({
                 title={`${engram.name}: ${engram.power}`}
               />
               <span className={STYLES.engramName}>{engram.name}</span>
-              <span className={STYLES.engramPower}>{engram.power}</span>
+              <span
+                className={classnames(STYLES.engramPower, {
+                  [STYLES.highEngramPower]: engram.power > overallPower,
+                })}
+              >
+                {engram.power}
+              </span>
             </div>
           ))}
         </div>
