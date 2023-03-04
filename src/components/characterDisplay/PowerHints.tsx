@@ -7,6 +7,8 @@ import {
   ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK,
   ITEM_POWER_POWERFUL_CAP,
   ITEM_POWER_SOFT_CAP,
+  LEGENDARY_ACTIVITY_MODIFIER_ICON,
+  LEGENDARY_STORY_ITEM_POWER,
 } from "../../constants";
 import { Power } from "./Power";
 
@@ -79,9 +81,7 @@ export const PowerHints = ({
       </Power>
     );
 
-  const relevantEngrams = engrams
-    .filter((engram) => engram.power > minPower)
-    .sort((a, b) => b.power - a.power);
+  const relevantEngrams = engrams.filter((engram) => engram.power > minPower);
 
   const hasAbovePowerEngrams = relevantEngrams.some(
     (engram) => engram.power > overallPower
@@ -92,24 +92,27 @@ export const PowerHints = ({
       <div className={STYLES.relevantEngrams}>
         <div className={STYLES.engramsHeader}>Engrams:</div>
         <div className={STYLES.engramsContainer}>
-          {relevantEngrams.map((engram, i) => (
-            <div className={STYLES.engram} key={i}>
-              <img
-                className={STYLES.engramIcon}
-                src={`https://www.bungie.net${engram.icon}`}
-                alt={`${engram.name}: ${engram.power}`}
-                title={`${engram.name}: ${engram.power}`}
-              />
-              <span className={STYLES.engramName}>{engram.name}</span>
-              <span
-                className={classnames(STYLES.engramPower, {
-                  [STYLES.highEngramPower]: engram.power > overallPower,
-                })}
-              >
-                {engram.power}
-              </span>
-            </div>
-          ))}
+          {engrams
+            .sort((a, b) => b.power - a.power)
+            .map((engram, i) => (
+              <div className={STYLES.engram} key={i}>
+                <img
+                  className={STYLES.engramIcon}
+                  src={`https://www.bungie.net${engram.icon}`}
+                  alt={`${engram.name}: ${engram.power}`}
+                  title={`${engram.name}: ${engram.power}`}
+                />
+                <span className={STYLES.engramName}>{engram.name}</span>
+                <span
+                  className={classnames(STYLES.engramPower, {
+                    [STYLES.highEngramPower]: engram.power > overallPower,
+                    [STYLES.lowEngramPower]: engram.power <= minPower,
+                  })}
+                >
+                  {engram.power}
+                </span>
+              </div>
+            ))}
         </div>
       </div>
     ) : null;
@@ -119,6 +122,22 @@ export const PowerHints = ({
       You have engrams to decrypt above your average power level!
     </div>
   ) : null;
+
+  const legendaryStoryDisplay =
+    minPower < LEGENDARY_STORY_ITEM_POWER ? (
+      <div className={STYLES.legendaryStoryHint}>
+        <img
+          className={STYLES.legendaryIcon}
+          src={LEGENDARY_ACTIVITY_MODIFIER_ICON}
+          alt="Legendary Campaign"
+        />
+        <div>
+          This character can obtain a full set of{" "}
+          <Power>{LEGENDARY_STORY_ITEM_POWER}</Power> power gear by completing
+          the current campaign on Legendary difficulty.
+        </div>
+      </div>
+    ) : null;
 
   return (
     <div className={STYLES.hints}>
@@ -186,14 +205,15 @@ export const PowerHints = ({
             )}
           >
             <span>
-              World drops can increase your overall gear power to{" "}
-              <Power>{potentialOverallPower}</Power>
+              World drops and other on-power item sources can increase your
+              overall gear power to <Power>{potentialOverallPower}</Power>
             </span>
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <div>
                   World drops (from strikes, public events,{" "}
-                  {powerToUse <= ITEM_POWER_POWERFUL_CAP && "vendors, "}
+                  {powerToUse <= ITEM_POWER_POWERFUL_CAP &&
+                    "vendor rank rewards, "}
                   non-powerful rewards) can drop with a power level{" "}
                   {powerToUse >= ITEM_POWER_SOFT_CAP ? (
                     <>
@@ -252,9 +272,9 @@ export const PowerHints = ({
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <div>
-                  Powerful and pinnacle reward sources (Weekly challenges, Year
-                  4 raids) will give you items above your overall gear power,
-                  with powerful rewards capped at{" "}
+                  Powerful and pinnacle reward sources (Weekly challenges,
+                  latest and featured dungeons and raids) will give you items
+                  above your overall gear power, with powerful rewards capped at{" "}
                   <Power>{ITEM_POWER_POWERFUL_CAP}</Power>.
                 </div>
                 {powerRequiredToReachNext && (
@@ -291,8 +311,8 @@ export const PowerHints = ({
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
                 <div>
-                  Pinnacle reward sources (Some weekly challenges, Year 4 raids)
-                  will give you items at {pinnacleDropPowerDisplay} power.
+                  Pinnacle reward sources (Some weekly challenges) will give you
+                  items at {pinnacleDropPowerDisplay} power.
                 </div>
                 {powerRequiredToReachNext && (
                   <div>
@@ -321,6 +341,7 @@ export const PowerHints = ({
 
       {relevantEngramDisplay}
       {powerfulEngramsDisplay}
+      {legendaryStoryDisplay}
     </div>
   );
 };
