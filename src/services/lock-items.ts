@@ -26,13 +26,11 @@ if (storedLockedItemIds) {
 
 eventEmitter.on(EVENTS.ITEM_ALREADY_LOCKED, () => {
   // Add to local storage list
-  console.log(EVENTS.ITEM_ALREADY_LOCKED);
   localStorage.setItem(LOCAL_STORAGE_LOCKED_ITEM_IDS, lockedItemIds.join(","));
 });
 
 eventEmitter.on(EVENTS.ITEM_LOCKED, () => {
   // Add to local storage list
-  console.log(EVENTS.ITEM_LOCKED);
   localStorage.setItem(LOCAL_STORAGE_LOCKED_ITEM_IDS, lockedItemIds.join(","));
 });
 
