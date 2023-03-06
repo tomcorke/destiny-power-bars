@@ -1,11 +1,6 @@
 import React from "react";
 
-import {
-  ITEM_POWER_PINNACLE_CAP,
-  ITEM_POWER_POWERFUL_CAP,
-  ITEM_POWER_SOFT_CAP,
-  ORDERED_ITEM_SLOTS,
-} from "../../constants";
+import { ITEM_POWER_POWERFUL_CAP, ORDERED_ITEM_SLOTS } from "../../constants";
 import {
   hasIncompleteDeepsightResonance,
   isCrafted,

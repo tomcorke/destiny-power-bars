@@ -1,10 +1,11 @@
 import { SelectedJoinedItemDefinition } from "../types";
 import { PlugCategoryHashes } from "../data/d2ai-module/generated-enums";
 
+/*
 const CRAFTABLE_SOCKET_CATEGORY_HASH = 3583996951;
 const SHAPED_WEAPON_PLUG_HASH = 4029346515;
 const DEEPSIGHT_RESONANCE_PLUG_HASH = 213377779;
-/*
+
   CraftingPlugsFrameIdentifiers = 3425085882,
   CraftingPlugsWeaponsModsExtractors = 3520412733,
   CraftingPlugsWeaponsModsMemories = 2748073883,

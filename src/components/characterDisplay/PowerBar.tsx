@@ -1,6 +1,5 @@
 import { ItemLocation } from "bungie-api-ts/destiny2";
 import classnames from "classnames";
-import { url } from "inspector";
 import React from "react";
 
 import STYLES from "./PowerBar.module.scss";
