@@ -16,6 +16,9 @@ export enum EVENTS {
   FETCHING_CHARACTER_DATA_CHANGE = "FETCHING_CHARACTER_DATA_CHANGE",
 
   LOG_OUT = "LOG_OUT",
+
+  ITEM_LOCKED = "ITEM_LOCKED",
+  ITEM_ALREADY_LOCKED = "ITEM_ALREADY_LOCKED",
 }
 
 const eventEmitter = new EventEmitter();
@@ -31,11 +34,12 @@ export default eventEmitter;
   };
 })();
 
-type EventHandler<T extends any[]> = (args: T) => void;
+type EventHandler<T extends any> = (args: T) => void;
 
-function useEvent<T extends any[]>(
+function useEvent<T extends any>(
   eventName: EVENTS,
-  handler: EventHandler<T>
+  handler: EventHandler<T>,
+  deps: any[] = []
 ) {
   const savedHandler = useRef<EventHandler<T>>();
 

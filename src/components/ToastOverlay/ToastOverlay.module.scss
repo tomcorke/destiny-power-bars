@@ -1,0 +1,29 @@
+.ToastOverlay {
+  position: fixed;
+
+  top: 4em;
+  right: 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 5px;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
+}
+
+.ItemLockedToast {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+
+  img {
+    max-width: 24px;
+    max-height: 24px;
+  }
+}

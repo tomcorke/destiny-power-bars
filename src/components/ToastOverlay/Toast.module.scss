@@ -1,0 +1,13 @@
+.Toast {
+  background: rgba(black, 0.9);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  cursor: pointer;
+}
+
+.hidden {
+  opacity: 0;
+}

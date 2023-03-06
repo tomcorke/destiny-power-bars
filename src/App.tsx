@@ -44,6 +44,7 @@ import "./index.css";
 import STYLES from "./App.module.scss";
 import { debug } from "./services/debug";
 import MembershipHeader from "./components/MembershipHeader";
+import ToastOverlay from "./components/ToastOverlay";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
@@ -111,11 +112,11 @@ const doGetCharacterData = throttle(
     setBungieServiceUnavailable: (value: boolean) => void
   ) => {
     const updateCharacterData = (newData: PowerBarsCharacterData[]) => {
-      const newOverallPower = Math.max(...newData.map((c) => c.overallPower));
-      const newArtifactPower = Math.max(
-        ...newData.map((c) => (c.artifactData ? c.artifactData.bonusPower : 0))
-      );
-      const newTotalPower = newOverallPower + newArtifactPower;
+      // const newOverallPower = Math.max(...newData.map((c) => c.overallPower));
+      // const newArtifactPower = Math.max(
+      //   ...newData.map((c) => (c.artifactData ? c.artifactData.bonusPower : 0))
+      // );
+      // const newTotalPower = newOverallPower + newArtifactPower;
       setCharacterData(newData);
     };
 
@@ -179,6 +180,8 @@ export const AppWrapper = ({
       <div className={classnames(STYLES.AppInner, { [STYLES.top]: top })}>
         {children}
       </div>
+
+      <ToastOverlay />
     </div>
   );
 };

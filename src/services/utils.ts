@@ -25,8 +25,6 @@ import {
   ITEM_BUCKET_SLOTS,
   ITEM_POWER_SOFT_CAP,
   ITEM_SLOT_BUCKETS,
-  ITEM_TYPE_ARMOR,
-  ITEM_TYPE_WEAPON,
 } from "../constants";
 import {
   BucketHashes,
@@ -50,6 +48,7 @@ import {
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
+import { lockItems } from "./lock-items";
 import { isMasterwork } from "./masterwork";
 
 const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
@@ -105,8 +104,11 @@ const mergeItems = <
 >(
   characterItemMap: T
 ) => {
-  return Object.values(characterItemMap).reduce(
-    (allItems, characterItems) => allItems.concat(characterItems.items),
+  return Object.entries(characterItemMap).reduce(
+    (allItems, [characterId, characterItems]) =>
+      allItems.concat(
+        characterItems.items.map((item) => ({ ...item, characterId }))
+      ),
     [] as DestinyItemComponent[]
   );
 };
@@ -136,21 +138,6 @@ const isItemEquippableByCharacter = (
   } // If the game says we can equip it, let's believe it
   // Let's ignore the rest for now
   return true;
-};
-
-const isCharacterEngram = (
-  item: JoinedItemDefinition,
-  character: DestinyCharacterComponent
-) => {
-  if (!item.instanceData) {
-    return false;
-  }
-  if (
-    item.itemDefinition.itemCategoryHashes?.includes(ItemCategoryHashes.Engrams)
-  ) {
-    return true;
-  }
-  return false;
 };
 
 interface ObjectOf<T> {
@@ -819,6 +806,17 @@ export const getCharacterData = async (
     lastCharacterData = characterData;
     setCachedCharacterData(characterData);
     setCharacterData(characterData);
+
+    characterData.forEach((c) => {
+      if (c.character && c.topItemBySlot) {
+        lockItems(
+          c.character,
+          Object.values(c.topItemBySlot)
+            .filter((c) => c?.lockable)
+            .filter(<T>(item: T | undefined): item is T => item !== undefined)
+        );
+      }
+    });
   } catch (e) {
     throw e;
   } finally {
