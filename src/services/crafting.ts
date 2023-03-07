@@ -34,7 +34,7 @@ export const isCrafted = (item: SelectedJoinedItemDefinition) => {
 
   //   return plugInSocket.isEnabled;
 
-  const craftingSocket = item.sockets?.sockets.find(
+  const craftingSocket = item.sockets?.sockets?.find(
     (s) =>
       s.plugDef &&
       s.plugDef?.plug?.plugCategoryHash ===
@@ -51,7 +51,7 @@ export const isCrafted = (item: SelectedJoinedItemDefinition) => {
 export const hasIncompleteDeepsightResonance = (
   item: SelectedJoinedItemDefinition
 ) => {
-  const resonanceSocket = item.sockets?.sockets.find(
+  const resonanceSocket = item.sockets?.sockets?.find(
     (s) =>
       s.plugDef?.plug?.plugCategoryHash ===
       PlugCategoryHashes.CraftingPlugsWeaponsModsMemories

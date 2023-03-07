@@ -14,8 +14,8 @@ export const Toast = ({ children, onDelete }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useTimeout(() => setIsVisible(true), 100);
-  useTimeout(() => setIsVisible(false), 30000);
-  useTimeout(() => onDelete(), 32000);
+  useTimeout(() => setIsVisible(false), 2 * 60 * 1000);
+  useTimeout(() => onDelete(), 2 * 60 * 1000 + 2000);
 
   const deleteAfterSmallDelay = () => {
     console.log("click delete");
