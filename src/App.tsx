@@ -39,7 +39,7 @@ export const AppWrapper = ({
   );
 };
 
-const AppContextDisplay = () => {
+const AppContent = () => {
   const { isAuthed, hasAuthError, disableManualLogin } = useContext(
     AuthenticationContext
   );
@@ -87,7 +87,7 @@ const AppContextDisplay = () => {
 const App = () => {
   return (
     <AppContextWrapper>
-      <AppContextDisplay />
+      <AppContent />
     </AppContextWrapper>
   );
 };
