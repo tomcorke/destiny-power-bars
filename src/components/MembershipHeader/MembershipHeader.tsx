@@ -1,42 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
 import classnames from "classnames";
 
-import MembershipSelect, { MembershipSelectProps } from "../MembershipSelect";
-import { logOut } from "../../services/bungie-auth";
+import MembershipSelect from "../MembershipSelect";
 
 import STYLES from "./MembershipHeader.module.scss";
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
-const defaultOnLogout = () => logOut();
+const MembershipHeader = () => {
+  const { logOut } = useContext(AuthenticationContext);
+  const { isFetchingCharacterData, forceRefresh } =
+    useContext(CharacterDataContext);
 
-type MembershipHeaderProps = MembershipSelectProps & {
-  isFetchingCharacterData: boolean;
-  onRefreshClick: () => void;
-  onLogout?: () => void;
-};
-
-const MembershipHeader = ({
-  isFetchingCharacterData,
-  onRefreshClick,
-  onLogout = defaultOnLogout,
-  ...props
-}: MembershipHeaderProps) => {
   return (
     <div className={STYLES.membershipHeader}>
       <button
         className={classnames(STYLES.hardRefreshButton, {
           [STYLES.disabled]: isFetchingCharacterData,
         })}
-        onClick={onRefreshClick}
+        onClick={forceRefresh}
       >
         <div className={STYLES.hardRefreshIcon} />
         <div className={STYLES.hardRefreshText}>Force Refresh</div>
       </button>
       <div className={STYLES.membershipSelect}>
-        <MembershipSelect {...props} />
+        <MembershipSelect />
       </div>
       <button
         className={STYLES.logOutButton}
-        onClick={() => onLogout()}
+        onClick={() => logOut()}
         title="Log out"
       >
         <div className={STYLES.logOutIcon} />

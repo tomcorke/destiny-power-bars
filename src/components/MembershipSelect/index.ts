@@ -1,4 +1,3 @@
-import MembershipSelect, { MembershipSelectProps } from "./MembershipSelect";
+import MembershipSelect from "./MembershipSelect";
 
 export default MembershipSelect;
-export type { MembershipSelectProps };

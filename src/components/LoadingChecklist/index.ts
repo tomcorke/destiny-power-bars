@@ -1,4 +1,3 @@
-import LoadingChecklist, { LoadingChecklistItem } from "./LoadingChecklist";
+import LoadingChecklist from "./LoadingChecklist";
 
 export { LoadingChecklist };
-export type { LoadingChecklistItem };

@@ -258,14 +258,14 @@ export const hasValidAuth = () => {
   const bungieMembershipId = localStorage.getItem(
     BUNGIE_MEMBERSHIP_ID_STORAGE_KEY
   );
-  const destinyMemberships = getDestinyMemberships();
+  const destinyMemberships = getStoredDestinyMemberships();
   if (!accessTokenIsValid || !bungieMembershipId || !destinyMemberships) {
     return false;
   }
   return true;
 };
 
-export const getDestinyMemberships = () => {
+export const getStoredDestinyMemberships = () => {
   debug("getDestinyMemberships");
   const destinyMembershipsString = localStorage.getItem(
     DESTINY_MEMBERSHIPS_STORAGE_KEY
@@ -281,7 +281,7 @@ export const getDestinyMemberships = () => {
 };
 
 export const hasDestinyMemberships = () => {
-  return !!getDestinyMemberships();
+  return !!getStoredDestinyMemberships();
 };
 
 export const getSelectedDestinyMembership = () => {
@@ -293,7 +293,7 @@ export const getSelectedDestinyMembership = () => {
     if (destinyMembershipString) {
       return JSON.parse(destinyMembershipString) as UserInfoCard;
     }
-    const memberships = getDestinyMemberships();
+    const memberships = getStoredDestinyMemberships();
     if (memberships) {
       const autoSelectedMembership = autoSelectDestinyMembership(memberships);
       return autoSelectedMembership;
@@ -302,10 +302,6 @@ export const getSelectedDestinyMembership = () => {
     console.error("Error loading destiny membership", e.message);
   }
   return undefined;
-};
-
-export const hasSelectedDestinyMembership = () => {
-  return !!getSelectedDestinyMembership();
 };
 
 export const setSelectedDestinyMembership = (membership: UserInfoCard) => {

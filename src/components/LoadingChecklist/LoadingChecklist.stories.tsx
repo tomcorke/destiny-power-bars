@@ -7,12 +7,4 @@ const story = {
 };
 export default story;
 
-export const display = () => (
-  <LoadingChecklist
-    items={[
-      { label: "Complete item", status: "complete" },
-      { label: "A pending item", status: "pending" },
-      { label: "A failed item", status: "failed" },
-    ]}
-  />
-);
+export const display = () => <LoadingChecklist />;

@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 
 import { clearStoredManifest } from "../../services/bungie-api";
 
 import STYLES from "./RedactedWarning.module.scss";
 
 const RedactedWarning = () => {
+  const { characterData } = useContext(CharacterDataContext);
+
   const [showMore, setShowMore] = useState(false);
   const [hide, setHide] = useState(false);
+
+  const showRedactedWarning = characterData.some(
+    (c) => c.hasRedactedEquippableItems
+  );
+
+  if (!showRedactedWarning) {
+    return null;
+  }
 
   if (hide) {
     return null;

@@ -1,0 +1,20 @@
+.charactersContainer {
+  display: flex;
+  align-items: flex-start;
+  min-height: 60vh;
+  width: 100%;
+  padding-top: 3em;
+  box-sizing: border-box;
+
+  @media (max-width: 500px) {
+    padding-top: 1em;
+  }
+}
+
+.characters {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+}

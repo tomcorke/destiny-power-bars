@@ -589,15 +589,13 @@ let lastProfileProgressionHash: number | undefined;
 let lastCharacterData: PowerBarsCharacterData[] | undefined;
 let lastResponseMinted: number | undefined;
 
-export const getCachedCharacterData = async (
-  setCharacterData: (state: PowerBarsCharacterData[]) => any
-) => {
+export const getCachedCharacterData = async () => {
   debug("getCachedCharacterData");
   const dataString = localStorage.getItem(CACHED_CHARACTER_DATA_STORAGE_KEY);
   if (dataString) {
     try {
       const parsedData = JSON.parse(dataString) as PowerBarsCharacterData[];
-      setCharacterData(parsedData);
+      return parsedData;
     } catch (e) {
       console.error(`Error parsing cached character data`, e);
     }
@@ -655,9 +653,7 @@ export const bustProfileCache = async (
   }
 };
 
-export const getCharacterData = async (
-  setCharacterData: (state: PowerBarsCharacterData[]) => any
-) => {
+export const getCharacterData = async () => {
   debug("getCharacterData");
   try {
     const isAuthed = await auth();
@@ -805,7 +801,6 @@ export const getCharacterData = async (
     });
     lastCharacterData = characterData;
     setCachedCharacterData(characterData);
-    setCharacterData(characterData);
 
     characterData.forEach((c) => {
       if (c.character && c.topItemBySlot) {
@@ -817,6 +812,8 @@ export const getCharacterData = async (
         );
       }
     });
+
+    return characterData;
   } catch (e) {
     throw e;
   } finally {

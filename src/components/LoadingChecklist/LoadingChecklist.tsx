@@ -1,29 +1,51 @@
 import classnames from "classnames";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import {
+  ManifestContext,
+  MANIFEST_STATE,
+} from "../../contexts/ManifestContext";
 
 import STYLES from "./LoadingChecklist.module.scss";
 
 export type LoadingChecklistItemStatus = "complete" | "pending" | "failed";
 
-export interface LoadingChecklistItem {
+type LoadingChecklistItem = {
   label: string;
   status: LoadingChecklistItemStatus;
-}
+};
 
-interface LoadingChecklistProps {
-  items: LoadingChecklistItem[];
-  withTopMargin?: boolean;
-}
+const LoadingChecklist = () => {
+  const { isAuthed, hasAuthError } = useContext(AuthenticationContext);
+  const { characterData } = useContext(CharacterDataContext);
+  const { manifestState, hasManifestError } = useContext(ManifestContext);
 
-const LoadingChecklist = ({ items, withTopMargin }: LoadingChecklistProps) => {
+  const loadingChecklistItems: LoadingChecklistItem[] = [];
+  const addToChecklist = (
+    label: string,
+    isComplete: boolean,
+    isFailed?: boolean
+  ) =>
+    loadingChecklistItems.push({
+      label,
+      status: isComplete ? "complete" : isFailed ? "failed" : "pending",
+    });
+  addToChecklist("Authenticated", isAuthed, hasAuthError);
+  addToChecklist(
+    "Loaded Character Data",
+    characterData && characterData.length > 0
+  );
+  addToChecklist(
+    "Loaded Destiny Manifest Definitions",
+    manifestState === MANIFEST_STATE.READY,
+    hasManifestError
+  );
+
   return (
-    <div
-      className={classnames(STYLES.LoadingChecklist, {
-        [STYLES.topMargin]: withTopMargin,
-      })}
-    >
+    <div className={STYLES.LoadingChecklist}>
       <ul>
-        {items.map((item) => (
+        {loadingChecklistItems.map((item) => (
           <li key={item.label}>
             <div className={STYLES.item}>
               <div className={classnames(STYLES.status, STYLES[item.status])} />

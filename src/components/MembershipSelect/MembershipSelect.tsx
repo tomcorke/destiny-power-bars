@@ -1,15 +1,10 @@
 import { UserInfoCard } from "bungie-api-ts/user";
 import classnames from "classnames";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { MembershipContext } from "../../contexts/MembershipContext";
 
-import { PartialApi } from "../../services/api";
 import STYLES from "./MembershipSelect.module.scss";
-
-export interface RequiredApi extends PartialApi {
-  bungieAuth: {
-    getDestinyMemberships: () => UserInfoCard[] | undefined;
-  };
-}
 
 const PLATFORMS: { [key: number]: string } = {
   1: "xbox",
@@ -109,22 +104,16 @@ const getDisplayName = (m: UserInfoCard) => {
   return m.displayName;
 };
 
-export interface MembershipSelectProps {
-  onMembershipSelect: (membership: UserInfoCard) => any;
-  api: RequiredApi;
-}
-
 type UserInfoCardWithOverrideMembership = UserInfoCard & {
   overrideMembershipType?: number;
 };
 
-const MembershipSelect = ({
-  onMembershipSelect,
-  api,
-}: MembershipSelectProps) => {
-  const destinyMemberships = api.bungieAuth.getDestinyMemberships();
+const MembershipSelect = () => {
+  const { isAuthed } = useContext(AuthenticationContext);
+  const { destinyMemberships, selectMembership } =
+    useContext(MembershipContext);
 
-  if (!destinyMemberships) {
+  if (!isAuthed) {
     return null;
   }
 
@@ -132,9 +121,10 @@ const MembershipSelect = ({
     return <div>No destiny memberships!</div>;
   }
 
-  let filteredMemberships: UserInfoCardWithOverrideMembership[] = destinyMemberships
-    .filter((m) => !isCrossSaveSecondary(m)) // Hide cross-save secondary memberships
-    .filter((m) => m.membershipType !== 4); // Hide Blizzard memberships
+  let filteredMemberships: UserInfoCardWithOverrideMembership[] =
+    destinyMemberships
+      .filter((m) => !isCrossSaveSecondary(m)) // Hide cross-save secondary memberships
+      .filter((m) => m.membershipType !== 4); // Hide Blizzard memberships
 
   const displayAsBungie =
     filteredMemberships.length === 1 &&
@@ -170,7 +160,7 @@ const MembershipSelect = ({
                 [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m),
               }
             )}
-            onClick={() => onMembershipSelect(m)}
+            onClick={() => selectMembership(m)}
           >
             <span className={STYLES.membershipDisplayName}>
               {getDisplayName(m)}
