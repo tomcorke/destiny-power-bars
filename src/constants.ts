@@ -28,6 +28,8 @@ export const ITEM_BUCKET_SLOTS = Object.entries(ITEM_SLOT_BUCKETS).reduce(
   {} as { [bucket: number]: string }
 );
 
+export const LOST_ITEMS_BUCKET = 215593132;
+
 export const ITEM_SLOT_GROUP_WEAPONS = [
   ITEM_SLOT_KINETIC,
   ITEM_SLOT_ENERGY,

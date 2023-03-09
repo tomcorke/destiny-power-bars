@@ -10,8 +10,8 @@ import {
   LEGENDARY_ACTIVITY_MODIFIER_ICON,
   LEGENDARY_STORY_ITEM_POWER,
 } from "../../constants";
-import { Power } from "./Power";
 
+import { Power } from "./Power";
 import STYLES from "./PowerHints.module.scss";
 
 interface PowerHintsProps {

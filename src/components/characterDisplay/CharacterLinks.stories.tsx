@@ -1,6 +1,7 @@
 import React from "react";
 
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
+
 import { CharacterLinks } from "./CharacterLinks";
 
 const story = {

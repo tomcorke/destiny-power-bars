@@ -12,8 +12,8 @@
     "deploy": "gh-pages -d build",
     "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
     "prettier:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "tslint": "tslint \"src/**/*.{ts,tsx}\"",
-    "tslint:fix": "tslint --fix \"src/**/*.{ts,tsx}\"",
+    "eslint": "eslint \"src/**/*.{ts,tsx}\"",
+    "eslint:fix": "eslint --fix \"src/**/*.{ts,tsx}\"",
     "storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider start-storybook"
   },
   "lint-staged": {

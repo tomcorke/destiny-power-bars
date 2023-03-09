@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
 import classnames from "classnames";
+import React, { useContext } from "react";
 
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import MembershipSelect from "../MembershipSelect";
 
 import STYLES from "./MembershipHeader.module.scss";
-import { CharacterDataContext } from "../../contexts/CharacterDataContext";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const MembershipHeader = () => {
   const { logOut } = useContext(AuthenticationContext);

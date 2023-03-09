@@ -1,5 +1,6 @@
 import {
   DestinyCharacterComponent,
+  DestinyClass,
   DestinyColor,
   DestinyDisplayPropertiesDefinition,
   DestinyInventoryItemDefinition,
@@ -7,9 +8,28 @@ import {
   DestinyItemComponent,
   DestinyItemInstanceComponent,
   DestinyObjectiveProgress,
+  EquipFailureReason,
+  ItemLocation,
 } from "bungie-api-ts/destiny2";
 
-export interface JoinedItemDefinition extends DestinyItemComponent {
+export type JoinedItemDefinition = {
+  itemInstanceId: string;
+  slotName: string | undefined;
+  name: string;
+  power: number | undefined;
+  icon: string;
+  watermark: string | undefined;
+  isCrafted: boolean;
+  isMasterwork: boolean;
+  classType: DestinyClass;
+  redacted: boolean;
+  cannotEquipReason: EquipFailureReason;
+  canEquip: boolean;
+  location: ItemLocation;
+  equipLabel: string | undefined;
+};
+
+export interface OldJoinedItemDefinition extends DestinyItemComponent {
   instanceData: DestinyItemInstanceComponent;
   itemDefinition: DestinyInventoryItemDefinition;
   itemCategories?: DestinyItemCategoryDefinition[];
@@ -23,11 +43,11 @@ export interface PowerBySlot {
 }
 
 export interface ItemBySlot {
-  [key: string]: JoinedItemDefinition | undefined;
+  [key: string]: OldJoinedItemDefinition | undefined;
 }
 
 export interface ItemsBySlot {
-  [key: string]: JoinedItemDefinition[];
+  [key: string]: OldJoinedItemDefinition[];
 }
 
 export interface SeasonalArtifactData {
@@ -86,7 +106,7 @@ interface SelectedDestinyInventoryItemDefinition {
 }
 
 export interface SelectedJoinedItemDefinition
-  extends DeepPartial<JoinedItemDefinition> {
+  extends DeepPartial<OldJoinedItemDefinition> {
   instanceData?: SelectedDestinyItemInstanceComponent;
   sockets?: SelectedJoinedDestinyItemSocketsComponent;
   itemDefinition?: SelectedDestinyInventoryItemDefinition;

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import { clearStoredManifest } from "../../services/bungie-api";
 
 import STYLES from "./RedactedWarning.module.scss";

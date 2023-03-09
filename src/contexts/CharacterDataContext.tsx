@@ -8,15 +8,16 @@ import React, {
   useRef,
   useState,
 } from "react";
+
 import { BungieSystemDisabledError } from "../services/bungie-api";
 import eventEmitter, { EVENTS, useEvent } from "../services/events";
 import {
   bustProfileCache,
   getCachedCharacterData,
   getCharacterData,
-  getIsFetchingCharacterData,
 } from "../services/utils";
 import { PowerBarsCharacterData } from "../types";
+
 import { AuthenticationContext } from "./AuthenticationContext";
 import { ManifestContext } from "./ManifestContext";
 import { MembershipContext } from "./MembershipContext";
@@ -54,8 +55,8 @@ export const CharacterDataContextProvider = ({
 
   const [isFetchingCharacterData, setIsFetchingCharacterData] = useState(false);
 
-  useEvent(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, () =>
-    setIsFetchingCharacterData(getIsFetchingCharacterData())
+  useEvent(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, (value: boolean) =>
+    setIsFetchingCharacterData(value)
   );
 
   const [hasLoadedCachedCharacterData, setHasLoadedCachedCharacterData] =

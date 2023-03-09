@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
+
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import {
   loadCharacterDisplayOrder,

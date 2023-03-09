@@ -11,6 +11,7 @@ import {
   PowerBySlot,
   SelectedJoinedItemDefinition,
 } from "../../types";
+
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
 

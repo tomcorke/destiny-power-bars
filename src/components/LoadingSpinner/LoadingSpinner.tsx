@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import {

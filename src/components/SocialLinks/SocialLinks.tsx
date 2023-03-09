@@ -1,9 +1,9 @@
 import React from "react";
 
-import Kofi from "../KoFi";
 
 import { ReactComponent as GitHubLogo } from "../../images/icons/github.svg";
 import { ReactComponent as TwitterLogo } from "../../images/icons/twitter.svg";
+import Kofi from "../KoFi";
 
 import STYLES from "./SocialLinks.module.scss";
 

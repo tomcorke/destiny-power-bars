@@ -1,6 +1,7 @@
 import React from "react";
 
 import { PowerBarsCharacterData } from "../types";
+
 import CharacterDisplay from "./CharacterDisplay";
 import { characterDataSnapshot } from "./CharacterDisplayMockData";
 // import { DestinyItemComponent } from "bungie-api-ts/destiny2";

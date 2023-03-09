@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
 import { BungieSystemDisabledError, getManifest } from "../services/bungie-api";
 import { debug } from "../services/debug";
 import { EVENTS, useEvent } from "../services/events";

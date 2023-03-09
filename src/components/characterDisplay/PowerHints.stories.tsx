@@ -6,6 +6,7 @@ import {
   ITEM_POWER_SOFT_CAP,
 } from "../../constants";
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
+
 import { PowerHints } from "./PowerHints";
 
 const story = {

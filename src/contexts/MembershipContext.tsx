@@ -12,6 +12,7 @@ import {
   getSelectedDestinyMembership,
   getStoredDestinyMemberships,
 } from "../services/bungie-auth";
+
 import { AuthenticationContext } from "./AuthenticationContext";
 
 type MembershipState = (

@@ -1,5 +1,7 @@
 import { EventEmitter } from "events";
+
 import { useEffect, useRef } from "react";
+
 import { debug } from "./debug";
 
 export enum EVENTS {

@@ -1,4 +1,5 @@
 import { BungieMembershipType } from "bungie-api-ts/destiny2";
+
 import { setItemLockState } from "./bungie-api";
 import eventEmitter, { EVENTS } from "./events";
 

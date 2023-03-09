@@ -1,10 +1,10 @@
+import throttle from "lodash/throttle";
 import React, {
   PropsWithChildren,
   createContext,
   useState,
   useEffect,
 } from "react";
-import throttle from "lodash/throttle";
 
 import {
   auth,

@@ -1,6 +1,7 @@
 import { UserInfoCard } from "bungie-api-ts/user";
 import classnames from "classnames";
 import React, { useContext } from "react";
+
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { MembershipContext } from "../../contexts/MembershipContext";
 

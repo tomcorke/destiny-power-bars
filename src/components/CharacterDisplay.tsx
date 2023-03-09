@@ -2,6 +2,7 @@ import classnames from "classnames";
 import React, { useRef, useState } from "react";
 
 import { PowerBarsCharacterData } from "../types";
+
 import STYLES from "./CharacterDisplay.module.scss";
 import CharacterHeader from "./characterDisplay/CharacterHeader";
 import { CharacterLinks } from "./characterDisplay/CharacterLinks";

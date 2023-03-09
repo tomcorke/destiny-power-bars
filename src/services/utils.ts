@@ -11,7 +11,6 @@ import {
   DestinyItemPlugObjectivesComponent,
   DestinyItemSocketsComponent,
 } from "bungie-api-ts/destiny2";
-
 import forIn from "lodash/forIn";
 import groupBy from "lodash/groupBy";
 import mapValues from "lodash/mapValues";
@@ -32,11 +31,12 @@ import {
 } from "../data/d2ai-module/generated-enums";
 import {
   ItemBySlot,
-  JoinedItemDefinition,
+  OldJoinedItemDefinition,
   PowerBarsCharacterData,
   PowerBySlot,
   SeasonalArtifactData,
 } from "../types";
+
 import {
   BungieSystemDisabledError,
   getFullProfile,
@@ -48,8 +48,8 @@ import {
 import { auth, getSelectedDestinyMembership } from "./bungie-auth";
 import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
+import { isMasterwork } from "./items/masterwork";
 import { lockItems } from "./lock-items";
-import { isMasterwork } from "./masterwork";
 
 const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
 const CACHED_CHARACTER_DATA_STORAGE_KEY = "cachedCharacterData";
@@ -114,7 +114,7 @@ const mergeItems = <
 };
 
 const isItemEquippableByCharacter = (
-  item: JoinedItemDefinition,
+  item: OldJoinedItemDefinition,
   character: DestinyCharacterComponent
 ) => {
   if (!item.instanceData) {
@@ -151,7 +151,7 @@ const mapAndFilterItems = (
   itemSockets: ObjectOf<DestinyItemSocketsComponent>,
   itemPlugObjectives: ObjectOf<DestinyItemPlugObjectivesComponent>,
   character: DestinyCharacterComponent
-): JoinedItemDefinition[] =>
+): OldJoinedItemDefinition[] =>
   items
     .map((item) => {
       const instanceData = item.itemInstanceId
@@ -221,7 +221,7 @@ const mapAndFilterItems = (
     .filter((i) => isItemEquippableByCharacter(i, character));
 
 const getItemScore = (
-  item?: JoinedItemDefinition,
+  item?: OldJoinedItemDefinition,
   priorityItems?: DestinyItemComponent[]
 ) => {
   if (!item || !item.instanceData) {
@@ -259,18 +259,8 @@ const getItemScore = (
   return score;
 };
 
-const getEquipLabel = (item?: JoinedItemDefinition) =>
+const getEquipLabel = (item?: OldJoinedItemDefinition) =>
   item?.itemDefinition.equippingBlock?.uniqueLabel;
-
-// const getEmblemData = (
-//   character: DestinyCharacterComponent,
-//   manifest: ManifestData
-// ) => {
-//   if (!manifest) {
-//     return;
-//   }
-//   return manifest.DestinyInventoryItemDefinition[character.emblemHash];
-// };
 
 const getDataForCharacterId = (
   characterId: string,
@@ -373,7 +363,7 @@ const getDataForCharacterId = (
     const validEquippableItemCombinations: ItemBySlot[] = [];
 
     uniqueEquippedGroup.forEach((item) => {
-      const otherItems: JoinedItemDefinition[] = uniqueEquippedGroup
+      const otherItems: OldJoinedItemDefinition[] = uniqueEquippedGroup
         .filter((otherItem) => otherItem !== item)
         .filter((otherItem) => !!otherItem)
         .map((otherItem) => otherItem!);

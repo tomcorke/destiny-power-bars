@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ITEM_POWER_PINNACLE_CAP } from "../../constants";
+
 import STYLES from "./InterPowerBar.module.scss";
 
 interface InterPowerBarProps {

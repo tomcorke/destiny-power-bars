@@ -1,6 +1,17 @@
 {
   "extends": ["react-app", "prettier"],
-  "rules": {},
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  },
   "overrides": [
     {
       "files": ["**/*.ts?(x)"],

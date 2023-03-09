@@ -1,6 +1,7 @@
 import React from "react";
 
 import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
+
 import { PowerDetails } from "./PowerDetails";
 
 const story = {

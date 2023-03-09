@@ -1,25 +1,24 @@
 import classnames from "classnames";
 import React, { useContext } from "react";
 
+import STYLES from "./App.module.scss";
 import FetchSpinner from "./components/FetchSpinner";
 import Footer from "./components/Footer";
-import LoggedOutHeader from "./components/LoggedOutHeader";
 import { LoadingChecklist } from "./components/LoadingChecklist";
 import LoadingSpinner from "./components/LoadingSpinner";
+import LoggedOutHeader from "./components/LoggedOutHeader";
 import LoginPrompt from "./components/LoginPrompt";
+import MembershipHeader from "./components/MembershipHeader";
 import MembershipSelect from "./components/MembershipSelect";
+import { MultiCharacterDisplay } from "./components/MultiCharacterDisplay";
 import RedactedWarning from "./components/RedactedWarning";
+import ToastOverlay from "./components/ToastOverlay";
+import { AppContextWrapper } from "./contexts/AppContextWrapper";
+import { AuthenticationContext } from "./contexts/AuthenticationContext";
+import { CharacterDataContext } from "./contexts/CharacterDataContext";
 
 import "normalize.css";
 import "./index.css";
-
-import STYLES from "./App.module.scss";
-import MembershipHeader from "./components/MembershipHeader";
-import ToastOverlay from "./components/ToastOverlay";
-import { AuthenticationContext } from "./contexts/AuthenticationContext";
-import { CharacterDataContext } from "./contexts/CharacterDataContext";
-import { MultiCharacterDisplay } from "./components/MultiCharacterDisplay";
-import { AppContextWrapper } from "./contexts/AppContextWrapper";
 
 export const AppWrapper = ({
   children,

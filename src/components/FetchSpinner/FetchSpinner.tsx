@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 
 import STYLES from "./FetchSpinner.module.scss";

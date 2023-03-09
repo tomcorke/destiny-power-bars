@@ -1,9 +1,9 @@
 import React from "react";
 
-import STYLES from "./PowerDetails.module.scss";
 
 import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
+import STYLES from "./PowerDetails.module.scss";
 
 const ProgressBar = ({ value, max }: { value: number; max: number }) => {
   if (value === undefined || max === undefined) {
