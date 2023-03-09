@@ -4,7 +4,6 @@ import {
 } from "bungie-api-ts/destiny2";
 
 import { PlugCategoryHashes } from "../../data/d2ai-module/generated-enums";
-import { SelectedJoinedItemDefinition } from "../../types";
 import { ManifestData } from "../bungie-api";
 
 /*
@@ -42,42 +41,6 @@ export const itemIsCrafted = (
   return false;
 };
 
-export const isCrafted = (item: SelectedJoinedItemDefinition) => {
-  //   const itemCraftableSocketCategory =
-  //     item.itemDefinition?.sockets?.socketCategories.find(
-  //       (c) => c.socketCategoryHash === CRAFTABLE_SOCKET_CATEGORY_HASH
-  //     );
-
-  //   if (!itemCraftableSocketCategory) {
-  //     return false;
-  //   }
-
-  //   const craftedSocketIndex = itemCraftableSocketCategory.socketIndexes[0];
-  //   if (craftedSocketIndex === undefined) {
-  //     return false;
-  //   }
-
-  //   const plugInSocket = item.sockets?.sockets[craftedSocketIndex];
-  //   if (!plugInSocket) {
-  //     return false;
-  //   }
-
-  //   return plugInSocket.isEnabled;
-
-  const craftingSocket = item.sockets?.sockets?.find(
-    (s) =>
-      s.plugDef &&
-      s.plugDef?.plug?.plugCategoryHash ===
-        PlugCategoryHashes.CraftingPlugsFrameIdentifiers
-  );
-
-  if (craftingSocket) {
-    return craftingSocket.isEnabled;
-  }
-
-  return false;
-};
-
 export const itemHasDeepsightResonance = (
   manifest: ManifestData,
   sockets?: DestinyItemSocketsComponent,
@@ -98,23 +61,6 @@ export const itemHasDeepsightResonance = (
   if (resonanceSocket && resonanceSocket.plugHash) {
     const objective =
       plugObjectives?.objectivesPerPlug[resonanceSocket.plugHash]?.[0];
-    return objective !== undefined;
-  }
-
-  return false;
-};
-
-export const hasIncompleteDeepsightResonance = (
-  item: SelectedJoinedItemDefinition
-) => {
-  const resonanceSocket = item.sockets?.sockets?.find(
-    (s) =>
-      s.plugDef?.plug?.plugCategoryHash ===
-      PlugCategoryHashes.CraftingPlugsWeaponsModsMemories
-  );
-
-  if (resonanceSocket) {
-    const objective = resonanceSocket.plugObjectives?.[0];
     return objective !== undefined;
   }
 

@@ -1,37 +1,10 @@
 import {
   DestinyCharacterComponent,
-  DestinyClass,
   DestinyColor,
-  DestinyDisplayPropertiesDefinition,
-  DestinyInventoryItemDefinition,
-  DestinyItemCategoryDefinition,
-  DestinyItemComponent,
-  DestinyItemInstanceComponent,
-  DestinyObjectiveProgress,
-  EquipFailureReason,
-  ItemLocation,
-  ItemState,
 } from "bungie-api-ts/destiny2";
-
-export interface OldJoinedItemDefinition extends DestinyItemComponent {
-  instanceData: DestinyItemInstanceComponent;
-  itemDefinition: DestinyInventoryItemDefinition;
-  itemCategories?: DestinyItemCategoryDefinition[];
-  slotName: string;
-  overrideStyleItemIconPath?: string;
-  watermarkIconPath?: string;
-}
 
 export interface PowerBySlot {
   [key: string]: number;
-}
-
-export interface ItemBySlot {
-  [key: string]: OldJoinedItemDefinition | undefined;
-}
-
-export interface ItemsBySlot {
-  [key: string]: OldJoinedItemDefinition[];
 }
 
 export interface SeasonalArtifactData {
@@ -42,102 +15,6 @@ export interface SeasonalArtifactData {
   nextLevelAt: number;
 }
 
-export interface SelectedDestinyCharacterComponent
-  extends Partial<DestinyCharacterComponent> {
-  membershipType: number;
-  membershipId: string;
-  characterId: string;
-
-  emblemColor: DestinyColor;
-  emblemBackgroundPath: string;
-}
-
-interface SelectedDestinyStat {
-  value: number;
-}
-
-interface SelectedDestinyItemInstanceComponent {
-  primaryStat?: SelectedDestinyStat;
-  itemLevel?: number;
-  quality?: number;
-  isEquipped?: boolean;
-}
-
-interface SelectedDestinyItemSocketsComponent {
-  sockets: { plugHash: number; isEnabled: boolean }[];
-}
-
-interface SelectedJoinedDestinyItemSocketsComponent {
-  sockets: {
-    plugHash?: number;
-    isEnabled: boolean;
-    plugDef?: DestinyInventoryItemDefinition;
-    plugObjectives?: DestinyObjectiveProgress[];
-  }[];
-}
-
-interface SelectedDisplayProperties
-  extends Partial<DestinyDisplayPropertiesDefinition> {
-  icon: string;
-}
-
-interface SelectedDestinyInventoryItemDefinition {
-  displayProperties: SelectedDisplayProperties;
-  itemTypeDisplayName: string;
-  sockets?: {
-    socketCategories: { socketCategoryHash: number; socketIndexes: number[] }[];
-  };
-}
-
-export interface SelectedJoinedItemDefinition
-  extends DeepPartial<OldJoinedItemDefinition> {
-  instanceData?: SelectedDestinyItemInstanceComponent;
-  sockets?: SelectedJoinedDestinyItemSocketsComponent;
-  itemDefinition?: SelectedDestinyInventoryItemDefinition;
-  itemCategories?: DestinyItemCategoryDefinition[];
-  overrideStyleItemHash?: number;
-  overrideStyleItemIconPath?: string;
-}
-
-export interface SelectedItemBySlot {
-  [key: string]: SelectedJoinedItemDefinition | undefined;
-}
-
-export interface OldPowerBarsCharacterData {
-  character: SelectedDestinyCharacterComponent;
-  className: string;
-
-  minPower: number;
-  overallPowerExact: number;
-  overallPower: number;
-  topItemBySlot?: SelectedItemBySlot;
-
-  unrestrictedOverallPowerExact?: number;
-  unrestrictedOverallPower?: number;
-  topUnrestrictedItemBySlot?: SelectedItemBySlot;
-
-  artifactData?: SeasonalArtifactData;
-  potentialOverallPower?: number;
-  title?: string;
-  titleGildedCount?: number;
-  other?: unknown;
-  hasRedactedEquippableItems?: boolean;
-
-  engrams?: {
-    name: string;
-    power: number;
-    icon: string;
-    // item: DestinyItemComponent;
-    // definition: DestinyInventoryItemDefinition;
-    // instanceData: DestinyItemInstanceComponent;
-  }[];
-}
-
-export interface FullCharacterData extends OldPowerBarsCharacterData {
-  character: DestinyCharacterComponent;
-  topItemBySlot?: ItemBySlot;
-}
-
 export type DeepPartial<T> = Partial<{
   [Key in keyof T]: T[Key] extends Array<infer U>
     ? Array<DeepPartial<U>>
@@ -145,10 +22,3 @@ export type DeepPartial<T> = Partial<{
     ? DeepPartial<T[Key]>
     : T[Key];
 }>;
-
-declare global {
-  interface Window {
-    characterData: OldPowerBarsCharacterData[] | undefined;
-    clearDestinyManifest: () => void;
-  }
-}

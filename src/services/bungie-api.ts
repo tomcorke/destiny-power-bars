@@ -186,7 +186,7 @@ export const clearStoredManifest = async () => {
   eventEmitter.emit(EVENTS.MANIFEST_FETCH_ERROR);
 };
 
-window.clearDestinyManifest = () =>
+(window as any).clearDestinyManifest = () =>
   clearStoredManifest().then(() => console.log("Cleared Destiny manifest"));
 
 export type GetManifestResult =
