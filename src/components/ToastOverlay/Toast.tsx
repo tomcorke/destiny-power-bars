@@ -10,15 +10,17 @@ type ToastProps = {
   onDelete: () => void;
 };
 
+const ONE_MINUTE = 60 * 1000;
+const TOAST_TIMEOUT = 2 * ONE_MINUTE;
+
 export const Toast = ({ children, onDelete }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useTimeout(() => setIsVisible(true), 100);
-  useTimeout(() => setIsVisible(false), 2 * 60 * 1000);
-  useTimeout(() => onDelete(), 2 * 60 * 1000 + 2000);
+  useTimeout(() => setIsVisible(false), TOAST_TIMEOUT);
+  useTimeout(() => onDelete(), TOAST_TIMEOUT + 1000);
 
   const deleteAfterSmallDelay = () => {
-    console.log("click delete");
     setTimeout(onDelete, 50);
   };
 
