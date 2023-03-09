@@ -44,7 +44,7 @@ const AppContent = () => {
   );
   const { characterData } = useContext(CharacterDataContext);
 
-  if (isAuthed && characterData.length > 0) {
+  if (isAuthed && characterData) {
     return (
       <>
         <AppWrapper top>

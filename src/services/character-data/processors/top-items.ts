@@ -5,12 +5,11 @@ import maxBy from "lodash/maxBy";
 import sumBy from "lodash/sumBy";
 
 import { ITEM_POWER_SOFT_CAP, ITEM_SLOT_BUCKETS } from "../../../constants";
-import { JoinedItemDefinition } from "../../../types";
 import {
   isItemEquippableByCharacter,
   nonNullable,
 } from "../../items/filtering";
-import { mapJoinedItems } from "../../items/joined-item";
+import { JoinedItemDefinition, mapJoinedItems } from "../../items/joined-item";
 import { getItemScore } from "../../items/scoring";
 
 import { createCharacterDataProcessor } from "./helpers";
@@ -124,6 +123,7 @@ export default createCharacterDataProcessor(
     manifest,
     itemInstances,
     itemSockets,
+    itemPlugObjectives,
     character,
     equippedCharacterItems,
   }) => {
@@ -131,7 +131,8 @@ export default createCharacterDataProcessor(
       allCharacterItems,
       manifest,
       itemInstances,
-      itemSockets
+      itemSockets,
+      itemPlugObjectives
     );
 
     const items = unfilteredItems

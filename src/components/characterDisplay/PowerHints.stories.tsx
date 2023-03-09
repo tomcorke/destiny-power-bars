@@ -20,148 +20,34 @@ export default story;
 
 export const display = () => (
   <>
-    <PowerHints
-      minPower={ITEM_POWER_PINNACLE_CAP - 10}
-      overallPowerExact={ITEM_POWER_SOFT_CAP - 10}
-      overallPower={ITEM_POWER_SOFT_CAP - 10}
-      potentialOverallPower={ITEM_POWER_SOFT_CAP}
-    />
-    <PowerHints
-      minPower={ITEM_POWER_PINNACLE_CAP - 10}
-      overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
-      overallPower={ITEM_POWER_POWERFUL_CAP - 10}
-      potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 10}
-    />
-    <PowerHints
-      minPower={ITEM_POWER_PINNACLE_CAP - 5}
-      overallPowerExact={ITEM_POWER_PINNACLE_CAP - 5}
-      overallPower={ITEM_POWER_PINNACLE_CAP - 5}
-      potentialOverallPower={ITEM_POWER_PINNACLE_CAP - 5}
-    />
+    <PowerHints characterId={"1"} />
+    <PowerHints characterId={"1"} />
+    <PowerHints characterId={"1"} />
   </>
 );
 
-export const belowSoftCap = () => (
-  <PowerHints
-    minPower={ITEM_POWER_PINNACLE_CAP - 10}
-    overallPowerExact={ITEM_POWER_SOFT_CAP - 10}
-    overallPower={ITEM_POWER_SOFT_CAP - 10}
-    potentialOverallPower={ITEM_POWER_SOFT_CAP}
-  />
-);
+export const belowSoftCap = () => <PowerHints characterId={"1"} />;
 
-export const belowLegendaryPower = () => (
-  <PowerHints
-    minPower={ITEM_POWER_PINNACLE_CAP - 50}
-    overallPowerExact={ITEM_POWER_SOFT_CAP - 10}
-    overallPower={ITEM_POWER_SOFT_CAP - 10}
-    potentialOverallPower={ITEM_POWER_SOFT_CAP}
-  />
-);
+export const belowLegendaryPower = () => <PowerHints characterId={"1"} />;
 
-export const belowPowerfulCap = () => (
-  <PowerHints
-    minPower={ITEM_POWER_PINNACLE_CAP - 10}
-    overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
-    overallPower={ITEM_POWER_POWERFUL_CAP - 10}
-    potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 10}
-  />
-);
+export const belowPowerfulCap = () => <PowerHints characterId={"1"} />;
 
 export const belowPowerfulCapWithPotential = () => (
-  <PowerHints
-    minPower={ITEM_POWER_PINNACLE_CAP - 10}
-    overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
-    overallPower={ITEM_POWER_POWERFUL_CAP - 10}
-    potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 9}
-  />
+  <PowerHints characterId={"1"} />
 );
 
 export const belowPowerfulCapWithPotentialAndEngrams = () => (
-  <PowerHints
-    minPower={ITEM_POWER_POWERFUL_CAP - 12}
-    overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
-    overallPower={ITEM_POWER_POWERFUL_CAP - 10}
-    potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 9}
-    engrams={[
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP - 10,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP - 19,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP - 29,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-    ]}
-  />
+  <PowerHints characterId={"1"} />
 );
 
 export const belowPowerfulCapWithPotentialAndHighEngrams = () => (
-  <PowerHints
-    minPower={ITEM_POWER_POWERFUL_CAP - 12}
-    overallPowerExact={ITEM_POWER_POWERFUL_CAP - 10}
-    overallPower={ITEM_POWER_POWERFUL_CAP - 10}
-    potentialOverallPower={ITEM_POWER_POWERFUL_CAP - 9}
-    engrams={[
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP - 10,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP + 1,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP + 2,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP - 12,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-      {
-        name: "Fake Engram",
-        power: ITEM_POWER_POWERFUL_CAP - 13,
-        icon: "/common/destiny2_content/icons/7eea47cc31d9b065213f85169e668b6e.png",
-      },
-    ]}
-  />
+  <PowerHints characterId={"1"} />
 );
 
-export const belowPinnacleCap = () => (
-  <PowerHints
-    minPower={ITEM_POWER_PINNACLE_CAP - 5}
-    overallPowerExact={ITEM_POWER_PINNACLE_CAP - 5}
-    overallPower={ITEM_POWER_PINNACLE_CAP - 5}
-    potentialOverallPower={ITEM_POWER_PINNACLE_CAP - 5}
-  />
-);
+export const belowPinnacleCap = () => <PowerHints characterId={"1"} />;
 
 export const belowPinnacleCapWithPotential = () => (
-  <PowerHints
-    minPower={ITEM_POWER_PINNACLE_CAP - 5}
-    overallPowerExact={ITEM_POWER_PINNACLE_CAP - 5}
-    overallPower={ITEM_POWER_PINNACLE_CAP - 5}
-    potentialOverallPower={ITEM_POWER_PINNACLE_CAP - 4}
-  />
+  <PowerHints characterId={"1"} />
 );
 
-export const abovePinnacleCap = () => (
-  <PowerHints
-    minPower={ITEM_POWER_PINNACLE_CAP + 5}
-    overallPowerExact={ITEM_POWER_PINNACLE_CAP + 5}
-    overallPower={ITEM_POWER_PINNACLE_CAP + 5}
-    potentialOverallPower={ITEM_POWER_PINNACLE_CAP + 5}
-  />
-);
+export const abovePinnacleCap = () => <PowerHints characterId={"1"} />;

@@ -1,7 +1,8 @@
 import { DestinyCharacterComponent } from "bungie-api-ts/destiny2";
 
 import { CLASS_TYPE_ALL } from "../../constants";
-import { JoinedItemDefinition } from "../../types";
+
+import { JoinedItemDefinition } from "./joined-item";
 
 export const nonNullable = <T>(value: T | null | undefined): value is T =>
   value !== null && value !== undefined;

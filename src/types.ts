@@ -10,24 +10,8 @@ import {
   DestinyObjectiveProgress,
   EquipFailureReason,
   ItemLocation,
+  ItemState,
 } from "bungie-api-ts/destiny2";
-
-export type JoinedItemDefinition = {
-  itemInstanceId: string;
-  slotName: string | undefined;
-  name: string;
-  power: number | undefined;
-  icon: string;
-  watermark: string | undefined;
-  isCrafted: boolean;
-  isMasterwork: boolean;
-  classType: DestinyClass;
-  redacted: boolean;
-  cannotEquipReason: EquipFailureReason;
-  canEquip: boolean;
-  location: ItemLocation;
-  equipLabel: string | undefined;
-};
 
 export interface OldJoinedItemDefinition extends DestinyItemComponent {
   instanceData: DestinyItemInstanceComponent;
@@ -119,7 +103,7 @@ export interface SelectedItemBySlot {
   [key: string]: SelectedJoinedItemDefinition | undefined;
 }
 
-export interface PowerBarsCharacterData {
+export interface OldPowerBarsCharacterData {
   character: SelectedDestinyCharacterComponent;
   className: string;
 
@@ -149,7 +133,7 @@ export interface PowerBarsCharacterData {
   }[];
 }
 
-export interface FullCharacterData extends PowerBarsCharacterData {
+export interface FullCharacterData extends OldPowerBarsCharacterData {
   character: DestinyCharacterComponent;
   topItemBySlot?: ItemBySlot;
 }
@@ -164,7 +148,7 @@ export type DeepPartial<T> = Partial<{
 
 declare global {
   interface Window {
-    characterData: PowerBarsCharacterData[] | undefined;
+    characterData: OldPowerBarsCharacterData[] | undefined;
     clearDestinyManifest: () => void;
   }
 }

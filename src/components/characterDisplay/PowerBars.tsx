@@ -1,16 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { ITEM_POWER_POWERFUL_CAP, ORDERED_ITEM_SLOTS } from "../../constants";
-import {
-  hasIncompleteDeepsightResonance,
-  isCrafted,
-} from "../../services/crafting";
-import { isMasterwork } from "../../services/masterwork";
-import {
-  PowerBarsCharacterData,
-  PowerBySlot,
-  SelectedJoinedItemDefinition,
-} from "../../types";
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import { PowerBySlot } from "../../types";
 
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
@@ -31,39 +23,38 @@ const slotFullNames = (className: string): { [key: string]: string } => ({
   power: "Power Weapon",
 });
 
-type PowerBarsProps = PowerBarsCharacterData & {
+type PowerBarsProps = {
+  characterId: string;
   useUnrestrictedPower?: boolean;
 };
 
-const getItemIconPath = (item: SelectedJoinedItemDefinition) => {
-  return (
-    item.overrideStyleItemIconPath ||
-    item.itemDefinition?.displayProperties?.icon
-  );
-};
+export const PowerBars = ({
+  characterId,
+  useUnrestrictedPower,
+}: PowerBarsProps) => {
+  const { characterData } = useContext(CharacterDataContext);
 
-const getItemIconWatermarkPath = (item: SelectedJoinedItemDefinition) => {
-  return item.watermarkIconPath;
-};
+  const thisCharacterData = characterData?.characters[characterId];
 
-export const PowerBars = (data: PowerBarsProps) => {
+  if (!thisCharacterData) {
+    return null;
+  }
+
+  const overallPower = thisCharacterData.topItems.overallPower;
+
   const itemsBySlot =
-    data.useUnrestrictedPower &&
-    data.unrestrictedOverallPowerExact &&
-    data.unrestrictedOverallPowerExact > data.overallPowerExact
-      ? data.topUnrestrictedItemBySlot
-      : data.topItemBySlot;
+    useUnrestrictedPower &&
+    thisCharacterData.unrestricted.averagePower >
+      thisCharacterData.topItems.averagePower
+      ? thisCharacterData.unrestricted.topItemsBySlot
+      : thisCharacterData.topItems.topItemsBySlot;
 
   // Get power by slot, using overall power if slot data does not exist
   const powerBySlot = ORDERED_ITEM_SLOTS.reduce((slots, slotName) => {
     const item = itemsBySlot?.[slotName];
-    let power = item?.instanceData?.primaryStat?.value;
-    if (!power && item?.instanceData?.itemLevel) {
-      power = item.instanceData.itemLevel * 10;
-      power += item.instanceData.quality || 0;
-    }
+    let power = item?.power;
     if (!power) {
-      power = data.overallPower;
+      power = overallPower;
     }
 
     return {
@@ -72,7 +63,6 @@ export const PowerBars = (data: PowerBarsProps) => {
     };
   }, {} as PowerBySlot);
 
-  const roundedPower = Math.floor(data.overallPower);
   // Round to 50s
   const minItemPower = Math.min(...Object.values(powerBySlot));
   let minPowerToDisplay = Math.max(Math.floor(minItemPower / 50) * 50 - 50, 0);
@@ -89,7 +79,7 @@ export const PowerBars = (data: PowerBarsProps) => {
 
   const range = maxPowerToDisplay - minPowerToDisplay;
   const perc =
-    Math.floor(((roundedPower - minPowerToDisplay) / range) * 1000) / 10;
+    Math.floor(((overallPower - minPowerToDisplay) / range) * 1000) / 10;
 
   return (
     <div className={STYLES.powerBars}>
@@ -106,34 +96,31 @@ export const PowerBars = (data: PowerBarsProps) => {
           }
           return (
             <PowerBar
-              key={`${data.character.characterId}_${slotName}`}
+              key={`${characterId}_${slotName}`}
               min={minPowerToDisplay}
               max={maxPowerToDisplay}
               value={power}
-              avgValue={roundedPower}
-              label={slotFullNames(data.className)[slotName] || slotName}
-              icon={getItemIconPath(bestItem)}
-              iconWatermark={getItemIconWatermarkPath(bestItem)}
-              isMasterworked={isMasterwork(bestItem)}
-              isCrafted={isCrafted(bestItem)}
-              hasDeepsightResonance={hasIncompleteDeepsightResonance(bestItem)}
-              itemName={bestItem.itemDefinition?.displayProperties.name}
-              itemType={
-                (bestItem.itemCategories?.[0]?.parentCategoryHashes?.[0] ===
-                  1 &&
-                  bestItem.itemCategories?.[0]?.displayProperties.name) ||
-                bestItem.itemDefinition?.itemTypeDisplayName
+              avgValue={overallPower}
+              label={
+                slotFullNames(thisCharacterData.className)[slotName] || slotName
               }
+              icon={bestItem.icon}
+              iconWatermark={bestItem.watermark}
+              isMasterworked={bestItem.isMasterwork}
+              isCrafted={bestItem.isCrafted}
+              hasDeepsightResonance={bestItem.hasDeepsightResonance}
+              itemName={bestItem.name}
+              itemType={bestItem.itemType}
               location={bestItem.location}
-              isEquipped={bestItem.instanceData?.isEquipped}
+              isEquipped={bestItem.isEquipped}
             />
           );
         })}
       </div>
-      {roundedPower < maxPowerToDisplay ? (
+      {overallPower < maxPowerToDisplay ? (
         <div className={STYLES.powerLabel}>
           <div className={STYLES.indicator} style={{ left: `${perc}%` }}>
-            {roundedPower}
+            {overallPower}
           </div>
         </div>
       ) : null}

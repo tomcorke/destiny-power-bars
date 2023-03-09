@@ -1,4 +1,4 @@
-import { JoinedItemDefinition } from "../../types";
+import { JoinedItemDefinition } from "./joined-item";
 
 export const getItemScore = (
   item: JoinedItemDefinition,

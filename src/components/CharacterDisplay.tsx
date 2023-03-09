@@ -1,7 +1,7 @@
 import classnames from "classnames";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
-import { PowerBarsCharacterData } from "../types";
+import { CharacterDataContext } from "../contexts/CharacterDataContext";
 
 import STYLES from "./CharacterDisplay.module.scss";
 import CharacterHeader from "./characterDisplay/CharacterHeader";
@@ -92,7 +92,7 @@ export const CharacterDisplayBodyWrapper = (
 };
 
 interface CharacterDisplayProps {
-  data: PowerBarsCharacterData;
+  characterId: string;
   onDragStart?: () => void;
   onDragEnd?: () => void;
   onDragDrop?: () => void;
@@ -100,43 +100,58 @@ interface CharacterDisplayProps {
 }
 
 const CharacterDisplay = ({
-  data,
+  characterId,
   onDragStart,
   onDragEnd,
   onDragDrop,
   addClasses = [],
 }: CharacterDisplayProps) => {
-  const [elementRef, renderImage] = useRenderElementImage(data.className);
+  const { characterData } = useContext(CharacterDataContext);
+
+  const data = characterData?.characters[characterId];
+
+  const [elementRef, renderImage] = useRenderElementImage(
+    data?.className || "undefined"
+  );
 
   const [useUnrestrictedPower, setUseUnrestrictedPower] = useState(true);
 
-  const roundedPower =
-    useUnrestrictedPower && data.unrestrictedOverallPower
-      ? data.unrestrictedOverallPower
-      : data.overallPower;
+  if (!data) {
+    return null;
+  }
 
-  const summableArtifactBonusPower = data.artifactData
-    ? data.artifactData.bonusPower
-    : 0;
+  const roundedPower =
+    useUnrestrictedPower && data.unrestricted.overallPower
+      ? data.unrestricted.overallPower
+      : data.topItems.overallPower;
+
+  const summableArtifactBonusPower =
+    characterData.global.artifact?.bonusPower ?? 0;
 
   return CharacterDisplayBodyWrapper(
-    rgbString(data.character.emblemColor || FALLBACK_EMBLEM_RGB),
+    rgbString(data.emblem.emblemColor || FALLBACK_EMBLEM_RGB),
     <div className={classnames(STYLES.characterDisplay, ...addClasses)}>
       <CharacterHeader
-        emblemBackgroundPath={data.character.emblemBackgroundPath}
+        emblemBackgroundPath={data.emblem.emblemBackgroundPath}
         className={data.className}
         hasRedactedEquippableItems={data.hasRedactedEquippableItems}
         roundedPower={roundedPower}
         summableArtifactBonusPower={summableArtifactBonusPower}
-        title={data.title}
-        titleGildedCount={data.titleGildedCount}
+        title={data.title.name}
+        titleGildedCount={data.title.gildedCount}
       />
 
       <div className={STYLES.content}>
-        <PowerDetails {...data} useUnrestrictedPower={useUnrestrictedPower} />
-        <PowerBars {...data} useUnrestrictedPower={useUnrestrictedPower} />
+        <PowerDetails
+          characterId={characterId}
+          useUnrestrictedPower={useUnrestrictedPower}
+        />
+        <PowerBars
+          characterId={characterId}
+          useUnrestrictedPower={useUnrestrictedPower}
+        />
         <PowerHints
-          {...data}
+          characterId={characterId}
           useUnrestrictedPower={useUnrestrictedPower}
           onChangeUseUnrestrictedPower={(newValue) =>
             setUseUnrestrictedPower(newValue)
@@ -145,9 +160,9 @@ const CharacterDisplay = ({
       </div>
 
       <CharacterLinks
-        membershipType={data.character.membershipType}
-        membershipId={data.character.membershipId}
-        characterId={data.character.characterId}
+        membershipType={data.membershipType}
+        membershipId={data.membershipId}
+        characterId={data.characterId}
         onImageExportClick={renderImage}
       />
     </div>,

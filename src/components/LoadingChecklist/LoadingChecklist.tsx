@@ -33,10 +33,7 @@ const LoadingChecklist = () => {
       status: isComplete ? "complete" : isFailed ? "failed" : "pending",
     });
   addToChecklist("Authenticated", isAuthed, hasAuthError);
-  addToChecklist(
-    "Loaded Character Data",
-    characterData && characterData.length > 0
-  );
+  addToChecklist("Loaded Character Data", !!characterData);
   addToChecklist(
     "Loaded Destiny Manifest Definitions",
     manifestState === MANIFEST_STATE.READY,

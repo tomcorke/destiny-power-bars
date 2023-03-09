@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 
 import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
@@ -24,28 +25,29 @@ const ProgressBar = ({ value, max }: { value: number; max: number }) => {
 };
 
 interface PowerDetailsProps {
-  overallPowerExact: number;
-  overallPower: number;
-  artifactData?: {
-    name: string;
-    iconPath: string;
-    bonusPower: number;
-    progressToNextLevel: number;
-    nextLevelAt: number;
-  };
-  unrestrictedOverallPower?: number;
-  unrestrictedOverallPowerExact?: number;
+  characterId: string;
   useUnrestrictedPower?: boolean;
 }
 
 export const PowerDetails = ({
-  overallPowerExact,
-  overallPower,
-  artifactData,
-  unrestrictedOverallPower,
-  unrestrictedOverallPowerExact,
+  characterId,
   useUnrestrictedPower = true,
 }: PowerDetailsProps) => {
+  const { characterData } = useContext(CharacterDataContext);
+
+  const thisCharacterData = characterData?.characters[characterId];
+
+  if (!thisCharacterData) {
+    return null;
+  }
+
+  const { overallPower, averagePower } = thisCharacterData.topItems;
+  const {
+    overallPower: unrestrictedOverallPower,
+    averagePower: unrestrictedAveragePower,
+  } = thisCharacterData.unrestricted;
+  const artifactData = characterData.global.artifact;
+
   const powerToDisplay =
     (useUnrestrictedPower && unrestrictedOverallPower) || overallPower;
 
@@ -53,7 +55,12 @@ export const PowerDetails = ({
     return (
       <div className={STYLES.details}>
         <div className={STYLES.detailsRow}>
-          <InterPowerBar value={overallPowerExact} />
+          <InterPowerBar
+            value={averagePower}
+            extraValue={
+              useUnrestrictedPower ? unrestrictedAveragePower : undefined
+            }
+          />
         </div>
       </div>
     );
@@ -76,9 +83,9 @@ export const PowerDetails = ({
       </div>
       <div className={STYLES.detailsRow}>
         <InterPowerBar
-          value={overallPowerExact}
+          value={averagePower}
           extraValue={
-            useUnrestrictedPower ? unrestrictedOverallPowerExact : undefined
+            useUnrestrictedPower ? unrestrictedAveragePower : undefined
           }
         />
       </div>

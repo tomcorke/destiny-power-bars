@@ -9,20 +9,19 @@ import React, {
   useState,
 } from "react";
 
+import { CHARACTER_DATA_REFRESH_TIMER } from "../constants";
 import { BungieSystemDisabledError } from "../services/bungie-api";
-import eventEmitter, { EVENTS, useEvent } from "../services/events";
 import {
   bustProfileCache,
   getCachedCharacterData,
   getCharacterData,
-} from "../services/utils";
-import { PowerBarsCharacterData } from "../types";
+  PowerBarsCharacterData,
+} from "../services/character-data";
+import eventEmitter, { EVENTS, useEvent } from "../services/events";
 
 import { AuthenticationContext } from "./AuthenticationContext";
 import { ManifestContext } from "./ManifestContext";
 import { MembershipContext } from "./MembershipContext";
-
-const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
 const throttledGetCharacterData = throttle(() => {
   eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, true);
@@ -30,13 +29,13 @@ const throttledGetCharacterData = throttle(() => {
 }, 500);
 
 type CharacterDataState = {
-  characterData: PowerBarsCharacterData[];
+  characterData: PowerBarsCharacterData | undefined;
   isFetchingCharacterData: boolean;
   forceRefresh: () => Promise<void>;
 };
 
 export const CharacterDataContext = createContext<CharacterDataState>({
-  characterData: [],
+  characterData: undefined,
   isFetchingCharacterData: false,
   forceRefresh: async () => {},
 });
@@ -49,9 +48,9 @@ export const CharacterDataContextProvider = ({
   const { setBungieSystemDisabled, setBungieServiceUnavailable } =
     useContext(ManifestContext);
 
-  const [characterData, setCharacterData] = useState<PowerBarsCharacterData[]>(
-    []
-  );
+  const [characterData, setCharacterData] = useState<
+    PowerBarsCharacterData | undefined
+  >();
 
   const [isFetchingCharacterData, setIsFetchingCharacterData] = useState(false);
 
@@ -104,6 +103,10 @@ export const CharacterDataContextProvider = ({
   }, CHARACTER_DATA_REFRESH_TIMER);
 
   const forceRefresh = async () => {
+    if (!characterData) {
+      return;
+    }
+
     await bustProfileCache(characterData);
     doGetCharacterData.current();
   };

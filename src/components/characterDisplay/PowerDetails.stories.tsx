@@ -13,21 +13,6 @@ const story = {
 };
 export default story;
 
-export const withFullData = () => (
-  <PowerDetails
-    overallPowerExact={965 + 5 / 8}
-    overallPower={965}
-    artifactData={{
-      bonusPower: 10,
-      name: "Test Artifact",
-      iconPath:
-        "/common/destiny2_content/icons/ea70febf637a93c0b224ce91d563ac18.jpg",
-      progressToNextLevel: 100,
-      nextLevelAt: 120,
-    }}
-  />
-);
+export const withFullData = () => <PowerDetails characterId={"1"} />;
 
-export const withoutArtifactData = () => (
-  <PowerDetails overallPowerExact={965 + 5 / 8} overallPower={965} />
-);
+export const withoutArtifactData = () => <PowerDetails characterId={"1"} />;

@@ -3,14 +3,14 @@
 import {
   DestinyItemComponent,
   DestinyItemInstanceComponent,
+  DestinyItemPlugObjectivesComponent,
   DestinyItemSocketsComponent,
 } from "bungie-api-ts/destiny2";
 
 import { ITEM_BUCKET_SLOTS, LOST_ITEMS_BUCKET } from "../../constants";
-import { JoinedItemDefinition } from "../../types";
 import { ManifestData } from "../bungie-api";
 
-import { itemIsCrafted } from "./crafting";
+import { itemHasDeepsightResonance, itemIsCrafted } from "./crafting";
 import { nonNullable } from "./filtering";
 import { itemIsMasterwork } from "./masterwork";
 
@@ -18,8 +18,9 @@ export const joinItemData = (
   rawItem: DestinyItemComponent,
   manifest: ManifestData,
   itemInstance: DestinyItemInstanceComponent,
-  itemSockets: DestinyItemSocketsComponent
-): JoinedItemDefinition => {
+  itemSockets: DestinyItemSocketsComponent,
+  itemPlugObjectives: DestinyItemPlugObjectivesComponent
+) => {
   const itemDefinition =
     manifest.DestinyInventoryItemDefinition[rawItem.itemHash];
   if (!itemDefinition) {
@@ -68,6 +69,12 @@ export const joinItemData = (
     itemSockets
   );
 
+  const hasDeepsightResonance = itemHasDeepsightResonance(
+    manifest,
+    itemSockets,
+    itemPlugObjectives
+  );
+
   const equipLabel = itemDefinition.equippingBlock?.uniqueLabel;
 
   let location = rawItem.location;
@@ -76,6 +83,14 @@ export const joinItemData = (
     // so we need to override it if we know the item is in the right bucket
     location = 4; // ItemLocation.Postmaster
   }
+
+  const itemCategories = itemDefinition.itemCategoryHashes
+    ?.map((hash) => manifest.DestinyItemCategoryDefinition[hash])
+    .filter(nonNullable);
+  const itemType =
+    (itemCategories?.[0]?.parentCategoryHashes?.[0] === 1 &&
+      itemCategories?.[0]?.displayProperties.name) ||
+    itemDefinition.itemTypeDisplayName;
 
   return {
     itemInstanceId: itemInstanceId,
@@ -86,20 +101,27 @@ export const joinItemData = (
     watermark,
     isCrafted,
     isMasterwork,
+    hasDeepsightResonance,
     classType: itemDefinition.classType,
     redacted: itemDefinition.redacted,
     canEquip: itemInstance.canEquip,
     cannotEquipReason: itemInstance.cannotEquipReason,
     location,
     equipLabel,
+    state: rawItem.state,
+    itemType,
+    isEquipped: itemInstance.isEquipped,
   };
 };
+
+export type JoinedItemDefinition = ReturnType<typeof joinItemData>;
 
 export const mapJoinedItems = (
   items: DestinyItemComponent[],
   manifest: ManifestData,
   itemInstances: Record<string, DestinyItemInstanceComponent>,
-  itemSockets: Record<string, DestinyItemSocketsComponent>
+  itemSockets: Record<string, DestinyItemSocketsComponent>,
+  itemPlugObjectives: Record<string, DestinyItemPlugObjectivesComponent>
 ) => {
   return items
     .map((item) => {
@@ -108,7 +130,14 @@ export const mapJoinedItems = (
       }
       const itemInstance = itemInstances[item.itemInstanceId];
       const thisItemSockets = itemSockets[item.itemInstanceId];
-      return joinItemData(item, manifest, itemInstance, thisItemSockets);
+      const thisItemPlugObjectives = itemPlugObjectives[item.itemInstanceId];
+      return joinItemData(
+        item,
+        manifest,
+        itemInstance,
+        thisItemSockets,
+        thisItemPlugObjectives
+      );
     })
     .filter(nonNullable);
 };

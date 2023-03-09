@@ -79,7 +79,7 @@ const LoadingSpinner = () => {
     status = "Waiting for Destiny platform selection...";
   } else if (manifestState !== MANIFEST_STATE.READY) {
     status = manifestState;
-  } else if (!characterData || characterData.length === 0) {
+  } else if (!characterData) {
     if (isFetchingCharacterData) {
       status = "Fetching character data...";
     } else {

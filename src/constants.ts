@@ -84,3 +84,7 @@ export const LEGENDARY_ACTIVITY_MODIFIER_ICON =
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK = 1;
 export const ITEM_POWER_PINNACLE_DROP_OFFSET = 2;
+
+export const CHARACTER_DISPLAY_ORDER_STORAGE_KEY = "characterDisplayOrder";
+export const CACHED_CHARACTER_DATA_STORAGE_KEY = "cachedCharacterData_v2";
+export const CHARACTER_DATA_REFRESH_TIMER = 15000;

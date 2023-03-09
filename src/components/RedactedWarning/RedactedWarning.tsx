@@ -11,9 +11,9 @@ const RedactedWarning = () => {
   const [showMore, setShowMore] = useState(false);
   const [hide, setHide] = useState(false);
 
-  const showRedactedWarning = characterData.some(
-    (c) => c.hasRedactedEquippableItems
-  );
+  const showRedactedWarning = Object.values(
+    characterData?.characters || {}
+  ).some((c) => c.hasRedactedEquippableItems);
 
   if (!showRedactedWarning) {
     return null;

@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   ITEM_POWER_PINNACLE_CAP,
@@ -10,36 +10,38 @@ import {
   LEGENDARY_ACTIVITY_MODIFIER_ICON,
   LEGENDARY_STORY_ITEM_POWER,
 } from "../../constants";
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 
 import { Power } from "./Power";
 import STYLES from "./PowerHints.module.scss";
 
 interface PowerHintsProps {
-  minPower: number;
-  overallPowerExact: number;
-  overallPower: number;
-  unrestrictedOverallPowerExact?: number;
-  unrestrictedOverallPower?: number;
-  potentialOverallPower?: number;
+  characterId: string;
   useUnrestrictedPower?: boolean;
   onChangeUseUnrestrictedPower?: (newValue: boolean) => void;
-  engrams?: { name: string; power: number; icon: string }[];
 }
 
 export const PowerHints = ({
-  minPower,
-  overallPowerExact,
-  overallPower,
-  unrestrictedOverallPowerExact,
-  unrestrictedOverallPower,
-  potentialOverallPower,
-
+  characterId,
   useUnrestrictedPower = true,
   onChangeUseUnrestrictedPower = () => {},
-
-  engrams = [],
 }: PowerHintsProps) => {
-  const powerToUseExact = unrestrictedOverallPowerExact || overallPowerExact;
+  const { characterData } = useContext(CharacterDataContext);
+
+  const thisCharacterData = characterData?.characters[characterId];
+
+  if (!thisCharacterData) {
+    return null;
+  }
+
+  const { overallPower, averagePower, minPower } = thisCharacterData.topItems;
+  const {
+    overallPower: unrestrictedOverallPower,
+    averagePower: unrestrictedAveragePower,
+  } = thisCharacterData.unrestricted;
+  let { potentialOverallPower, engrams } = thisCharacterData;
+
+  const powerToUseExact = unrestrictedAveragePower || averagePower;
   const powerToUse = unrestrictedOverallPower || overallPower;
 
   potentialOverallPower =
@@ -326,8 +328,7 @@ export const PowerHints = ({
           </div>
         )}
 
-      {unrestrictedOverallPowerExact &&
-      unrestrictedOverallPowerExact > overallPowerExact ? (
+      {unrestrictedAveragePower && unrestrictedAveragePower > averagePower ? (
         <label className={STYLES.toggleCheckbox}>
           Include multiple exotics
           <input

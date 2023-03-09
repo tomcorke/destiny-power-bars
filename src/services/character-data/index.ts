@@ -1,143 +1,16 @@
-import {
-  DestinyCharacterComponent,
-  DestinyInventoryComponent,
-  DestinyItemComponent,
-  DestinyItemInstanceComponent,
-  DestinyProfileProgressionComponent,
-  DestinyProfileRecordsComponent,
-  DestinyProfileResponse,
-  ServerResponse,
-  DestinyInventoryItemDefinition,
-  DestinyItemPlugObjectivesComponent,
-  DestinyItemSocketsComponent,
-} from "bungie-api-ts/destiny2";
-import forIn from "lodash/forIn";
-import groupBy from "lodash/groupBy";
-import mapValues from "lodash/mapValues";
-import maxBy from "lodash/maxBy";
-import sumBy from "lodash/sumBy";
+import { DestinyItemComponent } from "bungie-api-ts/destiny2";
 
-import {
-  ARTIFACT_INVENTORY_BUCKET_HASH,
-  CLASS_NAMES,
-  CLASS_TYPE_ALL,
-  ITEM_BUCKET_SLOTS,
-  ITEM_POWER_SOFT_CAP,
-  ITEM_SLOT_BUCKETS,
-} from "../../constants";
-import {
-  BucketHashes,
-  ItemCategoryHashes,
-} from "../../data/d2ai-module/generated-enums";
-import {
-  ItemBySlot,
-  OldJoinedItemDefinition,
-  PowerBarsCharacterData,
-  PowerBySlot,
-  SeasonalArtifactData,
-} from "../../types";
-import {
-  BungieSystemDisabledError,
-  getFullProfile,
-  getManifest as apiGetManifest,
-  GetManifestResult,
-  ManifestData,
-} from "../bungie-api";
-import { auth, getSelectedDestinyMembership } from "../bungie-auth";
+import { CACHED_CHARACTER_DATA_STORAGE_KEY } from "../../constants";
+import { ManifestData, setItemLockState } from "../bungie-api";
+import { auth } from "../bungie-auth";
 import { debug } from "../debug";
 import eventEmitter, { EVENTS } from "../events";
 
+import { getManifest } from "./manifest";
 import { characterProcessors, globalProcessors } from "./processors";
+import { getProfileData, ProfileData } from "./profile";
 
-const getManifest = async () => {
-  let manifestResult: GetManifestResult | undefined;
-  try {
-    manifestResult = await apiGetManifest();
-
-    if (!manifestResult || !manifestResult.manifest) {
-      return;
-    }
-
-    const { manifest } = manifestResult;
-    return manifest;
-  } catch (e) {
-    console.error(e);
-    return;
-  }
-};
-
-const extractProfileData = (
-  fullProfile: ServerResponse<DestinyProfileResponse>
-) => {
-  try {
-    const characters = fullProfile.Response.characters.data!;
-    const characterEquipments = fullProfile.Response.characterEquipment.data!;
-    const characterInventories =
-      fullProfile.Response.characterInventories.data!;
-    const profileInventories = fullProfile.Response.profileInventory.data!;
-    const itemInstances = fullProfile.Response.itemComponents.instances.data!;
-    const itemSockets = fullProfile.Response.itemComponents.sockets.data!;
-    const itemPlugObjectives =
-      fullProfile.Response.itemComponents.plugObjectives.data!;
-    const profileProgression = fullProfile.Response.profileProgression.data!;
-    const records = fullProfile.Response.profileRecords.data!;
-
-    return {
-      responseMintedTimestamp: fullProfile.Response.responseMintedTimestamp,
-      characters,
-      characterEquipments,
-      characterInventories,
-      profileInventories,
-      itemInstances,
-      itemSockets,
-      itemPlugObjectives,
-      profileProgression,
-      records,
-    };
-  } catch (e) {
-    // Something went wrong pulling data out of the profile response
-    console.error(e);
-    return undefined;
-  }
-};
-
-const getProfileData = async () => {
-  const destinyMembership = getSelectedDestinyMembership();
-  if (!destinyMembership) {
-    return;
-  }
-
-  let fullProfile: ServerResponse<DestinyProfileResponse> | undefined;
-  try {
-    fullProfile = await getFullProfile(
-      destinyMembership.membershipType,
-      destinyMembership.membershipId
-    );
-    if (fullProfile.ErrorStatus === "SystemDisabled") {
-      throw new BungieSystemDisabledError();
-    }
-  } catch (e: any) {
-    if (e.message === "401") {
-      // On 401, re-auth and try again
-      await auth();
-      fullProfile = await getFullProfile(
-        destinyMembership.membershipType,
-        destinyMembership.membershipId
-      );
-    } else {
-      throw e;
-    }
-  }
-
-  const profileData = extractProfileData(fullProfile);
-  if (!profileData) {
-    return;
-  }
-
-  return profileData;
-};
-
-let lastCharacterData: PowerBarsCharacterData[] | undefined;
+let lastCharacterData: PowerBarsCharacterData | undefined;
 let lastResponseMinted: number | undefined;
 
 const getRequiredData = async () => {
@@ -181,7 +54,7 @@ const mergeItems = <
 
 const buildGlobalProcessorContext = (
   manifest: ManifestData,
-  profileData: NonNullable<ReturnType<typeof extractProfileData>>
+  profileData: NonNullable<ProfileData>
 ) => {
   const allCharacterItems = mergeItems(profileData.characterInventories)
     .concat(mergeItems(profileData.characterEquipments))
@@ -217,28 +90,71 @@ export type CharacterProcessorContext = ReturnType<
   typeof buildCharacterProcessorContext
 >;
 
-export const getCharacterData = async () => {
-  const data = await getRequiredData();
-
-  if (!data) {
-    return;
+export const getCachedCharacterData = async () => {
+  debug("getCachedCharacterData");
+  const dataString = localStorage.getItem(CACHED_CHARACTER_DATA_STORAGE_KEY);
+  if (dataString) {
+    try {
+      const parsedData = JSON.parse(dataString) as PowerBarsCharacterData;
+      return parsedData;
+    } catch (e) {
+      console.error(`Error parsing cached character data`, e);
+    }
   }
+};
 
-  const { manifest, profileData } = data;
+const setCachedCharacterData = (data: PowerBarsCharacterData) => {
+  localStorage.setItem(CACHED_CHARACTER_DATA_STORAGE_KEY, JSON.stringify(data));
+};
 
-  const minted = Number(profileData.responseMintedTimestamp);
-  if (minted && lastResponseMinted && minted <= lastResponseMinted) {
-    debug(
-      `Response is old (${minted} vs ${lastResponseMinted}), returning last calculated character data`
-    );
-    return lastCharacterData;
+let isFetchingCharacterData = false;
+export const getIsFetchingCharacterData = () => {
+  return isFetchingCharacterData;
+};
+
+export const bustProfileCache = async (
+  characterData: PowerBarsCharacterData
+) => {
+  // find a character with a valid item somewhere (just to be safe)
+  const character = Object.values(characterData?.characters || {}).find(
+    (char) =>
+      Object.values(char.topItems.topItemsBySlot).find((v) => v?.itemInstanceId)
+  );
+
+  // find a valid item on our character
+  const item = Object.values(character?.topItems.topItemsBySlot ?? {}).find(
+    (v) => v?.itemInstanceId
+  );
+
+  if (!item?.itemInstanceId || !character) return;
+
+  // to bust the profile cache, we set the locked state on an item to its *current lock state*.
+  // This might be weird and confusing but it works and it busts the profile cache without
+  // actually changing anything on the user's inventory
+
+  const isLocked = (item.state && item.state & 1) === 1; // ItemState.Locked
+  const payload = {
+    state: isLocked,
+    itemId: item.itemInstanceId,
+    characterId: character?.characterId,
+    membershipType: character?.membershipType,
+  };
+
+  eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, true);
+
+  try {
+    await setItemLockState(payload);
+  } catch (err) {
+    throw err;
+  } finally {
+    eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, false);
   }
+};
 
-  // Update new profile minted timestamp
-  lastResponseMinted = minted;
-
-  // join data together into joined items
-
+const buildCharacterData = (
+  manifest: ManifestData,
+  profileData: NonNullable<ProfileData>
+) => {
   const globalProcessorContext = buildGlobalProcessorContext(
     manifest,
     profileData
@@ -298,3 +214,34 @@ export const getCharacterData = async () => {
 
   return joinedData;
 };
+
+export const getCharacterData = async () => {
+  const rawData = await getRequiredData();
+
+  if (!rawData) {
+    return undefined;
+  }
+
+  const { manifest, profileData } = rawData;
+
+  const minted = Number(profileData.responseMintedTimestamp);
+  if (minted && lastResponseMinted && minted <= lastResponseMinted) {
+    debug(
+      `Response is old (${minted} vs ${lastResponseMinted}), returning last calculated character data`
+    );
+    return lastCharacterData;
+  }
+
+  lastResponseMinted = minted;
+
+  const characterData = buildCharacterData(manifest, profileData);
+
+  lastCharacterData = characterData;
+  setCachedCharacterData(characterData);
+
+  return characterData;
+};
+
+export type PowerBarsCharacterData = Awaited<
+  ReturnType<typeof buildCharacterData>
+>;

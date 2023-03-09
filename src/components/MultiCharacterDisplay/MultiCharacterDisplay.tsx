@@ -14,19 +14,21 @@ export const MultiCharacterDisplay = () => {
 
   const getDefaultCharacterDisplayOrder = useCallback(
     () =>
-      characterData ? characterData.map((c) => c.character.characterId) : [],
+      characterData
+        ? Object.values(characterData.characters).map((c) => c.characterId)
+        : [],
     [characterData]
   );
 
   const isValidCharacterDisplayOrder = useCallback(
     (characterIds: string[]) =>
       characterData &&
-      characterData.length === characterIds.length &&
+      Object.values(characterData.characters).length === characterIds.length &&
       characterIds.every((id) =>
-        characterData.some((c) => c.character.characterId === id)
+        Object.keys(characterData.characters).includes(id)
       ) &&
-      characterData.every((c) =>
-        characterIds.includes(c.character.characterId)
+      Object.keys(characterData.characters).every((id) =>
+        characterIds.includes(id)
       ),
     [characterData]
   );
@@ -70,9 +72,10 @@ export const MultiCharacterDisplay = () => {
   );
 
   let useCharacterOrder = getDefaultCharacterDisplayOrder();
+
   if (
     characterData &&
-    characterData.length > 0 &&
+    Object.keys(characterData.characters).length > 0 &&
     characterDisplayOrder &&
     characterDisplayOrder.length > 0
   ) {
@@ -84,27 +87,18 @@ export const MultiCharacterDisplay = () => {
     }
   }
 
-  const notUndefined = <T extends {}>(c: T | undefined): c is T => !!c;
-
   return (
     <div className={STYLES.charactersContainer}>
       <div className={STYLES.characters}>
-        {useCharacterOrder
-          .map((characterId) =>
-            characterData.find((c) => c.character.characterId === characterId)
-          )
-          .filter(notUndefined)
-          .map((c) => (
-            <CharacterDisplay
-              key={c.character.characterId}
-              data={c}
-              onDragStart={() =>
-                setDraggingCharacterId(c!.character.characterId)
-              }
-              onDragEnd={() => setDraggingCharacterId(undefined)}
-              onDragDrop={() => dropOnCharacterId(c!.character.characterId)}
-            />
-          ))}
+        {useCharacterOrder.map((characterId) => (
+          <CharacterDisplay
+            key={characterId}
+            characterId={characterId}
+            onDragStart={() => setDraggingCharacterId(characterId)}
+            onDragEnd={() => setDraggingCharacterId(undefined)}
+            onDragDrop={() => dropOnCharacterId(characterId)}
+          />
+        ))}
       </div>
     </div>
   );

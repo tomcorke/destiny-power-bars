@@ -1,4 +1,7 @@
-import { DestinyItemSocketsComponent } from "bungie-api-ts/destiny2";
+import {
+  DestinyItemPlugObjectivesComponent,
+  DestinyItemSocketsComponent,
+} from "bungie-api-ts/destiny2";
 
 import { PlugCategoryHashes } from "../../data/d2ai-module/generated-enums";
 import { SelectedJoinedItemDefinition } from "../../types";
@@ -70,6 +73,32 @@ export const isCrafted = (item: SelectedJoinedItemDefinition) => {
 
   if (craftingSocket) {
     return craftingSocket.isEnabled;
+  }
+
+  return false;
+};
+
+export const itemHasDeepsightResonance = (
+  manifest: ManifestData,
+  sockets?: DestinyItemSocketsComponent,
+  plugObjectives?: DestinyItemPlugObjectivesComponent
+) => {
+  const resonanceSocket = sockets?.sockets?.find((s) => {
+    if (!s.plugHash) {
+      return null;
+    }
+    const plugDefinition = manifest.DestinyInventoryItemDefinition[s.plugHash];
+
+    return (
+      plugDefinition?.plug?.plugCategoryHash ===
+      PlugCategoryHashes.CraftingPlugsWeaponsModsMemories
+    );
+  });
+
+  if (resonanceSocket && resonanceSocket.plugHash) {
+    const objective =
+      plugObjectives?.objectivesPerPlug[resonanceSocket.plugHash]?.[0];
+    return objective !== undefined;
   }
 
   return false;
