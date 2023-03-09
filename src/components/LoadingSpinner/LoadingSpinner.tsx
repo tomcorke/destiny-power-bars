@@ -10,6 +10,16 @@ import { MembershipContext } from "../../contexts/MembershipContext";
 
 import STYLES from "./LoadingSpinner.module.scss";
 
+const MANIFEST_STATE_MESSAGE = {
+  [MANIFEST_STATE.UNINITIALIZED]: "Loading Destiny Manifest...",
+  [MANIFEST_STATE.LOADING]: "Loading Destiny Manifest...",
+  [MANIFEST_STATE.CHECKING_HASH]: "Checking Destiny Manifest Hash...",
+  [MANIFEST_STATE.FETCHING]: "Fetching Destiny Manifest...",
+  [MANIFEST_STATE.PARSING]: "Parsing Destiny Manifest...",
+  [MANIFEST_STATE.STORING]: "Storing Destiny Manifest...",
+  [MANIFEST_STATE.READY]: "Loaded Destiny Manifest",
+};
+
 const LoadingSpinner = () => {
   const { isAuthed, hasAuthError, startManualAuth } = useContext(
     AuthenticationContext
@@ -21,8 +31,7 @@ const LoadingSpinner = () => {
     isBungieServiceUnavailable,
   } = useContext(ManifestContext);
   const { hasSelectedMembership } = useContext(MembershipContext);
-  const { characterData, isFetchingCharacterData } =
-    useContext(CharacterDataContext);
+  const { characterData } = useContext(CharacterDataContext);
 
   let status: string | JSX.Element = "";
   if (isBungieSystemDisabled) {
@@ -78,7 +87,7 @@ const LoadingSpinner = () => {
   } else if (!hasSelectedMembership) {
     status = "Waiting for Destiny platform selection...";
   } else if (manifestState !== MANIFEST_STATE.READY) {
-    status = manifestState;
+    status = MANIFEST_STATE_MESSAGE[manifestState] || manifestState;
   } else if (!characterData) {
     status = "Fetching character data...";
   }
