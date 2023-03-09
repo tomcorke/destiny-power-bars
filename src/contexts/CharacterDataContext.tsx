@@ -17,6 +17,7 @@ import {
   getCharacterData,
   PowerBarsCharacterData,
 } from "../services/character-data";
+import { debug } from "../services/debug";
 import eventEmitter, { EVENTS, useEvent } from "../services/events";
 
 import { AuthenticationContext } from "./AuthenticationContext";
@@ -61,20 +62,8 @@ export const CharacterDataContextProvider = ({
   const [hasLoadedCachedCharacterData, setHasLoadedCachedCharacterData] =
     useState(false);
 
-  useEffect(() => {
-    if (isAuthed && hasSelectedMembership && !hasLoadedCachedCharacterData) {
-      setHasLoadedCachedCharacterData(true);
-      getCachedCharacterData()
-        .then((data) => {
-          if (data) {
-            setCharacterData(data);
-          }
-        })
-        .catch((err) => console.warn(err));
-    }
-  }, [isAuthed, hasSelectedMembership, hasLoadedCachedCharacterData]);
-
   const doGetCharacterData = useRef(() => {
+    debug("doGetCharacterData");
     const promise = throttledGetCharacterData();
     if (promise) {
       promise
@@ -95,6 +84,22 @@ export const CharacterDataContextProvider = ({
         .finally(() => setIsFetchingCharacterData(false));
     }
   });
+
+  useEffect(() => {
+    if (isAuthed && hasSelectedMembership && !hasLoadedCachedCharacterData) {
+      setHasLoadedCachedCharacterData(true);
+      getCachedCharacterData()
+        .then((data) => {
+          if (data) {
+            setCharacterData(data);
+          }
+        })
+        .catch((err) => console.warn(err));
+
+      // Also trigger immediate live fetch
+      doGetCharacterData.current();
+    }
+  }, [isAuthed, hasSelectedMembership, hasLoadedCachedCharacterData]);
 
   useInterval(() => {
     if (isAuthed && hasSelectedMembership && !isFetchingCharacterData) {

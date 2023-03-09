@@ -77,9 +77,6 @@ export const lockItems = async (
 
     const characterId = "characterId" in item ? item.characterId : undefined;
     if (characterId && characterId !== character.characterId) {
-      // console.log(
-      //   `Not locking item ${itemInstanceId}: ${name} for character ID ${character.characterId} because item is associated with inventory of character ID ${characterId}`
-      // );
       continue;
     }
 
@@ -95,7 +92,6 @@ export const lockItems = async (
 
     const isLocked = (state && state & 1) === 1;
     if (isLocked) {
-      // console.log(`Item ${itemInstanceId}: ${name} is already locked`);
       eventEmitter.emit(EVENTS.ITEM_ALREADY_LOCKED, {
         itemInstanceId,
       });
@@ -105,7 +101,9 @@ export const lockItems = async (
 
     setItemLockState(payload)
       .then(() => {
-        console.log(`Locked item ${itemInstanceId}: ${name}`);
+        console.log(
+          `Locked item ${itemInstanceId}: ${name} at ${power} power.`
+        );
 
         eventEmitter.emit(EVENTS.ITEM_LOCKED, {
           itemInstanceId,
