@@ -73,6 +73,9 @@ const findBestUniqueEquippableCombination = (
     // For each exotic item in the "top items" within the current group
     // e.g. for each exotic armour...
     uniqueEquippedGroup.forEach((item) => {
+      if (!item) {
+        return;
+      }
       // Find the other items in the group - these will be exotics in
       // the other slots, e.g. if we are currently considering an exotic
       // helmet, we will look at other armour pieces to consider replacing
@@ -90,7 +93,7 @@ const findBestUniqueEquippableCombination = (
       // for the same slot and add it to the current combination
       otherItems.forEach((otherItem) => {
         const nonExotics = itemsBySlot[otherItem.slotName].filter(
-          (i) => !i.equipLabel
+          (i) => !i.equipLabel || i.equipLabel !== item.equipLabel
         );
         if (nonExotics.length > 0) {
           combination[otherItem.slotName] = maxBy(nonExotics, (i) => i.score)!;
@@ -105,12 +108,24 @@ const findBestUniqueEquippableCombination = (
       }
     });
 
-    // Select highest total scoring valid combination, if alternative item combinations have been generated
+    // Select highest total scoring valid combination,
+    // from the combinations with the highest power (to prefer higher power over score)
     if (validEquippableItemCombinations.length > 0) {
-      bestCombination = maxBy(
-        validEquippableItemCombinations,
-        getCombinationScore
-      )!;
+      const combinationsWithPower = validEquippableItemCombinations.map(
+        (c) => ({
+          combination: c,
+          power: getAveragePower(getPowerBySlot(c)),
+        })
+      );
+
+      const maxCombinationPower = Math.max(
+        ...combinationsWithPower.map((c) => c.power)
+      );
+      const combinationsToConsider = combinationsWithPower
+        .filter((c) => c.power === maxCombinationPower)
+        .map((c) => c.combination);
+
+      bestCombination = maxBy(combinationsToConsider, getCombinationScore)!;
     }
   });
 
