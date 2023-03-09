@@ -80,11 +80,7 @@ const LoadingSpinner = () => {
   } else if (manifestState !== MANIFEST_STATE.READY) {
     status = manifestState;
   } else if (!characterData) {
-    if (isFetchingCharacterData) {
-      status = "Fetching character data...";
-    } else {
-      status = "No character data";
-    }
+    status = "Fetching character data...";
   }
 
   if (!status) {

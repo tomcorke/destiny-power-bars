@@ -55,7 +55,7 @@ const findBestUniqueEquippableCombination = (
   topItemsBySlot: ItemBySlot
 ) => {
   const uniqueEquippedGroups = groupBy(
-    Object.values(topItemsBySlot),
+    Object.values(topItemsBySlot).filter((item) => item?.equipLabel),
     (item) => item?.equipLabel
   );
 

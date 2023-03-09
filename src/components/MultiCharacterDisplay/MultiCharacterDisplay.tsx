@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import {
@@ -12,7 +12,7 @@ import STYLES from "./MultiCharacterDisplay.module.scss";
 export const MultiCharacterDisplay = () => {
   const { characterData } = useContext(CharacterDataContext);
 
-  const getDefaultCharacterDisplayOrder = useCallback(
+  const defaultCharacterDisplayOrder = useMemo(
     () =>
       characterData
         ? Object.values(characterData.characters).map((c) => c.characterId)
@@ -46,7 +46,7 @@ export const MultiCharacterDisplay = () => {
       const currentCharacterOrder =
         characterDisplayOrder && characterDisplayOrder.length > 0
           ? characterDisplayOrder
-          : getDefaultCharacterDisplayOrder();
+          : defaultCharacterDisplayOrder;
 
       const swappedOrder = currentCharacterOrder.slice();
       swappedOrder.splice(
@@ -67,11 +67,13 @@ export const MultiCharacterDisplay = () => {
       draggingCharacterId,
       characterDisplayOrder,
       setCharacterDisplayOrder,
-      getDefaultCharacterDisplayOrder,
+      defaultCharacterDisplayOrder,
     ]
   );
 
-  let useCharacterOrder = getDefaultCharacterDisplayOrder();
+  let useCharacterOrder = characterData
+    ? Object.keys(characterData.characters)
+    : [];
 
   if (
     characterData &&
