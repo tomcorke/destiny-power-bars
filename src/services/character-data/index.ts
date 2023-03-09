@@ -10,9 +10,6 @@ import { getManifest } from "./manifest";
 import { characterProcessors, globalProcessors } from "./processors";
 import { getProfileData, ProfileData } from "./profile";
 
-let lastCharacterData: PowerBarsCharacterData | undefined;
-let lastResponseMinted: number | undefined;
-
 const getRequiredData = async () => {
   try {
     const isAuthed = await auth();
@@ -216,6 +213,9 @@ const buildCharacterData = (
   return joinedData;
 };
 
+let lastCharacterData: PowerBarsCharacterData | undefined;
+let lastResponseMinted: Date | undefined;
+
 export const getCharacterData = async () => {
   const rawData = await getRequiredData();
 
@@ -225,10 +225,13 @@ export const getCharacterData = async () => {
 
   const { manifest, profileData } = rawData;
 
-  const minted = Number(profileData.responseMintedTimestamp);
+  const minted = new Date(profileData.responseMintedTimestamp);
   if (minted && lastResponseMinted && minted <= lastResponseMinted) {
+    const howOld = minted < lastResponseMinted ? "old" : "unchanged";
     debug(
-      `Response is old (${minted} vs ${lastResponseMinted}), returning last calculated character data`
+      `Response is ${howOld} (Current (${
+        minted.toLocaleTimeString
+      }) vs  Previous (${lastResponseMinted.toLocaleTimeString()})), returning last calculated character data`
     );
     return lastCharacterData;
   }
