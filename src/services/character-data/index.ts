@@ -194,16 +194,17 @@ const buildCharacterData = (
     global: globalProcessorData.reduce(
       (acc, p) => ({
         ...acc,
-        ...p,
+        ...p.data,
       }),
       {} as GlobalProcessorData
     ),
     characters: characterProcessorData.reduce(
-      (acc, c) => ({
+      (accAll, c) => ({
+        ...accAll,
         [c.characterId]: c.data.reduce(
-          (acc, p) => ({
-            ...acc,
-            ...p,
+          (accChar, p) => ({
+            ...accChar,
+            ...p.data,
           }),
           {} as CharacterProcessorData
         ),
