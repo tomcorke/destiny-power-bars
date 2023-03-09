@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import { BungieSystemDisabledError } from "../services/bungie-api";
-import { EVENTS, useEvent } from "../services/events";
+import eventEmitter, { EVENTS, useEvent } from "../services/events";
 import {
   bustProfileCache,
   getCachedCharacterData,
@@ -23,7 +23,10 @@ import { MembershipContext } from "./MembershipContext";
 
 const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
-const throttledGetCharacterData = throttle(getCharacterData, 500);
+const throttledGetCharacterData = throttle(() => {
+  eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, true);
+  return getCharacterData();
+}, 500);
 
 type CharacterDataState = {
   characterData: PowerBarsCharacterData[];
