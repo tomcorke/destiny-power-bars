@@ -87,21 +87,33 @@ export type CharacterProcessorContext = ReturnType<
   typeof buildCharacterProcessorContext
 >;
 
+const CHARACTER_DATA_CACHE_VERSION = 1;
+
 export const getCachedCharacterData = async () => {
   debug("getCachedCharacterData");
   const dataString = localStorage.getItem(CACHED_CHARACTER_DATA_STORAGE_KEY);
   if (dataString) {
     try {
-      const parsedData = JSON.parse(dataString) as PowerBarsCharacterData;
-      return parsedData;
+      const parsedData = JSON.parse(dataString);
+      if (
+        !parsedData ||
+        parsedData.CHARACTER_DATA_CACHE_VERSION !== CHARACTER_DATA_CACHE_VERSION
+      ) {
+        throw Error("Mismatched cache version flag");
+      }
+      return parsedData.cachedData as PowerBarsCharacterData;
     } catch (e) {
-      console.error(`Error parsing cached character data`, e);
+      console.warn(`Error loading cached character data`, e);
+      return undefined;
     }
   }
 };
 
 const setCachedCharacterData = (data: PowerBarsCharacterData) => {
-  localStorage.setItem(CACHED_CHARACTER_DATA_STORAGE_KEY, JSON.stringify(data));
+  localStorage.setItem(
+    CACHED_CHARACTER_DATA_STORAGE_KEY,
+    JSON.stringify({ cachedData: data, CHARACTER_DATA_CACHE_VERSION })
+  );
 };
 
 let isFetchingCharacterData = false;
