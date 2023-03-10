@@ -294,23 +294,38 @@ export const getBasicProfile = (
   });
 };
 
+const shuffleInPlace = <T>(array: T[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    // Select random element up to current index
+    const j = Math.floor(Math.random() * (i + 1));
+    // Swap position of elements
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
+
 export const getFullProfile = (
   membershipType: number,
   membershipId: string
 ) => {
   debug("getFullProfile");
+
+  const componentsList = [
+    200, // DestinyComponentType.Characters,
+    201, // DestinyComponentType.CharacterInventories,
+    205, // DestinyComponentType.CharacterEquipment,
+    102, // DestinyComponentType.ProfileInventories,
+    300, // DestinyComponentType.ItemInstances,
+    104, // DestinyComponentType.ProfileProgression
+    900, // DestinyComponentType.Records
+    305, // DestinyComponentType.ItemSockets
+    309, // DestinyComponentType.ItemPlugObjectives
+  ];
+  // Shuffle components list in-place for cache-busting requests
+  // so we get fresher data than CloudFlare's cache normally provides.
+  shuffleInPlace(componentsList);
+
   return getProfile(bungieAuthedFetch, {
-    components: [
-      200, // DestinyComponentType.Characters,
-      201, // DestinyComponentType.CharacterInventories,
-      205, // DestinyComponentType.CharacterEquipment,
-      102, // DestinyComponentType.ProfileInventories,
-      300, // DestinyComponentType.ItemInstances,
-      104, // DestinyComponentType.ProfileProgression
-      900, // DestinyComponentType.Records
-      305, // DestinyComponentType.ItemSockets
-      309, // DestinyComponentType.ItemPlugObjectives
-    ],
+    components: componentsList,
     destinyMembershipId: membershipId,
     membershipType,
   });
