@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.159ec801.css",
-    "main.js": "/static/js/main.659861c0.js",
+    "main.css": "/static/css/main.afe2f3cb.css",
+    "main.js": "/static/js/main.1383fd50.js",
     "dom-to-image.js": "/static/js/dom-to-image.64605629.chunk.js",
     "file-saver.js": "/static/js/file-saver.7fe4e068.chunk.js",
     "static/media/lfl-media-shot-1-full-mq.jpg": "/static/media/lfl-media-shot-1-full-mq.6c16af6e6bc4ad23b8c4.jpg",
@@ -19,13 +19,13 @@
     "static/media/github.svg": "/static/media/github.16a9304e38fd8167989291ab92544e14.svg",
     "static/media/twitter.svg": "/static/media/twitter.774c453600aa079325eddd781ad373c4.svg",
     "static/media/BraytechDevice.svg": "/static/media/BraytechDevice.26784dda27d8095b53ae.svg",
-    "main.159ec801.css.map": "/static/css/main.159ec801.css.map",
-    "main.659861c0.js.map": "/static/js/main.659861c0.js.map",
+    "main.afe2f3cb.css.map": "/static/css/main.afe2f3cb.css.map",
+    "main.1383fd50.js.map": "/static/js/main.1383fd50.js.map",
     "dom-to-image.64605629.chunk.js.map": "/static/js/dom-to-image.64605629.chunk.js.map",
     "file-saver.7fe4e068.chunk.js.map": "/static/js/file-saver.7fe4e068.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.159ec801.css",
-    "static/js/main.659861c0.js"
+    "static/css/main.afe2f3cb.css",
+    "static/js/main.1383fd50.js"
   ]
 }
