@@ -6,6 +6,8 @@ import sumBy from "lodash/sumBy";
 
 import { ITEM_POWER_SOFT_CAP, ITEM_SLOT_BUCKETS } from "../../../constants";
 import {
+  hasPower,
+  hasSlotName,
   isItemEquippableByCharacter,
   nonNullable,
 } from "../../items/filtering";
@@ -13,14 +15,6 @@ import { JoinedItemDefinition, mapJoinedItems } from "../../items/joined-item";
 import { getItemScore } from "../../items/scoring";
 
 import { createCharacterDataProcessor } from "./helpers";
-
-const hasSlotName = <T extends { slotName?: string }>(
-  value: T
-): value is T & { slotName: string } => value.slotName !== undefined;
-
-const hasPower = <T extends { power?: number }>(
-  value: T
-): value is T & { power: number } => value.power !== undefined;
 
 type JoinedItemWithScore = JoinedItemDefinition & { score: number };
 

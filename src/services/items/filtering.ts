@@ -7,6 +7,14 @@ import { JoinedItemDefinition } from "./joined-item";
 export const nonNullable = <T>(value: T | null | undefined): value is T =>
   value !== null && value !== undefined;
 
+export const hasSlotName = <T extends { slotName?: string }>(
+  value: T
+): value is T & { slotName: string } => value.slotName !== undefined;
+
+export const hasPower = <T extends { power?: number }>(
+  value: T
+): value is T & { power: number } => value.power !== undefined;
+
 export const isItemEquippableByCharacter = (
   item: JoinedItemDefinition,
   character: DestinyCharacterComponent

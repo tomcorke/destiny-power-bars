@@ -52,10 +52,11 @@ export const setItemLockingEnabled = (value: boolean) => {
 export const lockItems = async (
   character: { characterId: string; membershipType: BungieMembershipType },
   items: {
-    itemInstanceId?: string;
-    state?: number;
-    itemDefinition?: { displayProperties?: { name?: string; icon?: string } };
-    instanceData?: { primaryStat?: { value: number } };
+    itemInstanceId: string;
+    state: number;
+    name: string;
+    icon: string;
+    power: number;
   }[]
 ) => {
   if (!itemLockingEnabled) {
@@ -63,10 +64,7 @@ export const lockItems = async (
   }
 
   for (const item of items) {
-    const itemInstanceId = item.itemInstanceId;
-    const name = item.itemDefinition?.displayProperties?.name;
-    const state = item.state;
-    const power = item.instanceData?.primaryStat?.value;
+    const { itemInstanceId, name, icon, state, power } = item;
 
     if (!itemInstanceId || !name || state === undefined) {
       continue;
@@ -108,7 +106,7 @@ export const lockItems = async (
         eventEmitter.emit(EVENTS.ITEM_LOCKED, {
           itemInstanceId,
           name,
-          icon: item.itemDefinition?.displayProperties?.icon,
+          icon: icon,
           power,
         });
       })
