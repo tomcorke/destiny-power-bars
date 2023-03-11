@@ -17,7 +17,6 @@ export const ToastOverlay = () => {
     icon: string;
     power: number;
   }>(EVENTS.ITEM_LOCKED, ({ itemInstanceId, name, icon, power }) => {
-    console.log("ITEM_LOCKED", name);
     setToasts((currentToasts) => [
       ...currentToasts,
       {

@@ -55,7 +55,6 @@ export const SettingsContextProvider = ({
 
   const setSettingsWithLocalStorage = (settings: Settings) => {
     const newSettings = { ...settings };
-    console.log("new settings", newSettings);
     // Save values to local storage
     window.localStorage.setItem(
       SETTINGS_LOCAL_STORAGE_KEY,
