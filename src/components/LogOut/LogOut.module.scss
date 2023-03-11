@@ -1,0 +1,40 @@
+.logOutButton {
+  background: transparent;
+  border: none;
+  color: white;
+  opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 0.5s ease-out;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  .logOutIcon {
+    background-image: url("../../images/icons/logout.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 25px;
+    height: 25px;
+  }
+
+  .logOutText {
+    margin-left: 0.25em;
+    display: none;
+  }
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+    transition: opacity 0s linear;
+  }
+
+  @media (max-width: 500px) {
+    order: 3;
+    margin-bottom: 0.5em;
+
+    .logOutText {
+      display: block;
+    }
+  }
+}

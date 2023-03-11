@@ -1,0 +1,114 @@
+.settingsButton {
+  background: transparent;
+  border: none;
+  color: white;
+  opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 0.5s ease-out;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  .settingsIcon {
+    background-image: url("../../images/icons/cog.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 23px;
+    height: 23px;
+  }
+
+  .settingsText {
+    margin-left: 0.25em;
+    display: none;
+  }
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+    transition: opacity 0s linear;
+  }
+
+  @media (max-width: 500px) {
+    order: 3;
+    margin-bottom: 0.5em;
+
+    .logOutText {
+      display: block;
+    }
+  }
+}
+
+.settingsOverlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .settingsContainer {
+    background: #111;
+    color: white;
+    border: 1px solid rgba(white, 0.5);
+    box-shadow: 0 0 40px 10px black, inset 0 0 2px white;
+    border-radius: 3px;
+    position: relative;
+
+    min-width: 300px;
+    max-width: 500px;
+    min-height: 200px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+
+    padding-bottom: 20px;
+
+    .settingsRow {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      padding: 0 20px;
+
+      &.header {
+        padding: 0;
+        margin-bottom: 10px;
+      }
+    }
+
+    .description {
+      margin: 10px 0 0 20px;
+      font-style: italic;
+      color: #ddd;
+      font-size: 13px;
+      flex-basis: 100%;
+    }
+
+    .settingsTitle {
+      text-transform: uppercase;
+      font-size: 12px;
+      padding: 8px 8px 5px;
+    }
+
+    .settingsCloseButton {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 10px 10px 7px;
+      color: white;
+      font-size: 10px;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(white, 0.2);
+      }
+    }
+  }
+}

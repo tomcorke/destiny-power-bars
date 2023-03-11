@@ -1,0 +1,46 @@
+.hardRefreshButton {
+  background: transparent;
+  border: none;
+  color: white;
+  margin-right: 5px;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.5s ease-out;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  .hardRefreshIcon {
+    background-image: url("../../images/icons/reload.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 25px;
+    height: 25px;
+  }
+
+  .hardRefreshText {
+    margin-left: 0.25em;
+    display: none;
+  }
+
+  &:hover {
+    opacity: 1;
+    transition: opacity 0s linear;
+    text-decoration: underline;
+  }
+
+  &.disabled {
+    opacity: 0.25;
+    transition: opacity 0s linear;
+  }
+
+  @media (max-width: 500px) {
+    order: 2;
+    margin-bottom: 0.5em;
+
+    .hardRefreshText {
+      display: block;
+    }
+  }
+}

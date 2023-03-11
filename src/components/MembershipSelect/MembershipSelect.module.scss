@@ -3,6 +3,11 @@
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 500px) {
+    order: 1;
+    margin-bottom: 0.5em;
+  }
 }
 
 .membership {

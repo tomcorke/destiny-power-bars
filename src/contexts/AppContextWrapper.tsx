@@ -4,13 +4,18 @@ import { AuthenticationContextProvider } from "./AuthenticationContext";
 import { CharacterDataContextProvider } from "./CharacterDataContext";
 import { ManifestContextProvider } from "./ManifestContext";
 import { MembershipContextProvider } from "./MembershipContext";
+import { SettingsContextProvider } from "./SettingsContext";
 
 export const AppContextWrapper = ({ children }: PropsWithChildren<{}>) => (
-  <AuthenticationContextProvider>
-    <ManifestContextProvider>
-      <MembershipContextProvider>
-        <CharacterDataContextProvider>{children}</CharacterDataContextProvider>
-      </MembershipContextProvider>
-    </ManifestContextProvider>
-  </AuthenticationContextProvider>
+  <SettingsContextProvider>
+    <AuthenticationContextProvider>
+      <ManifestContextProvider>
+        <MembershipContextProvider>
+          <CharacterDataContextProvider>
+            {children}
+          </CharacterDataContextProvider>
+        </MembershipContextProvider>
+      </ManifestContextProvider>
+    </AuthenticationContextProvider>
+  </SettingsContextProvider>
 );

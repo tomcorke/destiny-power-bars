@@ -2,6 +2,7 @@ import classnames from "classnames";
 import React, { useContext, useRef, useState } from "react";
 
 import { CharacterDataContext } from "../contexts/CharacterDataContext";
+import { SettingsContext } from "../contexts/SettingsContext";
 
 import STYLES from "./CharacterDisplay.module.scss";
 import CharacterHeader from "./characterDisplay/CharacterHeader";
@@ -114,7 +115,10 @@ const CharacterDisplay = ({
     data?.className || "undefined"
   );
 
-  const [useUnrestrictedPower, setUseUnrestrictedPower] = useState(true);
+  const { settings, setSetting } = useContext(SettingsContext);
+  const useUnrestrictedPower = settings.useMultipleExotics;
+  const setUseUnrestrictedPower = (newValue: boolean) =>
+    setSetting("useMultipleExotics", newValue);
 
   if (!data) {
     return null;

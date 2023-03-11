@@ -11,6 +11,7 @@ import {
   LEGENDARY_STORY_ITEM_POWER,
 } from "../../constants";
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 import { Power } from "./Power";
 import STYLES from "./PowerHints.module.scss";
@@ -27,6 +28,7 @@ export const PowerHints = ({
   onChangeUseUnrestrictedPower = () => {},
 }: PowerHintsProps) => {
   const { characterData } = useContext(CharacterDataContext);
+  const { settings } = useContext(SettingsContext);
 
   const thisCharacterData = characterData?.characters[characterId];
 
@@ -89,43 +91,49 @@ export const PowerHints = ({
     (engram) => engram.power > overallPower
   );
 
-  const relevantEngramDisplay =
-    relevantEngrams.length > 0 ? (
-      <div className={STYLES.relevantEngrams}>
-        <div className={STYLES.engramsHeader}>Engrams:</div>
-        <div className={STYLES.engramsContainer}>
-          {engrams
-            .sort((a, b) => b.power - a.power)
-            .map((engram, i) => (
-              <div className={STYLES.engram} key={i}>
-                <img
-                  className={STYLES.engramIcon}
-                  src={`https://www.bungie.net${engram.icon}`}
-                  alt={`${engram.name}: ${engram.power}`}
-                  title={`${engram.name}: ${engram.power}`}
-                />
-                <span className={STYLES.engramName}>{engram.name}</span>
-                <span
-                  className={classnames(STYLES.engramPower, {
-                    [STYLES.highEngramPower]: engram.power > overallPower,
-                    [STYLES.lowEngramPower]: engram.power <= minPower,
-                  })}
-                >
-                  {engram.power}
-                </span>
-              </div>
-            ))}
-        </div>
-      </div>
-    ) : null;
+  const shouldDisplayEngrams =
+    settings.displayEngrams &&
+    engrams.length > 0 &&
+    (!settings.displayEngramsOnlyWhenRelevant || relevantEngrams.length > 0);
 
-  const powerfulEngramsDisplay = hasAbovePowerEngrams ? (
-    <div className={STYLES.powerfulEngrams}>
-      You have engrams to decrypt above your average power level!
+  const engramDisplay = shouldDisplayEngrams ? (
+    <div className={STYLES.relevantEngrams}>
+      <div className={STYLES.engramsHeader}>Engrams:</div>
+      <div className={STYLES.engramsContainer}>
+        {engrams
+          .sort((a, b) => b.power - a.power)
+          .map((engram, i) => (
+            <div className={STYLES.engram} key={i}>
+              <img
+                className={STYLES.engramIcon}
+                src={`https://www.bungie.net${engram.icon}`}
+                alt={`${engram.name}: ${engram.power}`}
+                title={`${engram.name}: ${engram.power}`}
+              />
+              <span className={STYLES.engramName}>{engram.name}</span>
+              <span
+                className={classnames(STYLES.engramPower, {
+                  [STYLES.highEngramPower]: engram.power > overallPower,
+                  [STYLES.lowEngramPower]: engram.power <= minPower,
+                })}
+              >
+                {engram.power}
+              </span>
+            </div>
+          ))}
+      </div>
     </div>
   ) : null;
 
+  const powerfulEngramsDisplay =
+    settings.displayEngrams && hasAbovePowerEngrams ? (
+      <div className={STYLES.powerfulEngrams}>
+        You have engrams to decrypt above your average power level!
+      </div>
+    ) : null;
+
   const legendaryStoryDisplay =
+    settings.displayLegendaryCampaignHints &&
     minPower < LEGENDARY_STORY_ITEM_POWER ? (
       <div className={STYLES.legendaryStoryHint}>
         <img
@@ -340,7 +348,7 @@ export const PowerHints = ({
         </label>
       ) : null}
 
-      {relevantEngramDisplay}
+      {engramDisplay}
       {powerfulEngramsDisplay}
       {legendaryStoryDisplay}
     </div>

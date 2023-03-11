@@ -2,13 +2,13 @@ import classnames from "classnames";
 import React, { useContext } from "react";
 
 import STYLES from "./App.module.scss";
+import CombinedHeader from "./components/CombinedHeader";
 import FetchSpinner from "./components/FetchSpinner";
 import Footer from "./components/Footer";
 import { LoadingChecklist } from "./components/LoadingChecklist";
 import LoadingSpinner from "./components/LoadingSpinner";
 import LoggedOutHeader from "./components/LoggedOutHeader";
 import LoginPrompt from "./components/LoginPrompt";
-import MembershipHeader from "./components/MembershipHeader";
 import MembershipSelect from "./components/MembershipSelect";
 import { MultiCharacterDisplay } from "./components/MultiCharacterDisplay";
 import RedactedWarning from "./components/RedactedWarning";
@@ -48,7 +48,7 @@ const AppContent = () => {
     return (
       <>
         <AppWrapper top>
-          <MembershipHeader />
+          <CombinedHeader />
           <MultiCharacterDisplay />
           <RedactedWarning />
           <LoadingSpinner />
