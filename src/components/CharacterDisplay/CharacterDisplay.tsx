@@ -105,7 +105,6 @@ const CharacterDisplay = ({
   onDragStart,
   onDragEnd,
   onDragDrop,
-  addClasses = [],
 }: CharacterDisplayProps) => {
   const { characterData } = useContext(CharacterDataContext);
 
@@ -134,7 +133,11 @@ const CharacterDisplay = ({
 
   return CharacterDisplayBodyWrapper(
     rgbString(data.emblem.emblemColor || FALLBACK_EMBLEM_RGB),
-    <div className={classnames(STYLES.characterDisplay, ...addClasses)}>
+    <div
+      className={classnames(STYLES.characterDisplay, {
+        [STYLES.darkerBackground]: settings.useDarkerCharacterBackground,
+      })}
+    >
       <CharacterHeader
         emblemBackgroundPath={data.emblem.emblemBackgroundPath}
         className={data.className}

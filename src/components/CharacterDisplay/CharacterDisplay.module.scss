@@ -17,6 +17,14 @@
     border-radius: 0;
   }
 
+  .characterDisplay {
+    height: 100%;
+
+    &.darkerBackground {
+      background: rgba(black, 0.7);
+    }
+  }
+
   .dragOverlay {
     display: none;
     flex-flow: column nowrap;

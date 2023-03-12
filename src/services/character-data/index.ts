@@ -5,8 +5,6 @@ import { ManifestData, setItemLockState } from "../bungie-api";
 import { auth } from "../bungie-auth";
 import { debug } from "../debug";
 import eventEmitter, { EVENTS } from "../events";
-import { hasPower, nonNullable } from "../items/filtering";
-import { lockItems } from "../lock-items";
 
 import { getManifest } from "./manifest";
 import { characterProcessors, globalProcessors } from "./processors";
