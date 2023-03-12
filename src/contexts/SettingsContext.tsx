@@ -10,6 +10,7 @@ const settingsSchema = z.object({
   displayEngrams: z.boolean().default(true),
   displayEngramsOnlyWhenRelevant: z.boolean().default(true),
   displayLegendaryCampaignHints: z.boolean().default(true),
+  useDarkerCharacterBackground: z.boolean().default(false),
 });
 
 type Settings = z.infer<typeof settingsSchema>;

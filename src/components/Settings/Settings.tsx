@@ -9,6 +9,24 @@ export const Settings = () => {
   const [showSettings, setShowSettings] = useState(false);
   const { settings, setSetting } = useContext(SettingsContext);
 
+  const createBooleanSetting = (
+    key: keyof typeof settings,
+    label?: string,
+    description?: string
+  ) => {
+    return (
+      <div className={STYLES.settingsRow} key={key}>
+        <label>{label || key}</label>
+        <input
+          type="checkbox"
+          checked={!!settings[key]}
+          onChange={(e) => setSetting(key, e.target.checked)}
+        />
+        {description && <div className={STYLES.description}>{description}</div>}
+      </div>
+    );
+  };
+
   return (
     <>
       <button
@@ -40,46 +58,45 @@ export const Settings = () => {
               </div>
             </div>
 
-            <div className={STYLES.settingsRow}>
-              <label>Enable automatic item locking </label>
-              <input
-                type="checkbox"
-                checked={!!settings.itemLockingEnabled}
-                onChange={(e) => {
-                  setSetting(
-                    "itemLockingEnabled",
-                    !settings.itemLockingEnabled
-                  );
-                }}
-              />
-              <div className={STYLES.description}>
-                Automatically locks items with the highest power per-character,
-                to prevent accidental dismantling! Will not lock items more than
-                once (list of previously locked items stored per browser).
-              </div>
-            </div>
+            {createBooleanSetting(
+              "itemLockingEnabled",
+              "Enable automatic item locking",
+              `Automatically locks items with the highest power per-character, to prevent accidental dismantling!
+                Will not lock items more than once (list of previously locked items stored per browser).`
+            )}
 
-            <div className={STYLES.settingsRow}>
-              <label>Display multiple exotics per character</label>
-              <input
-                type="checkbox"
-                checked={!!settings.useMultipleExotics}
-                onChange={(e) => {
-                  setSetting(
-                    "useMultipleExotics",
-                    !settings.useMultipleExotics
-                  );
-                }}
-              />
-              <div className={STYLES.description}>
-                Display multiple exotic weapons or armour items per character,
-                even though they cannot both be equipped. The game will use them
-                to calculate your power level for drops, but this option allows
-                you to choose to see your highest "real" equippable power by
-                disabling it.
-              </div>
-            </div>
+            {createBooleanSetting(
+              "useMultipleExotics",
+              "Display multiple exotics per character",
+              `Display multiple exotic weapons or armour items per character, even though they cannot both be equipped. The game will use them
+                to calculate your power level for drops, but this option allows you to choose to see your highest "real" equippable power by disabling it.`
+            )}
 
+            {createBooleanSetting(
+              "displayEngrams",
+              "Display engrams",
+              `Display engrams held by your characters, or in your postbox.`
+            )}
+
+            {createBooleanSetting(
+              "displayEngramsOnlyWhenRelevant",
+              "Display engrams only when relevant",
+              `When enabled, engrams will not be displayed unless at least one engram is above your minumum item power level for the character.`
+            )}
+
+            {createBooleanSetting(
+              "displayLegendaryCampaignHints",
+              "Display legendary campaign hints",
+              `Display hint for characters below the power level offered by completion of the legendary campaign.`
+            )}
+
+            {createBooleanSetting(
+              "useDarkerCharacterBackground",
+              "Use darker character background",
+              `Use a darker background for character cards, instead of the default emblem background colour.`
+            )}
+
+            {/*
             <div className={STYLES.settingsRow}>
               <label>Display engrams</label>
               <input
@@ -129,6 +146,7 @@ export const Settings = () => {
                 completion of the legendary campaign.
               </div>
             </div>
+            */}
           </div>
         </div>
       ) : null}

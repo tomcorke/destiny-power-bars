@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { EVENTS, useEvent } from "../../services/events";
-import { Power } from "../characterDisplay/Power";
+import { Power } from "../characterDisplayComponents/Power";
 
 import { Toast } from "./Toast";
 import STYLES from "./ToastOverlay.module.scss";

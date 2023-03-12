@@ -1,21 +1,22 @@
 import classnames from "classnames";
 import React, { useContext } from "react";
 
+import { AppContextWrapper } from "../../contexts/AppContextWrapper";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import CombinedHeader from "../CombinedHeader";
+import FetchSpinner from "../FetchSpinner";
+import Footer from "../Footer";
+import { LoadingChecklist } from "../LoadingChecklist";
+import LoadingSpinner from "../LoadingSpinner";
+import LoggedOutHeader from "../LoggedOutHeader";
+import LoginPrompt from "../LoginPrompt";
+import MembershipSelect from "../MembershipSelect";
+import { MultiCharacterDisplay } from "../MultiCharacterDisplay";
+import RedactedWarning from "../RedactedWarning";
+import ToastOverlay from "../ToastOverlay";
+
 import STYLES from "./App.module.scss";
-import CombinedHeader from "./components/CombinedHeader";
-import FetchSpinner from "./components/FetchSpinner";
-import Footer from "./components/Footer";
-import { LoadingChecklist } from "./components/LoadingChecklist";
-import LoadingSpinner from "./components/LoadingSpinner";
-import LoggedOutHeader from "./components/LoggedOutHeader";
-import LoginPrompt from "./components/LoginPrompt";
-import MembershipSelect from "./components/MembershipSelect";
-import { MultiCharacterDisplay } from "./components/MultiCharacterDisplay";
-import RedactedWarning from "./components/RedactedWarning";
-import ToastOverlay from "./components/ToastOverlay";
-import { AppContextWrapper } from "./contexts/AppContextWrapper";
-import { AuthenticationContext } from "./contexts/AuthenticationContext";
-import { CharacterDataContext } from "./contexts/CharacterDataContext";
 
 import "normalize.css";
 import "./index.css";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CharacterDisplayBodyWrapper } from "../CharacterDisplay";
+import { CharacterDisplayBodyWrapper } from "../CharacterDisplay/CharacterDisplay";
 
 import { CharacterLinks } from "./CharacterLinks";
 

@@ -1,10 +1,10 @@
 @font-face {
   font-family: "Destiny Keys";
-  src: url("./fonts/Destiny_Keys.otf") format("opentype");
+  src: url("../../fonts/Destiny_Keys.otf") format("opentype");
 }
 
 .App {
-  --background-image: url("./images/lightfall/lfl-media-shot-1-full-mq.jpg");
+  --background-image: url("../../images/lightfall/lfl-media-shot-1-full-mq.jpg");
 
   position: relative;
   min-height: 100vh;
@@ -71,7 +71,7 @@
     top: -27px;
     width: 100px;
     height: 113px;
-    background-image: url("images/christmas/hat-2.png");
+    background-image: url("../../images/christmas/hat-2.png");
     pointer-events: none;
   }
 }
@@ -85,7 +85,7 @@
     bottom: -40px;
     width: 200px;
     height: 90px;
-    background-image: url("images/christmas/balls.png");
+    background-image: url("../../images/christmas/balls.png");
     pointer-events: none;
   }
 }
@@ -99,7 +99,7 @@
     top: -42px;
     width: 100px;
     height: 94px;
-    background-image: url("images/christmas/hat-1.png");
+    background-image: url("../../images/christmas/hat-1.png");
     pointer-events: none;
   }
 }
