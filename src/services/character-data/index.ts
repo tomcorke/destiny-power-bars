@@ -47,7 +47,7 @@ const mergeItems = <
       allItems.concat(
         characterItems.items.map((item) => ({ ...item, characterId }))
       ),
-    [] as DestinyItemComponent[]
+    [] as (DestinyItemComponent & { characterId?: string })[]
   );
 };
 
@@ -256,16 +256,6 @@ export const getCharacterData = async () => {
 
   lastCharacterData = characterData;
   setCachedCharacterData(characterData);
-
-  // After successful character data fetching, trigger locking items
-  Object.entries(characterData.characters).forEach(([characterId, data]) => {
-    lockItems(
-      { characterId, membershipType: data.membershipType },
-      Object.values(data.topItems.topItemsBySlot)
-        .filter(nonNullable)
-        .filter(hasPower)
-    );
-  });
 
   return characterData;
 };

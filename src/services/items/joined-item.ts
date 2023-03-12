@@ -15,7 +15,7 @@ import { nonNullable } from "./filtering";
 import { itemIsMasterwork } from "./masterwork";
 
 export const joinItemData = (
-  rawItem: DestinyItemComponent,
+  rawItem: DestinyItemComponent & { characterId?: string },
   manifest: ManifestData,
   itemInstance: DestinyItemInstanceComponent,
   itemSockets: DestinyItemSocketsComponent,
@@ -111,6 +111,7 @@ export const joinItemData = (
     state: rawItem.state,
     itemType,
     isEquipped: itemInstance.isEquipped,
+    characterId: rawItem.characterId,
   };
 };
 

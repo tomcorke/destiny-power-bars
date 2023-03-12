@@ -1,11 +1,11 @@
 import { BungieMembershipType } from "bungie-api-ts/destiny2";
 
 import { setItemLockState } from "./bungie-api";
+import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
 
 const lockedItemIds: string[] = [];
 
-const LOCAL_STORAGE_ITEM_LOCKING_ENABLED = "itemLockingEnabled";
 const LOCAL_STORAGE_LOCKED_ITEM_IDS = "lockedItemInstanceIds";
 
 // Init lockedItemIds from local storage to prevent re-locking items between sessions
@@ -35,20 +35,6 @@ eventEmitter.on(EVENTS.ITEM_LOCKED, () => {
   localStorage.setItem(LOCAL_STORAGE_LOCKED_ITEM_IDS, lockedItemIds.join(","));
 });
 
-let itemLockingEnabled =
-  localStorage.getItem(LOCAL_STORAGE_ITEM_LOCKING_ENABLED) === "TRUE";
-
-export const setItemLockingEnabled = (value: boolean) => {
-  itemLockingEnabled = value;
-  localStorage.setItem(
-    LOCAL_STORAGE_ITEM_LOCKING_ENABLED,
-    value ? "TRUE" : "FALSE"
-  );
-};
-
-(window as any).enableItemLocking = () => setItemLockingEnabled(true);
-(window as any).disableItemLocking = () => setItemLockingEnabled(false);
-
 export const lockItems = async (
   character: { characterId: string; membershipType: BungieMembershipType },
   items: {
@@ -57,12 +43,10 @@ export const lockItems = async (
     name: string;
     icon: string;
     power: number;
+    characterId?: string;
   }[]
 ) => {
-  if (!itemLockingEnabled) {
-    return;
-  }
-
+  debug("lockItems", character.characterId);
   for (const item of items) {
     const { itemInstanceId, name, icon, state, power } = item;
 

@@ -2,15 +2,12 @@ import classnames from "classnames";
 import React, { useContext, useState } from "react";
 
 import { SettingsContext } from "../../contexts/SettingsContext";
-import { debug } from "../../services/debug";
 
 import STYLES from "./Settings.module.scss";
 
 export const Settings = () => {
   const [showSettings, setShowSettings] = useState(false);
   const { settings, setSetting } = useContext(SettingsContext);
-
-  debug("render settings", settings);
 
   return (
     <>

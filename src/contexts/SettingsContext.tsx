@@ -44,14 +44,17 @@ export const SettingsContextProvider = ({
         const parsedSettings = JSON.parse(settingsFromLocalStorage);
         // Only apply settings if we parsed them successfully.
         if (settingsSchema.safeParse(parsedSettings).success) {
+          debug("set settings from local storage", parsedSettings);
           setSettings(parsedSettings);
         }
       } catch (e) {
         // Catch errors that occur when parsing the JSON
         // and do nothing because it doesn't matter.
+        console.error("Error loading settings from local storage");
+        console.error(e);
       }
     }
-  }, []);
+  }, [setSettings]);
 
   const setSettingsWithLocalStorage = (settings: Settings) => {
     const newSettings = { ...settings };

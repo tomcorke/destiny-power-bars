@@ -135,6 +135,7 @@ export default createCharacterDataProcessor(
     itemPlugObjectives,
     character,
     equippedCharacterItems,
+    characterItems,
   }) => {
     const unfilteredItems = mapJoinedItems(
       allCharacterItems,
