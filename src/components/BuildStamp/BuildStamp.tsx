@@ -1,15 +1,15 @@
-import preval from "preval.macro";
+import now from "~build/time";
+import { sha } from "~build/info";
 import React from "react";
 
 import STYLES from "./BuildStamp.module.scss";
-
-const gitHead = (process.env.REACT_APP_NPM_PACKAGE_GITHEAD || "").substr(0, 6);
-
-const buildTimestamp = preval`module.exports = new Date().toISOString();`;
+const buildTimestamp = new Date(now).toLocaleString("en-GB", {
+  timeZone: "UTC",
+});
 
 const BuildStamp = () => (
   <div className={STYLES.buildStamp}>
-    {gitHead} {buildTimestamp}
+    {sha} {buildTimestamp}
   </div>
 );
 
