@@ -17,11 +17,10 @@
     }
   }
 
-  $common-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/fda4e2d5d36a2e44fe2199801e80c9e8.png";
-  $rare-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/522cca42043a56e876e2d186315d8425.png";
-  $legendary-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/ca25b277ec22eddd9f4e9881dd153390.png";
-  $powerful-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/330b67ab92b271c67f5ab2ca36298924.png";
-  $exotic-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/dec08a304d9aaa0dbfda85ac1e97f170.png";
+  $rare-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/065ad0889f4f2b00f65d36f301ab8142.png";
+  $legendary-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/f846f489c2a97afb289b357e431ecf8d.png";
+  $powerful-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/3f3dd2345e79f296bd06cc960642a1ba.png";
+  $exotic-engram-icon: "https://www.bungie.net/common/destiny2_content/icons/3e6a698e1a8a5fb446fdcbf1e63c5269.png";
 
   .dropHint {
     padding-left: 55px;
@@ -39,15 +38,18 @@
   .worldDropHint {
     background-image: url($legendary-engram-icon), url($rare-engram-icon);
     background-position: 10px 15px, left 5px;
+    background-size: 36px;
   }
   .legendaryWorldDropHint {
     background-image: url($powerful-engram-icon), url($legendary-engram-icon);
     background-position: 10px 15px, left 5px;
+    background-size: 36px;
   }
   .powerfulHint,
   .pinnacleHint {
     background-image: url($powerful-engram-icon), url($exotic-engram-icon);
     background-position: 10px 15px, left 5px;
+    background-size: 36px;
   }
 
   .separator {
