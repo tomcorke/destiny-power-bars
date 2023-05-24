@@ -9,8 +9,6 @@ const {
   VITE_BUNGIE_OAUTH_CLIENT_SECRET,
 } = import.meta.env;
 
-console.log(import.meta.env);
-
 if (
   import.meta.env &&
   (!VITE_BUNGIE_API_KEY ||
