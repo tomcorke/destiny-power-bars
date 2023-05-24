@@ -7,10 +7,13 @@ const buildTimestamp = new Date(now).toLocaleString("en-GB", {
   timeZone: "UTC",
 });
 
-const BuildStamp = () => (
-  <div className={STYLES.buildStamp}>
-    {sha} {buildTimestamp}
-  </div>
-);
+const BuildStamp = () => {
+  const shortSha = (sha || "").substring(0, 6);
+  return (
+    <div className={STYLES.buildStamp}>
+      {shortSha} {buildTimestamp}
+    </div>
+  );
+};
 
 export default BuildStamp;
