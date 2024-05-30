@@ -1,4 +1,4 @@
-import useInterval from "@use-it/interval";
+import useInterval from "@rooks/use-interval";
 import throttle from "lodash/throttle";
 import React, {
   createContext,
