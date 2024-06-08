@@ -64,8 +64,23 @@ export type GlobalProcessorContext = ReturnType<
   typeof buildGlobalProcessorContext
 >;
 
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never;
+
+type GlobalProcessorData = UnionToIntersection<
+  ReturnType<typeof globalProcessors[number]>["data"]
+>;
+
+type CharacterProcessorData = UnionToIntersection<
+  ReturnType<typeof characterProcessors[number]>["data"]
+>;
+
 const buildCharacterProcessorContext = (
   globalContext: GlobalProcessorContext,
+  globalProcessorData: GlobalProcessorData,
   characterId: string
 ) => {
   const character = globalContext.characters[characterId];
@@ -76,6 +91,7 @@ const buildCharacterProcessorContext = (
     globalContext.characterEquipments[characterId].items;
   return {
     ...globalContext,
+    global: globalProcessorData,
     characterId,
     character,
     characterItems,
@@ -169,14 +185,26 @@ const buildCharacterData = (
     profileData
   );
 
-  const characterIds = Object.keys(profileData.characters);
-  const characterProcessorContexts = characterIds.map((characterId) =>
-    buildCharacterProcessorContext(globalProcessorContext, characterId)
-  );
-
   // feed raw data into data processors
   const globalProcessorData = globalProcessors.map((p) =>
     p(globalProcessorContext)
+  );
+
+  const joinedGlobalData = globalProcessorData.reduce(
+    (acc, p) => ({
+      ...acc,
+      ...p.data,
+    }),
+    {} as GlobalProcessorData
+  );
+
+  const characterIds = Object.keys(profileData.characters);
+  const characterProcessorContexts = characterIds.map((characterId) =>
+    buildCharacterProcessorContext(
+      globalProcessorContext,
+      joinedGlobalData,
+      characterId
+    )
   );
 
   const characterProcessorData = characterProcessorContexts.map((context) => {
@@ -186,40 +214,23 @@ const buildCharacterData = (
     };
   });
 
-  type UnionToIntersection<U> = (
-    U extends any ? (k: U) => void : never
-  ) extends (k: infer I) => void
-    ? I
-    : never;
-
-  type GlobalProcessorData = UnionToIntersection<
-    typeof globalProcessorData[number]["data"]
-  >;
-  type CharacterProcessorData = UnionToIntersection<
-    typeof characterProcessorData[number]["data"][number]["data"]
-  >;
+  const joinedCharacterData = characterProcessorData.reduce(
+    (accAll, c) => ({
+      ...accAll,
+      [c.characterId]: c.data.reduce(
+        (accChar, p) => ({
+          ...accChar,
+          ...p.data,
+        }),
+        {} as CharacterProcessorData
+      ),
+    }),
+    {} as Record<string, CharacterProcessorData>
+  );
 
   const joinedData = {
-    global: globalProcessorData.reduce(
-      (acc, p) => ({
-        ...acc,
-        ...p.data,
-      }),
-      {} as GlobalProcessorData
-    ),
-    characters: characterProcessorData.reduce(
-      (accAll, c) => ({
-        ...accAll,
-        [c.characterId]: c.data.reduce(
-          (accChar, p) => ({
-            ...accChar,
-            ...p.data,
-          }),
-          {} as CharacterProcessorData
-        ),
-      }),
-      {} as Record<string, CharacterProcessorData>
-    ),
+    global: joinedGlobalData,
+    characters: joinedCharacterData,
   };
 
   return joinedData;

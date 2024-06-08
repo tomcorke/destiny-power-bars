@@ -128,6 +128,7 @@ const findBestUniqueEquippableCombination = (
 
 export default createCharacterDataProcessor(
   ({
+    global,
     allCharacterItems,
     manifest,
     itemInstances,
@@ -208,7 +209,8 @@ export default createCharacterDataProcessor(
       Object.keys(potentialPowerBySlot).forEach((slot) => {
         potentialPowerBySlot[slot] = Math.max(
           ITEM_POWER_SOFT_CAP,
-          Math.max(tempPower, potentialPowerBySlot[slot])
+          Math.max(tempPower, potentialPowerBySlot[slot]),
+          global.accountPower.overallPower
         );
       });
     }

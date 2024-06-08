@@ -45,8 +45,8 @@ export const PowerHints = ({
   } = thisCharacterData.unrestricted;
   let { potentialOverallPower, engrams } = thisCharacterData;
 
-  const powerToUseExact = accountPower.averagePower; // unrestrictedAveragePower || averagePower;
-  const powerToUse = accountPower.overallPower; //unrestrictedOverallPower || overallPower;
+  const powerToUseExact = unrestrictedAveragePower || averagePower;
+  const powerToUse = unrestrictedOverallPower || overallPower;
 
   potentialOverallPower = Math.min(
     accountPower.overallPower,
