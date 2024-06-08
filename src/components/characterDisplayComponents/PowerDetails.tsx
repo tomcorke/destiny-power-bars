@@ -5,6 +5,7 @@ import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
 import STYLES from "./PowerDetails.module.scss";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 const ProgressBar = ({ value, max }: { value: number; max: number }) => {
   if (value === undefined || max === undefined) {
@@ -34,6 +35,7 @@ export const PowerDetails = ({
   useUnrestrictedPower = true,
 }: PowerDetailsProps) => {
   const { characterData } = useContext(CharacterDataContext);
+  const { settings } = useContext(SettingsContext);
 
   const thisCharacterData = characterData?.characters[characterId];
 
@@ -50,6 +52,9 @@ export const PowerDetails = ({
 
   const powerToDisplay =
     (useUnrestrictedPower && unrestrictedOverallPower) || overallPower;
+
+  const { accountPower } = characterData.global;
+  const showAccountPower = settings.displayAccountWidePower;
 
   if (!artifactData || artifactData.bonusPower === 0) {
     return (
@@ -89,6 +94,16 @@ export const PowerDetails = ({
           }
         />
       </div>
+      {showAccountPower ? (
+        <>
+          <div className={STYLES.detailsRow}>
+            <div className={STYLES.detailsLabel}>Account-wide max power:</div>
+            <div className={STYLES.detailsValue}>
+              <Power withSymbol>{accountPower.overallPower}</Power>
+            </div>
+          </div>
+        </>
+      ) : null}
       {artifactData ? (
         <>
           <div className={STYLES.detailsRow}>

@@ -36,6 +36,8 @@ export const PowerHints = ({
     return null;
   }
 
+  const { accountPower } = characterData.global;
+
   const { overallPower, averagePower, minPower } = thisCharacterData.topItems;
   const {
     overallPower: unrestrictedOverallPower,
@@ -43,11 +45,13 @@ export const PowerHints = ({
   } = thisCharacterData.unrestricted;
   let { potentialOverallPower, engrams } = thisCharacterData;
 
-  const powerToUseExact = unrestrictedAveragePower || averagePower;
-  const powerToUse = unrestrictedOverallPower || overallPower;
+  const powerToUseExact = accountPower.averagePower; // unrestrictedAveragePower || averagePower;
+  const powerToUse = accountPower.overallPower; //unrestrictedOverallPower || overallPower;
 
-  potentialOverallPower =
-    potentialOverallPower || Math.min(ITEM_POWER_SOFT_CAP, powerToUse);
+  potentialOverallPower = Math.min(
+    accountPower.overallPower,
+    potentialOverallPower || Math.min(ITEM_POWER_SOFT_CAP, powerToUse)
+  );
 
   const nextPower =
     powerToUseExact === powerToUse

@@ -96,6 +96,12 @@ export const Settings = () => {
               `Use a darker background for character cards, instead of the default emblem background colour.`
             )}
 
+            {createBooleanSetting(
+              "displayAccountWidePower",
+              "Display Account-Wide Power",
+              `Show power level achieved across all characters, now used for determining the power level of drops.`
+            )}
+
             {/*
             <div className={STYLES.settingsRow}>
               <label>Display engrams</label>

@@ -72,14 +72,15 @@ export const BUNGIE_COLOUR_VOID = "b085df";
 
 const season = D2SeasonInfo[D2CalculatedSeason];
 
+export const ITEM_POWER_FLOOR = season.powerFloor;
 export const ITEM_POWER_SOFT_CAP = season.softCap;
 export const ITEM_POWER_POWERFUL_CAP = season.powerfulCap;
 export const ITEM_POWER_PINNACLE_CAP = season.pinnacleCap;
 
-export const LEGENDARY_STORY_ITEM_POWER = 1770;
+export const LEGENDARY_STORY_ITEM_POWER = 1960;
 export const LEGENDARY_ACTIVITY_MODIFIER_HASH = 36103086;
 export const LEGENDARY_ACTIVITY_MODIFIER_ICON =
-  "https://www.bungie.net/common/destiny2_content/icons/2aed4ad5b28d1cc13451aa6424ce5dda.png";
+  "https://www.bungie.net/common/destiny2_content/icons/ce7c212b48151d8075cfba5ecc3934c8.png";
 
 // How much above your current power do pinnacles drop when above the powerful cap
 export const ITEM_POWER_PINNACLE_DROP_OFFSET_WEAK = 1;

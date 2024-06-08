@@ -1,3 +1,4 @@
+import accountPower from "./account-power";
 import artifact from "./artifact";
 import character from "./character";
 import classData from "./class";
@@ -8,7 +9,10 @@ import redacted from "./redacted";
 import title from "./title";
 import topItems from "./top-items";
 
-export const globalProcessors = [artifact] satisfies GlobalDataProcessor<any>[];
+export const globalProcessors = [
+  artifact,
+  accountPower,
+] satisfies GlobalDataProcessor<any>[];
 
 export const characterProcessors = [
   title,
