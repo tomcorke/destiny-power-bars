@@ -166,7 +166,7 @@ export const PowerHints = ({
             )}
           >
             <span>
-              Powerful rewards can increase your overall gear power to{" "}
+              Powerful rewards can increase your equippable gear power to{" "}
               <Power>{potentialOverallPower}</Power>
             </span>
             <div className={STYLES.hintExtra}>
@@ -220,7 +220,7 @@ export const PowerHints = ({
           >
             <span>
               World drops and other on-power item sources can increase your
-              overall gear power to <Power>{potentialOverallPower}</Power>
+              equippable gear power to <Power>{potentialOverallPower}</Power>
             </span>
             <div className={STYLES.hintExtra}>
               <div className={STYLES.hintExtraInner}>
@@ -280,7 +280,7 @@ export const PowerHints = ({
             )}
           >
             <span>
-              Powerful rewards can increase your overall gear power up to the
+              Powerful rewards can increase your equippable gear power up to the
               powerful cap of <Power>{ITEM_POWER_POWERFUL_CAP}</Power>
             </span>
             <div className={STYLES.hintExtra}>
@@ -319,7 +319,7 @@ export const PowerHints = ({
             )}
           >
             <span>
-              Pinnacle rewards can increase your overall gear power up to the
+              Pinnacle rewards can increase your equippable gear power up to the
               pinnacle cap of <Power>{ITEM_POWER_PINNACLE_CAP}</Power>
             </span>
             <div className={STYLES.hintExtra}>

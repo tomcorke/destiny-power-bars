@@ -6,6 +6,7 @@ import { PowerBySlot } from "../../types";
 
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 const classItemNames: { [key: string]: string } = {
   hunter: "Hunter Cloak",
@@ -33,6 +34,7 @@ export const PowerBars = ({
   useUnrestrictedPower,
 }: PowerBarsProps) => {
   const { characterData } = useContext(CharacterDataContext);
+  const { settings } = useContext(SettingsContext);
 
   const thisCharacterData = characterData?.characters[characterId];
 
@@ -71,7 +73,13 @@ export const PowerBars = ({
     minPowerToDisplay = ITEM_POWER_POWERFUL_CAP - 10;
   }
 
-  const maxItemPower = Math.max(...Object.values(powerBySlot));
+  const valuesToConsiderForMaxPower = Object.values(powerBySlot);
+  if (settings.displayAccountWidePower) {
+    valuesToConsiderForMaxPower.push(
+      ...Object.values(characterData.global.accountPowerBySlot)
+    );
+  }
+  const maxItemPower = Math.max(...valuesToConsiderForMaxPower);
   const maxItemPowerGrouping =
     ITEM_POWER_POWERFUL_CAP - maxItemPower < 50 ? 10 : 50;
   const maxPowerToDisplay =
