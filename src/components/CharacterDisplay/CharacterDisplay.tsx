@@ -153,8 +153,12 @@ const CharacterDisplay = ({
     .map((c) => c.emblem.emblemBackgroundPath)
     .slice(0, 3);
 
+  const backgroundColour = isAccountCharacter
+    ? FALLBACK_EMBLEM_RGB
+    : data.emblem.emblemColor || FALLBACK_EMBLEM_RGB;
+
   return CharacterDisplayBodyWrapper(
-    rgbString(data.emblem.emblemColor || FALLBACK_EMBLEM_RGB),
+    rgbString(backgroundColour),
     <div
       className={classnames(STYLES.characterDisplay, {
         [STYLES.darkerBackground]: settings.useDarkerCharacterBackground,
