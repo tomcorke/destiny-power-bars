@@ -122,7 +122,10 @@ const CharacterDisplay = ({
   const isAccountCharacter = characterId === ACCOUNT_WIDE_CHARACTER_ID;
 
   const showThisCharacter =
-    !!settings.displayOnlyAccountWidePower !== isAccountCharacter;
+    !!settings.displayOnlyAccountWidePower !== isAccountCharacter ||
+    (!settings.displayOnlyAccountWidePower &&
+      !!settings.displayAccountWidePower &&
+      isAccountCharacter);
 
   const useUnrestrictedPower =
     settings.useMultipleExotics || isAccountCharacter;
