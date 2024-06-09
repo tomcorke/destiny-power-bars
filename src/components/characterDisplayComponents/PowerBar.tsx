@@ -1,8 +1,9 @@
 import { ItemLocation } from "bungie-api-ts/destiny2";
 import classnames from "classnames";
-import React from "react";
+import React, { useContext } from "react";
 
 import STYLES from "./PowerBar.module.scss";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 interface BarProps {
   min: number;
@@ -19,6 +20,7 @@ interface BarProps {
   itemType?: string;
   location?: ItemLocation;
   isEquipped?: boolean;
+  accountMaxValue?: number;
 }
 
 const getLocationLabel = (location?: ItemLocation, isEquipped?: boolean) => {
@@ -56,12 +58,19 @@ export const PowerBar = ({
   itemType,
   location,
   isEquipped,
+  accountMaxValue,
 }: BarProps) => {
+  const { settings } = useContext(SettingsContext);
+
   const range = max - min;
   const perc = Math.floor(((value - min) / range) * 1000) / 10;
   const avgPerc = Math.floor(((avgValue - min) / range) * 1000) / 10;
   // const plusTwoPerc = Math.floor(((avgValue + 2 - min) / range) * 1000) / 10
   // const plusFivePerc = Math.floor(((avgValue + 5 - min) / range) * 1000) / 10
+
+  const accountPerc =
+    Math.floor((((accountMaxValue || 0) - min) / range) * 1000) / 10;
+
   const fullLabelText = `${value} ${label}`;
 
   const locationLabel = getLocationLabel(location, isEquipped);
@@ -117,6 +126,12 @@ export const PowerBar = ({
         ) : null}
       </div>
       <div className={STYLES.barContainer}>
+        {accountMaxValue && settings.displayAccountWidePower ? (
+          <div
+            className={STYLES.accountMaxBar}
+            style={{ width: `${accountPerc}%` }}
+          />
+        ) : null}
         <div className={STYLES.filledBar} style={{ width: `${perc}%` }}>
           {fullLabel}
         </div>

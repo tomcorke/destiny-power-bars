@@ -94,6 +94,10 @@ export const PowerBars = ({
           if (!bestItem) {
             return null;
           }
+
+          const accountPowerForSlot =
+            characterData.global.accountPowerBySlot[slotName];
+
           return (
             <PowerBar
               key={`${characterId}_${slotName}`}
@@ -113,6 +117,7 @@ export const PowerBars = ({
               itemType={bestItem.itemType}
               location={bestItem.location}
               isEquipped={bestItem.isEquipped}
+              accountMaxValue={accountPowerForSlot}
             />
           );
         })}

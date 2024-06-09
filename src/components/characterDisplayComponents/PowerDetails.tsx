@@ -102,6 +102,9 @@ export const PowerDetails = ({
               <Power withSymbol>{accountPower.overallPower}</Power>
             </div>
           </div>
+          <div className={STYLES.detailsRow}>
+            <InterPowerBar value={accountPower.averagePower} />
+          </div>
         </>
       ) : null}
       {artifactData ? (

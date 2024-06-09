@@ -71,6 +71,11 @@ export default createGlobalDataProcessor(
       maxBy(items, (item) => item.score)
     );
 
-    return { accountPower: powerSummary(topItemsBySlot) };
+    const powerBySlot = getPowerBySlot(topItemsBySlot);
+
+    return {
+      accountPower: powerSummary(topItemsBySlot),
+      accountPowerBySlot: powerBySlot,
+    };
   }
 );
