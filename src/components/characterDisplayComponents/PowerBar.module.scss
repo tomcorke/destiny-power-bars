@@ -66,10 +66,11 @@
   background-color: rgba(255, 255, 0, 0.2); // rgba(30, 30, 30, 0.95);
   background: repeating-linear-gradient(
     -45deg,
-    var(--bar-color),
-    transparent 2px,
-    transparent 4px,
-    var(--bar-color) 6px
+    var(--bar-color) 0,
+    var(--bar-color) 5px,
+    transparent 6px,
+    transparent 7px,
+    var(--bar-color) 8px
   );
   box-shadow: inset -13px 0px 0 -10px var(--bar-color);
   color: white;

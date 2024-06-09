@@ -102,6 +102,12 @@ export const Settings = () => {
               `Show power level achieved across all characters, now used for determining the power level of drops.`
             )}
 
+            {createBooleanSetting(
+              "displayOnlyAccountWidePower",
+              "Display only Account-Wide Power",
+              `Show a single character card representing the power level achieved across all characters, now used for determining the power level of drops.`
+            )}
+
             {/*
             <div className={STYLES.settingsRow}>
               <label>Display engrams</label>

@@ -1,6 +1,9 @@
 import { DestinyItemComponent } from "bungie-api-ts/destiny2";
 
-import { CACHED_CHARACTER_DATA_STORAGE_KEY } from "../../constants";
+import {
+  ACCOUNT_WIDE_CHARACTER_ID,
+  CACHED_CHARACTER_DATA_STORAGE_KEY,
+} from "../../constants";
 import { ManifestData, setItemLockState } from "../bungie-api";
 import { auth } from "../bungie-auth";
 import { debug } from "../debug";
@@ -9,6 +12,7 @@ import eventEmitter, { EVENTS } from "../events";
 import { getManifest } from "./manifest";
 import { characterProcessors, globalProcessors } from "./processors";
 import { getProfileData, ProfileData } from "./profile";
+import character from "./processors/character";
 
 const getRequiredData = async () => {
   try {
@@ -81,22 +85,36 @@ type CharacterProcessorData = UnionToIntersection<
 const buildCharacterProcessorContext = (
   globalContext: GlobalProcessorContext,
   globalProcessorData: GlobalProcessorData,
-  characterId: string
+  characterId: string | typeof ACCOUNT_WIDE_CHARACTER_ID
 ) => {
-  const character = globalContext.characters[characterId];
-  const characterItems = globalContext.characterInventories[
-    characterId
-  ].items.concat(globalContext.characterEquipments[characterId].items);
-  const equippedCharacterItems =
-    globalContext.characterEquipments[characterId].items;
-  return {
-    ...globalContext,
-    global: globalProcessorData,
-    characterId,
-    character,
-    characterItems,
-    equippedCharacterItems,
-  };
+  if (characterId !== ACCOUNT_WIDE_CHARACTER_ID) {
+    const character = globalContext.characters[characterId];
+    const characterItems = globalContext.characterInventories[
+      characterId
+    ].items.concat(globalContext.characterEquipments[characterId].items);
+    const equippedCharacterItems =
+      globalContext.characterEquipments[characterId].items;
+    return {
+      ...globalContext,
+      global: globalProcessorData,
+      characterId,
+      character,
+      characterItems,
+      equippedCharacterItems,
+    };
+  } else {
+    return {
+      ...globalContext,
+      global: globalProcessorData,
+      characterId,
+      character: {
+        ...globalContext.characters[Object.keys(globalContext.characters)[0]],
+        characterId: ACCOUNT_WIDE_CHARACTER_ID,
+      },
+      characterItems: [],
+      equippedCharacterItems: [],
+    };
+  }
 };
 
 export type CharacterProcessorContext = ReturnType<
@@ -198,7 +216,11 @@ const buildCharacterData = (
     {} as GlobalProcessorData
   );
 
-  const characterIds = Object.keys(profileData.characters);
+  const characterIds: Array<string | typeof ACCOUNT_WIDE_CHARACTER_ID> = [
+    ...Object.keys(profileData.characters),
+    ACCOUNT_WIDE_CHARACTER_ID,
+  ];
+
   const characterProcessorContexts = characterIds.map((characterId) =>
     buildCharacterProcessorContext(
       globalProcessorContext,
@@ -254,7 +276,7 @@ export const getCharacterData = async () => {
     debug(
       `Response is ${howOld} (Current (${
         minted.toLocaleTimeString
-      }) vs  Previous (${lastResponseMinted.toLocaleTimeString()})), returning last calculated character data`
+      }) vs Previous (${lastResponseMinted.toLocaleTimeString()})), returning last calculated character data`
     );
     return lastCharacterData;
   }

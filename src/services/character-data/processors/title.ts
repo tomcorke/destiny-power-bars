@@ -1,7 +1,12 @@
+import { ACCOUNT_WIDE_CHARACTER_ID } from "../../../constants";
 import { createCharacterDataProcessor } from "./helpers";
 
 export default createCharacterDataProcessor(
   ({ manifest, character, records }) => {
+    if (character.characterId === ACCOUNT_WIDE_CHARACTER_ID) {
+      return { title: { name: "Maximum power", gildedCount: 1 } };
+    }
+
     const definition =
       manifest.DestinyRecordDefinition[character.titleRecordHash || ""];
 

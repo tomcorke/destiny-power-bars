@@ -47,6 +47,10 @@
     }
   }
 
+  &.hidden {
+    display: none;
+  }
+
   &.dragOver {
     * {
       pointer-events: none;

@@ -12,6 +12,7 @@ const settingsSchema = z.object({
   displayLegendaryCampaignHints: z.boolean().default(true),
   useDarkerCharacterBackground: z.boolean().default(false),
   displayAccountWidePower: z.boolean().default(true),
+  displayOnlyAccountWidePower: z.boolean().default(false),
 });
 
 type Settings = z.infer<typeof settingsSchema>;

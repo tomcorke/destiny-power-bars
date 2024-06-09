@@ -10,6 +10,7 @@ import { PowerDetails } from "../characterDisplayComponents/PowerDetails";
 import { PowerHints } from "../characterDisplayComponents/PowerHints";
 
 import STYLES from "./CharacterDisplay.module.scss";
+import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
 
 const BLACK_RGB = { red: 0, green: 0, blue: 0 };
 const FALLBACK_EMBLEM_RGB = { red: 0, green: 4, blue: 15 };
@@ -51,7 +52,8 @@ export const CharacterDisplayBodyWrapper = (
   ref?: React.MutableRefObject<null>,
   onDragStart?: () => void,
   onDragEnd?: () => void,
-  onDragDrop?: () => void
+  onDragDrop?: () => void,
+  isHidden?: boolean
 ) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(0);
@@ -61,6 +63,7 @@ export const CharacterDisplayBodyWrapper = (
       className={classnames(STYLES.characterDisplayWrapper, {
         [STYLES.dragging]: isDragging,
         [STYLES.dragOver]: isDraggingOver > 0,
+        [STYLES.hidden]: isHidden,
       })}
       style={{ backgroundColor }}
       onDragStart={() => {
@@ -108,14 +111,18 @@ const CharacterDisplay = ({
 }: CharacterDisplayProps) => {
   const { characterData } = useContext(CharacterDataContext);
 
+  const { settings, setSetting } = useContext(SettingsContext);
+
   const data = characterData?.characters[characterId];
 
   const [elementRef, renderImage] = useRenderElementImage(
     data?.className || "undefined"
   );
 
-  const { settings, setSetting } = useContext(SettingsContext);
-  const useUnrestrictedPower = settings.useMultipleExotics;
+  const isAccountCharacter = characterId === ACCOUNT_WIDE_CHARACTER_ID;
+
+  const useUnrestrictedPower =
+    settings.useMultipleExotics || isAccountCharacter;
   const setUseUnrestrictedPower = (newValue: boolean) =>
     setSetting("useMultipleExotics", newValue);
 
@@ -157,13 +164,15 @@ const CharacterDisplay = ({
           characterId={characterId}
           useUnrestrictedPower={useUnrestrictedPower}
         />
-        <PowerHints
-          characterId={characterId}
-          useUnrestrictedPower={useUnrestrictedPower}
-          onChangeUseUnrestrictedPower={(newValue) =>
-            setUseUnrestrictedPower(newValue)
-          }
-        />
+        {isAccountCharacter ? null : (
+          <PowerHints
+            characterId={characterId}
+            useUnrestrictedPower={useUnrestrictedPower}
+            onChangeUseUnrestrictedPower={(newValue) =>
+              setUseUnrestrictedPower(newValue)
+            }
+          />
+        )}
       </div>
 
       <CharacterLinks
@@ -176,7 +185,8 @@ const CharacterDisplay = ({
     elementRef,
     onDragStart,
     onDragEnd,
-    onDragDrop
+    onDragDrop,
+    isAccountCharacter !== settings.displayOnlyAccountWidePower
   );
 };
 

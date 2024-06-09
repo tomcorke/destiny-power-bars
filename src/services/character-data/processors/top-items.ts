@@ -4,7 +4,11 @@ import mapValues from "lodash/mapValues";
 import maxBy from "lodash/maxBy";
 import sumBy from "lodash/sumBy";
 
-import { ITEM_POWER_SOFT_CAP, ITEM_SLOT_BUCKETS } from "../../../constants";
+import {
+  ACCOUNT_WIDE_CHARACTER_ID,
+  ITEM_POWER_SOFT_CAP,
+  ITEM_SLOT_BUCKETS,
+} from "../../../constants";
 import {
   hasPower,
   hasSlotName,
@@ -126,107 +130,115 @@ const findBestUniqueEquippableCombination = (
   return bestCombination;
 };
 
-export default createCharacterDataProcessor(
-  ({
+export default createCharacterDataProcessor((context) => {
+  const {
     global,
     allCharacterItems,
     manifest,
     itemInstances,
     itemSockets,
     itemPlugObjectives,
-    character,
-    equippedCharacterItems,
-    characterItems,
-  }) => {
-    const unfilteredItems = mapJoinedItems(
-      allCharacterItems,
-      manifest,
-      itemInstances,
-      itemSockets,
-      itemPlugObjectives
-    );
+  } = context;
 
-    const items = unfilteredItems
-      // Filter to items that fit into an equipment slot and have a power value
-      .filter(hasSlotName)
-      .filter(hasPower)
-      // Filter to items that are equippable by the current character
-      .filter((item) => isItemEquippableByCharacter(item, character));
+  const unfilteredItems = mapJoinedItems(
+    allCharacterItems,
+    manifest,
+    itemInstances,
+    itemSockets,
+    itemPlugObjectives
+  );
 
-    const equippedItemInstanceIds = equippedCharacterItems
-      .map((item) => item.itemInstanceId)
-      .filter(nonNullable);
-
-    const itemsWithScore = items.map((item) => ({
-      ...item,
-      score: getItemScore(item, equippedItemInstanceIds),
-    }));
-
-    const itemsBySlot = groupBy(itemsWithScore, (i) => i.slotName);
-
-    // Get top items by slot, preferring currently equipped items
-    let topItemsBySlot: ItemBySlot = mapValues(itemsBySlot, (items) =>
-      maxBy(items, (item) => item.score)
-    );
-
-    const unrestrictedItemsBySlot: ItemBySlot = { ...topItemsBySlot };
-
-    // These "top items" ignore exotic restrictions, allowing any number
-    // of exotics to be equipped at once. Equip labels are used to group
-    // exotics, so that only one exotic weapon and one exotic armor piece
-    // can be equipped.
-
-    // For each exotic item we find in our "top items", we need to consider
-    // an equipment set where no other exotics are equipped in the same group.
-
-    // From these legitimate combinations, we select the one with the highest
-    // total item score.
-
-    const bestUniqueCombination = findBestUniqueEquippableCombination(
-      itemsBySlot,
-      topItemsBySlot
-    );
-
-    if (bestUniqueCombination) {
-      topItemsBySlot = bestUniqueCombination;
-    }
-
-    // Calculate the potential power that this character could reach
-    // if they continually infused items in each slot up to their average
-
-    const powerBySlot = getPowerBySlot(unrestrictedItemsBySlot);
-    const hasPotential = (powerBySlot: PowerBySlot) => {
-      const overallPower = getOverallPower(powerBySlot);
-      return Object.values(powerBySlot).some(
-        (power) => power < overallPower || power < ITEM_POWER_SOFT_CAP
+  const items = unfilteredItems
+    // Filter to items that fit into an equipment slot and have a power value
+    .filter(hasSlotName)
+    .filter(hasPower)
+    // Filter to items that are equippable by the current character
+    .filter((item) => {
+      if (context.characterId === ACCOUNT_WIDE_CHARACTER_ID) {
+        return true;
+      }
+      return (
+        "character" in context &&
+        isItemEquippableByCharacter(item, context.character)
       );
-    };
+    });
 
-    // Keep iterating until we have no more potential power to gain
-    const potentialPowerBySlot = { ...powerBySlot };
-    while (hasPotential(potentialPowerBySlot)) {
-      const tempPower = getOverallPower(potentialPowerBySlot);
-      Object.keys(potentialPowerBySlot).forEach((slot) => {
-        potentialPowerBySlot[slot] = Math.max(
-          ITEM_POWER_SOFT_CAP,
-          Math.max(tempPower, potentialPowerBySlot[slot]),
-          global.accountPower.overallPower
-        );
-      });
-    }
+  const equippedItemInstanceIds =
+    "equippedCharacterItems" in context
+      ? context.equippedCharacterItems
+          .map((item) => item.itemInstanceId)
+          .filter(nonNullable)
+      : [];
 
-    const potentialOverallPower = getOverallPower(potentialPowerBySlot);
+  const itemsWithScore = items.map((item) => ({
+    ...item,
+    score: getItemScore(item, equippedItemInstanceIds),
+  }));
 
-    return {
-      topItems: {
-        topItemsBySlot,
-        ...powerSummary(topItemsBySlot),
-      },
-      unrestricted: {
-        topItemsBySlot: unrestrictedItemsBySlot,
-        ...powerSummary(unrestrictedItemsBySlot),
-      },
-      potentialOverallPower,
-    };
+  const itemsBySlot = groupBy(itemsWithScore, (i) => i.slotName);
+
+  // Get top items by slot, preferring currently equipped items
+  let topItemsBySlot: ItemBySlot = mapValues(itemsBySlot, (items) =>
+    maxBy(items, (item) => item.score)
+  );
+
+  const unrestrictedItemsBySlot: ItemBySlot = { ...topItemsBySlot };
+
+  // These "top items" ignore exotic restrictions, allowing any number
+  // of exotics to be equipped at once. Equip labels are used to group
+  // exotics, so that only one exotic weapon and one exotic armor piece
+  // can be equipped.
+
+  // For each exotic item we find in our "top items", we need to consider
+  // an equipment set where no other exotics are equipped in the same group.
+
+  // From these legitimate combinations, we select the one with the highest
+  // total item score.
+
+  const bestUniqueCombination = findBestUniqueEquippableCombination(
+    itemsBySlot,
+    topItemsBySlot
+  );
+
+  if (bestUniqueCombination) {
+    topItemsBySlot = bestUniqueCombination;
   }
-);
+
+  // Calculate the potential power that this character could reach
+  // if they continually infused items in each slot up to their average
+
+  const powerBySlot = getPowerBySlot(unrestrictedItemsBySlot);
+  const hasPotential = (powerBySlot: PowerBySlot) => {
+    const overallPower = getOverallPower(powerBySlot);
+    return Object.values(powerBySlot).some(
+      (power) => power < overallPower || power < ITEM_POWER_SOFT_CAP
+    );
+  };
+
+  // Keep iterating until we have no more potential power to gain
+  const potentialPowerBySlot = { ...powerBySlot };
+  while (hasPotential(potentialPowerBySlot)) {
+    const tempPower = getOverallPower(potentialPowerBySlot);
+    Object.keys(potentialPowerBySlot).forEach((slot) => {
+      potentialPowerBySlot[slot] = Math.max(
+        ITEM_POWER_SOFT_CAP,
+        Math.max(tempPower, potentialPowerBySlot[slot]),
+        global.accountPower.overallPower
+      );
+    });
+  }
+
+  const potentialOverallPower = getOverallPower(potentialPowerBySlot);
+
+  return {
+    topItems: {
+      topItemsBySlot,
+      ...powerSummary(topItemsBySlot),
+    },
+    unrestricted: {
+      topItemsBySlot: unrestrictedItemsBySlot,
+      ...powerSummary(unrestrictedItemsBySlot),
+    },
+    potentialOverallPower,
+  };
+});

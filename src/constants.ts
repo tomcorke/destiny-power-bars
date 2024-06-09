@@ -91,3 +91,5 @@ export const CACHED_CHARACTER_DATA_STORAGE_KEY = "cachedCharacterData_v2";
 export const CHARACTER_DATA_REFRESH_TIMER = 15000;
 
 export const SETTINGS_LOCAL_STORAGE_KEY = "dpb_settings";
+
+export const ACCOUNT_WIDE_CHARACTER_ID = "mock-account-wide-character-symbol";
