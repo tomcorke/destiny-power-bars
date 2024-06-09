@@ -121,11 +121,16 @@ const CharacterDisplay = ({
 
   const isAccountCharacter = characterId === ACCOUNT_WIDE_CHARACTER_ID;
 
+  const displayAccountPower = !!settings.displayAccountWidePower;
+  const displayOnlyAccountPower = !!settings.displayOnlyAccountWidePower;
+
   const showThisCharacter =
-    !!settings.displayOnlyAccountWidePower !== isAccountCharacter ||
-    (!settings.displayOnlyAccountWidePower &&
-      !!settings.displayAccountWidePower &&
-      isAccountCharacter);
+    (!displayOnlyAccountPower && !isAccountCharacter) ||
+    (!displayAccountPower && !isAccountCharacter) ||
+    (displayOnlyAccountPower && displayAccountPower && isAccountCharacter) ||
+    (!displayOnlyAccountPower && displayAccountPower);
+
+  const isHidden = !showThisCharacter;
 
   const useUnrestrictedPower =
     settings.useMultipleExotics || isAccountCharacter;
@@ -192,7 +197,7 @@ const CharacterDisplay = ({
     onDragStart,
     onDragEnd,
     onDragDrop,
-    showThisCharacter
+    isHidden
   );
 };
 
