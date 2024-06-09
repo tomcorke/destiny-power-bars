@@ -149,6 +149,10 @@ const CharacterDisplay = ({
   const summableArtifactBonusPower =
     characterData.global.artifact?.bonusPower ?? 0;
 
+  const uniqueEmblemPaths = Object.values(characterData.characters)
+    .map((c) => c.emblem.emblemBackgroundPath)
+    .slice(0, 3);
+
   return CharacterDisplayBodyWrapper(
     rgbString(data.emblem.emblemColor || FALLBACK_EMBLEM_RGB),
     <div
@@ -158,6 +162,8 @@ const CharacterDisplay = ({
     >
       <CharacterHeader
         emblemBackgroundPath={data.emblem.emblemBackgroundPath}
+        multiEmblemBackgroundPaths={uniqueEmblemPaths}
+        useMultiEmblems={isAccountCharacter}
         className={data.className}
         hasRedactedEquippableItems={data.hasRedactedEquippableItems}
         roundedPower={roundedPower}

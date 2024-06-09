@@ -5,8 +5,74 @@
 
   .emblemBackground {
     display: block;
+    max-width: 474px;
+    max-height: 96px;
     width: 100%;
     height: auto;
+  }
+
+  .multiEmblemWrapper {
+    display: block;
+    width: 400px;
+    height: 81px;
+    .multiEmblem1,
+    .multiEmblem2,
+    .multiEmblem3 {
+      position: absolute;
+      width: 100%;
+      height: auto;
+    }
+    .multiEmblem1 {
+      // Use a clip path to display this background in 30 degree slanted slices, offset by the first 10%, with each slice 10% wide
+      // clip-path: polygon(0 0, 10% 0, 30% 100%, 0 100%);
+    }
+    .multiEmblem2 {
+      // cut off the left third with clip path
+      // clip-path: polygon(0 0, 76% 0, 56% 100%, 0 100%);
+      clip-path: polygon(
+        10% 0%,
+        0 100%,
+        10% 100%,
+        20% 0,
+
+        40% 0,
+        30% 100%,
+        40% 100%,
+        50% 0,
+
+        70% 0,
+        60% 100%,
+        70% 100%,
+        80% 0,
+
+        100% 0,
+        90% 100%,
+        100% 100%,
+        110% 0,
+
+        10% 0
+      );
+    }
+    .multiEmblem3 {
+      clip-path: polygon(
+        20% 0%,
+        10% 100%,
+        20% 100%,
+        30% 0,
+
+        50% 0,
+        40% 100%,
+        50% 100%,
+        60% 0,
+
+        80% 0,
+        70% 100%,
+        80% 100%,
+        90% 0,
+
+        5% 0
+      );
+    }
   }
 
   .emblemSecondarySpecial {

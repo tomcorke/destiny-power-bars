@@ -11,6 +11,8 @@ const titleCase = (text: string) =>
 
 type CharacterHeaderProps = {
   emblemBackgroundPath?: string;
+  multiEmblemBackgroundPaths?: string[];
+  useMultiEmblems?: boolean;
   className: string;
   title?: string;
   titleGildedCount?: number;
@@ -21,6 +23,8 @@ type CharacterHeaderProps = {
 
 export const CharacterHeader = ({
   emblemBackgroundPath,
+  multiEmblemBackgroundPaths,
+  useMultiEmblems,
   className,
   title,
   titleGildedCount,
@@ -29,13 +33,26 @@ export const CharacterHeader = ({
   summableArtifactBonusPower,
 }: CharacterHeaderProps) => (
   <div className={STYLES.CharacterHeader}>
-    <img
-      className={STYLES.emblemBackground}
-      src={`https://www.bungie.net${
-        emblemBackgroundPath || FALLBACK_EMBLEM_PATH
-      }`}
-      alt=""
-    />
+    {useMultiEmblems ? (
+      <div className={STYLES.multiEmblemWrapper}>
+        {multiEmblemBackgroundPaths?.map((path, index) => (
+          <img
+            key={index}
+            className={STYLES[`multiEmblem${index + 1}`]}
+            src={`https://www.bungie.net${path || FALLBACK_EMBLEM_PATH}`}
+            alt=""
+          />
+        ))}
+      </div>
+    ) : (
+      <img
+        className={STYLES.emblemBackground}
+        src={`https://www.bungie.net${
+          emblemBackgroundPath || FALLBACK_EMBLEM_PATH
+        }`}
+        alt=""
+      />
+    )}
     <div
       className={classnames(STYLES.name, {
         [STYLES.withTitle]: !!title,
