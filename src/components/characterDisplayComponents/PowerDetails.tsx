@@ -6,6 +6,7 @@ import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
 import STYLES from "./PowerDetails.module.scss";
 import { SettingsContext } from "../../contexts/SettingsContext";
+import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
 
 const ProgressBar = ({ value, max }: { value: number; max: number }) => {
   if (value === undefined || max === undefined) {
@@ -56,6 +57,8 @@ export const PowerDetails = ({
   const { accountPower } = characterData.global;
   const showAccountPower = settings.displayAccountWidePower;
 
+  const isAccountCharacter = characterId === ACCOUNT_WIDE_CHARACTER_ID;
+
   if (!artifactData || artifactData.bonusPower === 0) {
     return (
       <div className={STYLES.details}>
@@ -73,28 +76,7 @@ export const PowerDetails = ({
 
   return (
     <div className={STYLES.details}>
-      <div className={STYLES.detailsRow}>
-        <div className={STYLES.detailsLabel}>
-          {useUnrestrictedPower &&
-          unrestrictedOverallPower &&
-          unrestrictedOverallPower > overallPower
-            ? "Maximum gear power (with exotics)"
-            : "Maximum equippable gear power"}
-          :
-        </div>
-        <div className={STYLES.detailsValue}>
-          <Power withSymbol>{powerToDisplay}</Power>
-        </div>
-      </div>
-      <div className={STYLES.detailsRow}>
-        <InterPowerBar
-          value={averagePower}
-          extraValue={
-            useUnrestrictedPower ? unrestrictedAveragePower : undefined
-          }
-        />
-      </div>
-      {showAccountPower ? (
+      {isAccountCharacter ? (
         <>
           <div className={STYLES.detailsRow}>
             <div className={STYLES.detailsLabel}>Account-wide max power:</div>
@@ -106,7 +88,31 @@ export const PowerDetails = ({
             <InterPowerBar value={accountPower.averagePower} />
           </div>
         </>
-      ) : null}
+      ) : (
+        <>
+          <div className={STYLES.detailsRow}>
+            <div className={STYLES.detailsLabel}>
+              {useUnrestrictedPower &&
+              unrestrictedOverallPower &&
+              unrestrictedOverallPower > overallPower
+                ? "Maximum gear power (with exotics)"
+                : "Maximum equippable gear power"}
+              :
+            </div>
+            <div className={STYLES.detailsValue}>
+              <Power withSymbol>{powerToDisplay}</Power>
+            </div>
+          </div>
+          <div className={STYLES.detailsRow}>
+            <InterPowerBar
+              value={averagePower}
+              extraValue={
+                useUnrestrictedPower ? unrestrictedAveragePower : undefined
+              }
+            />
+          </div>
+        </>
+      )}
       {artifactData ? (
         <>
           <div className={STYLES.detailsRow}>
