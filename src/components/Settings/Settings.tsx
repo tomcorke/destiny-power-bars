@@ -117,7 +117,7 @@ export const Settings = () => {
             {createBooleanSetting(
               "displayOnlyAbovePowerVendorItems",
               "Display only above-power vendor items",
-              `When enabled, only display vendor items that are above the current power level of the character.`
+              `When enabled, only display vendor items that are above the current overall power level of the character. When disabled, vendor items above the current highest power per-slot will be shown, even when they are below your overall equippable power.`
             )}
 
             {/*
