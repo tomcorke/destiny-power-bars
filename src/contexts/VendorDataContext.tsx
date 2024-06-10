@@ -3,10 +3,15 @@ import React, {
   PropsWithChildren,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
-import { ACCOUNT_WIDE_CHARACTER_ID } from "../constants";
+import {
+  ACCOUNT_WIDE_CHARACTER_ID,
+  CHARACTER_DATA_REFRESH_TIMER,
+  VENDOR_DATA_REFRESH_TIMER,
+} from "../constants";
 import { getVendorData, VendorData } from "../services/vendor-data";
 import { EVENTS, useEvent } from "../services/events";
 
@@ -15,6 +20,7 @@ import { ManifestContext } from "./ManifestContext";
 import { MembershipContext } from "./MembershipContext";
 import { SettingsContext } from "./SettingsContext";
 import { CharacterDataContext } from "./CharacterDataContext";
+import { useInterval } from "usehooks-ts";
 
 type VendorDataState = {
   vendorData: { characterId: string; data: VendorData }[];
@@ -50,21 +56,23 @@ export const VendorDataContextProvider = ({
     []
   );
 
+  const [doneInitialFetch, setDoneInitialFetch] = useState(false);
+
   useEvent(EVENTS.FETCHING_VENDOR_DATA_CHANGE, (value: boolean) =>
     setIsFetchingVendorData(value)
   );
 
-  useEvent(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, (value: boolean) => {
-    if (
-      value === false &&
-      isAuthed &&
-      hasSelectedMembership &&
-      hasCharacters &&
-      !isFetchingVendorData
-    ) {
-      doGetVendorData();
-    }
-  });
+  // useEvent(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, (value: boolean) => {
+  //   if (
+  //     value === false &&
+  //     isAuthed &&
+  //     hasSelectedMembership &&
+  //     hasCharacters &&
+  //     !isFetchingVendorData
+  //   ) {
+  //     doGetVendorData();
+  //   }
+  // });
 
   const doGetVendorData = useCallback(() => {
     setIsFetchingVendorData(true);
@@ -91,12 +99,19 @@ export const VendorDataContextProvider = ({
     })();
   }, [characterIds, setIsFetchingVendorData]);
 
-  // useInterval(() => {
-  //   if (isAuthed && hasSelectedMembership && !isFetchingVendorData) {
-  //     console.log("Fetching vendor data");
-  //     doGetVendorData();
-  //   }
-  // }, CHARACTER_DATA_REFRESH_TIMER);
+  useInterval(() => {
+    if (isAuthed && hasSelectedMembership && !isFetchingVendorData) {
+      doGetVendorData();
+    }
+  }, VENDOR_DATA_REFRESH_TIMER);
+
+  useEffect(() => {
+    // Initial fetch when reasonable conditions are met
+    if (hasCharacters && !doneInitialFetch) {
+      setDoneInitialFetch(true);
+      doGetVendorData();
+    }
+  }, [doGetVendorData, hasCharacters, doneInitialFetch, setDoneInitialFetch]);
 
   return (
     <VendorDataContext.Provider value={{ vendorData, isFetchingVendorData }}>
