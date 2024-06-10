@@ -97,18 +97,26 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
     return null;
   }
 
+  let headerText: string;
+  if (settings.displayAccountWidePower) {
+    headerText = "Account power increases available from vendors:";
+  } else {
+    headerText = "Power increases available from vendors:";
+  }
+
   return (
     <div className={STYLES.VendorDisplay}>
-      <div className={STYLES.vendorHeader}>
-        Power increases available from vendors:
-      </div>
+      <div className={STYLES.vendorHeader}>{headerText}</div>
       {relevantVendors?.map((v) => {
         return (
           <div className={STYLES.vendorRow} key={v.vendorHash}>
             <div className={STYLES.icon}>
               <img src={`https://www.bungie.net${v.icon}`} alt="" />
             </div>
-            <div className={STYLES.name}>{v.name}</div>
+            <div className={STYLES.header}>
+              <div className={STYLES.name}>{v.name}</div>
+              <div className={STYLES.location}>{v.location}</div>
+            </div>
             <div className={STYLES.items}>
               {v.sales.map((sale) => {
                 return (

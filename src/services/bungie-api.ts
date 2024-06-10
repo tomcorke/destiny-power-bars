@@ -13,6 +13,8 @@ import {
 } from "bungie-api-ts/destiny2";
 import {
   DestinyComponentType,
+  DestinyDestinationDefinition,
+  DestinyLocationDefinition,
   DestinyVendorFilter,
 } from "bungie-api-ts/destiny2/interfaces";
 import { HttpClientConfig } from "bungie-api-ts/http";
@@ -96,12 +98,20 @@ export interface ManifestData {
   DestinyItemCategoryDefinition: {
     [key: string]: DestinyItemCategoryDefinition | undefined;
   };
+  DestinyDestinationDefinition: {
+    [key: string]: DestinyDestinationDefinition | undefined;
+  };
+  DestinyLocationDefinition: {
+    [key: string]: DestinyLocationDefinition | undefined;
+  };
 }
 const manifestPropertyList = [
   "DestinyInventoryItemDefinition",
   "DestinyVendorDefinition",
   "DestinyRecordDefinition",
   "DestinyItemCategoryDefinition",
+  "DestinyDestinationDefinition",
+  "DestinyLocationDefinition",
 ];
 
 let getCachedManifestDataPromise: Promise<ManifestData> | undefined;

@@ -105,9 +105,18 @@ export const getVendorData = async (
           singleVendorData.Response.itemComponents.instances.data || {}
         );
 
+        const vendorDestinationHash =
+          vendorDef?.locations[vendorData.vendorLocationIndex].destinationHash;
+        const destinationDef =
+          vendorDestinationHash &&
+          manifest.DestinyDestinationDefinition?.[vendorDestinationHash];
+        const destinationName =
+          destinationDef && destinationDef.displayProperties.name;
+
         const relevantVendorData = {
           vendorHash,
           name: vendorDef?.displayProperties.name,
+          location: destinationName,
           icon: vendorDef?.displayProperties.smallTransparentIcon,
           sales,
         };
