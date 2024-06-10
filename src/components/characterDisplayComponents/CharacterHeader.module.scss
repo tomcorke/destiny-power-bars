@@ -3,10 +3,13 @@
   font-weight: 600;
   width: 100%;
 
-  .emblemBackground {
+  .emblemWrapper {
     display: block;
-    max-width: 474px;
-    max-height: 96px;
+    width: 400px;
+    height: 81px;
+  }
+  .emblemImage {
+    display: block;
     width: 100%;
     height: auto;
   }

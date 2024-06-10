@@ -45,13 +45,15 @@ export const CharacterHeader = ({
         ))}
       </div>
     ) : (
-      <img
-        className={STYLES.emblemBackground}
-        src={`https://www.bungie.net${
-          emblemBackgroundPath || FALLBACK_EMBLEM_PATH
-        }`}
-        alt=""
-      />
+      <div className={STYLES.emblemWrapper}>
+        <img
+          className={STYLES.emblemImage}
+          src={`https://www.bungie.net${
+            emblemBackgroundPath || FALLBACK_EMBLEM_PATH
+          }`}
+          alt=""
+        />
+      </div>
     )}
     <div
       className={classnames(STYLES.name, {
