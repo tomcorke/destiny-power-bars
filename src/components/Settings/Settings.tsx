@@ -111,7 +111,7 @@ export const Settings = () => {
             {createBooleanSetting(
               "displayVendorItems",
               "Display vendor items",
-              `Display items available for purchase from vendors, including their power level.`
+              `Display items available for purchase from vendors, including their power level. When used in conjunction with "Display Account-Wide Power", items will only be shown when above the highest power level per-slot across all characters.`
             )}
 
             {createBooleanSetting(
