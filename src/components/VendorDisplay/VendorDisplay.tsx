@@ -31,9 +31,11 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
 
   const topItemsBySlot =
     characterData?.characters[characterId].topItems.topItemsBySlot;
+  const accountTopItemsBySlot = characterData?.global.accountPowerBySlot;
 
   const characterOverallPower =
     characterData?.characters[characterId].topItems.overallPower || 0;
+
   const accountOverallPower =
     characterData?.global.accountPower.overallPower || 0;
 
@@ -59,10 +61,11 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
         const hasRelevantPower = power >= 1900;
         const noFailures = sale.failureIndexes.length === 0;
 
-        const currentSlotPower =
-          slotName && topItemsBySlot
-            ? topItemsBySlot[slotName]?.power || 9999
-            : 9999;
+        const currentSlotPower = slotName
+          ? settings.displayAccountWidePower
+            ? accountTopItemsBySlot?.[slotName] || 9999
+            : topItemsBySlot?.[slotName]?.power || 9999
+          : 9999;
 
         const isSlotlessOrAboveCurrentSlotPower =
           slotName === undefined || powerFilter(power, currentSlotPower);
