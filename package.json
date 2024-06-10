@@ -40,7 +40,8 @@
     ]
   },
   "dependencies": {
-    "bungie-api-ts": "^4.21.0",
+    "@types/events": "^3.0.3",
+    "bungie-api-ts": "^5.1.0",
     "classnames": "^2.2.6",
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.2",

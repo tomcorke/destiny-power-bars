@@ -13,6 +13,8 @@ const settingsSchema = z.object({
   useDarkerCharacterBackground: z.boolean().default(false),
   displayAccountWidePower: z.boolean().default(true),
   displayOnlyAccountWidePower: z.boolean().default(false),
+  displayVendorItems: z.boolean().default(true),
+  displayOnlyAbovePowerVendorItems: z.boolean().default(false),
 });
 
 type Settings = z.infer<typeof settingsSchema>;

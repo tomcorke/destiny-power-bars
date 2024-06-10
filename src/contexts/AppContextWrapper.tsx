@@ -5,6 +5,7 @@ import { CharacterDataContextProvider } from "./CharacterDataContext";
 import { ManifestContextProvider } from "./ManifestContext";
 import { MembershipContextProvider } from "./MembershipContext";
 import { SettingsContextProvider } from "./SettingsContext";
+import { VendorDataContextProvider } from "./VendorDataContext";
 
 export const AppContextWrapper = ({ children }: PropsWithChildren<{}>) => (
   <SettingsContextProvider>
@@ -12,7 +13,7 @@ export const AppContextWrapper = ({ children }: PropsWithChildren<{}>) => (
       <ManifestContextProvider>
         <MembershipContextProvider>
           <CharacterDataContextProvider>
-            {children}
+            <VendorDataContextProvider>{children}</VendorDataContextProvider>
           </CharacterDataContextProvider>
         </MembershipContextProvider>
       </ManifestContextProvider>

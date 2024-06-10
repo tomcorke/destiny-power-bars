@@ -19,3 +19,14 @@ export const saveCharacterDisplayOrder = (characterOrder: string[]) => {
     JSON.stringify(characterOrder)
   );
 };
+
+export const shuffleInPlace = <T>(array: T[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    // Select random element up to current index
+    const j = Math.floor(Math.random() * (i + 1));
+    // Swap position of elements
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
+
+export const isNotNull = <T>(value: T | null): value is T => value !== null;

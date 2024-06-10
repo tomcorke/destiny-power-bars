@@ -8,8 +8,13 @@ import {
   setItemLockState as setItemLockStateApi,
   DestinyItemStateRequest,
   DestinyItemCategoryDefinition,
+  getVendors,
+  getVendor,
 } from "bungie-api-ts/destiny2";
-import { DestinyComponentType } from "bungie-api-ts/destiny2/interfaces";
+import {
+  DestinyComponentType,
+  DestinyVendorFilter,
+} from "bungie-api-ts/destiny2/interfaces";
 import { HttpClientConfig } from "bungie-api-ts/http";
 import { get, set, del } from "idb-keyval";
 
@@ -17,6 +22,7 @@ import { getAccessToken } from "./bungie-auth";
 import { BUNGIE_API_KEY } from "./config";
 import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
+import { shuffleInPlace } from "./utils";
 
 export class BungieSystemDisabledError extends Error {
   constructor() {
@@ -294,16 +300,7 @@ export const getBasicProfile = (
   });
 };
 
-const shuffleInPlace = <T>(array: T[]) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    // Select random element up to current index
-    const j = Math.floor(Math.random() * (i + 1));
-    // Swap position of elements
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
-
-export const getFullProfile = (
+export const getFullProfile = async (
   membershipType: number,
   membershipId: string
 ) => {
@@ -324,11 +321,12 @@ export const getFullProfile = (
   // so we get fresher data than CloudFlare's cache normally provides.
   shuffleInPlace(componentsList);
 
-  return getProfile(bungieAuthedFetch, {
+  const result = await getProfile(bungieAuthedFetch, {
     components: componentsList,
     destinyMembershipId: membershipId,
     membershipType,
   });
+  return result;
 };
 
 export const setItemLockState = (payload: DestinyItemStateRequest) => {

@@ -11,6 +11,7 @@ import { PowerHints } from "../characterDisplayComponents/PowerHints";
 
 import STYLES from "./CharacterDisplay.module.scss";
 import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
+import VendorDisplay from "../VendorDisplay";
 
 const BLACK_RGB = { red: 0, green: 0, blue: 0 };
 const FALLBACK_EMBLEM_RGB = { red: 0, green: 4, blue: 15 };
@@ -194,6 +195,7 @@ const CharacterDisplay = ({
             }
           />
         )}
+        <VendorDisplay characterId={characterId} />
       </div>
 
       <CharacterLinks

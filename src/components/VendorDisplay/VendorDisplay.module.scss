@@ -1,0 +1,55 @@
+.VendorDisplay {
+  color: white;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+
+  .vendorRow {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+
+    .icon {
+      max-width: 20px;
+      max-height: 20px;
+      margin-right: 5px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .name {
+    }
+
+    .items {
+      width: 100%;
+      display: flex;
+      flex-flow: column nowrap;
+      margin-top: 5px;
+
+      .item {
+        padding-left: 1em;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 5px;
+
+        .icon {
+        }
+
+        .power {
+        }
+
+        .name {
+        }
+      }
+    }
+  }
+}

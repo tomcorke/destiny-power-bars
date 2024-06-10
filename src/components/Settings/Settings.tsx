@@ -108,6 +108,18 @@ export const Settings = () => {
               `Show a single character card representing the power level achieved across all characters, now used for determining the power level of drops.`
             )}
 
+            {createBooleanSetting(
+              "displayVendorItems",
+              "Display vendor items",
+              `Display items available for purchase from vendors, including their power level.`
+            )}
+
+            {createBooleanSetting(
+              "displayOnlyAbovePowerVendorItems",
+              "Display only above-power vendor items",
+              `When enabled, only display vendor items that are above the current power level of the character.`
+            )}
+
             {/*
             <div className={STYLES.settingsRow}>
               <label>Display engrams</label>

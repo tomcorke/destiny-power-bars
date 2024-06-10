@@ -11,9 +11,32 @@
 }
 
 .spinner {
-  @include spinner(25px, 3s, false);
+  @include spinner(30px, 3s, false);
 }
 
 .spinnerSmall {
-  @include spinner(15px, 2s, true);
+  @include spinner(20px, 2s, true);
+}
+
+@keyframes flash {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spinnerTiny {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  animation: flash 3s ease-in-out infinite;
 }

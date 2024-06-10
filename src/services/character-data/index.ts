@@ -12,7 +12,6 @@ import eventEmitter, { EVENTS } from "../events";
 import { getManifest } from "./manifest";
 import { characterProcessors, globalProcessors } from "./processors";
 import { getProfileData, ProfileData } from "./profile";
-import character from "./processors/character";
 
 const getRequiredData = async () => {
   try {
@@ -94,6 +93,7 @@ const buildCharacterProcessorContext = (
     ].items.concat(globalContext.characterEquipments[characterId].items);
     const equippedCharacterItems =
       globalContext.characterEquipments[characterId].items;
+
     return {
       ...globalContext,
       global: globalProcessorData,
