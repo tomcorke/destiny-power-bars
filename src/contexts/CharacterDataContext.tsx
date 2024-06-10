@@ -1,4 +1,4 @@
-import useInterval from "@rooks/use-interval";
+import { useInterval } from "usehooks-ts";
 import throttle from "lodash/throttle";
 import React, {
   createContext,
