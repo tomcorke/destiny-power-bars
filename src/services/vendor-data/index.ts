@@ -1,7 +1,10 @@
 import {
+  DestinyComponentType,
   DestinyInventoryItemDefinition,
   DestinyItemInstanceComponent,
+  DestinyStringVariablesComponent,
   DestinyVendorSaleItemComponent,
+  getProfile,
   getVendor,
   getVendors,
 } from "bungie-api-ts/destiny2";
@@ -9,6 +12,7 @@ import { isNotNull, shuffleInPlace } from "../utils";
 import { bungieAuthedFetch, getManifest } from "../bungie-api";
 import { debug } from "../debug";
 import { ITEM_BUCKET_SLOTS } from "../../constants";
+import _ from "lodash";
 
 export const getVendorData = async (
   membershipType: number,
@@ -32,6 +36,31 @@ export const getVendorData = async (
     membershipType,
     // filter: 0, // DestinyVendorFilter.None
   });
+
+  let pendingStringVariables:
+    | ReturnType<typeof doGetStringVariables>
+    | undefined = undefined;
+
+  const doGetStringVariables = async () => {
+    const response = await getProfile(bungieAuthedFetch, {
+      components: [
+        1200, // DestinyComponentType.StringVariables
+      ],
+      destinyMembershipId: membershipId,
+      membershipType,
+    });
+    return {
+      characterStringVariables:
+        response.Response.characterStringVariables?.data,
+      profileStringVariables: response.Response.profileStringVariables?.data,
+    };
+  };
+  const getStringVariables = async () => {
+    if (!pendingStringVariables) {
+      pendingStringVariables = doGetStringVariables();
+    }
+    return pendingStringVariables;
+  };
 
   const singleVendorComponentsList = [
     402, // DestinyComponentType.VendorSales,
@@ -113,9 +142,49 @@ export const getVendorData = async (
         const destinationName =
           destinationDef && destinationDef.displayProperties.name;
 
+        let name = vendorDef?.displayProperties.name;
+
+        if (name && name.includes("{var:")) {
+          const stringVariables = await getStringVariables();
+          const variablePattern = /\{var:(\d+)\}/g;
+          const matches = Array.from(name.matchAll(variablePattern));
+          const originalName = name;
+          for (const match of matches) {
+            const characterVariableValue =
+              stringVariables?.characterStringVariables?.[characterId]
+                ?.integerValuesByHash?.[Number(match[1])];
+            const profileVariableValue =
+              stringVariables?.profileStringVariables?.integerValuesByHash?.[
+                Number(match[1])
+              ];
+            const variableValue =
+              characterVariableValue !== undefined
+                ? characterVariableValue
+                : profileVariableValue;
+            if (variableValue !== undefined) {
+              name = name?.replace(match[0], variableValue.toString());
+            }
+          }
+
+          // const csv = _.pickBy(
+          //   stringVariables?.characterStringVariables?.[characterId]
+          //     ?.integerValuesByHash,
+          //   (value, key) => originalName.includes(key)
+          // );
+          // const psv = _.pickBy(
+          //   stringVariables?.profileStringVariables?.integerValuesByHash,
+          //   (value, key) => originalName.includes(key)
+          // );
+          // console.log({
+          //   stringVariables: { csv, psv },
+          //   originalName,
+          //   name,
+          // });
+        }
+
         const relevantVendorData = {
           vendorHash,
-          name: vendorDef?.displayProperties.name,
+          name,
           location: destinationName,
           icon: vendorDef?.displayProperties.smallTransparentIcon,
           sales,
