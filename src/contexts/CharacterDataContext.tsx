@@ -121,7 +121,8 @@ export const CharacterDataContextProvider = ({
       setHasLoadedCachedCharacterData(true);
       getCachedCharacterData()
         .then((data) => {
-          if (data) {
+          // Add check which invalidates old cache data if it didn't have account power
+          if (data && data.global.accountPower) {
             setCharacterData(data);
           }
         })
