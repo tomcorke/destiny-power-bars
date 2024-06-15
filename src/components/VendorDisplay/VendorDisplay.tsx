@@ -50,7 +50,8 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
     }
   } else {
     if (settings.displayAccountWidePower) {
-      powerFilter = (power: number) => power > accountOverallPower;
+      powerFilter = (power: number, currentSlotPower: number) =>
+        power > currentSlotPower || power > accountOverallPower;
     } else {
       powerFilter = (power: number, currentSlotPower: number) =>
         power > currentSlotPower;
