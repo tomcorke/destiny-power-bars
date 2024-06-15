@@ -49,8 +49,12 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
         power > characterOverallPower && power > currentSlotPower;
     }
   } else {
-    powerFilter = (power: number, currentSlotPower: number) =>
-      power > currentSlotPower;
+    if (settings.displayAccountWidePower) {
+      powerFilter = (power: number) => power > accountOverallPower;
+    } else {
+      powerFilter = (power: number, currentSlotPower: number) =>
+        power > currentSlotPower;
+    }
   }
 
   const vendorsWithRelevantItems = vendors.map((v) => {
