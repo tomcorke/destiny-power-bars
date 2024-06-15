@@ -58,6 +58,9 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
     }
   }
 
+  const minCharacterSlotPower =
+    characterData?.characters[characterId].topItems.minPower || 0;
+
   const vendorsWithRelevantItems = vendors.map((v) => {
     const itemsWithPower = v.sales
       .map((sale) => {
@@ -74,7 +77,7 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
 
         const isSlotlessOrAboveCurrentSlotPower = powerFilter(
           power,
-          slotName === undefined ? 0 : currentSlotPower
+          slotName === undefined ? minCharacterSlotPower : currentSlotPower
         );
 
         if (
