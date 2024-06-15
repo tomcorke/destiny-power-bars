@@ -67,8 +67,10 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
             : topItemsBySlot?.[slotName]?.power || 9999
           : 9999;
 
-        const isSlotlessOrAboveCurrentSlotPower =
-          slotName === undefined || powerFilter(power, currentSlotPower);
+        const isSlotlessOrAboveCurrentSlotPower = powerFilter(
+          power,
+          slotName === undefined ? 0 : currentSlotPower
+        );
 
         if (
           hasRelevantPower &&
