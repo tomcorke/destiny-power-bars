@@ -198,12 +198,14 @@ const CharacterDisplay = ({
         <VendorDisplay characterId={characterId} />
       </div>
 
-      <CharacterLinks
-        membershipType={data.membershipType}
-        membershipId={data.membershipId}
-        characterId={data.characterId}
-        onImageExportClick={renderImage}
-      />
+      {isAccountCharacter ? null : (
+        <CharacterLinks
+          membershipType={data.membershipType}
+          membershipId={data.membershipId}
+          characterId={data.characterId}
+          onImageExportClick={renderImage}
+        />
+      )}
     </div>,
     elementRef,
     onDragStart,
