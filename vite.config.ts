@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import svgrPlugin from "vite-plugin-svgr";
 import viteTsconfigPaths from "vite-tsconfig-paths";
-import BuildInfo from "vite-plugin-info";
+import Info from "unplugin-info/vite";
 import basicSsl from "@vitejs/plugin-basic-ssl";
 
 // https://vitejs.dev/config/
@@ -11,7 +11,7 @@ export default defineConfig({
     react(),
     viteTsconfigPaths(),
     svgrPlugin(),
-    BuildInfo(),
+    Info(),
     basicSsl(),
   ],
   envDir: "./",

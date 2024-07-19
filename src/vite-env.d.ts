@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-svgr/client" />
 
-declare module "~build/info" {
+declare module "~build/git" {
   export const sha: string;
 }
 

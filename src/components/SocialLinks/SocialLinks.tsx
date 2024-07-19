@@ -1,8 +1,7 @@
 import React from "react";
 
-
-import { ReactComponent as GitHubLogo } from "../../images/icons/github.svg";
-import { ReactComponent as TwitterLogo } from "../../images/icons/twitter.svg";
+import GitHubLogo from "../../images/icons/github.svg?react";
+import TwitterLogo from "../../images/icons/twitter.svg?react";
 import Kofi from "../KoFi";
 
 import STYLES from "./SocialLinks.module.scss";

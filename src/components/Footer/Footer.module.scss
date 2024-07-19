@@ -31,6 +31,11 @@
   }
 
   @media (max-width: 500px) {
+    padding-top: 1em;
+    justify-content: center;
+    z-index: unset;
+    background: linear-gradient(to bottom, rgb(0, 0, 40), black);
+
     .copy {
       display: block;
     }
@@ -38,10 +43,5 @@
     &.relative {
       position: relative;
     }
-
-    padding-top: 1em;
-    justify-content: center;
-    z-index: unset;
-    background: linear-gradient(to bottom, rgb(0, 0, 40), black);
   }
 }

@@ -1,5 +1,5 @@
 import now from "~build/time";
-import { sha } from "~build/info";
+import { sha } from "~build/git";
 import React from "react";
 
 import STYLES from "./BuildStamp.module.scss";
