@@ -1,4 +1,5 @@
 import {
+  DestinyInventoryItemDefinition,
   DestinyItemPlugObjectivesComponent,
   DestinyItemSocketsComponent,
 } from "bungie-api-ts/destiny2";
@@ -17,10 +18,19 @@ const DEEPSIGHT_RESONANCE_PLUG_HASH = 213377779;
   CraftingRecipesEmptySocket = 3618704867,
 */
 
-export const itemIsCrafted = (
+export const ITEM_CRAFTED_OR_ENHANCED_STATE = {
+  NONE: 0,
+  CRAFTED: 1,
+  ENHANCED: 2,
+} as const;
+type ItemCraftedOrEnhancedState =
+  (typeof ITEM_CRAFTED_OR_ENHANCED_STATE)[keyof typeof ITEM_CRAFTED_OR_ENHANCED_STATE];
+
+export const getItemCraftedOrEnhancedState = (
   manifest: ManifestData,
+  itemDefinition: DestinyInventoryItemDefinition,
   sockets?: DestinyItemSocketsComponent
-) => {
+): ItemCraftedOrEnhancedState => {
   const craftingSocket = sockets?.sockets?.find((s) => {
     if (!s.plugHash) {
       return null;
@@ -35,10 +45,15 @@ export const itemIsCrafted = (
   });
 
   if (craftingSocket) {
-    return craftingSocket.isEnabled;
+    if (craftingSocket.isEnabled) {
+      if (itemDefinition.inventory?.recipeItemHash !== undefined) {
+        return ITEM_CRAFTED_OR_ENHANCED_STATE.CRAFTED;
+      }
+      return ITEM_CRAFTED_OR_ENHANCED_STATE.ENHANCED;
+    }
   }
 
-  return false;
+  return ITEM_CRAFTED_OR_ENHANCED_STATE.NONE;
 };
 
 export const itemHasDeepsightResonance = (

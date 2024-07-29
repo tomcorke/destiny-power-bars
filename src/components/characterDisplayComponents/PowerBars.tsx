@@ -120,6 +120,7 @@ export const PowerBars = ({
               iconWatermark={bestItem.watermark}
               isMasterworked={bestItem.isMasterwork}
               isCrafted={bestItem.isCrafted}
+              isEnhanced={bestItem.isEnhanced}
               hasDeepsightResonance={bestItem.hasDeepsightResonance}
               itemName={bestItem.name}
               itemType={bestItem.itemType}

@@ -10,7 +10,11 @@ import {
 import { ITEM_BUCKET_SLOTS, LOST_ITEMS_BUCKET } from "../../constants";
 import { ManifestData } from "../bungie-api";
 
-import { itemHasDeepsightResonance, itemIsCrafted } from "./crafting";
+import {
+  getItemCraftedOrEnhancedState,
+  ITEM_CRAFTED_OR_ENHANCED_STATE,
+  itemHasDeepsightResonance,
+} from "./crafting";
 import { nonNullable } from "./filtering";
 import { itemIsMasterwork } from "./masterwork";
 
@@ -60,7 +64,16 @@ export const joinItemData = (
     itemDefinition.iconWatermark ||
     undefined;
 
-  const isCrafted = itemIsCrafted(manifest, itemSockets);
+  const ItemCraftedOrEnhancedState = getItemCraftedOrEnhancedState(
+    manifest,
+    itemDefinition,
+    itemSockets
+  );
+
+  const isCrafted =
+    ItemCraftedOrEnhancedState === ITEM_CRAFTED_OR_ENHANCED_STATE.CRAFTED;
+  const isEnhanced =
+    ItemCraftedOrEnhancedState === ITEM_CRAFTED_OR_ENHANCED_STATE.ENHANCED;
 
   const isMasterwork = itemIsMasterwork(
     manifest,
@@ -92,6 +105,16 @@ export const joinItemData = (
       itemCategories?.[0]?.displayProperties.name) ||
     itemDefinition.itemTypeDisplayName;
 
+  if (["6917530031580698460", "6917530029564354331"].includes(itemInstanceId)) {
+    console.log({
+      name,
+      itemInstance,
+      itemDefinition,
+      itemSockets,
+      itemPlugObjectives,
+    });
+  }
+
   return {
     itemInstanceId: itemInstanceId,
     slotName,
@@ -100,6 +123,7 @@ export const joinItemData = (
     icon,
     watermark,
     isCrafted,
+    isEnhanced,
     isMasterwork,
     hasDeepsightResonance,
     classType: itemDefinition.classType,

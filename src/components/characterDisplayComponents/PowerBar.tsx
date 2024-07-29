@@ -15,6 +15,7 @@ interface BarProps {
   iconWatermark?: string;
   isMasterworked?: boolean;
   isCrafted?: boolean;
+  isEnhanced?: boolean;
   hasDeepsightResonance?: boolean;
   itemName?: string;
   itemType?: string;
@@ -53,6 +54,7 @@ export const PowerBar = ({
   iconWatermark,
   isMasterworked,
   isCrafted,
+  isEnhanced,
   hasDeepsightResonance,
   itemName,
   itemType,
@@ -121,6 +123,7 @@ export const PowerBar = ({
           <div className={STYLES.masterworkOverlay} />
         ) : null}
         {icon && isCrafted ? <div className={STYLES.craftedOverlay} /> : null}
+        {icon && isEnhanced ? <div className={STYLES.enhancedOverlay} /> : null}
         {icon && hasDeepsightResonance ? (
           <div className={STYLES.deepsightOverlay} />
         ) : null}
