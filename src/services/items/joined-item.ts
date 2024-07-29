@@ -105,16 +105,6 @@ export const joinItemData = (
       itemCategories?.[0]?.displayProperties.name) ||
     itemDefinition.itemTypeDisplayName;
 
-  if (["6917530031580698460", "6917530029564354331"].includes(itemInstanceId)) {
-    console.log({
-      name,
-      itemInstance,
-      itemDefinition,
-      itemSockets,
-      itemPlugObjectives,
-    });
-  }
-
   return {
     itemInstanceId: itemInstanceId,
     slotName,
