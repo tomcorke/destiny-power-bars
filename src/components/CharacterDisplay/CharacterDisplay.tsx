@@ -186,7 +186,7 @@ const CharacterDisplay = ({
           characterId={characterId}
           useUnrestrictedPower={useUnrestrictedPower}
         />
-        {isAccountCharacter ? null : (
+        {/*isAccountCharacter ? null : (
           <PowerHints
             characterId={characterId}
             useUnrestrictedPower={useUnrestrictedPower}
@@ -194,7 +194,7 @@ const CharacterDisplay = ({
               setUseUnrestrictedPower(newValue)
             }
           />
-        )}
+        )*/}
         <VendorDisplay characterId={characterId} />
       </div>
 
