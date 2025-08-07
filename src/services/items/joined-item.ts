@@ -46,7 +46,7 @@ export const joinItemData = (
 
   // Use primary stat for power level, or itemLevel if it is redacted
   const power =
-    itemInstance.primaryStat?.value ||
+    itemInstance?.primaryStat?.value ||
     (itemDefinition.redacted
       ? itemInstance.itemLevel * 10 + itemInstance.quality
       : undefined);
@@ -146,6 +146,9 @@ export const mapJoinedItems = (
       const itemInstance = itemInstances[item.itemInstanceId];
       const thisItemSockets = itemSockets[item.itemInstanceId];
       const thisItemPlugObjectives = itemPlugObjectives[item.itemInstanceId];
+
+      if(!itemInstance) { return undefined; }
+
       return joinItemData(
         item,
         manifest,

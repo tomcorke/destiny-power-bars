@@ -13,7 +13,8 @@
     "storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider start-storybook",
     "vite:dev": "vite --https --port 3000 --strictPort --open",
     "vite:build": "vite build",
-    "vite:preview": "vite preview"
+    "vite:preview": "vite preview",
+    "start": "npm run vite:dev"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
