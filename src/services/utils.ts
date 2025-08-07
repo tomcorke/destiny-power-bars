@@ -25,7 +25,7 @@ export const shuffleInPlace = <T>(array: T[]) => {
     // Select random element up to current index
     const j = Math.floor(Math.random() * (i + 1));
     // Swap position of elements
-    [array[i], array[j]] = [array[j], array[i]];
+    [array[i], array[j]] = [array[j]!, array[i]!];
   }
 };
 

@@ -7,6 +7,6 @@ export default createCharacterDataProcessor(({ character }) => {
     className:
       character.characterId === ACCOUNT_WIDE_CHARACTER_ID
         ? "Account"
-        : CLASS_NAMES[character.classType],
+        : CLASS_NAMES[character.classType]!,
   };
 });

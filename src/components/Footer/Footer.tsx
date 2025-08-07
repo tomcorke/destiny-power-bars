@@ -14,7 +14,7 @@ const Footer = ({ withMobilePadding = false }: FooterProps) => {
   return (
     <div
       className={classnames(STYLES.footer, {
-        [STYLES.relative]: withMobilePadding,
+        [STYLES.relative!]: withMobilePadding,
       })}
     >
       <div className={STYLES.copy}>Destiny Power Bars &copy; Tom Corke.</div>

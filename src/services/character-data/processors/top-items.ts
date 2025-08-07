@@ -90,10 +90,10 @@ const findBestUniqueEquippableCombination = (
       // For each other exotic, find the best non-exotic alternative
       // for the same slot and add it to the current combination
       otherItems.forEach((otherItem) => {
-        const nonExotics = itemsBySlot[otherItem.slotName].filter(
+        const nonExotics = itemsBySlot[otherItem.slotName]?.filter(
           (i) => !i.equipLabel || i.equipLabel !== item.equipLabel
         );
-        if (nonExotics.length > 0) {
+        if (nonExotics && nonExotics.length > 0) {
           combination[otherItem.slotName] = maxBy(nonExotics, (i) => i.score)!;
         } else {
           // No non-exotic options for this slot, so whole combination is invalid
@@ -164,11 +164,11 @@ export default createCharacterDataProcessor((context) => {
     });
 
   const equippedItemInstanceIds =
-    "equippedCharacterItems" in context
+    ("equippedCharacterItems" in context
       ? context.equippedCharacterItems
-          .map((item) => item.itemInstanceId)
+          ?.map((item) => item.itemInstanceId)
           .filter(nonNullable)
-      : [];
+      : []) || [];
 
   const itemsWithScore = items.map((item) => ({
     ...item,
@@ -222,7 +222,7 @@ export default createCharacterDataProcessor((context) => {
     Object.keys(potentialPowerBySlot).forEach((slot) => {
       potentialPowerBySlot[slot] = Math.max(
         ITEM_POWER_SOFT_CAP,
-        Math.max(tempPower, potentialPowerBySlot[slot]),
+        Math.max(tempPower, potentialPowerBySlot[slot] || 0),
         global.accountPower.overallPower
       );
     });

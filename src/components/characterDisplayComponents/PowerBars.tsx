@@ -15,7 +15,7 @@ const classItemNames: { [key: string]: string } = {
 };
 const slotFullNames = (className: string): { [key: string]: string } => ({
   chest: "Chest Armor",
-  classItem: classItemNames[className],
+  classItem: classItemNames[className]!,
   energy: "Energy Weapon",
   gloves: "Gauntlets",
   head: "Helmet",
@@ -114,7 +114,8 @@ export const PowerBars = ({
               value={power}
               avgValue={overallPower}
               label={
-                slotFullNames(thisCharacterData.className)[slotName] || slotName
+                slotFullNames(thisCharacterData.className!)[slotName] ||
+                slotName
               }
               icon={bestItem.icon}
               iconWatermark={bestItem.watermark}

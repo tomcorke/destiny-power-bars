@@ -12,7 +12,7 @@ export const ForceRefresh = () => {
   return (
     <button
       className={classNames(STYLES.hardRefreshButton, {
-        [STYLES.disabled]: isFetchingCharacterData,
+        [STYLES.disabled!]: isFetchingCharacterData,
       })}
       onClick={forceRefresh}
     >

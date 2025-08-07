@@ -57,7 +57,7 @@ export const CharacterHeader = ({
     )}
     <div
       className={classnames(STYLES.name, {
-        [STYLES.withTitle]: !!title,
+        [STYLES.withTitle!]: !!title,
       })}
     >
       {titleCase(className)}
@@ -65,7 +65,7 @@ export const CharacterHeader = ({
     {title && (
       <div
         className={classnames(STYLES.title, {
-          [STYLES.gilded]: titleGildedCount && titleGildedCount > 0,
+          [STYLES.gilded!]: titleGildedCount && titleGildedCount > 0,
         })}
       >
         {title}
@@ -78,7 +78,7 @@ export const CharacterHeader = ({
     )}
     <div
       className={classnames(STYLES.power, {
-        [STYLES.hasRedacted]: !!hasRedactedEquippableItems,
+        [STYLES.hasRedacted!]: !!hasRedactedEquippableItems,
       })}
     >
       {roundedPower + summableArtifactBonusPower}

@@ -27,8 +27,8 @@ export const LazyImage = ({
         src={highResImage}
         alt={alt}
         className={classnames({
-          [STYLES.hidden]: !highResImageLoaded,
-          [STYLES.overlay]: !highResImageLoaded,
+          [STYLES.hidden!]: !highResImageLoaded,
+          [STYLES.overlay!]: !highResImageLoaded,
         })}
         onLoad={onHighResImageLoad}
       />
@@ -36,8 +36,8 @@ export const LazyImage = ({
         src={lowResImage}
         alt={alt}
         className={classnames({
-          [STYLES.hidden]: highResImageLoaded,
-          [STYLES.overlay]: highResImageLoaded,
+          [STYLES.hidden!]: highResImageLoaded,
+          [STYLES.overlay!]: highResImageLoaded,
         })}
       />
     </div>

@@ -135,7 +135,7 @@ export const getVendorData = async (
         );
 
         const vendorDestinationHash =
-          vendorDef?.locations[vendorData.vendorLocationIndex].destinationHash;
+          vendorDef?.locations[vendorData.vendorLocationIndex]?.destinationHash;
         const destinationDef =
           vendorDestinationHash &&
           manifest.DestinyDestinationDefinition?.[vendorDestinationHash];

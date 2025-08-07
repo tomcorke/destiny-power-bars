@@ -21,7 +21,7 @@ export const itemIsMasterwork = (
   manifest: ManifestData,
   item: DestinyItemComponent,
   itemDefinition: DestinyInventoryItemDefinition,
-  sockets: DestinyItemSocketsComponent
+  sockets?: DestinyItemSocketsComponent
 ) => {
   // tslint:disable-next-line:no-bitwise
   if (item.state && item.state & ITEM_STATE_MASTERWORK) {

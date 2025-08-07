@@ -87,12 +87,12 @@ const buildCharacterProcessorContext = (
   characterId: string | typeof ACCOUNT_WIDE_CHARACTER_ID
 ) => {
   if (characterId !== ACCOUNT_WIDE_CHARACTER_ID) {
-    const character = globalContext.characters[characterId];
+    const character = globalContext.characters[characterId]!;
     const characterItems = globalContext.characterInventories[
       characterId
-    ].items.concat(globalContext.characterEquipments[characterId].items);
+    ]?.items.concat(globalContext.characterEquipments[characterId]?.items || []) || [];
     const equippedCharacterItems =
-      globalContext.characterEquipments[characterId].items;
+      globalContext.characterEquipments[characterId]?.items || [];
 
     return {
       ...globalContext,
@@ -108,7 +108,7 @@ const buildCharacterProcessorContext = (
       global: globalProcessorData,
       characterId,
       character: {
-        ...globalContext.characters[Object.keys(globalContext.characters)[0]],
+        ...globalContext.characters[Object.keys(globalContext.characters)[0]!]!,
         characterId: ACCOUNT_WIDE_CHARACTER_ID,
       },
       characterItems: [],
@@ -180,7 +180,7 @@ export const bustProfileCache = async (
     state: isLocked,
     itemId: item.itemInstanceId,
     characterId: character?.characterId,
-    membershipType: character?.membershipType,
+    membershipType: character?.membershipType!,
   };
 
   eventEmitter.emit(EVENTS.FETCHING_CHARACTER_DATA_CHANGE, true);

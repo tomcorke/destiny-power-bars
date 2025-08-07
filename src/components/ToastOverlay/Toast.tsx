@@ -26,7 +26,7 @@ export const Toast = ({ children, onDelete }: ToastProps) => {
 
   return (
     <div
-      className={classNames(STYLES.Toast, { [STYLES.hidden]: !isVisible })}
+      className={classNames(STYLES.Toast, { [STYLES.hidden!]: !isVisible })}
       onClick={deleteAfterSmallDelay}
     >
       {children}

@@ -117,8 +117,8 @@ export const PowerHints = ({
               <span className={STYLES.engramName}>{engram.name}</span>
               <span
                 className={classnames(STYLES.engramPower, {
-                  [STYLES.highEngramPower]: engram.power > overallPower,
-                  [STYLES.lowEngramPower]: engram.power <= minPower,
+                  [STYLES.highEngramPower!]: engram.power > overallPower,
+                  [STYLES.lowEngramPower!]: engram.power <= minPower,
                 })}
               >
                 {engram.power}

@@ -179,7 +179,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     manifest.jsonWorldComponentContentPaths.en;
   const manifestDataArray = await Promise.all(
     manifestPropertyList.map((prop) =>
-      fetchWithCacheBustFallback(`https://www.bungie.net${manifestUrls[prop]}`)
+      fetchWithCacheBustFallback(`https://www.bungie.net${manifestUrls![prop]}`)
     )
   );
   const manifestData: ManifestData = manifestPropertyList.reduce(

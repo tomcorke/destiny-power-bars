@@ -22,8 +22,8 @@ export const joinItemData = (
   rawItem: DestinyItemComponent & { characterId?: string },
   manifest: ManifestData,
   itemInstance: DestinyItemInstanceComponent,
-  itemSockets: DestinyItemSocketsComponent,
-  itemPlugObjectives: DestinyItemPlugObjectivesComponent
+  itemSockets?: DestinyItemSocketsComponent,
+  itemPlugObjectives?: DestinyItemPlugObjectivesComponent
 ) => {
   const itemDefinition =
     manifest.DestinyInventoryItemDefinition[rawItem.itemHash];
@@ -46,7 +46,7 @@ export const joinItemData = (
 
   // Use primary stat for power level, or itemLevel if it is redacted
   const power =
-    itemInstance?.primaryStat?.value ||
+    itemInstance.primaryStat?.value ||
     (itemDefinition.redacted
       ? itemInstance.itemLevel * 10 + itemInstance.quality
       : undefined);

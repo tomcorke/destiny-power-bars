@@ -127,16 +127,20 @@ const MembershipSelect = () => {
       .filter((m) => !isCrossSaveSecondary(m)) // Hide cross-save secondary memberships
       .filter((m) => m.membershipType !== 4); // Hide Blizzard memberships
 
+  const firstMembership = filteredMemberships[0];
+  if (!firstMembership) {
+    return null;
+  }
+
   const displayAsBungie =
-    filteredMemberships.length === 1 &&
-    isBungieMembership(filteredMemberships[0]);
+    filteredMemberships.length === 1 && isBungieMembership(firstMembership);
 
   if (displayAsBungie) {
     // Override membership type to 254 to force display as bungie
     // and remove cross save because it's not important any more!
     filteredMemberships = [
       {
-        ...filteredMemberships[0],
+        ...firstMembership,
         overrideMembershipType: 254,
         applicableMembershipTypes: [],
       },
@@ -157,8 +161,8 @@ const MembershipSelect = () => {
                 }`
               ], // Use overridden membership type if available
               {
-                [STYLES.crossSaveActive]: isCrossSavePrimary(m),
-                [STYLES.crossSaveDisabled]: isCrossSaveSecondary(m),
+                [STYLES.crossSaveActive!]: isCrossSavePrimary(m),
+                [STYLES.crossSaveDisabled!]: isCrossSaveSecondary(m),
               }
             )}
             onClick={() => selectMembership(m)}

@@ -50,7 +50,9 @@ export const CharacterLinks = ({
 
   return (
     <div
-      className={classnames(STYLES.characterLinks, { [STYLES.hide]: isHidden })}
+      className={classnames(STYLES.characterLinks, {
+        [STYLES.hide!]: isHidden,
+      })}
     >
       <div className={STYLES.content}>
         <ul>

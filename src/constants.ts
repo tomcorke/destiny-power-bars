@@ -70,7 +70,7 @@ export const BUNGIE_COLOUR_SOLAR = "ef621d";
 export const BUNGIE_COLOUR_ARC = "7abce9";
 export const BUNGIE_COLOUR_VOID = "b085df";
 
-const season = D2SeasonInfo[D2CalculatedSeason];
+const season = D2SeasonInfo[D2CalculatedSeason] || {powerFloor: 0, softCap: 1, powerfulCap: 2, pinnacleCap: 3};
 
 export const ITEM_POWER_FLOOR = season.powerFloor;
 export const ITEM_POWER_SOFT_CAP = season.softCap;

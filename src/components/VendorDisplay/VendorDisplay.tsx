@@ -30,11 +30,11 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
   }
 
   const topItemsBySlot =
-    characterData?.characters[characterId].topItems.topItemsBySlot;
+    characterData?.characters[characterId]?.topItems.topItemsBySlot;
   const accountTopItemsBySlot = characterData?.global.accountPowerBySlot;
 
   const characterOverallPower =
-    characterData?.characters[characterId].topItems.overallPower || 0;
+    characterData?.characters[characterId]?.topItems.overallPower || 0;
 
   const accountOverallPower =
     characterData?.global.accountPower.overallPower || 0;
@@ -59,7 +59,7 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
   }
 
   const minCharacterSlotPower =
-    characterData?.characters[characterId].topItems.minPower || 0;
+    characterData?.characters[characterId]?.topItems.minPower || 0;
 
   const vendorsWithRelevantItems = vendors.map((v) => {
     const itemsWithPower = v.sales

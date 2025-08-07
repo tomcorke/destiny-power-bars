@@ -22,7 +22,7 @@ export const Power = ({
 }: PowerProps) => (
   <span
     className={classNames(STYLES.inlinePowerNumber, {
-      [STYLES.symbol]: withSymbol,
+      [STYLES.symbol!]: withSymbol,
     })}
   >
     <span>{withSign ? numberWithSign(value) : value}</span>

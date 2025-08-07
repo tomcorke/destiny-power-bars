@@ -14,7 +14,8 @@
     "vite:dev": "vite --https --port 3000 --strictPort --open",
     "vite:build": "vite build",
     "vite:preview": "vite preview",
-    "start": "npm run vite:dev"
+    "start": "npm run vite:dev",
+    "typecheck": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

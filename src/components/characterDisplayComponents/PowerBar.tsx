@@ -83,8 +83,8 @@ export const PowerBar = ({
     <span className={STYLES.label}>
       <span
         className={classnames(STYLES.power, {
-          [STYLES.max]: value >= max,
-          [STYLES.belowAverage]: value < avgValue,
+          [STYLES.max!]: value >= max,
+          [STYLES.belowAverage!]: value < avgValue,
         })}
       >
         {value}

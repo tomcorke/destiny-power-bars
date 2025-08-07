@@ -80,7 +80,7 @@ const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
   debug("autoSelectMembership");
   // If there is only one membership, select it automatically
   if (destinyMemberships.length === 1) {
-    setSelectedDestinyMembership(destinyMemberships[0]);
+    setSelectedDestinyMembership(destinyMemberships[0]!);
     return destinyMemberships[0];
   }
 
@@ -94,7 +94,7 @@ const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
     crossSavePrimaryMemberships.length === 1 &&
     nonCrossSaveMemberships.length === 0
   ) {
-    setSelectedDestinyMembership(crossSavePrimaryMemberships[0]);
+    setSelectedDestinyMembership(crossSavePrimaryMemberships[0]!);
     return crossSavePrimaryMemberships[0];
   }
 };

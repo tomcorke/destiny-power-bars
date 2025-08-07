@@ -62,9 +62,9 @@ export const CharacterDisplayBodyWrapper = (
   return (
     <div
       className={classnames(STYLES.characterDisplayWrapper, {
-        [STYLES.dragging]: isDragging,
-        [STYLES.dragOver]: isDraggingOver > 0,
-        [STYLES.hidden]: isHidden,
+        [STYLES.dragging!]: isDragging,
+        [STYLES.dragOver!]: isDraggingOver > 0,
+        [STYLES.hidden!]: isHidden,
       })}
       style={{ backgroundColor }}
       onDragStart={() => {
@@ -162,7 +162,7 @@ const CharacterDisplay = ({
     rgbString(backgroundColour),
     <div
       className={classnames(STYLES.characterDisplay, {
-        [STYLES.darkerBackground]: settings.useDarkerCharacterBackground,
+        [STYLES.darkerBackground!]: settings.useDarkerCharacterBackground,
       })}
     >
       <CharacterHeader

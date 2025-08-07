@@ -30,7 +30,7 @@ export const AppWrapper = ({
 }) => {
   return (
     <div className={STYLES.App}>
-      <div className={classnames(STYLES.AppInner, { [STYLES.top]: top })}>
+      <div className={classnames(STYLES.AppInner, { [STYLES.top!]: top })}>
         {children}
       </div>
 
