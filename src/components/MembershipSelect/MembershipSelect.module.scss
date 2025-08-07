@@ -70,9 +70,20 @@
     background-color: #1d2c40;
     background: linear-gradient(270deg, #1d2c40 0, #29435a);
 
-    font-family: "Destiny Keys", "Noto Sans", -apple-system, BlinkMacSystemFont,
-      "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-      "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family:
+      "Destiny Keys",
+      "Noto Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      "Roboto",
+      "Oxygen",
+      "Ubuntu",
+      "Cantarell",
+      "Fira Sans",
+      "Droid Sans",
+      "Helvetica Neue",
+      sans-serif;
 
     @include icon-before(
       "https://www.bungie.net/7/ca/bungie/icons/logos/steam/icon.png"
@@ -116,6 +127,18 @@
 
     @media (max-width: 500px) {
       margin-bottom: 5px;
+    }
+  }
+
+  &.selected {
+    &::after {
+      content: "";
+      position: absolute;
+      left: 20%;
+      bottom: -10px;
+      height: 2px;
+      width: 60%;
+      background-color: rgba(white, 0.8);
     }
   }
 }

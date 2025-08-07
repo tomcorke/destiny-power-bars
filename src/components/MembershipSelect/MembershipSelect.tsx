@@ -13,6 +13,7 @@ const PLATFORMS: { [key: number]: string } = {
   3: "steam",
   4: "blizzard",
   5: "stadia",
+  6: "epic",
   7: "epic",
   254: "bungie",
 };
@@ -111,7 +112,7 @@ type UserInfoCardWithOverrideMembership = UserInfoCard & {
 
 const MembershipSelect = () => {
   const { isAuthed } = useContext(AuthenticationContext);
-  const { destinyMemberships, selectMembership } =
+  const { destinyMemberships, selectMembership, membershipId, membershipType } =
     useContext(MembershipContext);
 
   if (!isAuthed) {
@@ -163,6 +164,9 @@ const MembershipSelect = () => {
               {
                 [STYLES.crossSaveActive!]: isCrossSavePrimary(m),
                 [STYLES.crossSaveDisabled!]: isCrossSaveSecondary(m),
+                [STYLES.selected!]:
+                  m.membershipId === membershipId &&
+                  m.membershipType === membershipType,
               }
             )}
             onClick={() => selectMembership(m)}

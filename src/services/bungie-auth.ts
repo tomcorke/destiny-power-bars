@@ -289,6 +289,9 @@ export const getSelectedDestinyMembership = () => {
   const destinyMembershipString = localStorage.getItem(
     DESTINY_MEMBERSHIP_STORAGE_KEY
   );
+
+  debug({ destinyMembershipString });
+
   try {
     if (destinyMembershipString) {
       return JSON.parse(destinyMembershipString) as UserInfoCard;
@@ -296,11 +299,16 @@ export const getSelectedDestinyMembership = () => {
     const memberships = getStoredDestinyMemberships();
     if (memberships) {
       const autoSelectedMembership = autoSelectDestinyMembership(memberships);
-      return autoSelectedMembership;
+      debug({ memberships, autoSelectedMembership });
+      if (autoSelectedMembership) {
+        return autoSelectedMembership;
+      }
     }
   } catch (e: any) {
     console.error("Error loading destiny membership", e.message);
   }
+
+  debug({ return: undefined });
   return undefined;
 };
 

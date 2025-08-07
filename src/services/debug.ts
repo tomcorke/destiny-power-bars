@@ -3,7 +3,7 @@ if (import.meta.env.NODE_ENV === "development") {
 }
 
 export const debug = (...messages: any[]) => {
-  if (import.meta.env.NODE_ENV === "development") {
+  if (import.meta.env.DEV) {
     console.debug(...messages);
   }
 };

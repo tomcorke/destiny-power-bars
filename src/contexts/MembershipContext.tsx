@@ -11,9 +11,11 @@ import React, {
 import {
   getSelectedDestinyMembership,
   getStoredDestinyMemberships,
+  setSelectedDestinyMembership,
 } from "../services/bungie-auth";
 
 import { AuthenticationContext } from "./AuthenticationContext";
+import { CharacterDataContext } from "./CharacterDataContext";
 
 type MembershipState = (
   | {
@@ -43,6 +45,7 @@ export const MembershipContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
   const { isAuthed } = useContext(AuthenticationContext);
+  const { forceRefresh } = useContext(CharacterDataContext);
 
   const [destinyMemberships, setDestinyMemberships] = useState(
     getStoredDestinyMemberships()
@@ -66,6 +69,13 @@ export const MembershipContextProvider = ({
     () => setSelectedMembership(getSelectedDestinyMembership()),
     [hasDestinyMemberships]
   );
+
+  useEffect(() => {
+    if (selectedMembership) {
+      setSelectedDestinyMembership(selectedMembership);
+      forceRefresh();
+    }
+  }, [selectedMembership]);
 
   const membershipContextData = !!selectedMembership
     ? {
