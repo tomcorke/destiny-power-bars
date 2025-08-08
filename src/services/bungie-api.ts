@@ -18,7 +18,7 @@ import {
   DestinyVendorFilter,
 } from "bungie-api-ts/destiny2/interfaces";
 import { HttpClientConfig } from "bungie-api-ts/http";
-import { get, set, del } from "idb-keyval";
+import { get, set, del, keys } from "idb-keyval";
 
 import { getAccessToken } from "./bungie-auth";
 import { BUNGIE_API_KEY } from "./config";
@@ -114,14 +114,26 @@ const manifestPropertyList = [
   "DestinyLocationDefinition",
 ];
 
-let getCachedManifestDataPromise: Promise<ManifestData> | undefined;
+let getCachedManifestDataPromise: Promise<ManifestData | undefined> | undefined;
 const getCachedManifestData = async () => {
   if (!getCachedManifestDataPromise) {
     getCachedManifestDataPromise = (async () => {
       debug("Loading manifest data from IDB");
-      const manifestData = await get(MANIFEST_IDB_KEY);
+      // Load each property from IDB
+      // If any are missing we will need to re-fetch the manifest
+      const manifestData: ManifestData = {} as ManifestData;
+      for (const prop of manifestPropertyList) {
+        const data = await get(`${MANIFEST_IDB_KEY}_${prop}`);
+        if (data) {
+          manifestData[prop] = data;
+        } else {
+          debug(`Manifest property ${prop} not found in IDB`);
+          return undefined; // If any property is missing, return undefined
+        }
+      }
+
       debug("Finished loading manifest data from IDB");
-      return manifestData as ManifestData;
+      return manifestData;
     })();
   }
   return getCachedManifestDataPromise;
@@ -187,15 +199,31 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
     {} as any
   );
   eventEmitter.emit(EVENTS.STORE_MANIFEST_DATA);
-  await set(MANIFEST_IDB_KEY, manifestData);
+
+  // For each prop in manifestData, store as a separate value in IDB
+  const storePromises = manifestPropertyList.map(async (prop) => {
+    debug(`Storing manifest data for ${prop} in IDB`);
+    set(`${MANIFEST_IDB_KEY}_${prop}`, manifestData[prop]);
+  });
+  await Promise.all(storePromises);
+
   localStorage.setItem(MANIFEST_VERSION_KEY, `${version}-${language}`);
+
   return manifestData;
 };
 
 export const clearStoredManifest = async () => {
   // Remove stored data
   localStorage.removeItem(MANIFEST_VERSION_KEY);
-  await del(MANIFEST_IDB_KEY);
+  const keyList = await keys();
+  // Remove all keys that start with MANIFEST_IDB_KEY
+  const manifestKeys = keyList.filter(
+    (key) =>
+      key.toString().startsWith(MANIFEST_IDB_KEY) || key === MANIFEST_IDB_KEY
+  );
+  for (const key of manifestKeys) {
+    await del(key);
+  }
   // Clear cached manifest promise so it can re-fetch
   getManifestPromise = undefined;
   // Trigger re-fetch by emitting error
