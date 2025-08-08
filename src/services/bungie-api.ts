@@ -8,17 +8,18 @@ import {
   setItemLockState as setItemLockStateApi,
   DestinyItemStateRequest,
   DestinyItemCategoryDefinition,
-  getVendors,
-  getVendor,
 } from "bungie-api-ts/destiny2";
 import {
-  DestinyComponentType,
   DestinyDestinationDefinition,
   DestinyLocationDefinition,
-  DestinyVendorFilter,
 } from "bungie-api-ts/destiny2/interfaces";
 import { HttpClientConfig } from "bungie-api-ts/http";
-import { get, set, del, keys } from "idb-keyval";
+import {
+  get as idbGet,
+  set as idbSet,
+  del as idbDel,
+  keys as idbKeys,
+} from "idb-keyval";
 
 import { getAccessToken } from "./bungie-auth";
 import { BUNGIE_API_KEY } from "./config";
@@ -123,7 +124,7 @@ const getCachedManifestData = async () => {
       // If any are missing we will need to re-fetch the manifest
       const manifestData: ManifestData = {} as ManifestData;
       for (const prop of manifestPropertyList) {
-        const data = await get(`${MANIFEST_IDB_KEY}_${prop}`);
+        const data = await idbGet(`${MANIFEST_IDB_KEY}_${prop}`);
         if (data) {
           manifestData[prop] = data;
         } else {
@@ -203,7 +204,7 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
   // For each prop in manifestData, store as a separate value in IDB
   const storePromises = manifestPropertyList.map(async (prop) => {
     debug(`Storing manifest data for ${prop} in IDB`);
-    set(`${MANIFEST_IDB_KEY}_${prop}`, manifestData[prop]);
+    idbSet(`${MANIFEST_IDB_KEY}_${prop}`, manifestData[prop]);
   });
   await Promise.all(storePromises);
 
@@ -215,14 +216,14 @@ const getRemoteManifestData = async (manifest: DestinyManifest) => {
 export const clearStoredManifest = async () => {
   // Remove stored data
   localStorage.removeItem(MANIFEST_VERSION_KEY);
-  const keyList = await keys();
+  const keyList = await idbKeys();
   // Remove all keys that start with MANIFEST_IDB_KEY
   const manifestKeys = keyList.filter(
     (key) =>
       key.toString().startsWith(MANIFEST_IDB_KEY) || key === MANIFEST_IDB_KEY
   );
   for (const key of manifestKeys) {
-    await del(key);
+    await idbDel(key);
   }
   // Clear cached manifest promise so it can re-fetch
   getManifestPromise = undefined;
