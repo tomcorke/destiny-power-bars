@@ -120,6 +120,12 @@ export const Settings = () => {
               `When enabled, only display vendor items that are above the current overall power level of the character. When disabled, vendor items above the current highest power per-slot will be shown, even when they are below your overall equippable power.`
             )}
 
+            {createBooleanSetting(
+              "hideMembershipSelector",
+              "Hide membership selector",
+              `Hide the membership selector from the interface. Useful for streamlined viewing when you only have one character or don't need to switch between memberships.`
+            )}
+
             {/*
             <div className={STYLES.settingsRow}>
               <label>Display engrams</label>

@@ -15,6 +15,7 @@ const settingsSchema = z.object({
   displayOnlyAccountWidePower: z.boolean().default(false),
   displayVendorItems: z.boolean().default(true),
   displayOnlyAbovePowerVendorItems: z.boolean().default(false),
+  hideMembershipSelector: z.boolean().default(false),
 });
 
 type Settings = z.infer<typeof settingsSchema>;

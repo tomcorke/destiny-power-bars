@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { AppContextWrapper } from "../../contexts/AppContextWrapper";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 import CombinedHeader from "../CombinedHeader";
 import FetchSpinner from "../FetchSpinner";
 import Footer from "../Footer";
@@ -44,6 +45,7 @@ const AppContent = () => {
     AuthenticationContext
   );
   const { characterData } = useContext(CharacterDataContext);
+  const { settings } = useContext(SettingsContext);
 
   if (isAuthed && characterData) {
     return (
@@ -75,7 +77,7 @@ const AppContent = () => {
   return (
     <>
       <AppWrapper>
-        <MembershipSelect />
+        {!settings.hideMembershipSelector && <MembershipSelect />}
         <LoadingChecklist />
         <LoadingSpinner />
       </AppWrapper>
