@@ -19,6 +19,6 @@ export type DeepPartial<T> = Partial<{
   [Key in keyof T]: T[Key] extends Array<infer U>
     ? Array<DeepPartial<U>>
     : T[Key] extends object | null | undefined
-    ? DeepPartial<T[Key]>
-    : T[Key];
+      ? DeepPartial<T[Key]>
+      : T[Key];
 }>;

@@ -59,9 +59,8 @@ export const AuthenticationContext = createContext<AuthenticationState>({
 export const AuthenticationContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
-  const [disableManualLogin, setDisableManualLogin] = useState(
-    hasManuallyAuthed()
-  );
+  const [disableManualLogin, setDisableManualLogin] =
+    useState(hasManuallyAuthed());
   const [isAuthed, setIsAuthed] = useState(hasValidAuth());
   const [hasAuthError, setAuthError] = useState(false);
 

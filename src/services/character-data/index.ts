@@ -39,7 +39,7 @@ const getRequiredData = async () => {
 };
 
 const mergeItems = <
-  T extends { [key: string]: { items: DestinyItemComponent[] } }
+  T extends { [key: string]: { items: DestinyItemComponent[] } },
 >(
   characterItemMap: T
 ) => {
@@ -74,11 +74,11 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   : never;
 
 type GlobalProcessorData = UnionToIntersection<
-  ReturnType<typeof globalProcessors[number]>["data"]
+  ReturnType<(typeof globalProcessors)[number]>["data"]
 >;
 
 type CharacterProcessorData = UnionToIntersection<
-  ReturnType<typeof characterProcessors[number]>["data"]
+  ReturnType<(typeof characterProcessors)[number]>["data"]
 >;
 
 const buildCharacterProcessorContext = (
@@ -88,9 +88,10 @@ const buildCharacterProcessorContext = (
 ) => {
   if (characterId !== ACCOUNT_WIDE_CHARACTER_ID) {
     const character = globalContext.characters[characterId]!;
-    const characterItems = globalContext.characterInventories[
-      characterId
-    ]?.items.concat(globalContext.characterEquipments[characterId]?.items || []) || [];
+    const characterItems =
+      globalContext.characterInventories[characterId]?.items.concat(
+        globalContext.characterEquipments[characterId]?.items || []
+      ) || [];
     const equippedCharacterItems =
       globalContext.characterEquipments[characterId]?.items || [];
 

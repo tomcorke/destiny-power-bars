@@ -147,7 +147,9 @@ export const mapJoinedItems = (
       const thisItemSockets = itemSockets[item.itemInstanceId];
       const thisItemPlugObjectives = itemPlugObjectives[item.itemInstanceId];
 
-      if(!itemInstance) { return undefined; }
+      if (!itemInstance) {
+        return undefined;
+      }
 
       return joinItemData(
         item,

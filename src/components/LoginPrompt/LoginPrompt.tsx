@@ -5,7 +5,6 @@ import ExampleTitanCharacterDisplayImage from "../../images/screenshots/example-
 import { manualStartAuth } from "../../services/bungie-auth";
 import { LazyImage } from "../LazyImage";
 
-
 import STYLES from "./LoginPrompt.module.scss";
 
 interface LoginPromptProps {

@@ -10,9 +10,9 @@ A client-only React + Vite app that signs in to Bungie, reads a Destiny 2 profil
 
 ## Verification
 
-`npm run typecheck` and `npm run eslint` are the gates. Both pass on `master`; keep them passing. There is no test suite.
+`npm run typecheck`, `npm run eslint`, and `npm run prettier` are the gates. All pass on `master`; keep them passing. There is no test suite.
 
-- Prettier reports existing files as unformatted because older code predates Prettier 3 defaults (no trailing commas in params). Format only the lines you change, so diffs stay focused. Run `npx prettier --write <file>` on new files only.
+- The Husky pre-commit hook runs Prettier and ESLint on staged files through lint-staged, then a full typecheck. Fix what it reports and commit again; keep hooks enabled.
 - ESLint caps size and complexity (cognitive complexity, function and file length, parameters, nesting). When code hits a limit, extract a function, a helper in the relevant `services/` module, or a sub-component in its own file. Files over the limits are listed in `eslint.config.mjs` at warning severity; shrink that list over time and keep new files off it. Shared complex inputs go in one object parameter rather than many positional ones.
 - Import order is enforced by `import/order` in `eslint.config.mjs`; `npm run eslint:fix` sorts it.
 

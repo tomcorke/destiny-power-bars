@@ -34,14 +34,14 @@ export const createCharacterDataProcessor = <T extends {}>(
 };
 
 export const itemHasDefinition = <
-  T extends { definition?: DestinyInventoryItemDefinition }
+  T extends { definition?: DestinyInventoryItemDefinition },
 >(
   item: T
 ): item is T & { definition: DestinyInventoryItemDefinition } =>
   item.definition !== undefined;
 
 export const itemHasInstanceData = <
-  T extends { instanceData?: DestinyItemInstanceComponent }
+  T extends { instanceData?: DestinyItemInstanceComponent },
 >(
   item: T
 ): item is T & { instanceData: DestinyItemInstanceComponent } =>

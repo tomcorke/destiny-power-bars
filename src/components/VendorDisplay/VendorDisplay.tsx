@@ -1,4 +1,3 @@
-
 import { DestinyItemInstanceComponent } from "bungie-api-ts/destiny2";
 import React, { useContext } from "react";
 

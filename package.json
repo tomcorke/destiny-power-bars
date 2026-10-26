@@ -15,19 +15,17 @@
     "vite:build": "vite build",
     "vite:preview": "vite preview",
     "start": "npm run vite:dev",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{js,css,json,md}": [
+    "*.{js,mjs,css,scss,json,md}": [
       "prettier --write"
     ]
-  },
-  "husky": {
-    "hooks": {}
   },
   "browserslist": {
     "production": [

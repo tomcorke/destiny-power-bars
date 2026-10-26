@@ -15,7 +15,6 @@ import { bungieAuthedFetch, getManifest } from "../bungie-api";
 import { debug } from "../debug";
 import { isNotNull, shuffleInPlace } from "../utils";
 
-
 export const getVendorData = async (
   membershipType: number,
   membershipId: string,
