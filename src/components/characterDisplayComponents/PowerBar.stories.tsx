@@ -7,7 +7,7 @@ const story = {
 };
 export default story;
 
-const Container = ({ children }: { children: JSX.Element }) => (
+const Container = ({ children }: { children: React.JSX.Element }) => (
   <div
     style={{
       width: "100%",

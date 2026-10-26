@@ -49,7 +49,7 @@ const useRenderElementImage = (className: string) => {
 
 export const CharacterDisplayBodyWrapper = (
   backgroundColor: string,
-  children: JSX.Element,
+  children: React.JSX.Element,
   {
     ref,
     onDragStart,

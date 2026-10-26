@@ -12,7 +12,7 @@ import { PowerHints } from "./PowerHints";
 const story = {
   title: "Power Hints",
   decorators: [
-    (storyFn: () => JSX.Element) =>
+    (storyFn: () => React.JSX.Element) =>
       CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn()),
   ],
 };

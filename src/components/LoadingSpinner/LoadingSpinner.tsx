@@ -33,7 +33,7 @@ const LoadingSpinner = () => {
   const { hasSelectedMembership } = useContext(MembershipContext);
   const { characterData } = useContext(CharacterDataContext);
 
-  let status: string | JSX.Element = "";
+  let status: string | React.JSX.Element = "";
   if (isBungieSystemDisabled) {
     status = (
       <span>

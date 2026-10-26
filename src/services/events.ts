@@ -45,7 +45,7 @@ function useEvent<T extends any>(
   handler: EventHandler<T>,
   deps: any[] = []
 ) {
-  const savedHandler = useRef<EventHandler<T>>();
+  const savedHandler = useRef<EventHandler<T> | undefined>(undefined);
 
   useEffect(() => {
     savedHandler.current = handler;
