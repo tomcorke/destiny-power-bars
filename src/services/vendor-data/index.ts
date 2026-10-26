@@ -8,11 +8,13 @@ import {
   getVendor,
   getVendors,
 } from "bungie-api-ts/destiny2";
-import { isNotNull, shuffleInPlace } from "../utils";
+import _ from "lodash";
+
+import { ITEM_BUCKET_SLOTS } from "../../constants";
 import { bungieAuthedFetch, getManifest } from "../bungie-api";
 import { debug } from "../debug";
-import { ITEM_BUCKET_SLOTS } from "../../constants";
-import _ from "lodash";
+import { isNotNull, shuffleInPlace } from "../utils";
+
 
 export const getVendorData = async (
   membershipType: number,

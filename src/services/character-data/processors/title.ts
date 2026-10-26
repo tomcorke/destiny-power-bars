@@ -1,4 +1,5 @@
 import { ACCOUNT_WIDE_CHARACTER_ID } from "../../../constants";
+
 import { createCharacterDataProcessor } from "./helpers";
 
 export default createCharacterDataProcessor(

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import { VendorDataContext } from "../../contexts/VendorDataContext";
 
 import STYLES from "./FetchSpinner.module.scss";
-import { VendorDataContext } from "../../contexts/VendorDataContext";
 
 const FetchSpinner = () => {
   const { isFetchingCharacterData } = useContext(CharacterDataContext);

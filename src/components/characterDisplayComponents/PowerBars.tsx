@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 
 import { ITEM_POWER_POWERFUL_CAP, ORDERED_ITEM_SLOTS } from "../../constants";
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 import { PowerBySlot } from "../../types";
 
 import { PowerBar } from "./PowerBar";
 import STYLES from "./PowerBars.module.scss";
-import { SettingsContext } from "../../contexts/SettingsContext";
 
 const classItemNames: { [key: string]: string } = {
   hunter: "Hunter Cloak",

@@ -10,11 +10,10 @@ A client-only React + Vite app that signs in to Bungie, reads a Destiny 2 profil
 
 ## Verification
 
-`npm run typecheck` is the gate. It passes on `master`; keep it passing. There is no test suite.
+`npm run typecheck` and `npm run eslint` are the gates. Both pass on `master`; keep them passing. There is no test suite.
 
-- `npm run eslint` currently fails: `.eslintrc.json` is a legacy config and ESLint 9 expects flat config. Leave it unless the task is to fix linting.
 - Prettier reports existing files as unformatted because older code predates Prettier 3 defaults (no trailing commas in params). Format only the lines you change, so diffs stay focused. Run `npx prettier --write <file>` on new files only.
-- Import order follows the `import/order` rule in `.eslintrc.json`: alphabetised groups, packages before relative imports, a blank line between groups, SCSS module import last.
+- Import order is enforced by `import/order` in `eslint.config.mjs`; `npm run eslint:fix` sorts it.
 
 ## Code conventions
 

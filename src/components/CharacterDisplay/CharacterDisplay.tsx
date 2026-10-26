@@ -1,6 +1,7 @@
 import classnames from "classnames";
 import React, { useContext, useRef, useState } from "react";
 
+import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import CharacterHeader from "../characterDisplayComponents/CharacterHeader";
@@ -8,10 +9,9 @@ import { CharacterLinks } from "../characterDisplayComponents/CharacterLinks";
 import { PowerBars } from "../characterDisplayComponents/PowerBars";
 import { PowerDetails } from "../characterDisplayComponents/PowerDetails";
 import { PowerHints } from "../characterDisplayComponents/PowerHints";
+import VendorDisplay from "../VendorDisplay";
 
 import STYLES from "./CharacterDisplay.module.scss";
-import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
-import VendorDisplay from "../VendorDisplay";
 
 const BLACK_RGB = { red: 0, green: 0, blue: 0 };
 const FALLBACK_EMBLEM_RGB = { red: 0, green: 4, blue: 15 };

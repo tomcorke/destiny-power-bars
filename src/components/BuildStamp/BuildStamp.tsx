@@ -1,8 +1,9 @@
-import now from "~build/time";
-import { sha } from "~build/git";
 import React from "react";
 
 import STYLES from "./BuildStamp.module.scss";
+
+import { sha } from "~build/git";
+import now from "~build/time";
 const buildTimestamp = new Date(now).toLocaleString("en-GB", {
   timeZone: "UTC",
 });

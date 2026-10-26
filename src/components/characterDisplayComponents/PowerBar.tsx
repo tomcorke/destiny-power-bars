@@ -2,8 +2,9 @@ import { ItemLocation } from "bungie-api-ts/destiny2";
 import classnames from "classnames";
 import React, { useContext } from "react";
 
-import STYLES from "./PowerBar.module.scss";
 import { SettingsContext } from "../../contexts/SettingsContext";
+
+import STYLES from "./PowerBar.module.scss";
 
 interface BarProps {
   min: number;

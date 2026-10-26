@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 
+import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 import { InterPowerBar } from "./InterPowerBar";
 import { Power } from "./Power";
 import STYLES from "./PowerDetails.module.scss";
-import { SettingsContext } from "../../contexts/SettingsContext";
-import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
 
 const ProgressBar = ({ value, max }: { value: number; max: number }) => {
   if (value === undefined || max === undefined) {

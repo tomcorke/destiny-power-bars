@@ -1,13 +1,15 @@
+
+import { DestinyItemInstanceComponent } from "bungie-api-ts/destiny2";
 import React, { useContext } from "react";
 
-import STYLES from "./VendorDisplay.module.scss";
-import { VendorDataContext } from "../../contexts/VendorDataContext";
 import { ACCOUNT_WIDE_CHARACTER_ID } from "../../constants";
-import { DestinyItemInstanceComponent } from "bungie-api-ts/destiny2";
-import { isNotNull } from "../../services/utils";
-import { Power } from "../characterDisplayComponents/Power";
 import { CharacterDataContext } from "../../contexts/CharacterDataContext";
 import { SettingsContext } from "../../contexts/SettingsContext";
+import { VendorDataContext } from "../../contexts/VendorDataContext";
+import { isNotNull } from "../../services/utils";
+import { Power } from "../characterDisplayComponents/Power";
+
+import STYLES from "./VendorDisplay.module.scss";
 
 type VendorDisplayProps = {
   characterId: string;

@@ -6,21 +6,21 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { useInterval } from "usehooks-ts";
 
 import {
   ACCOUNT_WIDE_CHARACTER_ID,
   CHARACTER_DATA_REFRESH_TIMER,
   VENDOR_DATA_REFRESH_TIMER,
 } from "../constants";
-import { getVendorData, VendorData } from "../services/vendor-data";
 import { EVENTS, useEvent } from "../services/events";
+import { getVendorData, VendorData } from "../services/vendor-data";
 
 import { AuthenticationContext } from "./AuthenticationContext";
+import { CharacterDataContext } from "./CharacterDataContext";
 import { ManifestContext } from "./ManifestContext";
 import { MembershipContext } from "./MembershipContext";
 import { SettingsContext } from "./SettingsContext";
-import { CharacterDataContext } from "./CharacterDataContext";
-import { useInterval } from "usehooks-ts";
 
 type VendorDataState = {
   vendorData: { characterId: string; data: VendorData }[];

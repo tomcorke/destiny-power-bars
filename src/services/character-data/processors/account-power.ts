@@ -2,9 +2,10 @@ import groupBy from "lodash/groupBy";
 import mapValues from "lodash/mapValues";
 import maxBy from "lodash/maxBy";
 import sumBy from "lodash/sumBy";
+
+import { ITEM_SLOT_BUCKETS } from "../../../constants";
 import { hasPower, hasSlotName } from "../../items/filtering";
 import { JoinedItemDefinition, mapJoinedItems } from "../../items/joined-item";
-import { ITEM_SLOT_BUCKETS } from "../../../constants";
 import { getItemScore } from "../../items/scoring";
 
 import { createGlobalDataProcessor } from "./helpers";

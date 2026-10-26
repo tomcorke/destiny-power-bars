@@ -1,4 +1,3 @@
-import { useInterval } from "usehooks-ts";
 import throttle from "lodash/throttle";
 import React, {
   createContext,
@@ -9,6 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useInterval } from "usehooks-ts";
 
 import { CHARACTER_DATA_REFRESH_TIMER } from "../constants";
 import { BungieSystemDisabledError } from "../services/bungie-api";
