@@ -6,7 +6,7 @@ import { useTimeout } from "../hooks/useTimeout";
 import STYLES from "./Toast.module.scss";
 
 type ToastProps = {
-  children: React.ReactChild;
+  children: React.ReactElement | string | number;
   onDelete: () => void;
 };
 

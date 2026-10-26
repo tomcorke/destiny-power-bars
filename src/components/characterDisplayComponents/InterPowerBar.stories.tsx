@@ -12,13 +12,13 @@ import { InterPowerBar } from "./InterPowerBar";
 const story = {
   title: "Inter-Power Bar Display",
   decorators: [
-    (storyFn: () => JSX.Element) =>
+    (storyFn: () => React.JSX.Element) =>
       CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn()),
   ],
 };
 export default story;
 
-const withMaxSize = (size: number, element: JSX.Element) => (
+const withMaxSize = (size: number, element: React.JSX.Element) => (
   <div
     style={{
       width: "100%",

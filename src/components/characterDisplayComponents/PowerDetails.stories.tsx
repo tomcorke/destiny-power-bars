@@ -7,7 +7,7 @@ import { PowerDetails } from "./PowerDetails";
 const story = {
   title: "Power Details",
   decorators: [
-    (storyFn: () => JSX.Element) =>
+    (storyFn: () => React.JSX.Element) =>
       CharacterDisplayBodyWrapper("rgb(7, 5, 43)", storyFn()),
   ],
 };

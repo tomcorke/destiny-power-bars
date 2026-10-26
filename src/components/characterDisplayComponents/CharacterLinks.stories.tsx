@@ -7,7 +7,7 @@ import { CharacterLinks } from "./CharacterLinks";
 const story = {
   title: "Character Links",
   decorators: [
-    (storyFn: () => JSX.Element) =>
+    (storyFn: () => React.JSX.Element) =>
       CharacterDisplayBodyWrapper(
         "rgb(7, 5, 43)",
         <>

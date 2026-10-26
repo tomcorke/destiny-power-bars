@@ -7,7 +7,7 @@ import { CharacterHeader } from "./CharacterHeader";
 const story = {
   title: "Character Header",
   decorators: [
-    (storyFn: () => JSX.Element) =>
+    (storyFn: () => React.JSX.Element) =>
       CharacterDisplayBodyWrapper("rgb(7, 5, 43)", <>{storyFn()}</>),
   ],
 };

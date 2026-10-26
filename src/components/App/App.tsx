@@ -25,7 +25,7 @@ export const AppWrapper = ({
   children,
   top = false,
 }: {
-  children: JSX.Element | (JSX.Element | null)[];
+  children: React.JSX.Element | (React.JSX.Element | null)[];
   top?: boolean;
 }) => {
   return (
