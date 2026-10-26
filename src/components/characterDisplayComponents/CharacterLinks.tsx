@@ -71,10 +71,6 @@ export const CharacterLinks = ({
             `https://www.d2checklist.com/${membershipType}/${membershipId}/milestones`,
             { text: "D2 Checklist", tags: ["d2checklist"] }
           )}
-          {link(`https://guardianstats.com/profile/${membershipId}`, {
-            text: "Guardianstats",
-            tags: ["guardianstats"],
-          })}
           {link(
             `https://raid.report/${RAID_AND_DUNGEON_REPORT_PLATFORMS[membershipType]}/${membershipId}`,
             { text: "Raid Report", tags: ["raidreport"] }
