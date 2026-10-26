@@ -13,7 +13,6 @@ import {
   DestinyDestinationDefinition,
   DestinyLocationDefinition,
 } from "bungie-api-ts/destiny2/interfaces";
-import { HttpClientConfig } from "bungie-api-ts/http";
 import {
   get as idbGet,
   set as idbSet,
@@ -21,67 +20,12 @@ import {
   keys as idbKeys,
 } from "idb-keyval";
 
-import { getAccessToken } from "./bungie-auth";
-import { BUNGIE_API_KEY } from "./config";
+import { BungieSystemDisabledError, bungieAuthedFetch } from "./bungie-fetch";
 import { debug } from "./debug";
 import eventEmitter, { EVENTS } from "./events";
 import { shuffleInPlace } from "./utils";
 
-export class BungieSystemDisabledError extends Error {
-  constructor() {
-    super("Bungie API disabled");
-  }
-}
-
-export const bungieAuthedFetch = async (config: HttpClientConfig) => {
-  const accessToken = getAccessToken();
-  const headers: { [key: string]: string } = {
-    "x-api-key": BUNGIE_API_KEY,
-  };
-
-  if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
-  }
-
-  const url = `${config.url}${
-    config.params
-      ? "?" +
-        Object.entries(config.params).map(
-          ([key, value]) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`
-        )
-      : ""
-  }`;
-
-  const requestConfig: RequestInit = {
-    method: config.method,
-    headers,
-    credentials: "include" as const,
-  };
-
-  if (config.body) {
-    requestConfig.body = JSON.stringify(config.body);
-  }
-
-  const response = await fetch(url, requestConfig);
-  if (response.status !== 200) {
-    if (response.status === 401) {
-      eventEmitter.emit(EVENTS.UNAUTHED_FETCH_ERROR);
-    }
-    if (response.status === 503) {
-      try {
-        const messageData = await response.json();
-        if (messageData && messageData.ErrorStatus === "SystemDisabled") {
-          throw new BungieSystemDisabledError();
-        }
-      } catch (e) {
-        /* Do nothing if unrecognised or un-parseable 503 */
-      }
-    }
-    throw Error(response.status.toString());
-  }
-  return await response.json();
-};
+export { BungieSystemDisabledError, bungieAuthedFetch };
 
 const MANIFEST_VERSION_KEY = "MANIFEST_VERSION";
 const MANIFEST_IDB_KEY = "MANIFEST_DATA";

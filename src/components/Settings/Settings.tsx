@@ -5,12 +5,73 @@ import { SettingsContext } from "../../contexts/SettingsContext";
 
 import STYLES from "./Settings.module.scss";
 
+type SettingKey = keyof React.ContextType<typeof SettingsContext>["settings"];
+
+const BOOLEAN_SETTINGS: {
+  key: SettingKey;
+  label: string;
+  description: string;
+}[] = [
+  {
+    key: "itemLockingEnabled",
+    label: "Enable automatic item locking",
+    description: `Automatically locks items with the highest power per-character, to prevent accidental dismantling!
+                Will not lock items more than once (list of previously locked items stored per browser).`,
+  },
+  {
+    key: "useMultipleExotics",
+    label: "Display multiple exotics per character",
+    description: `Display multiple exotic weapons or armour items per character, even though they cannot both be equipped. The game will use them
+                to calculate your power level for drops, but this option allows you to choose to see your highest "real" equippable power by disabling it.`,
+  },
+  {
+    key: "displayEngrams",
+    label: "Display engrams",
+    description: `Display engrams held by your characters, or in your postbox.`,
+  },
+  {
+    key: "displayEngramsOnlyWhenRelevant",
+    label: "Display engrams only when relevant",
+    description: `When enabled, engrams will not be displayed unless at least one engram is above your minumum item power level for the character.`,
+  },
+  {
+    key: "displayLegendaryCampaignHints",
+    label: "Display legendary campaign hints",
+    description: `Display hint for characters below the power level offered by completion of the legendary campaign.`,
+  },
+  {
+    key: "useDarkerCharacterBackground",
+    label: "Use darker character background",
+    description: `Use a darker background for character cards, instead of the default emblem background colour.`,
+  },
+  {
+    key: "displayAccountWidePower",
+    label: "Display Account-Wide Power",
+    description: `Show power level achieved across all characters, now used for determining the power level of drops.`,
+  },
+  {
+    key: "displayOnlyAccountWidePower",
+    label: "Display only Account-Wide Power",
+    description: `Show a single character card representing the power level achieved across all characters, now used for determining the power level of drops.`,
+  },
+  {
+    key: "displayVendorItems",
+    label: "Display vendor items",
+    description: `Display items available for purchase from vendors, including their power level. When used in conjunction with "Display Account-Wide Power", items will only be shown when above the highest power level per-slot across all characters.`,
+  },
+  {
+    key: "displayOnlyAbovePowerVendorItems",
+    label: "Display only above-power vendor items",
+    description: `When enabled, only display vendor items that are above the current overall power level of the character. When disabled, vendor items above the current highest power per-slot will be shown, even when they are below your overall equippable power.`,
+  },
+];
+
 export const Settings = () => {
   const [showSettings, setShowSettings] = useState(false);
   const { settings, setSetting } = useContext(SettingsContext);
 
   const createBooleanSetting = (
-    key: keyof typeof settings,
+    key: SettingKey,
     label?: string,
     description?: string
   ) => {
@@ -58,119 +119,9 @@ export const Settings = () => {
               </div>
             </div>
 
-            {createBooleanSetting(
-              "itemLockingEnabled",
-              "Enable automatic item locking",
-              `Automatically locks items with the highest power per-character, to prevent accidental dismantling!
-                Will not lock items more than once (list of previously locked items stored per browser).`
+            {BOOLEAN_SETTINGS.map(({ key, label, description }) =>
+              createBooleanSetting(key, label, description)
             )}
-
-            {createBooleanSetting(
-              "useMultipleExotics",
-              "Display multiple exotics per character",
-              `Display multiple exotic weapons or armour items per character, even though they cannot both be equipped. The game will use them
-                to calculate your power level for drops, but this option allows you to choose to see your highest "real" equippable power by disabling it.`
-            )}
-
-            {createBooleanSetting(
-              "displayEngrams",
-              "Display engrams",
-              `Display engrams held by your characters, or in your postbox.`
-            )}
-
-            {createBooleanSetting(
-              "displayEngramsOnlyWhenRelevant",
-              "Display engrams only when relevant",
-              `When enabled, engrams will not be displayed unless at least one engram is above your minumum item power level for the character.`
-            )}
-
-            {createBooleanSetting(
-              "displayLegendaryCampaignHints",
-              "Display legendary campaign hints",
-              `Display hint for characters below the power level offered by completion of the legendary campaign.`
-            )}
-
-            {createBooleanSetting(
-              "useDarkerCharacterBackground",
-              "Use darker character background",
-              `Use a darker background for character cards, instead of the default emblem background colour.`
-            )}
-
-            {createBooleanSetting(
-              "displayAccountWidePower",
-              "Display Account-Wide Power",
-              `Show power level achieved across all characters, now used for determining the power level of drops.`
-            )}
-
-            {createBooleanSetting(
-              "displayOnlyAccountWidePower",
-              "Display only Account-Wide Power",
-              `Show a single character card representing the power level achieved across all characters, now used for determining the power level of drops.`
-            )}
-
-            {createBooleanSetting(
-              "displayVendorItems",
-              "Display vendor items",
-              `Display items available for purchase from vendors, including their power level. When used in conjunction with "Display Account-Wide Power", items will only be shown when above the highest power level per-slot across all characters.`
-            )}
-
-            {createBooleanSetting(
-              "displayOnlyAbovePowerVendorItems",
-              "Display only above-power vendor items",
-              `When enabled, only display vendor items that are above the current overall power level of the character. When disabled, vendor items above the current highest power per-slot will be shown, even when they are below your overall equippable power.`
-            )}
-
-            {/*
-            <div className={STYLES.settingsRow}>
-              <label>Display engrams</label>
-              <input
-                type="checkbox"
-                checked={!!settings.displayEngrams}
-                onChange={(e) => {
-                  setSetting("displayEngrams", !settings.displayEngrams);
-                }}
-              />
-              <div className={STYLES.description}>
-                Display engrams held by your characters, or in your postbox.
-              </div>
-            </div>
-
-            <div className={STYLES.settingsRow}>
-              <label>Display engrams only when relevant</label>
-              <input
-                type="checkbox"
-                checked={!!settings.displayEngramsOnlyWhenRelevant}
-                onChange={(e) => {
-                  setSetting(
-                    "displayEngramsOnlyWhenRelevant",
-                    !settings.displayEngramsOnlyWhenRelevant
-                  );
-                }}
-              />
-              <div className={STYLES.description}>
-                When enabled, engrams will not be displayed unless at least one
-                engram is above your minumum item power level for the character.
-              </div>
-            </div>
-
-            <div className={STYLES.settingsRow}>
-              <label>Display legendary campaign hint</label>
-              <input
-                type="checkbox"
-                checked={!!settings.displayLegendaryCampaignHints}
-                onChange={(e) => {
-                  setSetting(
-                    "displayLegendaryCampaignHints",
-                    !settings.displayLegendaryCampaignHints
-                  );
-                }}
-              />
-              <div className={STYLES.description}>
-                Display hint for characters below the power level offered by
-                completion of the legendary campaign.
-              </div>
-            </div>
-            */}
           </div>
         </div>
       ) : null}

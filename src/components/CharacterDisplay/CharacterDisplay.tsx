@@ -50,11 +50,19 @@ const useRenderElementImage = (className: string) => {
 export const CharacterDisplayBodyWrapper = (
   backgroundColor: string,
   children: JSX.Element,
-  ref?: React.MutableRefObject<null>,
-  onDragStart?: () => void,
-  onDragEnd?: () => void,
-  onDragDrop?: () => void,
-  isHidden?: boolean
+  {
+    ref,
+    onDragStart,
+    onDragEnd,
+    onDragDrop,
+    isHidden,
+  }: {
+    ref?: React.MutableRefObject<null>;
+    onDragStart?: () => void;
+    onDragEnd?: () => void;
+    onDragDrop?: () => void;
+    isHidden?: boolean;
+  } = {}
 ) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(0);
@@ -207,11 +215,7 @@ const CharacterDisplay = ({
         />
       )}
     </div>,
-    elementRef,
-    onDragStart,
-    onDragEnd,
-    onDragDrop,
-    isHidden
+    { ref: elementRef, onDragStart, onDragEnd, onDragDrop, isHidden }
   );
 };
 

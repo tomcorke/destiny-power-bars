@@ -8,12 +8,77 @@ import {
   getVendor,
   getVendors,
 } from "bungie-api-ts/destiny2";
-import _ from "lodash";
 
 import { ITEM_BUCKET_SLOTS } from "../../constants";
-import { bungieAuthedFetch, getManifest } from "../bungie-api";
+import { bungieAuthedFetch, getManifest, ManifestData } from "../bungie-api";
 import { debug } from "../debug";
 import { isNotNull, shuffleInPlace } from "../utils";
+
+export const joinSalesToDefinitionsAndInstances = (
+  manifest: ManifestData,
+  sales: Record<string, DestinyVendorSaleItemComponent>,
+  itemInstances: Record<string, DestinyItemInstanceComponent>
+) => {
+  return Object.entries(sales)
+    .map(([key, sale]) => {
+      const itemDef = manifest.DestinyInventoryItemDefinition[sale.itemHash];
+      if (!itemDef) {
+        return null;
+      }
+
+      const itemInstance = itemInstances[key];
+
+      if (!itemInstance) {
+        return null;
+      }
+
+      const power = (itemInstance?.itemLevel || 0) * 10 + itemInstance.quality;
+
+      const slotName =
+        itemDef.inventory &&
+        ITEM_BUCKET_SLOTS[itemDef.inventory.bucketTypeHash];
+
+      return {
+        ...sale,
+        itemDef,
+        itemInstance,
+        power,
+        slotName,
+      };
+    })
+    .filter(isNotNull);
+};
+
+type StringVariables = {
+  characterStringVariables?: Record<string, DestinyStringVariablesComponent>;
+  profileStringVariables?: DestinyStringVariablesComponent;
+};
+
+export const substituteStringVariables = (
+  name: string,
+  stringVariables: StringVariables | undefined,
+  characterId: string
+) => {
+  const variablePattern = /\{var:(\d+)\}/g;
+  const matches = Array.from(name.matchAll(variablePattern));
+  for (const match of matches) {
+    const characterVariableValue =
+      stringVariables?.characterStringVariables?.[characterId]
+        ?.integerValuesByHash?.[Number(match[1])];
+    const profileVariableValue =
+      stringVariables?.profileStringVariables?.integerValuesByHash?.[
+        Number(match[1])
+      ];
+    const variableValue =
+      characterVariableValue !== undefined
+        ? characterVariableValue
+        : profileVariableValue;
+    if (variableValue !== undefined) {
+      name = name?.replace(match[0], variableValue.toString());
+    }
+  }
+  return name;
+};
 
 export const getVendorData = async (
   membershipType: number,
@@ -81,41 +146,6 @@ export const getVendorData = async (
     throw Error("Manifest not loaded");
   }
 
-  const joinSalesToDefinitionsAndInstances = (
-    sales: Record<string, DestinyVendorSaleItemComponent>,
-    itemInstances: Record<string, DestinyItemInstanceComponent>
-  ) => {
-    return Object.entries(sales)
-      .map(([key, sale]) => {
-        const itemDef = manifest.DestinyInventoryItemDefinition[sale.itemHash];
-        if (!itemDef) {
-          return null;
-        }
-
-        const itemInstance = itemInstances[key];
-
-        if (!itemInstance) {
-          return null;
-        }
-
-        const power =
-          (itemInstance?.itemLevel || 0) * 10 + itemInstance.quality;
-
-        const slotName =
-          itemDef.inventory &&
-          ITEM_BUCKET_SLOTS[itemDef.inventory.bucketTypeHash];
-
-        return {
-          ...sale,
-          itemDef,
-          itemInstance,
-          power,
-          slotName,
-        };
-      })
-      .filter(isNotNull);
-  };
-
   const relevantVendorData = (
     await Promise.all(
       vendorHashes.map(async (vendorHash) => {
@@ -131,6 +161,7 @@ export const getVendorData = async (
         const vendorDef = manifest.DestinyVendorDefinition[vendorHash];
 
         const sales = joinSalesToDefinitionsAndInstances(
+          manifest,
           singleVendorData.Response.sales.data || {},
           singleVendorData.Response.itemComponents.instances.data || {}
         );
@@ -146,41 +177,11 @@ export const getVendorData = async (
         let name = vendorDef?.displayProperties.name;
 
         if (name && name.includes("{var:")) {
-          const stringVariables = await getStringVariables();
-          const variablePattern = /\{var:(\d+)\}/g;
-          const matches = Array.from(name.matchAll(variablePattern));
-          const originalName = name;
-          for (const match of matches) {
-            const characterVariableValue =
-              stringVariables?.characterStringVariables?.[characterId]
-                ?.integerValuesByHash?.[Number(match[1])];
-            const profileVariableValue =
-              stringVariables?.profileStringVariables?.integerValuesByHash?.[
-                Number(match[1])
-              ];
-            const variableValue =
-              characterVariableValue !== undefined
-                ? characterVariableValue
-                : profileVariableValue;
-            if (variableValue !== undefined) {
-              name = name?.replace(match[0], variableValue.toString());
-            }
-          }
-
-          // const csv = _.pickBy(
-          //   stringVariables?.characterStringVariables?.[characterId]
-          //     ?.integerValuesByHash,
-          //   (value, key) => originalName.includes(key)
-          // );
-          // const psv = _.pickBy(
-          //   stringVariables?.profileStringVariables?.integerValuesByHash,
-          //   (value, key) => originalName.includes(key)
-          // );
-          // console.log({
-          //   stringVariables: { csv, psv },
-          //   originalName,
-          //   name,
-          // });
+          name = substituteStringVariables(
+            name,
+            await getStringVariables(),
+            characterId
+          );
         }
 
         const relevantVendorData = {

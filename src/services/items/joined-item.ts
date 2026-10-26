@@ -21,9 +21,15 @@ import { itemIsMasterwork } from "./masterwork";
 export const joinItemData = (
   rawItem: DestinyItemComponent & { characterId?: string },
   manifest: ManifestData,
-  itemInstance: DestinyItemInstanceComponent,
-  itemSockets?: DestinyItemSocketsComponent,
-  itemPlugObjectives?: DestinyItemPlugObjectivesComponent
+  {
+    itemInstance,
+    itemSockets,
+    itemPlugObjectives,
+  }: {
+    itemInstance: DestinyItemInstanceComponent;
+    itemSockets?: DestinyItemSocketsComponent;
+    itemPlugObjectives?: DestinyItemPlugObjectivesComponent;
+  }
 ) => {
   const itemDefinition =
     manifest.DestinyInventoryItemDefinition[rawItem.itemHash];
@@ -134,9 +140,15 @@ export type JoinedItemDefinition = ReturnType<typeof joinItemData>;
 export const mapJoinedItems = (
   items: DestinyItemComponent[],
   manifest: ManifestData,
-  itemInstances: Record<string, DestinyItemInstanceComponent>,
-  itemSockets: Record<string, DestinyItemSocketsComponent>,
-  itemPlugObjectives: Record<string, DestinyItemPlugObjectivesComponent>
+  {
+    itemInstances,
+    itemSockets,
+    itemPlugObjectives,
+  }: {
+    itemInstances: Record<string, DestinyItemInstanceComponent>;
+    itemSockets: Record<string, DestinyItemSocketsComponent>;
+    itemPlugObjectives: Record<string, DestinyItemPlugObjectivesComponent>;
+  }
 ) => {
   return items
     .map((item) => {
@@ -151,13 +163,11 @@ export const mapJoinedItems = (
         return undefined;
       }
 
-      return joinItemData(
-        item,
-        manifest,
+      return joinItemData(item, manifest, {
         itemInstance,
-        thisItemSockets,
-        thisItemPlugObjectives
-      );
+        itemSockets: thisItemSockets,
+        itemPlugObjectives: thisItemPlugObjectives,
+      });
     })
     .filter(nonNullable);
 };

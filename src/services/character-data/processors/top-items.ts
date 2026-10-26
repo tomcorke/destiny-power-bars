@@ -140,13 +140,11 @@ export default createCharacterDataProcessor((context) => {
     itemPlugObjectives,
   } = context;
 
-  const unfilteredItems = mapJoinedItems(
-    allCharacterItems,
-    manifest,
+  const unfilteredItems = mapJoinedItems(allCharacterItems, manifest, {
     itemInstances,
     itemSockets,
-    itemPlugObjectives
-  );
+    itemPlugObjectives,
+  });
 
   const items = unfilteredItems
     // Filter to items that fit into an equipment slot and have a power value

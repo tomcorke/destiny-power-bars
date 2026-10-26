@@ -45,6 +45,59 @@ const getLocationLabel = (location?: ItemLocation, isEquipped?: boolean) => {
   }
 };
 
+const ItemIcon = ({
+  icon,
+  iconWatermark,
+  isMasterworked,
+  isCrafted,
+  isEnhanced,
+  hasDeepsightResonance,
+  location,
+  title,
+  alt,
+}: Pick<
+  BarProps,
+  | "icon"
+  | "iconWatermark"
+  | "isMasterworked"
+  | "isCrafted"
+  | "isEnhanced"
+  | "hasDeepsightResonance"
+  | "location"
+> & { title: string; alt: string }) => (
+  <div className={STYLES.iconWrapper} title={title}>
+    {icon ? (
+      <img
+        className={STYLES.icon}
+        src={`https://www.bungie.net${icon}`}
+        alt={alt}
+      />
+    ) : null}
+    {iconWatermark ? (
+      <div
+        className={STYLES.watermark}
+        style={{
+          backgroundImage: `url('https://www.bungie.net${iconWatermark}')`,
+        }}
+      />
+    ) : null}
+    {icon && location === 2 /*ItemLocation.Vault*/ ? (
+      <div className={STYLES.vaultOverlay} />
+    ) : null}
+    {icon && location === 4 /*ItemLocation.Postmaster*/ ? (
+      <div className={STYLES.postmasterOverlay} />
+    ) : null}
+    {icon && isMasterworked ? (
+      <div className={STYLES.masterworkOverlay} />
+    ) : null}
+    {icon && isCrafted ? <div className={STYLES.craftedOverlay} /> : null}
+    {icon && isEnhanced ? <div className={STYLES.enhancedOverlay} /> : null}
+    {icon && hasDeepsightResonance ? (
+      <div className={STYLES.deepsightOverlay} />
+    ) : null}
+  </div>
+);
+
 export const PowerBar = ({
   min,
   max,
@@ -98,37 +151,17 @@ export const PowerBar = ({
   );
   return (
     <div className={STYLES.barWrapper}>
-      <div className={STYLES.iconWrapper} title={specificItemLabel}>
-        {icon ? (
-          <img
-            className={STYLES.icon}
-            src={`https://www.bungie.net${icon}`}
-            alt={fullLabelText}
-          />
-        ) : null}
-        {iconWatermark ? (
-          <div
-            className={STYLES.watermark}
-            style={{
-              backgroundImage: `url('https://www.bungie.net${iconWatermark}')`,
-            }}
-          />
-        ) : null}
-        {icon && location === 2 /*ItemLocation.Vault*/ ? (
-          <div className={STYLES.vaultOverlay} />
-        ) : null}
-        {icon && location === 4 /*ItemLocation.Postmaster*/ ? (
-          <div className={STYLES.postmasterOverlay} />
-        ) : null}
-        {icon && isMasterworked ? (
-          <div className={STYLES.masterworkOverlay} />
-        ) : null}
-        {icon && isCrafted ? <div className={STYLES.craftedOverlay} /> : null}
-        {icon && isEnhanced ? <div className={STYLES.enhancedOverlay} /> : null}
-        {icon && hasDeepsightResonance ? (
-          <div className={STYLES.deepsightOverlay} />
-        ) : null}
-      </div>
+      <ItemIcon
+        icon={icon}
+        iconWatermark={iconWatermark}
+        isMasterworked={isMasterworked}
+        isCrafted={isCrafted}
+        isEnhanced={isEnhanced}
+        hasDeepsightResonance={hasDeepsightResonance}
+        location={location}
+        title={specificItemLabel}
+        alt={fullLabelText}
+      />
       <div className={STYLES.barContainer}>
         {accountMaxValue && settings.displayAccountWidePower ? (
           <div

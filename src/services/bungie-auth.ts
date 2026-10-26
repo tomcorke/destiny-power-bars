@@ -1,4 +1,4 @@
-import { getMembershipDataById, UserInfoCard } from "bungie-api-ts/user";
+import { getMembershipDataById } from "bungie-api-ts/user";
 import { stringify } from "simple-query-string";
 
 import { bungieAuthedFetch } from "./bungie-api";
@@ -9,15 +9,30 @@ import {
   BUNGIE_OAUTH_TOKEN_URL,
 } from "./config";
 import { debug } from "./debug";
+import {
+  autoSelectDestinyMembership,
+  clearSelectedMembership,
+  clearStoredDestinyMemberships,
+  getSelectedDestinyMembership,
+  getStoredDestinyMemberships,
+  hasDestinyMemberships,
+  setSelectedDestinyMembership,
+  storeDestinyMemberships,
+} from "./destiny-memberships";
 import eventEmitter, { EVENTS } from "./events";
+
+export {
+  getSelectedDestinyMembership,
+  getStoredDestinyMemberships,
+  hasDestinyMemberships,
+  setSelectedDestinyMembership,
+};
 
 const ACCESS_TOKEN_STORAGE_KEY = "bungieAccessToken";
 const ACCESS_TOKEN_EXPIRY_STORAGE_KEY = "bungieAccessTokenExpiryTime";
 const REFRESH_TOKEN_STORAGE_KEY = "bungieRefreshToken";
 const REFRESH_TOKEN_EXPIRY_STORAGE_KEY = "bungieRefreshTokenExpiryTime";
 const BUNGIE_MEMBERSHIP_ID_STORAGE_KEY = "bungieMembershipId";
-const DESTINY_MEMBERSHIPS_STORAGE_KEY = "destinyMemberships";
-const DESTINY_MEMBERSHIP_STORAGE_KEY = "destinyMembership";
 const MANUAL_AUTHED_STORAGE_KEY = "manualAuthed";
 
 eventEmitter.on(EVENTS.UNAUTHED_FETCH_ERROR, () => {
@@ -33,12 +48,7 @@ const clearStorage = () => {
   localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
   localStorage.removeItem(REFRESH_TOKEN_EXPIRY_STORAGE_KEY);
   localStorage.removeItem(BUNGIE_MEMBERSHIP_ID_STORAGE_KEY);
-  localStorage.removeItem(DESTINY_MEMBERSHIPS_STORAGE_KEY);
-};
-
-const clearSelectedMembership = () => {
-  debug("clearSelectedMembership");
-  localStorage.removeItem(DESTINY_MEMBERSHIP_STORAGE_KEY);
+  clearStoredDestinyMemberships();
 };
 
 export const hasManuallyAuthed = () => {
@@ -74,29 +84,6 @@ export const manualStartAuth = () => {
   debug("manualStartAuth");
   localStorage.setItem(MANUAL_AUTHED_STORAGE_KEY, "TRUE");
   redirectToAuth();
-};
-
-const autoSelectDestinyMembership = (destinyMemberships: UserInfoCard[]) => {
-  debug("autoSelectMembership");
-  // If there is only one membership, select it automatically
-  if (destinyMemberships.length === 1) {
-    setSelectedDestinyMembership(destinyMemberships[0]!);
-    return destinyMemberships[0];
-  }
-
-  const crossSavePrimaryMemberships = destinyMemberships.filter(
-    (m) => m.crossSaveOverride === m.membershipType
-  );
-  const nonCrossSaveMemberships = destinyMemberships.filter(
-    (m) => m.crossSaveOverride === 0
-  );
-  if (
-    crossSavePrimaryMemberships.length === 1 &&
-    nonCrossSaveMemberships.length === 0
-  ) {
-    setSelectedDestinyMembership(crossSavePrimaryMemberships[0]!);
-    return crossSavePrimaryMemberships[0];
-  }
 };
 
 const handleTokenResponse = async (tokenResponse: Response) => {
@@ -147,10 +134,7 @@ const handleTokenResponse = async (tokenResponse: Response) => {
 
     const destinyMemberships =
       destinyMembershipsResponse.Response.destinyMemberships;
-    localStorage.setItem(
-      DESTINY_MEMBERSHIPS_STORAGE_KEY,
-      JSON.stringify(destinyMemberships)
-    );
+    storeDestinyMemberships(destinyMemberships);
 
     // If has stored membership and the membership ID is not in the new list
     // of memberships then clear it
@@ -263,61 +247,6 @@ export const hasValidAuth = () => {
     return false;
   }
   return true;
-};
-
-export const getStoredDestinyMemberships = () => {
-  debug("getDestinyMemberships");
-  const destinyMembershipsString = localStorage.getItem(
-    DESTINY_MEMBERSHIPS_STORAGE_KEY
-  );
-  try {
-    if (destinyMembershipsString) {
-      return JSON.parse(destinyMembershipsString) as UserInfoCard[];
-    }
-  } catch (e: any) {
-    console.error(`Error loading destiny memberships`, e.message);
-  }
-  return undefined;
-};
-
-export const hasDestinyMemberships = () => {
-  return !!getStoredDestinyMemberships();
-};
-
-export const getSelectedDestinyMembership = () => {
-  debug("getSelectedDestinyMembership");
-  const destinyMembershipString = localStorage.getItem(
-    DESTINY_MEMBERSHIP_STORAGE_KEY
-  );
-
-  debug({ destinyMembershipString });
-
-  try {
-    if (destinyMembershipString) {
-      return JSON.parse(destinyMembershipString) as UserInfoCard;
-    }
-    const memberships = getStoredDestinyMemberships();
-    if (memberships) {
-      const autoSelectedMembership = autoSelectDestinyMembership(memberships);
-      debug({ memberships, autoSelectedMembership });
-      if (autoSelectedMembership) {
-        return autoSelectedMembership;
-      }
-    }
-  } catch (e: any) {
-    console.error("Error loading destiny membership", e.message);
-  }
-
-  debug({ return: undefined });
-  return undefined;
-};
-
-export const setSelectedDestinyMembership = (membership: UserInfoCard) => {
-  debug("setSelectedDestinyMembership");
-  localStorage.setItem(
-    DESTINY_MEMBERSHIP_STORAGE_KEY,
-    JSON.stringify(membership)
-  );
 };
 
 export const auth = async (): Promise<boolean> => {

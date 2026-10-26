@@ -14,6 +14,65 @@ type VendorDisplayProps = {
   characterId: string;
 };
 
+const getPowerFilter = (
+  displayOnlyAbovePowerVendorItems: boolean,
+  displayAccountWidePower: boolean,
+  characterOverallPower: number,
+  accountOverallPower: number
+): ((power: number, slotPower: number) => boolean) => {
+  if (displayOnlyAbovePowerVendorItems) {
+    if (displayAccountWidePower) {
+      return (power: number) => power > accountOverallPower;
+    }
+    return (power: number, currentSlotPower: number) =>
+      power > characterOverallPower && power > currentSlotPower;
+  }
+  if (displayAccountWidePower) {
+    return (power: number, currentSlotPower: number) =>
+      power > currentSlotPower || power > accountOverallPower;
+  }
+  return (power: number, currentSlotPower: number) => power > currentSlotPower;
+};
+
+type Vendor = React.ContextType<
+  typeof VendorDataContext
+>["vendorData"][number]["data"][number];
+
+const VendorRow = ({ vendor: v }: { vendor: Vendor }) => (
+  <div className={STYLES.vendorRow}>
+    <div className={STYLES.icon}>
+      <img src={`https://www.bungie.net${v.icon}`} alt="" />
+    </div>
+    <div className={STYLES.header}>
+      <div className={STYLES.name}>{v.name}</div>
+      <div className={STYLES.location}>{v.location}</div>
+    </div>
+    <div className={STYLES.items}>
+      {v.sales.map((sale) => {
+        return (
+          <div
+            className={STYLES.item}
+            key={`${sale.vendorItemIndex}_${sale.itemHash}`}
+          >
+            <div className={STYLES.power}>
+              <Power>{sale.power}</Power>
+            </div>
+            <div className={STYLES.icon}>
+              <img
+                src={`https://www.bungie.net${sale.itemDef?.displayProperties.icon}`}
+                alt=""
+              />
+            </div>
+            <div className={STYLES.name}>
+              {sale.itemDef?.displayProperties.name}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+);
+
 const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
   const { vendorData } = useContext(VendorDataContext);
   const { characterData } = useContext(CharacterDataContext);
@@ -40,24 +99,12 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
   const accountOverallPower =
     characterData?.global.accountPower.overallPower || 0;
 
-  let powerFilter: (power: number, slotPower: number) => boolean;
-
-  if (settings.displayOnlyAbovePowerVendorItems) {
-    if (settings.displayAccountWidePower) {
-      powerFilter = (power: number) => power > accountOverallPower;
-    } else {
-      powerFilter = (power: number, currentSlotPower: number) =>
-        power > characterOverallPower && power > currentSlotPower;
-    }
-  } else {
-    if (settings.displayAccountWidePower) {
-      powerFilter = (power: number, currentSlotPower: number) =>
-        power > currentSlotPower || power > accountOverallPower;
-    } else {
-      powerFilter = (power: number, currentSlotPower: number) =>
-        power > currentSlotPower;
-    }
-  }
+  const powerFilter = getPowerFilter(
+    settings.displayOnlyAbovePowerVendorItems,
+    settings.displayAccountWidePower,
+    characterOverallPower,
+    accountOverallPower
+  );
 
   const minCharacterSlotPower =
     characterData?.characters[characterId]?.topItems.minPower || 0;
@@ -118,42 +165,7 @@ const VendorDisplay = ({ characterId }: VendorDisplayProps) => {
   return (
     <div className={STYLES.VendorDisplay}>
       <div className={STYLES.vendorHeader}>{headerText}</div>
-      {relevantVendors?.map((v) => {
-        return (
-          <div className={STYLES.vendorRow} key={v.vendorHash}>
-            <div className={STYLES.icon}>
-              <img src={`https://www.bungie.net${v.icon}`} alt="" />
-            </div>
-            <div className={STYLES.header}>
-              <div className={STYLES.name}>{v.name}</div>
-              <div className={STYLES.location}>{v.location}</div>
-            </div>
-            <div className={STYLES.items}>
-              {v.sales.map((sale) => {
-                return (
-                  <div
-                    className={STYLES.item}
-                    key={`${sale.vendorItemIndex}_${sale.itemHash}`}
-                  >
-                    <div className={STYLES.power}>
-                      <Power>{sale.power}</Power>
-                    </div>
-                    <div className={STYLES.icon}>
-                      <img
-                        src={`https://www.bungie.net${sale.itemDef?.displayProperties.icon}`}
-                        alt=""
-                      />
-                    </div>
-                    <div className={STYLES.name}>
-                      {sale.itemDef?.displayProperties.name}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
+      {relevantVendors?.map((v) => <VendorRow vendor={v} key={v.vendorHash} />)}
     </div>
   );
 };
