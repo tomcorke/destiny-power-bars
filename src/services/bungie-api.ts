@@ -8,11 +8,9 @@ import {
   setItemLockState as setItemLockStateApi,
   DestinyItemStateRequest,
   DestinyItemCategoryDefinition,
-} from "bungie-api-ts/destiny2";
-import {
   DestinyDestinationDefinition,
   DestinyLocationDefinition,
-} from "bungie-api-ts/destiny2/interfaces";
+} from "bungie-api-ts/destiny2";
 import {
   get as idbGet,
   set as idbSet,

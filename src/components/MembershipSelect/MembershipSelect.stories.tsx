@@ -1,4 +1,3 @@
-import { action } from "@storybook/addon-actions";
 import { UserInfoCard } from "bungie-api-ts/user";
 import React from "react";
 
