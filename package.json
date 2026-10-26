@@ -45,6 +45,7 @@
     "bungie-api-ts": "^5.1.0",
     "classnames": "^2.5.1",
     "dom-to-image": "^2.6.0",
+    "events": "^3.3.0",
     "file-saver": "^2.0.5",
     "humanize-duration": "^3.32.1",
     "idb-keyval": "^6.2.1",

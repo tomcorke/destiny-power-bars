@@ -20,6 +20,9 @@ importers:
       dom-to-image:
         specifier: ^2.6.0
         version: 2.6.0
+      events:
+        specifier: ^3.3.0
+        version: 3.3.0
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
