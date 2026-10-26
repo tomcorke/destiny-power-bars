@@ -1,5 +1,5 @@
-npx lint-staged
-npm run typecheck
-npm run test:coverage
+pnpm exec lint-staged
+pnpm typecheck
+pnpm test:coverage
 # Stage coverage thresholds raised by thresholdAutoUpdate
 git add vite.config.mts
