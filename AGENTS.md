@@ -6,17 +6,17 @@ A client-only React + Vite app that signs in to Bungie, reads a Destiny 2 profil
 
 - Node version is in `.nvmrc`.
 - `src/data/d2ai-module` is a Git submodule (DIM's generated data). Run `git submodule update --init` in a fresh clone or worktree.
-- `npm start` serves HTTPS on port 3000; Bungie OAuth requires the HTTPS origin. Bungie keys come from `.env.development`.
+- `pnpm start` serves HTTPS on port 3000; Bungie OAuth requires the HTTPS origin. Bungie keys come from `.env.development`.
 
 ## Verification
 
-`npm run typecheck`, `npm run eslint`, `npm run prettier`, and `npm run test:coverage` are the gates. All pass on `master`; keep them passing.
+`pnpm typecheck`, `pnpm eslint`, `pnpm prettier`, and `pnpm test:coverage` are the gates. All pass on `master`; keep them passing.
 
 - The Husky pre-commit hook runs Prettier and ESLint on staged files through lint-staged, then a full typecheck and the Vitest suite with coverage. Fix what it reports and commit again; keep hooks enabled.
 - ESLint caps size and complexity (cognitive complexity, function and file length, parameters, nesting). When code hits a limit, extract a function, a helper in the relevant `services/` module, or a sub-component in its own file. The limits apply to every file, with no exceptions list. Shared complex inputs go in one object parameter rather than many positional ones.
 - Coverage only ratchets up. Every change keeps coverage at or above the thresholds in `vite.config.mts`; add tests alongside new or changed logic. `thresholdAutoUpdate` raises the thresholds when coverage improves, and the hook stages that change. Lower a threshold, or exclude files to lift the number, only when the user asks.
 - Tests sit beside their source as `<name>.test.ts`. Put logic worth testing in pure functions in `services/`, and give tests plain data instead of mocking modules.
-- Import order is enforced by `import/order` in `eslint.config.mjs`; `npm run eslint:fix` sorts it.
+- Import order is enforced by `import/order` in `eslint.config.mjs`; `pnpm eslint:fix` sorts it.
 
 ## Code conventions
 
@@ -38,4 +38,4 @@ Commit messages are short, lowercase, imperative summaries (`split manifest stor
 
 ## Deploy
 
-`npm run deploy` builds and pushes `dist` to the `gh-pages` branch, publishing to production. Run it only when the user asks.
+`pnpm run deploy` (not `pnpm deploy`, a built-in pnpm command) builds and pushes `dist` to the `gh-pages` branch, publishing to production. Run it only when the user asks.

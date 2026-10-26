@@ -4,8 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predeploy": "npm run vite:build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "pnpm vite:build && gh-pages -d dist",
     "prettier": "prettier --check \"src/**/*.{ts,tsx}\"",
     "prettier:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
     "eslint": "eslint \"src/**/*.{ts,tsx}\"",
@@ -14,7 +13,7 @@
     "vite:dev": "vite --port 3000 --strictPort --open",
     "vite:build": "vite build",
     "vite:preview": "vite preview",
-    "start": "npm run vite:dev",
+    "start": "pnpm vite:dev",
     "typecheck": "tsc --noEmit",
     "prepare": "husky",
     "test": "vitest run",
@@ -105,5 +104,11 @@
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^0.34.6",
     "webpack": "^5.93.0"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
