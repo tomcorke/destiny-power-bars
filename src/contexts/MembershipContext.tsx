@@ -1,4 +1,4 @@
-import { BungieMembershipType } from "bungie-api-ts/common";
+import { BungieMembershipType } from "bungie-api-ts/destiny2";
 import { UserInfoCard } from "bungie-api-ts/user";
 import React, {
   createContext,
