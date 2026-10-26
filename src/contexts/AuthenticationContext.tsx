@@ -60,8 +60,8 @@ export const AuthenticationContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
   const [disableManualLogin, setDisableManualLogin] =
-    useState(hasManuallyAuthed());
-  const [isAuthed, setIsAuthed] = useState(hasValidAuth());
+    useState(hasManuallyAuthed);
+  const [isAuthed, setIsAuthed] = useState(hasValidAuth);
   const [hasAuthError, setAuthError] = useState(false);
 
   useEvent(EVENTS.LOG_OUT, () => {
