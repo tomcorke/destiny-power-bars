@@ -10,10 +10,12 @@ A client-only React + Vite app that signs in to Bungie, reads a Destiny 2 profil
 
 ## Verification
 
-`npm run typecheck`, `npm run eslint`, and `npm run prettier` are the gates. All pass on `master`; keep them passing. There is no test suite.
+`npm run typecheck`, `npm run eslint`, `npm run prettier`, and `npm run test:coverage` are the gates. All pass on `master`; keep them passing.
 
-- The Husky pre-commit hook runs Prettier and ESLint on staged files through lint-staged, then a full typecheck. Fix what it reports and commit again; keep hooks enabled.
+- The Husky pre-commit hook runs Prettier and ESLint on staged files through lint-staged, then a full typecheck and the Vitest suite with coverage. Fix what it reports and commit again; keep hooks enabled.
 - ESLint caps size and complexity (cognitive complexity, function and file length, parameters, nesting). When code hits a limit, extract a function, a helper in the relevant `services/` module, or a sub-component in its own file. The limits apply to every file, with no exceptions list. Shared complex inputs go in one object parameter rather than many positional ones.
+- Coverage only ratchets up. Every change keeps coverage at or above the thresholds in `vite.config.ts`; add tests alongside new or changed logic. `thresholdAutoUpdate` raises the thresholds when coverage improves, and the hook stages that change. Lower a threshold, or exclude files to lift the number, only when the user asks.
+- Tests sit beside their source as `<name>.test.ts`. Put logic worth testing in pure functions in `services/`, and give tests plain data instead of mocking modules.
 - Import order is enforced by `import/order` in `eslint.config.mjs`; `npm run eslint:fix` sorts it.
 
 ## Code conventions
@@ -25,6 +27,10 @@ A client-only React + Vite app that signs in to Bungie, reads a Destiny 2 profil
 - **Character data** is computed by processors in `src/services/character-data/processors/`. Add a processor by wrapping a pure function in `createCharacterDataProcessor` or `createGlobalDataProcessor` and registering it in `processors/index.ts`. Item scoring, filtering, and joining live in `src/services/items/`.
 - Bungie API types come from `bungie-api-ts`. `strict` and `noUncheckedIndexedAccess` are on: handle missing manifest entries and item instances explicitly with optional chaining or guards.
 - Log development diagnostics with `debug()` from `src/services/debug.ts`; it is silent in production.
+
+## Issues
+
+Track TODOs, bugs, and feature plans as GitHub issues on `tomcorke/destiny-power-bars` (`gh issue create`), rather than as code comments or local notes. Reference the issue in the commit that resolves it (`Closes #46`).
 
 ## Commits
 
