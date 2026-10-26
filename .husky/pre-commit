@@ -1,5 +1,5 @@
 pnpm exec lint-staged
 pnpm typecheck
 pnpm test:coverage
-# Stage coverage thresholds raised by thresholdAutoUpdate
+# Stage coverage thresholds raised by thresholds.autoUpdate
 git add vite.config.mts
