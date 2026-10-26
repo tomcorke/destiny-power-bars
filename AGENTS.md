@@ -14,7 +14,7 @@ A client-only React + Vite app that signs in to Bungie, reads a Destiny 2 profil
 
 - The Husky pre-commit hook runs Prettier and ESLint on staged files through lint-staged, then a full typecheck and the Vitest suite with coverage. Fix what it reports and commit again; keep hooks enabled.
 - ESLint caps size and complexity (cognitive complexity, function and file length, parameters, nesting). When code hits a limit, extract a function, a helper in the relevant `services/` module, or a sub-component in its own file. The limits apply to every file, with no exceptions list. Shared complex inputs go in one object parameter rather than many positional ones.
-- Coverage only ratchets up. Every change keeps coverage at or above the thresholds in `vite.config.ts`; add tests alongside new or changed logic. `thresholdAutoUpdate` raises the thresholds when coverage improves, and the hook stages that change. Lower a threshold, or exclude files to lift the number, only when the user asks.
+- Coverage only ratchets up. Every change keeps coverage at or above the thresholds in `vite.config.mts`; add tests alongside new or changed logic. `thresholdAutoUpdate` raises the thresholds when coverage improves, and the hook stages that change. Lower a threshold, or exclude files to lift the number, only when the user asks.
 - Tests sit beside their source as `<name>.test.ts`. Put logic worth testing in pure functions in `services/`, and give tests plain data instead of mocking modules.
 - Import order is enforced by `import/order` in `eslint.config.mjs`; `npm run eslint:fix` sorts it.
 
